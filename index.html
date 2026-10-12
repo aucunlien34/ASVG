@@ -826,7 +826,7 @@ function replay(m){
       const si=S.sets.length-1;
       for(let z=1;z<=6;z++){const id=eff[z];if(!id||isExtra(id))continue;(S.played[id]||(S.played[id]=[0,0,0,0,0]))[si]++;}
       set.rallies++;
-      const lp={i:idx,on:eff.slice(1).filter(Boolean),srv:S.serving==='G'?eff[1]:null,w:ev.w,si};
+      const lp={i:idx,on:eff.slice(1).filter(Boolean),front:[eff[2],eff[3],eff[4]],srv:S.serving==='G'?eff[1]:null,w:ev.w,si};
       if(ev.st&&ev.st.length){
         for(const [k,sg,pid] of ev.st){const key=k+(sg>0?'P':'M'),who=pid||'_eq';
           const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;}
@@ -1151,7 +1151,7 @@ function statPanel(m,S){
     return `<button class="stb ${sg>0?'p':'m'} ${on?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}>${SK[k]} ${sg>0?'+':'−'}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   return `<div class="stp"><div class="sth"><b>Détail du point ${esc(lp.w==='G'?T:'adverse')} (${lp.g}-${lp.a})</b><small>facultatif, plusieurs choix possibles</small></div>
-    ${ui.stPick?(()=>{const cols=[[],[],[]];lp.on.slice().sort((a,b)=>(GORD[S.roles[a]]??2)-(GORD[S.roles[b]]??2)||pnum(m,a)-pnum(m,b)).forEach(id=>cols[GRP(S.roles[id])].push(id));
+    ${ui.stPick?(()=>{const cols=[[],[],[]];lp.on.slice().sort((a,b)=>((lp.front||[]).includes(b)-(lp.front||[]).includes(a))||(GORD[S.roles[a]]??2)-(GORD[S.roles[b]]??2)||pnum(m,a)-pnum(m,b)).forEach(id=>cols[GRP(S.roles[id])].push(id));
       return `<div class="stq ${ui.stPick.s>0?'p':'m'}">${SK[ui.stPick.k]} ${ui.stPick.s>0?'+':'−'} : quelle joueuse ?</div>
       <div class="pick3">${cols.map(c=>`<div class="col">${c.map(id=>`<button class="bchip pk ${rcls(S.roles[id])}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`).join('')}</div>`).join('')}</div>
       <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;})()
