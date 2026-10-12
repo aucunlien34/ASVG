@@ -442,7 +442,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.4;-webkit-tap-highlight-color:transparent}
-button{font:inherit;color:inherit;cursor:pointer}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:3px solid var(--c);outline-offset:2px}
 input{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:46px;width:100%}
 #app{max-width:880px;margin:0 auto;padding:12px 14px 40px}
@@ -607,6 +607,8 @@ label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
 .abox{position:relative;background:var(--surface);border-radius:16px;padding:20px;max-width:500px;width:100%;border:3px solid var(--warn);box-shadow:0 10px 40px rgba(0,0,0,.3)}
 .abox h3{color:var(--warn);margin-bottom:10px}
 .abox p{margin:0 0 10px;font-weight:500}
+.abox .btn{height:auto;padding:12px 16px;line-height:1.2;width:100%}
+.rolegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:6px 0 14px}.rolegrid .rc{min-height:54px;font-size:18px;border-color:var(--rc)}.rolegrid .rc:disabled{opacity:1}
 #sheet.open{display:block}
 .scrim{position:absolute;inset:0;background:rgba(8,14,24,.5)}
 .sheet{position:absolute;left:0;right:0;bottom:0;max-height:88%;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));max-width:880px;margin:0 auto}
@@ -885,6 +887,13 @@ function setAlert(list){
   const fx=[];list.forEach(x=>(x.fixes||(x.fix?[x.fix]:[])).forEach(f=>{if(!fx.some(g=>g.p===f.p&&g.r===f.r))fx.push(f);}));
   ui.alertFixes=fx;ui.alertChoice=list.some(x=>x.choice);ui.alertClose=null;ui.alertMode=null;
 }
+function roleBoxHTML(m,S){
+  const id=ui.roleFor,cur=S.roles[id];
+  return `<div class="ascrim" data-act="roleClose"></div><div class="abox" role="dialog" aria-modal="true" style="border-color:var(--line)"><h3 style="color:var(--ink)">Poste de ${esc(dname(m,id))} (${pnum(m,id)})</h3>
+    <p class="hint">Poste actuel : ${esc(ROLES[cur]||'aucun')}</p>
+    <div class="rolegrid">${ROLE_ORDER.map(r=>`<button class="rc r-${r} ${r===cur?'on':''}" data-act="roleSet" data-r="${r}" ${r===cur?'disabled':''}>${ROLES[r]}</button>`).join('')}</div>
+    <button class="btn big" data-act="roleClose">Ne rien changer</button></div>`;
+}
 function alertHTML(m){
   const fx=ui.alertFixes||[],b=(act,lab,extra,pri)=>`<button class="btn big ${pri?'primary':''}" style="margin-bottom:10px" data-act="${act}" ${extra||''}>${esc(lab)}</button>`;
   let btns='';
@@ -1091,8 +1100,8 @@ function render(){
   $('#app').innerHTML=h;
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
-  const al=$('#alert');al.innerHTML=ui.alert?alertHTML(m):'';
-  al.classList.toggle('open',!!ui.alert);
+  const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
+  al.classList.toggle('open',!!(ui.alert||ui.roleFor));
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -1156,7 +1165,7 @@ function lineupHTML(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L');
   const pz=setterZone(d.zones,S.roles);
   return `<div class="top"><button class="btn" data-act="cancelLineup">Retour</button><h1>Set ${n} : 6 de départ</h1><button class="btn" data-act="toSetup">Postes</button></div>
-    <p class="hint">Touchez un poste pour y placer une joueuse (ordre réglementaire de rotation, poste 1 = service). Touchez une joueuse placée pour la changer.</p>
+    <p class="hint">Touchez un poste pour y placer une joueuse (ordre réglementaire de rotation, poste 1 = service). Touchez une joueuse placée pour la changer, double-touchez-la pour changer son poste.</p>
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     <h2>Premier service</h2>
     <div class="seg"><button class="${d.srv==='G'?'on':''}" data-act="draftSrv" data-s="G">${esc(short(m))} sert</button><button class="${d.srv==='A'?'on':''}" data-act="draftSrv" data-s="A">${esc(m.opp||'Adversaire')} sert</button></div>
@@ -1252,7 +1261,7 @@ function sheetHTML(m,S){
     const w=ui.sub.o&&ui.sub.i?checkSub(set,ui.sub.o,ui.sub.i):[];
     const chip=(id,act,sel,extra)=>`<button class="bchip ${sel?'sel':''}" data-act="${act}" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span>${esc(dname(m,id))}${extra?`<em>${extra}</em>`:''}</button>`;
     return `<div class="sh"><h3>Changement</h3>${close}</div>
-      <p class="hint">Set ${S.sets.length} : ${set.subs}/6 changements effectués.</p>
+      <p class="hint">Set ${S.sets.length} : ${set.subs}/6 changements effectués. Double-touchez une joueuse pour changer son poste.</p>
       <h2>Sort</h2><div class="bench">${onCourt.map(id=>chip(id,'subO',ui.sub.o===id,id===e.libFor?'remplacée par la libéro':'')).join('')}</div>
       <h2>Entre</h2><div class="bench">${ins.length?ins.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join(''):'<span class="hint">Aucune remplaçante disponible.</span>'}</div>
       ${w.length?`<div class="warnbox">Changement non réglementaire : ${esc(w.join(' ; '))}. Vous pouvez quand même le valider.</div>`:''}
@@ -1452,8 +1461,14 @@ const A={
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
+  roleClose(){ui.roleFor=null;},
+  roleSet(d){const id=ui.roleFor;ui.roleFor=null;if(!id)return;const r=A.role({id,r:d.r});toast(`${dname(store.cur,id)} joue maintenant ${ROLES[d.r]}`,'ok');
+    if(ui.screen==='lineup'&&ui.draft){const z=ui.draft.zones.indexOf(id);draftCheck();if(z>0)placeCheck(z);}
+    if(r===1)render();},
   alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;},
-  alertFix(d){const all=ui.alertFixes||[],fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;if(!fx.length)return;
+  alertFix(d){const all=ui.alertFixes||[];let fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;
+    if(fx.some(f=>f.fourtwo)){toast('Jeu en 4-2 : placement réglementaire','ok');fx=fx.filter(f=>!f.fourtwo);}
+    if(!fx.length)return;
     const m=store.cur,S=replay(m);
     if(S.sets.length===0){fx.forEach(f=>{m.roles[f.p]=f.r;});save();}else fx.forEach(f=>dispatch({t:'role',p:f.p,r:f.r}));
     toast(fx.map(f=>`${dname(m,f.p)} joue maintenant ${ROLES[f.r]}`).join(' ; '),'ok');
@@ -1492,6 +1507,12 @@ const A={
   subO(d){ui.sub.o=d.id;}, subI(d){ui.sub.i=d.id;},
   subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m),ro=S.roles[o],ri=S.roles[i];
     dispatch({t:'sub',o,i});
+    if(ro==='Pu'&&ri==='Pa'){const S2=replay(m),oz=[1,2,3,4,5,6].find(z=>S2.zones[z]&&S2.zones[z]!==i&&S2.roles[S2.zones[z]]==='Pa');
+      if(oz){const pa=S2.zones[oz];
+        ui.alertMode=null;ui.alertClose='Ne rien faire';ui.alertChoice=true;
+        ui.alert=[`${dname(m,i)} (${pnum(m,i)}, Passe) remplace ${dname(m,o)} (${pnum(m,o)}, Pointue) : deux passeuses sont maintenant sur le terrain, avec ${dname(m,pa)} (${pnum(m,pa)}) au poste ${oz}.`];
+        ui.alertFixes=[{p:pa,r:'Pu',lab:`Changer l'opposée : ${dname(m,pa)} passe en Pointue`},{p:i,r:'Pu',lab:`Changer la passeuse entrante : ${dname(m,i)} en Pointue`},{fourtwo:true,lab:'Passer en 4-2'}];
+        render();return 1;}}
     if(ro&&ro!==ri&&ro!=='L'){const msg=`${dname(m,i)} (${pnum(m,i)}, ${ROLES[ri]||'sans poste'}) remplace ${dname(m,o)} (${pnum(m,o)}, ${ROLES[ro]}) : les postes sont différents.`;
       ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
     return 1;},
@@ -1560,12 +1581,22 @@ function initDraft(m,S){
   const lib=prev&&prev.lib&&libs.includes(prev.lib)?prev.lib:(libs[0]||null);
   return {set:i,zones,srv,lib};
 }
+// Double toucher sur une joueuse (composition et changement uniquement) : choix du poste
+const DBL={subO:'now',subI:'now',pickZone:'delay',pickP:'delay'};
+let lastTap=null;
+function runAct(fn,ds){const r=fn(ds);if(r!=='keep')ui.confirm=null;if(r!==1)render();}
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   const fn=A[b.dataset.act];if(!fn)return;
-  const r=fn(b.dataset);
-  if(r!=='keep')ui.confirm=null;
-  if(r!==1)render();
+  const mode=b.dataset.id&&DBL[b.dataset.act];
+  if(mode){
+    const key=b.dataset.act+':'+b.dataset.id,now=Date.now(),ds=Object.assign({},b.dataset);
+    if(lastTap&&lastTap.key===key&&now-lastTap.t<350){clearTimeout(lastTap.timer);lastTap=null;ui.roleFor=ds.id;render();return;}
+    if(lastTap)clearTimeout(lastTap.timer);
+    if(mode==='delay'){lastTap={key,t:now,timer:setTimeout(()=>{lastTap=null;runAct(fn,ds);},300)};return;}
+    lastTap={key,t:now};
+  } else lastTap=null;
+  runAct(fn,b.dataset);
 });
 document.addEventListener('input',e=>{
   const t=e.target,m=store.cur;if(!t.dataset)return;
