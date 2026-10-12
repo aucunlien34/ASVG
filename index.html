@@ -656,7 +656,7 @@ tr.tot td{font-weight:700;background:var(--surface2)}
 table.fxm{width:100%;margin-top:8px;font-size:14px}
 table.fxm th,table.fxm td{padding:3px 4px;border-bottom:1px solid var(--line)}
 table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;width:30px;font-weight:700;font-variant-numeric:tabular-nums}
-.fxm .m{color:var(--pu)}.fxm .p{color:var(--r4)}.fxm .z{color:var(--muted);font-weight:400}
+.fxm .m{color:var(--pu)}.fxm .p{color:var(--r4)}.fxm .n0{color:var(--muted);text-align:center;width:30px;font-weight:700}.fxm .z{color:var(--muted);font-weight:400}
 .fxt{display:flex;justify-content:space-between;margin-top:8px;font-weight:700;font-size:14px}.fxt .m{color:var(--pu)}.fxt .p{color:var(--r4)}
 .arch{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .arch:last-child{border-bottom:0}
@@ -854,6 +854,8 @@ function replay(m){
           const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;}
         if(ev.w==='A'&&ev.st.some(x=>x[1]<0))set.oppFault++;
       }
+      // Service neutre : service de Gigean sans stat Service + ou − sur ce point
+      if(lp.srv&&!isExtra(lp.srv)&&!(ev.st||[]).some(x=>x[0]==='srv')){const a=S.fx[lp.srv]||(S.fx[lp.srv]=[{},{},{},{},{}]);a[si].srvN=(a[si].srvN||0)+1;}
       if(ev.w==='G'){set.g++;if(S.serving==='A'){rotate(S.zones);S.serving='G';}}
       else{set.a++;if(S.serving==='G')S.serving='A';}
       const target=si===4?15:25,hi=Math.max(set.g,set.a),d=Math.abs(set.g-set.a);
@@ -1327,7 +1329,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['srvM','srvP','recM','recP','defM','defP','attM','attP'];
+const FXK=['srvM','srvN','srvP','recM','recP','defM','defP','attM','attP'];
 function fxStats(m,S,set){
   const sets=set==null?[0,1,2,3,4]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=a[i][k]||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -1353,11 +1355,11 @@ function statCols(m,S){
   const card=r=>{const pl=played(r.id),pct=tot?pl/tot*100:0,ex=isExtra(r.id);
     return `<div class="pcard ${rcls(r.role)}"><div class="pch"><span class="num ${rcls(r.role)}">${r.n}</span><b>${esc(r.full)}</b></div>
       ${ex?'<div class="hint" style="margin:6px 0">Hors feuille : pas de temps de jeu</div>':`<div class="barcell" style="margin:8px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
-      <table class="fxm"><tr><th></th><th class="m">−</th><th class="p">+</th></tr>${[['srv','Service'],['rec','Réception'],['def','Défense'],['att','Attaque']].map(([k,l])=>`<tr><td>${l}</td><td class="m">${cnt(r[k+'M'])}</td><td class="p">${cnt(r[k+'P'])}</td></tr>`).join('')}</table>
+      <table class="fxm"><tr><th></th><th class="m">−</th><th class="n0">=</th><th class="p">+</th></tr>${[['srv','Service'],['rec','Réception'],['def','Défense'],['att','Attaque']].map(([k,l])=>`<tr><td>${l}</td><td class="m">${cnt(r[k+'M'])}</td><td class="n0">${k==='srv'?cnt(r.srvN):''}</td><td class="p">${cnt(r[k+'P'])}</td></tr>`).join('')}</table>
       <div class="fxt"><span class="m">Fautes ${r.M}</span><span class="p">Positifs ${r.P}</span></div></div>`;};
   const cols=[[],[],[]];grpSort(f.rows).forEach(r=>cols[GRP(r.role)].push(r));
   return seg+`<div class="card" style="margin-bottom:12px"><b>Équipe${set==null?'':' — set '+(set+1)}</b>
-      <div class="hint" style="margin-top:4px">${tot} points disputés · fautes ${f.tot.M} · positifs ${f.tot.P}${f.eq.M||f.eq.P?` (dont non attribuées : ${f.eq.M} fautes, ${f.eq.P} positifs)`:''} · points adverses sur une faute de Gigean : ${f.oppF} sur ${f.opp}${f.opp?` (${Math.round(f.oppF/f.opp*100)} %)`:''}</div></div>
+      <div class="hint" style="margin-top:4px">${tot} points disputés · services ${f.tot.srvM+f.tot.srvN+f.tot.srvP} (${f.tot.srvN} neutres) · fautes ${f.tot.M} · positifs ${f.tot.P}${f.eq.M||f.eq.P?` (dont non attribuées : ${f.eq.M} fautes, ${f.eq.P} positifs)`:''} · points adverses sur une faute de Gigean : ${f.oppF} sur ${f.opp}${f.opp?` (${Math.round(f.oppF/f.opp*100)} %)`:''}</div></div>
     <div class="cols3">${cols.map(c=>`<div class="col">${c.map(card).join('')}</div>`).join('')}</div>`;
 }
 function fxTable(m,S){
@@ -1444,7 +1446,7 @@ function exportPDF(m){
   doc.text("% joué = points joués par la joueuse / points disputés par l'équipe. Joueuses hors feuille non comptées.",14,y);
   y+=12;if(y>250){doc.addPage();y=18;}
   doc.setTextColor(0);doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text('Fautes et points positifs (match)',14,y);y+=8;doc.setFontSize(10);
-  cols=[{h:'N°',w:10,r:1},{h:'Joueuse',w:44},{h:'Serv -',w:12.5,r:1},{h:'Serv +',w:12.5,r:1},{h:'Réc -',w:12.5,r:1},{h:'Réc +',w:12.5,r:1},{h:'Déf -',w:12.5,r:1},{h:'Déf +',w:12.5,r:1},{h:'Att -',w:12.5,r:1},{h:'Att +',w:12.5,r:1},{h:'Fautes',w:14,r:1},{h:'Positifs',w:14,r:1}];
+  cols=[{h:'N°',w:9,r:1},{h:'Joueuse',w:38},{h:'Serv -',w:12,r:1},{h:'Serv =',w:12,r:1},{h:'Serv +',w:12,r:1},{h:'Réc -',w:12,r:1},{h:'Réc +',w:12,r:1},{h:'Déf -',w:12,r:1},{h:'Déf +',w:12,r:1},{h:'Att -',w:12,r:1},{h:'Att +',w:12,r:1},{h:'Fautes',w:13,r:1},{h:'Positifs',w:14,r:1}];
   const fv=r=>FXK.map(k=>r[k]||'').concat([r.M,r.P]);
   drawRow(cols.map(c=>c.h),{bold:1,fill:[220,228,238]});
   grpSort(fx.rows).forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full].concat(fv(r)),{fill:i%2?[246,248,251]:null});});
