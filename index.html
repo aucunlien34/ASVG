@@ -1155,8 +1155,8 @@ function statPanel(m,S){
       return `<div class="stq ${ui.stPick.s>0?'p':'m'}">${SK[ui.stPick.k]} ${ui.stPick.s>0?'+':'−'} : quelle joueuse ?</div>
       <div class="pick3">${cols.map(c=>`<div class="col">${c.map(id=>`<button class="bchip pk ${rcls(S.roles[id])}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`).join('')}</div>`).join('')}</div>
       <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;})()
-    :`<div class="strow"><span class="stl">Fautes</span>${['srv','rec','def','att'].map(k=>btn(k,-1)).join('')}</div>
-    <div class="strow"><span class="stl">Positifs</span>${['srv','rec','def','att'].map(k=>btn(k,1)).join('')}</div>`}
+    :`<div class="strow"><span class="stl">Fautes</span>${(lp.srv?['srv','def','att']:['rec','def','att']).map(k=>btn(k,-1)).join('')}</div>
+    <div class="strow"><span class="stl">Positifs</span>${(lp.srv?['srv','def','att']:['rec','def','att']).map(k=>btn(k,1)).join('')}</div>`}
     ${st.length?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${x[1]>0?'p':'m'}">${SK[x[0]]} ${x[1]>0?'+':'−'} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
 }
