@@ -558,6 +558,7 @@ label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
 .pt.g{background:var(--team);color:var(--teamInk)}
 .pt.a{background:var(--surface);color:var(--ink)}
 .pt:active{transform:scale(.98)}
+.pt .ptn{display:block;font-size:15px;font-weight:600;opacity:.8}
 .panel{background:var(--surface);border:2px solid var(--team);border-radius:16px;padding:16px;margin:14px 0 10px;text-align:center}
 .panel p{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:600;margin:0 0 12px}
 .panel .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -978,8 +979,8 @@ function evLabel(m,ev){
   }
   return '';
 }
-function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null};}render();}
-function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m);const ev=m.redo.pop();m.ev.push(ev);const after=replay(m);save();toast('Rétabli : '+evLabel(m,ev));if(ev.t==='set'){ui.screen=null;}notify(m,before,after);render();}
+function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='pt')m.pend=ev.st?ev.st.slice():[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null};}render();}
+function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m);const ev=m.redo.pop();m.ev.push(ev);if(ev.t==='pt')m.pend=[];const after=replay(m);save();toast('Rétabli : '+evLabel(m,ev));if(ev.t==='set'){ui.screen=null;}notify(m,before,after);render();}
 
 /* ============ ICÔNES ============ */
 const IC={
@@ -1143,14 +1144,19 @@ function lineupHTML(m,S){
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>Commencer le set ${n}</button></div>`;
 }
 const SK={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque'};
+// Échange en cours : joueuses sur le terrain, ligne avant, serveuse
+function rallyCtx(S){
+  if(S.phase!=='play')return null;
+  const {eff}=effective(S.zones,S.roles,S.lib,S.serving);
+  return {on:eff.slice(1).filter(Boolean),front:[eff[2],eff[3],eff[4]],srv:S.serving==='G'?eff[1]:null};
+}
 function statPanel(m,S){
-  const last=m.ev[m.ev.length-1],lp=S.lastPt;
-  if(!last||last.t!=='pt'||!lp||lp.i!==m.ev.length-1)return '';
-  const st=last.st||[],T=short(m);
+  const lp=rallyCtx(S);if(!lp)return '';
+  const st=m.pend||[],T=short(m);
   const btn=(k,sg)=>{const dis=k==='srv'&&!lp.srv,on=ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg;
     return `<button class="stb ${sg>0?'p':'m'} ${on?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}>${SK[k]} ${sg>0?'+':'−'}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
-  return `<div class="stp"><div class="sth"><b>Détail du point ${esc(lp.w==='G'?T:'adverse')} (${lp.g}-${lp.a})</b><small>facultatif, plusieurs choix possibles</small></div>
+  return `<div class="stp"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
     ${ui.stPick?(()=>{const cols=[[],[],[]];lp.on.slice().sort((a,b)=>((lp.front||[]).includes(b)-(lp.front||[]).includes(a))||(GORD[S.roles[a]]??2)-(GORD[S.roles[b]]??2)||pnum(m,a)-pnum(m,b)).forEach(id=>cols[GRP(S.roles[id])].push(id));
       return `<div class="stq ${ui.stPick.s>0?'p':'m'}">${SK[ui.stPick.k]} ${ui.stPick.s>0?'+':'−'} : quelle joueuse ?</div>
       <div class="pick3">${cols.map(c=>`<div class="col">${c.map(id=>`<button class="bchip pk ${rcls(S.roles[id])}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`).join('')}</div>`).join('')}</div>
@@ -1170,7 +1176,8 @@ function matchHTML(m,S){
   const play=S.phase==='play';
   const hist=S.sets.length>1||set.winner?`<div class="hist">${S.sets.map((s,i)=>`<span class="hs ${s.winner==='G'?'w':s.winner==='A'?'l':''}">S${i+1} ${s.g}-${s.a}</span>`).join('')}</div>`:'';
   let mid;
-  if(play)mid=`<div class="ptbtns"><button class="pt g" data-act="pt" data-w="G">Point ${esc(T)}</button><button class="pt a" data-act="pt" data-w="A">Point adversaire</button></div>`;
+  const np=(m.pend||[]).length,ns=np?`<small class="ptn">+ ${np} stat${np>1?'s':''}</small>`:'';
+  if(play)mid=`<div class="ptbtns"><button class="pt g" data-act="pt" data-w="G">Point ${esc(T)}${ns}</button><button class="pt a" data-act="pt" data-w="A">Point adversaire${ns}</button></div>`;
   else if(S.phase==='between')mid=`<div class="panel"><p>Set ${si+1} gagné par ${esc(set.winner==='G'?T:(m.opp||'l\'adversaire'))} (${set.g}-${set.a})</p><div class="row"><button class="btn big primary" data-act="compose">Composer le set ${si+2}</button></div></div>`;
   else mid=`<div class="panel"><p>Match terminé : ${esc(S.wins.G>S.wins.A?T:(m.opp||'Adversaire'))} gagne ${Math.max(S.wins.G,S.wins.A)}-${Math.min(S.wins.G,S.wins.A)}</p><div class="row"><button class="btn primary" data-act="lock">${IC.lock} Entraîneur</button></div></div>`;
   const onCourt=new Set(S.zones.slice(1));
@@ -1191,8 +1198,8 @@ function matchHTML(m,S){
     <div class="viewrow"><div class="seg viewseg"><button class="${regl?'':'on'}" data-act="view" data-v="jeu">Positions de jeu</button><button class="${regl?'on':''}" data-act="view" data-v="regl">Ordre réglementaire</button></div><button class="btn" data-act="lock">${IC.lock} Entraîneur</button></div>
     ${courtHTML(m,{mode:regl?'regl':'play',zones:S.zones,roles:S.roles,lib:S.lib,serving:S.serving,act:play?'tapCourt':'none',flash:ui.flashLib,main:true})}
     ${e.libFor?`<p class="libinfo">Libéro ${esc(tag(m,S.lib))} à la place de ${esc(tag(m,e.libFor))}</p>`:''}
-    ${mid}
     ${statPanel(m,S)}
+    ${mid}
     <div class="undo">
       <button class="btn" data-act="undo" ${last?'':'disabled'}>${IC.undo}<span>Annuler<small>${esc(evLabel(m,last))||'rien à annuler'}</small></span></button>
       <button class="btn" data-act="redo" ${nxt?'':'disabled'}>${IC.redo}<span>Rétablir<small>${esc(evLabel(m,nxt))||'rien à rétablir'}</small></span></button>
@@ -1402,7 +1409,7 @@ function exportPDF(m){
   doc.text(`Points adverses sur une faute de Gigean : ${fx.oppF} sur ${fx.opp}${fx.opp?' ('+Math.round(fx.oppF/fx.opp*100)+' %)':''}.`,14,y);
   saveFile(`stats_${slug(m.opp||'match')}_${m.date||''}.pdf`,doc.output('blob'));
 }
-function lean(m){const c=JSON.parse(JSON.stringify(m));delete c.redo;return c;}
+function lean(m){const c=JSON.parse(JSON.stringify(m));delete c.redo;delete c.pend;return c;}
 function archiveCur(){
   const c=store.cur;if(!c.ev.length)return;
   const k=store.arch.findIndex(a=>a.id===c.id);const l=lean(c);
@@ -1413,8 +1420,8 @@ function archiveCur(){
 function openLock(){if(ui.coach){ui.screen='coach';ui.sheet=null;}else{ui.code='';ui.sheet='code';}}
 const A={
   close(){ui.sheet=null;},
-  stCat(d){const m=store.cur,S=replay(m),lp=S.lastPt,k=d.k,sg=+d.s;if(!lp)return;
-    if(k==='srv'){if(!lp.srv){toast('Le service était adverse');return;}addStat([k,sg,lp.srv]);return 1;}
+  stCat(d){const m=store.cur,S=replay(m),lp=rallyCtx(S),k=d.k,sg=+d.s;if(!lp)return;
+    if(k==='srv'){if(!lp.srv){toast('Le service est adverse');return;}addStat([k,sg,lp.srv]);return 1;}
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
@@ -1447,9 +1454,9 @@ const A={
     if(m.roster&&!used){m.roster=m.roster.filter(x=>x.id!==d.id);delete m.present[d.id];delete m.roles[d.id];toast('Joueuse retirée de l\'effectif');}
     else toast('Joueuse retirée de l\'effectif ; elle reste dans le match en cours car elle y a déjà joué');
     save();},
-  stDel(d){const ev=store.cur.ev[store.cur.ev.length-1];if(!ev||ev.t!=='pt'||!ev.st)return;ev.st.splice(+d.i,1);if(!ev.st.length)delete ev.st;save();},
+  stDel(d){const m=store.cur;if(!m.pend)return;m.pend.splice(+d.i,1);save();},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
-  pt(d){if(replay(store.cur).phase==='play')dispatch({t:'pt',w:d.w});return 1;},
+  pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});return 1;},
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
@@ -1516,7 +1523,7 @@ const A={
   del(d){const key='del:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}store.arch=store.arch.filter(a=>a.id!==d.id);if(ui.coachView===d.id)ui.coachView=null;save();toast('Match supprimé');},
 };
 function rKeep(){const r=ui.redit;if(!r)return;const g=id=>{const e=document.getElementById(id);return e?e.value:null;};const n=g('rN'),a=g('rNom'),b=g('rPre');if(n!==null)r.n=n;if(a!==null)r.nom=a;if(b!==null)r.pre=b;}
-function addStat(x){const m=store.cur,ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;(ev.st||(ev.st=[])).push(x);save();render();}
+function addStat(x){const m=store.cur;(m.pend||(m.pend=[])).push(x);save();render();}
 function initDraft(m,S){
   const i=S.sets.length,prev=S.sets[i-1],pres=new Set(present(m).map(p=>p.id));
   const zones=[null,null,null,null,null,null,null];
