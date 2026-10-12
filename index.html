@@ -762,10 +762,14 @@ function rotate(z){const f=z[1];for(let i=1;i<6;i++)z[i]=z[i+1];z[6]=f;}
 const SLOT=['Pa','R4','C','Pu','R4','C'];
 // Deux ordres 5-1 valides à partir de la passeuse : A = passe, R4, centrale… ; B = passe, centrale, R4…
 const SLOTS={A:SLOT,B:['Pa','C','R4','Pu','C','R4']};
-function sysOf(zones,roles){
-  const s=setterZone(zones,roles);if(!s)return 'A';let a=0,b=0;
-  for(let z=1;z<=6;z++){const id=zones[z];if(!id)continue;const r=roles[id],k=(z-s+6)%6;if(r!==SLOTS.A[k])a++;if(r!==SLOTS.B[k])b++;}
-  return b<a?'B':'A';
+// L'équipe joue l'ordre du PDF de rotation : passe, R4, centrale, pointue, R4, centrale
+function sysOf(zones,roles){return 'A';}
+// R4 et centrales inversées (oppositions correctes mais ordre de rotation faux) : paires de places à échanger
+function rcSwaps(zones,roles){
+  const s=setterZone(zones,roles);if(!s||is42(zones,roles))return [];
+  const Z=k=>((s-1+k)%6)+1,out=[];
+  for(const [a,b] of [[1,2],[4,5]]){const za=Z(a),zb=Z(b);if(roles[zones[za]]==='C'&&roles[zones[zb]]==='R4')out.push([za,zb]);}
+  return out;
 }
 // Postes « de placement » : déduits de la place par rapport à la passeuse (P1…P6),
 // pour que le placement reste juste même si la composition n'est pas conforme.
@@ -897,11 +901,11 @@ function roleBoxHTML(m,S){
 function alertHTML(m){
   const fx=ui.alertFixes||[],b=(act,lab,extra,pri)=>`<button class="btn big ${pri?'primary':''}" style="margin-bottom:10px" data-act="${act}" ${extra||''}>${esc(lab)}</button>`;
   let btns='';
-  if(ui.alertMode==='start')btns=b('startGo','Valider cette composition','',1)+b('alertOk','Modifier');
+  if(ui.alertMode==='start')btns=(ui.swapRC?b('swapRC','Remettre dans l\'ordre (échanger R4 et centrales)','',1):'')+b('startGo','Valider cette composition','',!ui.swapRC)+b('alertOk','Modifier');
   else{
     btns=fx.map((f,i)=>b('alertFix',f.lab||`Faire jouer ${dname(m,f.p)} en ${ROLES[f.r]}`,`data-i="${i}"`,1)).join('');
     if(fx.length>1&&!ui.alertChoice)btns+=b('alertFix','Tout corriger','data-i="all"',1);
-    btns+=fx.length?b('alertOk',ui.alertClose||'Fermer sans changer'):b('alertOk','Fermer','',1);
+    if(ui.alertClose!==false)btns+=fx.length?b('alertOk',ui.alertClose||'Fermer sans changer'):b('alertOk','Fermer','',1);
   }
   return `<div class="ascrim" data-act="alertOk"></div><div class="abox" role="alertdialog" aria-modal="true"><h3>${ui.alertMode==='start'?'Composition à vérifier':'Attention'}</h3>${ui.alert.map(t=>`<p>${esc(t)}</p>`).join('')}${btns}</div>`;
 }
@@ -1462,12 +1466,15 @@ const A={
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
   roleClose(){ui.roleFor=null;},
+  swapRC(){const d=ui.draft,sw=ui.swapRC||[];ui.alert=null;ui.alertMode=null;ui.swapRC=null;if(!d)return;
+    sw.forEach(([a,b])=>{const t=d.zones[a];d.zones[a]=d.zones[b];d.zones[b]=t;});draftCheck();
+    const w=draftIssues();toast(w.length?'R4 et centrales échangées ; il reste des écarts à vérifier':'R4 et centrales remises dans l\'ordre de rotation','ok');},
   roleSet(d){const id=ui.roleFor;ui.roleFor=null;if(!id)return;const r=A.role({id,r:d.r});toast(`${dname(store.cur,id)} joue maintenant ${ROLES[d.r]}`,'ok');
     if(ui.screen==='lineup'&&ui.draft){const z=ui.draft.zones.indexOf(id);draftCheck();if(z>0)placeCheck(z);}
     if(r===1)render();},
-  alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;},
+  alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.swapRC=null;},
   alertFix(d){const all=ui.alertFixes||[];let fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;
-    if(fx.some(f=>f.fourtwo)){toast('Jeu en 4-2 : placement réglementaire','ok');fx=fx.filter(f=>!f.fourtwo);}
+    if(fx.some(f=>f.fourtwo)){toast('Passage en 4-2 : placement réglementaire','ok');fx=fx.filter(f=>!f.fourtwo);}
     if(!fx.length)return;
     const m=store.cur,S=replay(m);
     if(S.sets.length===0){fx.forEach(f=>{m.roles[f.p]=f.r;});save();}else fx.forEach(f=>dispatch({t:'role',p:f.p,r:f.r}));
@@ -1509,9 +1516,9 @@ const A={
     dispatch({t:'sub',o,i});
     if(ro==='Pu'&&ri==='Pa'){const S2=replay(m),oz=[1,2,3,4,5,6].find(z=>S2.zones[z]&&S2.zones[z]!==i&&S2.roles[S2.zones[z]]==='Pa');
       if(oz){const pa=S2.zones[oz];
-        ui.alertMode=null;ui.alertClose='Ne rien faire';ui.alertChoice=true;
+        ui.alertMode=null;ui.alertClose=false;ui.alertChoice=true;
         ui.alert=[`${dname(m,i)} (${pnum(m,i)}, Passe) remplace ${dname(m,o)} (${pnum(m,o)}, Pointue) : deux passeuses sont maintenant sur le terrain, avec ${dname(m,pa)} (${pnum(m,pa)}) au poste ${oz}.`];
-        ui.alertFixes=[{p:pa,r:'Pu',lab:`Changer l'opposée : ${dname(m,pa)} passe en Pointue`},{p:i,r:'Pu',lab:`Changer la passeuse entrante : ${dname(m,i)} en Pointue`},{fourtwo:true,lab:'Passer en 4-2'}];
+        ui.alertFixes=[{p:pa,r:'Pu',lab:`Changer l'opposée : ${dname(m,pa)} passe en Pointue`},{p:i,r:'Pu',lab:`Changer la passeuse entrante : ${dname(m,i)} en Pointue`},{fourtwo:true,lab:'Ne rien faire (passage en 4-2)'}];
         render();return 1;}}
     if(ro&&ro!==ri&&ro!=='L'){const msg=`${dname(m,i)} (${pnum(m,i)}, ${ROLES[ri]||'sans poste'}) remplace ${dname(m,o)} (${pnum(m,o)}, ${ROLES[ro]}) : les postes sont différents.`;
       ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
@@ -1547,9 +1554,12 @@ const A={
   pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();placeCheck(z);},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
   draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
-  startGo(){ui.alert=null;ui.alertMode=null;return A.startSet({},true);},
+  startGo(){ui.alert=null;ui.alertMode=null;ui.swapRC=null;return A.startSet({},true);},
   startSet(_d,force){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;
-    if(!force){const w=draftIssues();if(w.length){ui.alert=w.map(String);ui.alertFixes=null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
+    if(!force){const w=draftIssues();if(w.length){const S0=replay(store.cur),sw=rcSwaps(d.zones,S0.roles);
+      const swIds=sw.flat().map(z=>d.zones[z]),w2=w.filter(x=>!(String(x.key||'').startsWith('P:')&&swIds.includes(String(x.key).split(':')[1])));
+      ui.alert=(sw.length?[`Ordre de rotation inversé : les R4 et les centrales sont échangées par rapport au PDF de rotation (passe, R4, centrale, pointue, R4, centrale). Les oppositions sont bonnes, mais les joueuses ne tournent pas dans le bon ordre.`]:[]).concat(w2.map(String));
+      ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
   pres(d){const m=store.cur,S=replay(m);const on=!m.present[d.id];
     if(!on&&S.phase==='play'&&(S.zones.includes(d.id)||d.id===S.lib)){toast('Cette joueuse est sur le terrain ou libéro active : faites d\'abord un changement','warn');return;}
     const before=Object.assign({},m.present);
