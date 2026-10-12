@@ -755,12 +755,20 @@ function rotate(z){const f=z[1];for(let i=1;i<6;i++)z[i]=z[i+1];z[6]=f;}
 // La libéro remplace la centrale arrière, sauf quand cette centrale sert.
 // Poste de chaque place dans l'ordre 5-1, à partir de la passeuse (sens de la rotation)
 const SLOT=['Pa','R4','C','Pu','R4','C'];
+// Deux ordres 5-1 valides à partir de la passeuse : A = passe, R4, centrale… ; B = passe, centrale, R4…
+const SLOTS={A:SLOT,B:['Pa','C','R4','Pu','C','R4']};
+function sysOf(zones,roles){
+  const s=setterZone(zones,roles);if(!s)return 'A';let a=0,b=0;
+  for(let z=1;z<=6;z++){const id=zones[z];if(!id)continue;const r=roles[id],k=(z-s+6)%6;if(r!==SLOTS.A[k])a++;if(r!==SLOTS.B[k])b++;}
+  return b<a?'B':'A';
+}
 // Postes « de placement » : déduits de la place par rapport à la passeuse (P1…P6),
 // pour que le placement reste juste même si la composition n'est pas conforme.
 function posRoles(zones,roles){
   const s=setterZone(zones,roles);if(!s)return roles;
   const pr=Object.assign({},roles);
-  for(let z=1;z<=6;z++)if(zones[z])pr[zones[z]]=SLOT[(z-s+6)%6];
+  const SL=SLOTS[sysOf(zones,roles)];
+  for(let z=1;z<=6;z++)if(zones[z])pr[zones[z]]=SL[(z-s+6)%6];
   return pr;
 }
 function effective(zones,roles,lib,serving){
@@ -860,8 +868,9 @@ const EXP=['Pa','R4','C','Pu','R4','C'];
 function posteIssues(m,zones,roles){
   const sz=setterZone(zones,roles);if(!sz)return [];
   const out=[],lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
-  for(let z=1;z<=6;z++){const id=zones[z],r=roles[id],e=EXP[(z-sz+6)%6];
-    if(id&&r!==e){const t=new String(`${dname(m,id)} (${pnum(m,id)}) est ${ROLES[r]||'sans poste'}, mais sa place dans la rotation (zone ${z}) correspond à ${lab[e]}.`);t.key='P:'+id+':'+e;t.fix={p:id,r:e};out.push(t);}}
+  const SL=SLOTS[sysOf(zones,roles)];
+  for(let z=1;z<=6;z++){const id=zones[z],r=roles[id],e=SL[(z-sz+6)%6];
+    if(id&&r!==e){const t=new String(`${dname(m,id)} (${pnum(m,id)}) est ${ROLES[r]||'sans poste'}, mais sa place dans la rotation (poste ${z}) correspond à ${lab[e]}.`);t.key='P:'+id+':'+e;t.fix={p:id,r:e};out.push(t);}}
   return out;
 }
 function draftIssues(){const d=ui.draft;if(!d||!d.zones.slice(1).every(Boolean))return [];const m=store.cur,S=replay(m);return posteIssues(m,d.zones,S.roles).concat(oppoIssues(m,d.zones,S.roles));}
@@ -887,14 +896,14 @@ const COMP={R4:'R4',C:'C',Pa:'Pu',Pu:'Pa'};
 function placeCheck(z){
   const d=ui.draft,m=store.cur,S=replay(m),R=S.roles,x=d.zones[z];if(!x)return;
   const rx=R[x],oz=OPP[z],y=d.zones[oz],ry=y?R[y]:null,sz=setterZone(d.zones,R);
-  const ex=sz?SLOT[(z-sz+6)%6]:null,ey=sz&&y?SLOT[(oz-sz+6)%6]:null;
+  const SL=SLOTS[sysOf(d.zones,R)],ex=sz?SL[(z-sz+6)%6]:null,ey=sz&&y?SL[(oz-sz+6)%6]:null;
   const lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
   const tagR=id=>`${dname(m,id)} (${pnum(m,id)}, ${ROLES[R[id]]||'sans poste'})`;
   const slotBad=!!(sz&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry);
   if(!slotBad&&!oppBad)return;
   const msgs=[],fixes=[];
-  if(slotBad)msgs.push(`${tagR(x)} est placée en zone ${z} : par rapport à la passeuse, cette place correspond à ${lab[ex]}.`);
-  if(oppBad)msgs.push(`${slotBad?'Elle':tagR(x)} est opposée à ${tagR(y)} (zone ${oz}) : l'opposition doit être R4 / R4, centrale / centrale ou passeuse / pointue.`);
+  if(slotBad)msgs.push(`${tagR(x)} est placée au poste ${z} : par rapport à la passeuse, cette place correspond à ${lab[ex]}.`);
+  if(oppBad)msgs.push(`${slotBad?'Elle':tagR(x)} est opposée à ${tagR(y)} (poste ${oz}) : l'opposition doit être R4 / R4, centrale / centrale ou passeuse / pointue.`);
   const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
   if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Changer le poste de ${dname(m,x)} (placée) : ${ROLES[t1]}`});
   if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Changer le poste de ${dname(m,y)} (opposée) : ${ROLES[t2]}`});}
@@ -939,7 +948,7 @@ const OPP={1:4,4:1,2:5,5:2,3:6,6:3};
 function oppoIssues(m,zones,roles){
   if(!zones)return [];
   const zs=r=>[1,2,3,4,5,6].filter(k=>zones[k]&&roles[zones[k]]===r),out=[];
-  const who=k=>`${dname(m,zones[k])} (${pnum(m,zones[k])}) en zone ${k}`;
+  const who=k=>`${dname(m,zones[k])} (${pnum(m,zones[k])}) au poste ${k}`;
   const pair=(a,b,label)=>{if(OPP[a]!==b){const t=new String(`${label} ne sont pas en opposition : ${who(a)}, ${who(b)}.`);t.key=label+':'+[zones[a],zones[b]].sort().join('-');out.push(t);}};
   const r4=zs('R4'),c=zs('C'),pa=zs('Pa'),pu=zs('Pu');
   if(r4.length===2)pair(r4[0],r4[1],'Les R4');
@@ -999,6 +1008,15 @@ const IC={
 const POS={4:[17,20],3:[50,20],2:[83,20],5:[17,68],6:[50,68],1:[83,68]};
 // Positions de réception par rotation (P = zone de la passeuse), clé = zone réglementaire.
 // Coordonnées relevées sur l'animation fournie (filet en haut, % largeur / % profondeur).
+// Réception pour l'ordre B (passe suivie de la centrale), construite en respectant les règles de chevauchement
+const RECEPB={
+ 1:{4:[12,15],3:[48,58],2:[80,15],5:[20,62],6:[75,66],1:[90,76]},
+ 6:{4:[12,15],3:[40,12],2:[50,58],5:[20,62],6:[56,30],1:[80,66]},
+ 5:{4:[18,58],3:[50,15],2:[85,15],5:[10,82],6:[50,68],1:[80,62]},
+ 4:{4:[10,11],3:[48,56],2:[82,15],5:[20,62],6:[75,66],1:[90,82]},
+ 3:{4:[12,15],3:[35,12],2:[50,58],5:[20,60],6:[55,86],1:[80,64]},
+ 2:{4:[20,58],3:[55,15],2:[85,12],5:[10,85],6:[50,68],1:[80,62]},
+};
 const RECEP={
  1:{4:[18,17],3:[50,17],2:[77,53],5:[18,63],6:[51,73],1:[88,68]},
  6:{4:[22,62],3:[67,11],2:[81,17],5:[53,76],6:[71,35],1:[84,62]},
@@ -1018,7 +1036,7 @@ function playCoords(zones,roles,lib,serving){
   const {eff,libFor,pr}=effective(zones,roles,lib,serving),out={};
   if(serving==='G'){const map=layoutPlay(eff,pr);for(const s in map)out[map[s]]=POS[s];return {eff,libFor,out,mode:'serve'};}
   const s=setterZone(zones,roles);
-  if(s){for(let z=1;z<=6;z++)out[eff[z]]=RECEP[s][z];return {eff,libFor,out,mode:'recep'};}
+  if(s){const T=sysOf(zones,roles)==='B'?RECEPB:RECEP;for(let z=1;z<=6;z++)out[eff[z]]=T[s][z];return {eff,libFor,out,mode:'recep'};}
   for(let z=1;z<=6;z++)out[eff[z]]=POS[z];
   return {eff,libFor,out,mode:'fallback'};
 }
@@ -1031,7 +1049,7 @@ function xy(c){const o=store.prefs.orient||0;let [x,y]=c;
 function tokenHTML(m,id,role,c,o){
   const p=pById(m,id);
   return `<button class="tok ${rcls(role)} ${o.flash?'flash':''}" style="${xy(c,o.flip)}" data-act="${o.act}" data-id="${id}" data-z="${o.zone||''}" aria-label="${esc(tag(m,id))}, ${esc(ROLES[role]||'')}">
-    <span class="disc">${esc(p.n)}<span class="rl">${esc(role||'?')}</span>${o.zone?`<span class="zn">Z${o.zone}</span>`:''}${o.srv?`<span class="ballb">${IC.ball}</span>`:''}</span>
+    <span class="disc">${esc(p.n)}<span class="rl">${esc(role||'?')}</span>${o.zone?`<span class="zn">P${o.zone}</span>`:''}${o.srv?`<span class="ballb">${IC.ball}</span>`:''}</span>
     <span class="nm">${esc(dname(m,id))}</span>${o.srv?`<span class="sub" style="background:var(--pa);color:#241B00">au service</span>`:''}
   </button>`;
 }
@@ -1130,7 +1148,7 @@ function lineupHTML(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L');
   const pz=setterZone(d.zones,S.roles);
   return `<div class="top"><button class="btn" data-act="cancelLineup">Retour</button><h1>Set ${n} : 6 de départ</h1><button class="btn" data-act="toSetup">Postes</button></div>
-    <p class="hint">Touchez une zone pour y placer une joueuse (ordre réglementaire de rotation, zone 1 = service). Touchez une joueuse placée pour la changer.</p>
+    <p class="hint">Touchez un poste pour y placer une joueuse (ordre réglementaire de rotation, poste 1 = service). Touchez une joueuse placée pour la changer.</p>
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     <h2>Premier service</h2>
     <div class="seg"><button class="${d.srv==='G'?'on':''}" data-act="draftSrv" data-s="G">${esc(short(m))} sert</button><button class="${d.srv==='A'?'on':''}" data-act="draftSrv" data-s="A">${esc(m.opp||'Adversaire')} sert</button></div>
@@ -1268,9 +1286,9 @@ function sheetHTML(m,S){
   if(ui.sheet==='pick'){
     const z=ui.pick,d=ui.draft;
     const list=present(m).filter(p=>S.roles[p.id]!=='L');
-    return `<div class="sh"><h3>Zone ${z}${z===1?' (service)':''}</h3>${d.zones[z]?'<button class="btn" data-act="pickClear">Retirer</button>':''}${close}</div>
-      <div class="bench">${list.map(p=>{const k=d.zones.indexOf(p.id);return `<button class="bchip ${k===z?'sel':''}" data-act="pickP" data-id="${p.id}"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}${k>0&&k!==z?`<em>zone ${k}</em>`:''}</button>`;}).join('')}</div>
-      <p class="hint">Choisir une joueuse déjà placée échange les deux zones.</p>`;
+    return `<div class="sh"><h3>Poste ${z}${z===1?' (service)':''}</h3>${d.zones[z]?'<button class="btn" data-act="pickClear">Retirer</button>':''}${close}</div>
+      <div class="bench">${list.map(p=>{const k=d.zones.indexOf(p.id);return `<button class="bchip ${k===z?'sel':''}" data-act="pickP" data-id="${p.id}"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}${k>0&&k!==z?`<em>poste ${k}</em>`:''}</button>`;}).join('')}</div>
+      <p class="hint">Choisir une joueuse déjà placée échange les deux postes.</p>`;
   }
   return '';
 }
