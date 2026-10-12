@@ -1,11 +1,11 @@
 {
- "name": "Gigean M18F — Banc de touche",
- "short_name": "Gigean Volley",
+ "name": "ASVG Gigean — Banc de touche",
+ "short_name": "ASVG Volley",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#EDF1F5",
+ "background_color": "#FFFFFF",
  "theme_color": "#14243D",
  "lang": "fr",
  "icons": [
