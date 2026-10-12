@@ -1492,6 +1492,17 @@ function exportPDF(m){
   drawRow(['','Équipe'].concat(fv(fx.tot)),{bold:1,fill:[220,228,238]});
   y+=4;doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(90);
   doc.text(`Points adverses sur une faute de Gigean : ${fx.oppF} sur ${fx.opp}${fx.opp?' ('+Math.round(fx.oppF/fx.opp*100)+' %)':''}.`,14,y);
+  // Troisième tableau : % de positifs par catégorie = positifs / (positifs + fautes), services neutres exclus
+  y+=12;if(y>230){doc.addPage();y=18;}
+  doc.setTextColor(0);doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text('Pourcentage de positifs (match)',14,y);y+=8;doc.setFontSize(10);
+  cols=[{h:'N°',w:9,r:1},{h:'Joueuse',w:46},{h:'Service',w:25,r:1},{h:'Réception',w:25,r:1},{h:'Défense',w:25,r:1},{h:'Attaque',w:25,r:1},{h:'Total',w:25,r:1}];
+  const pc=(p,mm)=>p+mm?`${Math.round(p/(p+mm)*100)} % (${p}/${p+mm})`:'-';
+  const pv=r=>[pc(r.srvP,r.srvM),pc(r.recP,r.recM),pc(r.defP,r.defM),pc(r.attP,r.attM),pc(r.P,r.M)];
+  drawRow(cols.map(c=>c.h),{bold:1,fill:[220,228,238]});
+  grpSort(fx.rows).forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full].concat(pv(r)),{fill:i%2?[246,248,251]:null});});
+  drawRow(['','Équipe'].concat(pv(fx.tot)),{bold:1,fill:[220,228,238]});
+  y+=4;doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(90);
+  doc.text('% de positifs = positifs / (positifs + fautes) dans chaque catégorie. Services neutres non comptés. "-" : aucune action statée.',14,y);
   saveFile(`stats_${slug(m.opp||'match')}_${m.date||''}.pdf`,doc.output('blob'));
 }
 function lean(m){const c=JSON.parse(JSON.stringify(m));delete c.redo;delete c.pend;return c;}
