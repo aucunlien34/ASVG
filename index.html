@@ -764,8 +764,10 @@ function sysOf(zones,roles){
 }
 // Postes « de placement » : déduits de la place par rapport à la passeuse (P1…P6),
 // pour que le placement reste juste même si la composition n'est pas conforme.
+// Jeu en 4-2 : deux passeuses sur le terrain
+function is42(zones,roles){let n=0;for(let z=1;z<=6;z++)if(zones[z]&&roles[zones[z]]==='Pa')n++;return n>=2;}
 function posRoles(zones,roles){
-  const s=setterZone(zones,roles);if(!s)return roles;
+  const s=setterZone(zones,roles);if(!s||is42(zones,roles))return roles;
   const pr=Object.assign({},roles);
   const SL=SLOTS[sysOf(zones,roles)];
   for(let z=1;z<=6;z++)if(zones[z])pr[zones[z]]=SL[(z-s+6)%6];
@@ -866,7 +868,7 @@ let ui={screen:null,sheet:null,sub:null,pick:null,draft:null,coach:false,code:''
 // Poste attendu dans l'ordre 5-1 à partir de la passeuse (sens de la rotation)
 const EXP=['Pa','R4','C','Pu','R4','C'];
 function posteIssues(m,zones,roles){
-  const sz=setterZone(zones,roles);if(!sz)return [];
+  const sz=setterZone(zones,roles);if(!sz||is42(zones,roles))return [];
   const out=[],lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
   const SL=SLOTS[sysOf(zones,roles)];
   for(let z=1;z<=6;z++){const id=zones[z],r=roles[id],e=SL[(z-sz+6)%6];
@@ -899,9 +901,11 @@ function placeCheck(z){
   const SL=SLOTS[sysOf(d.zones,R)],ex=sz?SL[(z-sz+6)%6]:null,ey=sz&&y?SL[(oz-sz+6)%6]:null;
   const lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
   const tagR=id=>`${dname(m,id)} (${pnum(m,id)}, ${ROLES[R[id]]||'sans poste'})`;
-  const slotBad=!!(sz&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry);
-  if(!slotBad&&!oppBad)return;
+  const q42=is42(d.zones,R),slotBad=!!(sz&&!q42&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry&&!(rx==='Pa'&&ry==='Pa'));
+  const pa2=rx==='Pa'?[1,2,3,4,5,6].find(k=>k!==z&&d.zones[k]&&R[d.zones[k]]==='Pa'):null,paBad=!!(pa2&&pa2!==oz);
+  if(!slotBad&&!oppBad&&!paBad)return;
   const msgs=[],fixes=[];
+  if(paBad)msgs.push(`${tagR(x)} est au poste ${z} et l'autre passeuse, ${tagR(d.zones[pa2])}, au poste ${pa2} : en 4-2, les deux passeuses doivent être opposées (postes ${z} et ${oz}).`);
   if(slotBad)msgs.push(`${tagR(x)} est placée au poste ${z} : par rapport à la passeuse, cette place correspond à ${lab[ex]}.`);
   if(oppBad)msgs.push(`${slotBad?'Elle':tagR(x)} est opposée à ${tagR(y)} (poste ${oz}) : l'opposition doit être R4 / R4, centrale / centrale ou passeuse / pointue.`);
   const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
@@ -955,7 +959,7 @@ function oppoIssues(m,zones,roles){
   if(c.length===2)pair(c[0],c[1],'Les centrales');
   const dup=(a,lab,to)=>{const t=new String(`${lab} sont opposées : ${who(a[0])}, ${who(a[1])}. L'opposition doit être passeuse / pointue.`);t.key=lab+':'+[zones[a[0]],zones[a[1]]].sort().join('-');t.fixes=a.map(k=>({p:zones[k],r:to}));t.choice=true;out.push(t);};
   if(pa.length===1&&pu.length===1)pair(pa[0],pu[0],'La passeuse et la pointue');
-  else if(pa.length===2&&OPP[pa[0]]===pa[1])dup(pa,'Deux passeuses','Pu');
+  else if(pa.length===2){if(OPP[pa[0]]!==pa[1])pair(pa[0],pa[1],'Les deux passeuses (jeu en 4-2)');}
   else if(pu.length===2&&OPP[pu[0]]===pu[1])dup(pu,'Deux pointues','Pa');
   else if(!pa.length){const t=new String("Aucune passeuse sur le terrain : l'opposition passeuse / pointue n'est pas assurée.");t.key='nopa';out.push(t);}
   return out;
@@ -1034,6 +1038,7 @@ function isStd(zones,roles,s){
 }
 function playCoords(zones,roles,lib,serving){
   const {eff,libFor,pr}=effective(zones,roles,lib,serving),out={};
+  if(is42(zones,roles)){for(let z=1;z<=6;z++)out[eff[z]]=POS[z];return {eff,libFor,out,mode:'42'};}
   if(serving==='G'){const map=layoutPlay(eff,pr);for(const s in map)out[map[s]]=POS[s];return {eff,libFor,out,mode:'serve'};}
   const s=setterZone(zones,roles);
   if(s){const T=sysOf(zones,roles)==='B'?RECEPB:RECEP;for(let z=1;z<=6;z++)out[eff[z]]=T[s][z];return {eff,libFor,out,mode:'recep'};}
@@ -1187,10 +1192,10 @@ function statPanel(m,S){
 function matchHTML(m,S){
   const si=S.sets.length-1,set=S.sets[si],T=short(m);
   const e=effective(S.zones,S.roles,S.lib,S.serving);
-  const pz=setterZone(S.zones,S.roles);
+  const pz=is42(S.zones,S.roles)?([2,3,4].find(z=>S.roles[S.zones[z]]==='Pa')||setterZone(S.zones,S.roles)):setterZone(S.zones,S.roles);
   const last=m.ev[m.ev.length-1],nxt=m.redo[m.redo.length-1];
   const regl=store.prefs.view==='regl',pc=playCoords(S.zones,S.roles,S.lib,S.serving);
-  const modeTxt=regl?'Placement réglementaire (au moment du service)':pc.mode==='serve'?'Positions après le service':pc.mode==='recep'?'Positions de réception':'Pas de passeuse sur le terrain : placement réglementaire affiché';
+  const modeTxt=regl?'Placement réglementaire (au moment du service)':pc.mode==='serve'?'Positions après le service':pc.mode==='recep'?'Positions de réception':pc.mode==='42'?'Jeu en 4-2 : placement réglementaire':'Pas de passeuse sur le terrain : placement réglementaire affiché';
   const play=S.phase==='play';
   const hist=S.sets.length>1||set.winner?`<div class="hist">${S.sets.map((s,i)=>`<span class="hs ${s.winner==='G'?'w':s.winner==='A'?'l':''}">S${i+1} ${s.g}-${s.a}</span>`).join('')}</div>`:'';
   let mid;
