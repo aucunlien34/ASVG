@@ -570,7 +570,13 @@ label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
 .stb.m{border-color:var(--pu)}.stb.p{border-color:var(--r4)}
 .stb.m.on{background:var(--pu);color:#fff}.stb.p.on{background:var(--r4);color:#fff}
 .stb:disabled{opacity:.35}
-.stpick{background:var(--surface2);border-radius:10px;padding:8px;margin-bottom:8px}.stq{display:block;font-weight:600;margin-bottom:6px}
+.stpick{background:var(--surface2);border-radius:10px;padding:8px;margin-bottom:8px}.stq{display:block;font-weight:700;margin-bottom:8px;font-size:17px}
+.stq.m{color:var(--pu)}.stq.p{color:var(--r4)}
+.pick3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:start}
+.pick3 .col{display:flex;flex-direction:column;gap:8px}
+.bchip.pk{width:100%;min-height:58px;border-width:2px;border-color:var(--rc);border-radius:14px;padding:5px 8px 5px 5px}
+.bchip.pk .num{min-width:44px;height:44px;font-size:22px}
+.pkn{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .stchip{display:inline-flex;align-items:center;gap:4px;padding:2px 2px 2px 10px;border-radius:20px;background:var(--surface2);border:1.5px solid var(--line);font-size:14px;font-weight:600}
 .stchip.m{border-color:var(--pu)}.stchip.p{border-color:var(--r4)}
 .stchip button{border:0;background:none;font-size:20px;width:34px;height:34px;line-height:1}
@@ -634,6 +640,17 @@ tr.tot td{font-weight:700;background:var(--surface2)}
 .barcell{display:flex;align-items:center;gap:8px}
 .barcell .track{flex:1;height:10px;border-radius:5px;background:var(--surface2);border:1px solid var(--line);min-width:70px;overflow:hidden}
 .barcell .track i{display:block;height:100%;background:var(--team)}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+@media (max-width:640px){.cols3{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--rc);border-radius:12px;padding:10px}
+.pch{display:flex;align-items:center;gap:8px}.pch .num{min-width:34px;height:34px;font-size:18px}.pch b{font-weight:600;line-height:1.15;font-size:15px}
+.pcard .barcell .track{min-width:40px}
+table.fxm{width:100%;margin-top:8px;font-size:14px}
+table.fxm th,table.fxm td{padding:3px 4px;border-bottom:1px solid var(--line)}
+table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;width:30px;font-weight:700;font-variant-numeric:tabular-nums}
+.fxm .m{color:var(--pu)}.fxm .p{color:var(--r4)}.fxm .z{color:var(--muted);font-weight:400}
+.fxt{display:flex;justify-content:space-between;margin-top:8px;font-weight:700;font-size:14px}.fxt .m{color:var(--pu)}.fxt .p{color:var(--r4)}
 .arch{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .arch:last-child{border-bottom:0}
 .arch .who{flex:1;min-width:180px}
@@ -851,12 +868,40 @@ function draftIssues(){const d=ui.draft;if(!d||!d.zones.slice(1).every(Boolean))
 function setAlert(list){
   ui.alert=list.map(String);
   const fx=[];list.forEach(x=>(x.fixes||(x.fix?[x.fix]:[])).forEach(f=>{if(!fx.some(g=>g.p===f.p&&g.r===f.r))fx.push(f);}));
-  ui.alertFixes=fx;ui.alertChoice=list.some(x=>x.choice);
+  ui.alertFixes=fx;ui.alertChoice=list.some(x=>x.choice);ui.alertClose=null;ui.alertMode=null;
+}
+function alertHTML(m){
+  const fx=ui.alertFixes||[],b=(act,lab,extra,pri)=>`<button class="btn big ${pri?'primary':''}" style="margin-bottom:10px" data-act="${act}" ${extra||''}>${esc(lab)}</button>`;
+  let btns='';
+  if(ui.alertMode==='start')btns=b('startGo','Valider cette composition','',1)+b('alertOk','Modifier');
+  else{
+    btns=fx.map((f,i)=>b('alertFix',f.lab||`Faire jouer ${dname(m,f.p)} en ${ROLES[f.r]}`,`data-i="${i}"`,1)).join('');
+    if(fx.length>1&&!ui.alertChoice)btns+=b('alertFix','Tout corriger','data-i="all"',1);
+    btns+=fx.length?b('alertOk',ui.alertClose||'Fermer sans changer'):b('alertOk','Fermer','',1);
+  }
+  return `<div class="ascrim" data-act="alertOk"></div><div class="abox" role="alertdialog" aria-modal="true"><h3>${ui.alertMode==='start'?'Composition à vérifier':'Attention'}</h3>${ui.alert.map(t=>`<p>${esc(t)}</p>`).join('')}${btns}</div>`;
+}
+// Contrôle immédiat quand on place une joueuse dans la composition
+const COMP={R4:'R4',C:'C',Pa:'Pu',Pu:'Pa'};
+function placeCheck(z){
+  const d=ui.draft,m=store.cur,S=replay(m),R=S.roles,x=d.zones[z];if(!x)return;
+  const rx=R[x],oz=OPP[z],y=d.zones[oz],ry=y?R[y]:null,sz=setterZone(d.zones,R);
+  const ex=sz?SLOT[(z-sz+6)%6]:null,ey=sz&&y?SLOT[(oz-sz+6)%6]:null;
+  const lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
+  const tagR=id=>`${dname(m,id)} (${pnum(m,id)}, ${ROLES[R[id]]||'sans poste'})`;
+  const slotBad=!!(sz&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry);
+  if(!slotBad&&!oppBad)return;
+  const msgs=[],fixes=[];
+  if(slotBad)msgs.push(`${tagR(x)} est placée en zone ${z} : par rapport à la passeuse, cette place correspond à ${lab[ex]}.`);
+  if(oppBad)msgs.push(`${slotBad?'Elle':tagR(x)} est opposée à ${tagR(y)} (zone ${oz}) : l'opposition doit être R4 / R4, centrale / centrale ou passeuse / pointue.`);
+  const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
+  if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Changer le poste de ${dname(m,x)} (placée) : ${ROLES[t1]}`});
+  if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Changer le poste de ${dname(m,y)} (opposée) : ${ROLES[t2]}`});}
+  ui.alert=msgs;ui.alertFixes=fixes;ui.alertChoice=true;ui.alertClose='Ne rien faire';ui.alertMode=null;beep('warn');
 }
 function draftCheck(){
   const d=ui.draft;if(!d)return;
   const w=draftIssues(),k=w.map(x=>x.key).join('|');
-  if(w.length&&k!==ui.draftKey){setAlert(w);beep('warn');}
   ui.draftKey=k;
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){toast('Sauvegarde impossible sur cet appareil','warn');}}
@@ -1019,7 +1064,7 @@ function render(){
   $('#app').innerHTML=h;
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
-  const al=$('#alert');al.innerHTML=ui.alert?`<div class="ascrim" data-act="alertOk"></div><div class="abox" role="alertdialog" aria-modal="true"><h3>Attention</h3>${ui.alert.map(t=>`<p>${esc(t)}</p>`).join('')}${ui.alertFixes&&ui.alertFixes.length?ui.alertFixes.map((f,i)=>`<button class="btn big primary" style="margin-bottom:10px" data-act="alertFix" data-i="${i}">Faire jouer ${esc(dname(m,f.p))} en ${esc(ROLES[f.r])}</button>`).join('')+(ui.alertFixes.length>1&&!ui.alertChoice?'<button class="btn big primary" style="margin-bottom:10px" data-act="alertFix" data-i="all">Tout corriger</button>':'')+'<button class="btn big" data-act="alertOk">Fermer sans changer</button>':'<button class="btn big primary" data-act="alertOk">Fermer</button>'}</div>`:'';
+  const al=$('#alert');al.innerHTML=ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!ui.alert);
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
@@ -1106,11 +1151,12 @@ function statPanel(m,S){
     return `<button class="stb ${sg>0?'p':'m'} ${on?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}>${SK[k]} ${sg>0?'+':'−'}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   return `<div class="stp"><div class="sth"><b>Détail du point ${esc(lp.w==='G'?T:'adverse')} (${lp.g}-${lp.a})</b><small>facultatif, plusieurs choix possibles</small></div>
-    <div class="strow"><span class="stl">Fautes</span>${['srv','rec','def','att'].map(k=>btn(k,-1)).join('')}</div>
-    <div class="strow"><span class="stl">Positifs</span>${['srv','rec','def','att'].map(k=>btn(k,1)).join('')}</div>
-    ${ui.stPick?`<div class="stpick"><span class="stq">${SK[ui.stPick.k]} ${ui.stPick.s>0?'+':'−'} : quelle joueuse ?</span><div class="bench">
-      ${lp.on.map(id=>`<button class="bchip" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span>${esc(dname(m,id))}</button>`).join('')}
-      <button class="bchip" data-act="stP" data-id="">Non attribuée</button><button class="bchip" data-act="stCancel">Annuler</button></div></div>`:''}
+    ${ui.stPick?(()=>{const cols=[[],[],[]];lp.on.slice().sort((a,b)=>(GORD[S.roles[a]]??2)-(GORD[S.roles[b]]??2)||pnum(m,a)-pnum(m,b)).forEach(id=>cols[GRP(S.roles[id])].push(id));
+      return `<div class="stq ${ui.stPick.s>0?'p':'m'}">${SK[ui.stPick.k]} ${ui.stPick.s>0?'+':'−'} : quelle joueuse ?</div>
+      <div class="pick3">${cols.map(c=>`<div class="col">${c.map(id=>`<button class="bchip pk ${rcls(S.roles[id])}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`).join('')}</div>`).join('')}</div>
+      <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;})()
+    :`<div class="strow"><span class="stl">Fautes</span>${['srv','rec','def','att'].map(k=>btn(k,-1)).join('')}</div>
+    <div class="strow"><span class="stl">Positifs</span>${['srv','rec','def','att'].map(k=>btn(k,1)).join('')}</div>`}
     ${st.length?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${x[1]>0?'p':'m'}">${SK[x[0]]} ${x[1]>0?'+':'−'} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
 }
@@ -1242,6 +1288,27 @@ function fxStats(m,S,set){
   const opp=ss.reduce((a,x)=>a+x.a,0),oppF=ss.reduce((a,x)=>a+(x.oppFault||0),0);
   return {rows,eq,tot,opp,oppF};
 }
+// Regroupement : R4 | centrales et libéro | pointue et passe
+const GRP=r=>r==='C'||r==='L'?1:(r==='Pu'||r==='Pa')?2:0;
+const GORD={R4:0,C:0,L:1,Pu:0,Pa:1};
+function grpSort(rows){return rows.slice().sort((a,b)=>GRP(a.role)-GRP(b.role)||(GORD[a.role]??2)-(GORD[b.role]??2)||a.n-b.n);}
+function statCols(m,S){
+  if(!S.sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
+  const set=ui.fxSet,f=fxStats(m,S,set);
+  const tot=set==null?S.sets.reduce((a,x)=>a+x.rallies,0):(S.sets[set]?S.sets[set].rallies:0);
+  const played=id=>{const a=S.played[id]||[0,0,0,0,0];return set==null?a.reduce((x,y)=>x+y,0):(a[set]||0);};
+  const seg=`<div class="seg" style="margin-bottom:10px;flex-wrap:wrap"><button class="${set==null?'on':''}" data-act="fxSet" data-v="">Match</button>${S.sets.map((x,i)=>`<button class="${set===i?'on':''}" data-act="fxSet" data-v="${i}">S${i+1}</button>`).join('')}</div>`;
+  const cnt=v=>v?v:'<span class="z">·</span>';
+  const card=r=>{const pl=played(r.id),pct=tot?pl/tot*100:0,ex=isExtra(r.id);
+    return `<div class="pcard ${rcls(r.role)}"><div class="pch"><span class="num ${rcls(r.role)}">${r.n}</span><b>${esc(r.full)}</b></div>
+      ${ex?'<div class="hint" style="margin:6px 0">Hors feuille : pas de temps de jeu</div>':`<div class="barcell" style="margin:8px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
+      <table class="fxm"><tr><th></th><th class="m">−</th><th class="p">+</th></tr>${[['srv','Service'],['rec','Réception'],['def','Défense'],['att','Attaque']].map(([k,l])=>`<tr><td>${l}</td><td class="m">${cnt(r[k+'M'])}</td><td class="p">${cnt(r[k+'P'])}</td></tr>`).join('')}</table>
+      <div class="fxt"><span class="m">Fautes ${r.M}</span><span class="p">Positifs ${r.P}</span></div></div>`;};
+  const cols=[[],[],[]];grpSort(f.rows).forEach(r=>cols[GRP(r.role)].push(r));
+  return seg+`<div class="card" style="margin-bottom:12px"><b>Équipe${set==null?'':' — set '+(set+1)}</b>
+      <div class="hint" style="margin-top:4px">${tot} points disputés · fautes ${f.tot.M} · positifs ${f.tot.P}${f.eq.M||f.eq.P?` (dont non attribuées : ${f.eq.M} fautes, ${f.eq.P} positifs)`:''} · points adverses sur une faute de Gigean : ${f.oppF} sur ${f.opp}${f.opp?` (${Math.round(f.oppF/f.opp*100)} %)`:''}</div></div>
+    <div class="cols3">${cols.map(c=>`<div class="col">${c.map(card).join('')}</div>`).join('')}</div>`;
+}
 function fxTable(m,S){
   if(!S.sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
   const f=fxStats(m,S,ui.fxSet),c=v=>v?v:'<span style="color:var(--muted)">·</span>';
@@ -1272,8 +1339,7 @@ function coachHTML(){
     <div class="card" style="margin:10px 0"><b class="cond" style="font-size:22px">${esc(matchTitle(m))}</b>${view?' <span class="hint">(archive)</span>':' <span class="hint">(match en cours)</span>'}
       <div class="hint" style="margin:2px 0 0">${esc(fmtDate(m.date))}${m.num?' · match '+esc(m.num):''} — Sets ${S.wins.G}-${S.wins.A}${sc?' ('+sc+')':''}</div>
       ${view?'<button class="btn" style="margin-top:10px" data-act="cv" data-id="">Revenir au match en cours</button>':''}</div>
-    <h2>Temps de jeu par joueuse</h2>${table}
-    <h2>Fautes et points positifs</h2>${fxTable(m,S)}
+    <h2>Statistiques par joueuse</h2>${statCols(m,S)}
     <div class="tools" style="margin-top:12px"><button class="btn primary" data-act="pdf" data-id="${view?view.id:''}">Exporter en PDF</button>
       <button class="btn" data-act="json">Exporter toutes les données</button><button class="btn" data-act="import">Importer des données</button></div>
     <h2 id="rosterSec">Effectif de l'équipe (${store.roster.length} joueuses)</h2>
@@ -1320,7 +1386,7 @@ function exportPDF(m){
   };
   doc.setFontSize(10);
   drawRow(cols.map(c=>c.h),{bold:1,fill:[220,228,238]});
-  rows.forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full,r.role||''].concat(r.sets).concat([r.tot,r.pct.toFixed(1)+' %']),{fill:i%2?[246,248,251]:null});});
+  grpSort(rows).forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full,r.role||''].concat(r.sets).concat([r.tot,r.pct.toFixed(1)+' %']),{fill:i%2?[246,248,251]:null});});
   drawRow(['','Équipe',''].concat(teamSets).concat([total,'100 %']),{bold:1,fill:[220,228,238]});
   y+=4;doc.setFontSize(8.5);doc.setTextColor(90);
   doc.text("% joué = points joués par la joueuse / points disputés par l'équipe. Joueuses hors feuille non comptées.",14,y);
@@ -1329,7 +1395,7 @@ function exportPDF(m){
   cols=[{h:'N°',w:10,r:1},{h:'Joueuse',w:44},{h:'Serv -',w:12.5,r:1},{h:'Serv +',w:12.5,r:1},{h:'Réc -',w:12.5,r:1},{h:'Réc +',w:12.5,r:1},{h:'Déf -',w:12.5,r:1},{h:'Déf +',w:12.5,r:1},{h:'Att -',w:12.5,r:1},{h:'Att +',w:12.5,r:1},{h:'Fautes',w:14,r:1},{h:'Positifs',w:14,r:1}];
   const fv=r=>FXK.map(k=>r[k]||'').concat([r.M,r.P]);
   drawRow(cols.map(c=>c.h),{bold:1,fill:[220,228,238]});
-  fx.rows.forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full].concat(fv(r)),{fill:i%2?[246,248,251]:null});});
+  grpSort(fx.rows).forEach((r,i)=>{if(y>280){doc.addPage();y=18;}drawRow([r.n,r.full].concat(fv(r)),{fill:i%2?[246,248,251]:null});});
   if(fx.eq.M||fx.eq.P)drawRow(['','Non attribuée'].concat(fv(fx.eq)),{});
   drawRow(['','Équipe'].concat(fv(fx.tot)),{bold:1,fill:[220,228,238]});
   y+=4;doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(90);
@@ -1352,8 +1418,8 @@ const A={
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
-  alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;},
-  alertFix(d){const all=ui.alertFixes||[],fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;if(!fx.length)return;
+  alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;},
+  alertFix(d){const all=ui.alertFixes||[],fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;if(!fx.length)return;
     const m=store.cur,S=replay(m);
     if(S.sets.length===0){fx.forEach(f=>{m.roles[f.p]=f.r;});save();}else fx.forEach(f=>dispatch({t:'role',p:f.p,r:f.r}));
     toast(fx.map(f=>`${dname(m,f.p)} joue maintenant ${ROLES[f.r]}`).join(' ; '),'ok');
@@ -1393,7 +1459,7 @@ const A={
   subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m),ro=S.roles[o],ri=S.roles[i];
     dispatch({t:'sub',o,i});
     if(ro&&ro!==ri&&ro!=='L'){const msg=`${dname(m,i)} (${pnum(m,i)}, ${ROLES[ri]||'sans poste'}) remplace ${dname(m,o)} (${pnum(m,o)}, ${ROLES[ro]}) : les postes sont différents.`;
-      ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
+      ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
     return 1;},
   setLib(d){const S=replay(store.cur);const v=d.id||null;if(v!==S.lib){ui.sheet=null;dispatch({t:'lib',p:v});return 1;}},
   to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}dispatch({t:'to',s:d.s});toast(`Temps mort ${d.s==='G'?short(store.cur):'adversaire'} (${set.to[d.s]+1}/2)`);return 1;},
@@ -1423,10 +1489,12 @@ const A={
     ui.screen='lineup';ui.sheet=null;ui.draftKey='';draftCheck();},
   cancelLineup(){ui.screen=null;ui.draft=null;},
   pickZone(d){ui.pick=+d.z;ui.sheet='pick';},
-  pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();},
+  pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();placeCheck(z);},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
   draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
-  startSet(){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
+  startGo(){ui.alert=null;ui.alertMode=null;return A.startSet({},true);},
+  startSet(_d,force){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;
+    if(!force){const w=draftIssues();if(w.length){ui.alert=w.map(String);ui.alertFixes=null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
   pres(d){const m=store.cur,S=replay(m);const on=!m.present[d.id];
     if(!on&&S.phase==='play'&&(S.zones.includes(d.id)||d.id===S.lib)){toast('Cette joueuse est sur le terrain ou libéro active : faites d\'abord un changement','warn');return;}
     const before=Object.assign({},m.present);
