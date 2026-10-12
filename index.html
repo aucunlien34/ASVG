@@ -1196,7 +1196,7 @@ function rallyCtx(S){
 function statPanel(m,S){
   const lp=rallyCtx(S);if(!lp)return '';
   const st=m.pend||[],T=short(m);
-  const btn=(k,sg)=>{const dis=k==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)||(k==='srv'&&st.some(x=>x[0]==='srv'&&x[1]===sg));
+  const btn=(k,sg)=>{const dis=k==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)||((k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg));
     return `<button class="stb ${sg>0?'p':'m'} ${on?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}>${SK[k]} ${sg>0?'+':'−'}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   return `<div class="stp"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
@@ -1477,6 +1477,9 @@ const A={
       const pend=m.pend||[],j=pend.findIndex(x=>x[0]==='srv');
       if(j>=0){if(pend[j][1]!==sg){pend[j]=[k,sg,lp.srv];save();render();}return 1;}
       addStat([k,sg,lp.srv]);return 1;}
+    // Une seule réception par point : même signe = rien, signe opposé = on inverse (même joueuse)
+    if(k==='rec'){const pend=m.pend||[],j=pend.findIndex(x=>x[0]==='rec');
+      if(j>=0){ui.stPick=null;if(pend[j][1]!==sg){pend[j]=[k,sg,pend[j][2]];save();render();}return 1;}}
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
