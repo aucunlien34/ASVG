@@ -1273,8 +1273,12 @@ function sheetHTML(m,S){
     const chip=(id,act,sel,extra)=>`<button class="bchip ${sel?'sel':''}" data-act="${act}" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span>${esc(dname(m,id))}${extra?`<em>${extra}</em>`:''}</button>`;
     return `<div class="sh"><h3>Changement</h3>${close}</div>
       <p class="hint">Set ${S.sets.length} : ${set.subs}/6 changements effectués. Double-touchez une joueuse pour changer son poste.</p>
-      <h2>Sort</h2><div class="bench">${(ui.sub.fixed&&ui.sub.o?[ui.sub.o]:onCourt).map(id=>chip(id,'subO',ui.sub.o===id,id===e.libFor?'remplacée par la libéro':'')).join('')}</div>
-      <h2>Entre</h2>${ins.length?groups.map(g=>`<div class="bench subgrp ${g.r===ro?'match':''}">${g.l.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join('')}</div>`).join(''):'<div class="bench"><span class="hint">Aucune remplaçante disponible.</span></div>'}
+      <h2>Sort</h2>${(()=>{if(ui.sub.fixed&&ui.sub.o)return `<div class="bench">${chip(ui.sub.o,'subO',true,ui.sub.o===e.libFor?'remplacée par la libéro':'')}</div>`;
+        // Tri : poste de l'entrante d'abord, puis postes regroupés, puis numéro
+        const ri=ui.sub.i?S.roles[ui.sub.i]:null,gko=r=>r===ri?-1:(GO.indexOf(r)<0?9:GO.indexOf(r)),og=[];
+        onCourt.slice().sort((a,b)=>gko(S.roles[a])-gko(S.roles[b])||pnum(m,a)-pnum(m,b)).forEach(id=>{const g=og[og.length-1];if(g&&g.r===S.roles[id])g.l.push(id);else og.push({r:S.roles[id],l:[id]});});
+        return og.map(g=>`<div class="bench subgrp ${ri&&g.r===ri?'match':''}">${g.l.map(id=>chip(id,'subO',ui.sub.o===id,id===e.libFor?'remplacée par la libéro':'')).join('')}</div>`).join('');})()}
+      <h2>Entre</h2>${ui.sub.fixedI&&ui.sub.i?`<div class="bench">${chip(ui.sub.i,'subI',true,'')}</div>`:ins.length?groups.map(g=>`<div class="bench subgrp ${g.r===ro?'match':''}">${g.l.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join('')}</div>`).join(''):'<div class="bench"><span class="hint">Aucune remplaçante disponible.</span></div>'}
       ${w.length?`<div class="warnbox">Changement non réglementaire : ${esc(w.join(' ; '))}. Vous pouvez quand même le valider.</div>`:''}
       <div style="margin-top:14px"><button class="btn big primary" data-act="subOk" ${ui.sub.o&&ui.sub.i?'':'disabled'}>Valider le changement</button></div>
       ${libs.length||S.lib?`<h2>Libéro active</h2><p class="hint">Le changement de libéro n'est pas compté comme un remplacement.</p>
@@ -1516,7 +1520,7 @@ const A={
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
-    if(S.roles[d.id]==='L')ui.sub={o:null,i:null};else if(d.id===e.libFor)ui.sub={o:d.id,i:null};else ui.sub={o:null,i:d.id};ui.sheet='sub';},
+    if(S.roles[d.id]==='L')ui.sub={o:null,i:null};else if(d.id===e.libFor)ui.sub={o:d.id,i:null,fixed:true};else ui.sub={o:null,i:d.id,fixedI:true};ui.sheet='sub';},
   openSub(){ui.sub={o:null,i:null};ui.sheet='sub';},
   subO(d){ui.sub.o=d.id;}, subI(d){ui.sub.i=d.id;},
   subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m),ro=S.roles[o],ri=S.roles[i];
