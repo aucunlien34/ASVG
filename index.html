@@ -627,6 +627,18 @@ label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
 @keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 
 /* toasts */
+ /* compte à rebours des temps morts : flottant, ne bloque pas l'interface */
+#tmr{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:25;--tc:#23924A;background:var(--surface);border:3px solid var(--tc);border-radius:20px;padding:10px 10px 10px 12px;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;align-items:center;gap:12px;transition:border-color .3s}
+#tmr[hidden]{display:none}
+#tmr .ring{position:relative;width:76px;height:76px;flex:none}
+#tmr .ring svg{width:76px;height:76px;transform:rotate(-90deg)}
+#tmr .ring .sec{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;color:var(--tc);font-variant-numeric:tabular-nums}
+#tmr .tl{display:flex;flex-direction:column;line-height:1.15;min-width:96px}
+#tmr .tl b{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600}
+#tmr .tl small{color:var(--muted)}
+#tmr .x{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);font-size:20px;flex:none}
+#tmr.done{animation:tpulse .6s ease-in-out 4}
+@keyframes tpulse{50%{transform:scale(1.06)}}
 #toasts{position:fixed;left:0;right:0;top:0;z-index:30;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 0;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
 .toast{max-width:640px;width:100%;padding:12px 16px;border-radius:12px;background:var(--surface);border:2px solid var(--line);font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.15);animation:tin .25s ease-out}
 .toast.lib{background:var(--libBg);color:var(--libInk);border-color:var(--l)}
@@ -679,6 +691,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 <main id="app"></main>
 <div id="sheet"></div>
 <div id="alert"></div>
+<div id="tmr" hidden aria-live="polite"></div>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 <script>
 /* ============ DONNÉES ============ */
@@ -1012,7 +1025,28 @@ function evLabel(m,ev){
   }
   return '';
 }
-function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='pt')m.pend=ev.st?ev.st.slice():[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null};}render();}
+// Compte à rebours de 30 s pour les temps morts
+let tmr=null;
+function tmrColor(s){return s>20?'#23924A':s>10?'#E2B100':s>5?'#F07A12':'#D7263D';}
+function startTimer(label){stopTimer();tmr={end:Date.now()+30000,label,done:false,iv:setInterval(tmrTick,200)};tmrTick();}
+function stopTimer(){if(tmr){clearInterval(tmr.iv);clearTimeout(tmr.to);}tmr=null;const el=$('#tmr');if(el){el.hidden=true;el.classList.remove('done');el.innerHTML='';}}
+function tmrTick(){
+  if(!tmr)return;const el=$('#tmr'),left=Math.max(0,tmr.end-Date.now()),sec=Math.ceil(left/1000),c=tmrColor(sec),R=32,L=2*Math.PI*R;
+  el.hidden=false;el.style.setProperty('--tc',c);
+  el.innerHTML=`<div class="ring"><svg viewBox="0 0 76 76"><circle cx="38" cy="38" r="${R}" fill="none" stroke="var(--line)" stroke-width="7"/><circle cx="38" cy="38" r="${R}" fill="none" stroke="${c}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-left/30000)}"/></svg><span class="sec">${sec}</span></div>
+    <div class="tl"><b>${esc(tmr.label)}</b><small>${left>0?'secondes restantes':'Fin du temps mort'}</small></div>
+    <button class="x" data-act="tmrClose" aria-label="Fermer le compte à rebours">×</button>`;
+  if(left<=0&&!tmr.done){tmr.done=true;clearInterval(tmr.iv);el.classList.add('done');endSound();tmr.to=setTimeout(stopTimer,8000);}
+}
+function endSound(){
+  try{navigator.vibrate&&navigator.vibrate([250,120,250]);}catch(e){}
+  if(!store.prefs.sound)return;
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t=actx.currentTime;
+    [880,880,1320].forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain(),st=t+i*.32,du=i===2?.5:.2;o.type='square';o.frequency.value=f;
+      g.gain.setValueAtTime(.0001,st);g.gain.exponentialRampToValueAtTime(.18,st+.02);g.gain.exponentialRampToValueAtTime(.0001,st+du);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+du+.02);});
+  }catch(e){}
+}
+function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='to')stopTimer();if(ev.t==='pt')m.pend=ev.st?ev.st.slice():[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null};}render();}
 function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m);const ev=m.redo.pop();m.ev.push(ev);if(ev.t==='pt')m.pend=[];const after=replay(m);save();toast('Rétabli : '+evLabel(m,ev));if(ev.t==='set'){ui.screen=null;}notify(m,before,after);render();}
 
 /* ============ ICÔNES ============ */
@@ -1542,7 +1576,8 @@ const A={
       ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
     return 1;},
   setLib(d){const S=replay(store.cur);const v=d.id||null;if(v!==S.lib){ui.sheet=null;dispatch({t:'lib',p:v});return 1;}},
-  to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}dispatch({t:'to',s:d.s});toast(`Temps mort ${d.s==='G'?short(store.cur):'adversaire'} (${set.to[d.s]+1}/2)`);return 1;},
+  to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}dispatch({t:'to',s:d.s});startTimer(`Temps mort ${d.s==='G'?short(store.cur):'adverse'} (${set.to[d.s]+1}/2)`);return 1;},
+  tmrClose(){stopTimer();return 1;},
   roles(){ui.sheet='roles';},
   role(d){const m=store.cur,S=replay(m);if(S.sets.length===0){m.roles[d.id]=d.r;save();}else if(S.roles[d.id]!==d.r){dispatch({t:'role',p:d.id,r:d.r});return 1;}},
   menu(){ui.sheet='menu';},
