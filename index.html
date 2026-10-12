@@ -461,7 +461,7 @@ h3{font-size:24px;font-weight:700}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label.f{display:block;font-size:13px;color:var(--muted);font-weight:600}
-label.f input{margin-top:4px}
+label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
 
 /* role colours */
 .r-Pa{--rc:var(--pa);--rci:#241B00}
@@ -662,6 +662,8 @@ const KEY='gigean-volley-v1';
 const CODE='2627';
 const ROLES={Pa:'Passe',Pu:'Pointue',R4:'R4',C:'Centrale',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
+const MAX_SEL=14,MAX_ROSTER=30;
+const clone=o=>JSON.parse(JSON.stringify(o));
 const ROSTER=[
  {id:'p1',n:1,nom:'PUPIER',pre:'MORGANE',postes:['R4'],grp:'morgane'},
  {id:'p2',n:2,nom:'JEANNAUX',pre:'INES',postes:['R4','Pu']},
@@ -689,24 +691,33 @@ const fmtDate=s=>{if(!s)return '';const [y,m,d]=s.split('-');return d&&m&&y?`${d
 const rcls=r=>ROLES[r]?'r-'+r:'r-none';
 
 /* ============ MODÈLE ============ */
-function newMatch(prev){
-  const present={},roles={};
-  ROSTER.forEach(p=>{present[p.id]=p.id!=='p1';roles[p.id]=p.postes[0];});
-  const m={v:1,id:Date.now().toString(36),team:'Gigean M18F dep',opp:'',date:today(),num:'',present,roles,
+function newMatch(prev,roster){
+  const R=clone(roster||ROSTER),present={},roles={};
+  const seen=new Set();
+  R.forEach(p=>{present[p.id]=p.id!=='p1'&&!(p.grp&&seen.has(p.grp));if(p.grp&&present[p.id])seen.add(p.grp);roles[p.id]=(p.postes&&p.postes[0])||'R4';});
+  const m={v:1,id:Date.now().toString(36),team:'Gigean M18F dep',opp:'',date:today(),num:'',roster:R,present,roles,
     extras:[{id:'x1',on:false,n:'',nom:'',pre:''},{id:'x2',on:false,n:'',nom:'',pre:''}],ev:[],redo:[]};
   m.roles.x1='R4';m.roles.x2='R4';
   if(prev){
-    m.team=prev.team;Object.assign(m.present,prev.present);
-    Object.assign(m.roles,replay(prev).roles);
+    m.team=prev.team;
+    const pr=replay(prev).roles;
+    R.forEach(p=>{if(prev.present&&p.id in prev.present)m.present[p.id]=prev.present[p.id];if(pr[p.id])m.roles[p.id]=pr[p.id];});
+    ['x1','x2'].forEach(x=>{if(pr[x])m.roles[x]=pr[x];});
     m.extras=JSON.parse(JSON.stringify(prev.extras));
+  }
+  {const seen=new Set();let n=m.extras.filter(x=>x.on).length;
+   R.slice().sort((a,b)=>a.n-b.n).forEach(p=>{if(!m.present[p.id])return;const k=p.grp||p.id;if(seen.has(k))return;if(n>=MAX_SEL){m.present[p.id]=false;return;}seen.add(k);n++;});
   }
   return m;
 }
 function extraAsPlayer(x){return {id:x.id,n:parseInt(x.n)||0,nom:String(x.nom||'').toUpperCase(),pre:String(x.pre||'').toUpperCase(),postes:[],extra:true};}
-function allPlayers(m){return ROSTER.concat(m.extras.filter(x=>x.on).map(extraAsPlayer));}
+function rosterOf(m){return m.roster||ROSTER;}
+// Joueuses sélectionnées : une joueuse en double (même personne, deux maillots) compte pour une
+function selCount(m){const seen=new Set();rosterOf(m).forEach(p=>{if(m.present[p.id])seen.add(p.grp||p.id);});return seen.size+m.extras.filter(x=>x.on).length;}
+function allPlayers(m){return rosterOf(m).concat(m.extras.filter(x=>x.on).map(extraAsPlayer));}
 function present(m){return allPlayers(m).filter(p=>p.extra||m.present[p.id]).sort((a,b)=>a.n-b.n);}
 function pById(m,id){
-  const r=ROSTER.find(p=>p.id===id); if(r)return r;
+  const r=rosterOf(m).find(p=>p.id===id)||(typeof store!=='undefined'&&store&&store.roster||[]).find(p=>p.id===id)||ROSTER.find(p=>p.id===id); if(r)return r;
   const x=m.extras.find(x=>x.id===id); if(x)return extraAsPlayer(x);
   return {id,n:'?',nom:'',pre:'?'};
 }
@@ -724,14 +735,25 @@ const short=m=>(String(m.team||'').trim().split(/\s+/)[0])||'Nous';
 /* ============ LOGIQUE DE JEU ============ */
 function rotate(z){const f=z[1];for(let i=1;i<6;i++)z[i]=z[i+1];z[6]=f;}
 // La libéro remplace la centrale arrière, sauf quand cette centrale sert.
+// Poste de chaque place dans l'ordre 5-1, à partir de la passeuse (sens de la rotation)
+const SLOT=['Pa','R4','C','Pu','R4','C'];
+// Postes « de placement » : déduits de la place par rapport à la passeuse (P1…P6),
+// pour que le placement reste juste même si la composition n'est pas conforme.
+function posRoles(zones,roles){
+  const s=setterZone(zones,roles);if(!s)return roles;
+  const pr=Object.assign({},roles);
+  for(let z=1;z<=6;z++)if(zones[z])pr[zones[z]]=SLOT[(z-s+6)%6];
+  return pr;
+}
 function effective(zones,roles,lib,serving){
+  const pr=posRoles(zones,roles);
   const eff=zones.slice();let libFor=null,libZone=null;
   if(lib&&!zones.includes(lib)){
     for(const z of [5,6,1]){
-      if(roles[eff[z]]==='C'&&!(z===1&&serving==='G')){libFor=eff[z];libZone=z;eff[z]=lib;break;}
+      if(pr[eff[z]]==='C'&&!(z===1&&serving==='G')){libFor=eff[z];libZone=z;eff[z]=lib;break;}
     }
   }
-  return {eff,libFor,libZone};
+  return {eff,libFor,libZone,pr};
 }
 const FRONT_P={C:[3,4,2],Pa:[2,3,4],Pu:[2,4,3],R4:[4,2,3],L:[4,3,2]};
 const BACK_P={C:[6,5,1],L:[5,6,1],Pa:[1,6,5],Pu:[1,6,5],R4:[6,5,1]};
@@ -810,16 +832,31 @@ function replay(m){
 
 /* ============ ÉTAT / STOCKAGE ============ */
 function load(){
-  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];return s;}}catch(e){}
-  return {cur:newMatch(),arch:[],prefs:{sound:true,view:'jeu',orient:0}};
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];s.roster=s.roster||clone(ROSTER);if(!s.cur.roster)s.cur.roster=clone(s.roster);return s;}}catch(e){}
+  return {cur:newMatch(),arch:[],roster:clone(ROSTER),prefs:{sound:true,view:'jeu',orient:0}};
 }
 let store=load();
 let ui={screen:null,sheet:null,sub:null,pick:null,draft:null,coach:false,code:'',coachView:null,confirm:null,flashLib:false,stPick:null,fxSet:null,draftKey:'',skipOppo:null};
+// Poste attendu dans l'ordre 5-1 à partir de la passeuse (sens de la rotation)
+const EXP=['Pa','R4','C','Pu','R4','C'];
+function posteIssues(m,zones,roles){
+  const sz=setterZone(zones,roles);if(!sz)return [];
+  const out=[],lab={C:'une centrale',Pu:'la pointue',R4:'une R4',Pa:'la passeuse'};
+  for(let z=1;z<=6;z++){const id=zones[z],r=roles[id],e=EXP[(z-sz+6)%6];
+    if(id&&r!==e){const t=new String(`${dname(m,id)} (${pnum(m,id)}) est ${ROLES[r]||'sans poste'}, mais sa place dans la rotation (zone ${z}) correspond à ${lab[e]}.`);t.key='P:'+id+':'+e;t.fix={p:id,r:e};out.push(t);}}
+  return out;
+}
+function draftIssues(){const d=ui.draft;if(!d||!d.zones.slice(1).every(Boolean))return [];const m=store.cur,S=replay(m);return posteIssues(m,d.zones,S.roles).concat(oppoIssues(m,d.zones,S.roles));}
+// Fenêtre d'alerte : messages + boutons de correction (un choix exclusif désactive « Tout corriger »)
+function setAlert(list){
+  ui.alert=list.map(String);
+  const fx=[];list.forEach(x=>(x.fixes||(x.fix?[x.fix]:[])).forEach(f=>{if(!fx.some(g=>g.p===f.p&&g.r===f.r))fx.push(f);}));
+  ui.alertFixes=fx;ui.alertChoice=list.some(x=>x.choice);
+}
 function draftCheck(){
   const d=ui.draft;if(!d)return;
-  if(!d.zones.slice(1).every(Boolean)){ui.draftKey='';return;}
-  const m=store.cur,S=replay(m),w=oppoIssues(m,d.zones,S.roles),k=w.map(x=>x.key).join('|');
-  if(w.length&&k!==ui.draftKey){ui.alert=w.map(String);beep('warn');}
+  const w=draftIssues(),k=w.map(x=>x.key).join('|');
+  if(w.length&&k!==ui.draftKey){setAlert(w);beep('warn');}
   ui.draftKey=k;
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){toast('Sauvegarde impossible sur cet appareil','warn');}}
@@ -861,13 +898,17 @@ function oppoIssues(m,zones,roles){
   const r4=zs('R4'),c=zs('C'),pa=zs('Pa'),pu=zs('Pu');
   if(r4.length===2)pair(r4[0],r4[1],'Les R4');
   if(c.length===2)pair(c[0],c[1],'Les centrales');
+  const dup=(a,lab,to)=>{const t=new String(`${lab} sont opposées : ${who(a[0])}, ${who(a[1])}. L'opposition doit être passeuse / pointue.`);t.key=lab+':'+[zones[a[0]],zones[a[1]]].sort().join('-');t.fixes=a.map(k=>({p:zones[k],r:to}));t.choice=true;out.push(t);};
   if(pa.length===1&&pu.length===1)pair(pa[0],pu[0],'La passeuse et la pointue');
+  else if(pa.length===2&&OPP[pa[0]]===pa[1])dup(pa,'Deux passeuses','Pu');
+  else if(pu.length===2&&OPP[pu[0]]===pu[1])dup(pu,'Deux pointues','Pa');
+  else if(!pa.length){const t=new String("Aucune passeuse sur le terrain : l'opposition passeuse / pointue n'est pas assurée.");t.key='nopa';out.push(t);}
   return out;
 }
 function notify(m,before,after){
   const ib=before.phase==='play'?oppoIssues(m,before.zones,before.roles):[],ia=after.phase==='play'?oppoIssues(m,after.zones,after.roles):[];
   const key=l=>l.map(x=>x.key).join('|');
-  if(ia.length&&key(ia)!==key(ib)&&key(ia)!==ui.skipOppo){ui.alert=ia.map(String);beep('warn');}
+  if(ia.length&&key(ia)!==key(ib)&&key(ia)!==ui.skipOppo){setAlert(ia);beep('warn');}
   ui.skipOppo=null;
   const a=libState(before),b=libState(after);
   if(b&&(!a||a.f!==b.f||a.lib!==b.lib)){
@@ -928,10 +969,10 @@ function isStd(zones,roles,s){
   return true;
 }
 function playCoords(zones,roles,lib,serving){
-  const {eff,libFor}=effective(zones,roles,lib,serving),out={};
-  if(serving==='G'){const map=layoutPlay(eff,roles);for(const s in map)out[map[s]]=POS[s];return {eff,libFor,out,mode:'serve'};}
+  const {eff,libFor,pr}=effective(zones,roles,lib,serving),out={};
+  if(serving==='G'){const map=layoutPlay(eff,pr);for(const s in map)out[map[s]]=POS[s];return {eff,libFor,out,mode:'serve'};}
   const s=setterZone(zones,roles);
-  if(s&&isStd(zones,roles,s)){for(let z=1;z<=6;z++)out[eff[z]]=RECEP[s][z];return {eff,libFor,out,mode:'recep'};}
+  if(s){for(let z=1;z<=6;z++)out[eff[z]]=RECEP[s][z];return {eff,libFor,out,mode:'recep'};}
   for(let z=1;z<=6;z++)out[eff[z]]=POS[z];
   return {eff,libFor,out,mode:'fallback'};
 }
@@ -978,9 +1019,10 @@ function render(){
   $('#app').innerHTML=h;
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
-  const al=$('#alert');al.innerHTML=ui.alert?`<div class="ascrim" data-act="alertOk"></div><div class="abox" role="alertdialog" aria-modal="true"><h3>Attention aux oppositions</h3>${ui.alert.map(t=>`<p>${esc(t)}</p>`).join('')}<button class="btn big primary" data-act="alertOk">Fermer</button></div>`:'';
+  const al=$('#alert');al.innerHTML=ui.alert?`<div class="ascrim" data-act="alertOk"></div><div class="abox" role="alertdialog" aria-modal="true"><h3>Attention</h3>${ui.alert.map(t=>`<p>${esc(t)}</p>`).join('')}${ui.alertFixes&&ui.alertFixes.length?ui.alertFixes.map((f,i)=>`<button class="btn big primary" style="margin-bottom:10px" data-act="alertFix" data-i="${i}">Faire jouer ${esc(dname(m,f.p))} en ${esc(ROLES[f.r])}</button>`).join('')+(ui.alertFixes.length>1&&!ui.alertChoice?'<button class="btn big primary" style="margin-bottom:10px" data-act="alertFix" data-i="all">Tout corriger</button>':'')+'<button class="btn big" data-act="alertOk">Fermer sans changer</button>':'<button class="btn big primary" data-act="alertOk">Fermer</button>'}</div>`:'';
   al.classList.toggle('open',!!ui.alert);
   ui.flashLib=false;
+  if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
     document.querySelectorAll('#mainCourt .tok').forEach(t=>{
       const o=old[t.dataset.id];
@@ -997,11 +1039,11 @@ function roleChips(m,S,id,usual){
 function setupHTML(m,S){
   const started=S.sets.length>0,pres=present(m);
   const nonLib=pres.filter(p=>S.roles[p.id]!=='L').length;
-  const rows=ROSTER.map(p=>{const on=!!m.present[p.id];
+  const rows=rosterOf(m).slice().sort((a,b)=>a.n-b.n).map(p=>{const on=!!m.present[p.id];const twin=p.grp&&rosterOf(m).find(q=>q.grp===p.grp&&q.id!==p.id);
     return `<div class="prow ${on?'':'off'}">
       <button class="tick ${on?'on':''}" data-act="pres" data-id="${p.id}" aria-pressed="${on}" aria-label="Présente">${on?IC.check:''}</button>
       <span class="num ${rcls(S.roles[p.id])}">${p.n}</span>
-      <span class="who"><b>${esc(title(p.pre))} ${esc(p.nom)}</b><small>${p.postes.map(r=>ROLES[r]).join(' ou ')}${p.grp?' — même joueuse que n°'+(p.n===1?4:1):''}</small></span>
+      <span class="who"><b>${esc(title(p.pre))} ${esc(p.nom)}</b><small>${p.postes.map(r=>ROLES[r]).join(' ou ')}${twin?' — même joueuse que n°'+twin.n:''}</small></span>
       ${roleChips(m,S,p.id,p.postes)}</div>`;}).join('');
   const ex=m.extras.map((x,k)=>`<div class="card" style="margin-bottom:10px">
       <div class="prow" style="border:0;padding:0 0 10px">
@@ -1023,7 +1065,9 @@ function setupHTML(m,S){
       <label class="f">Date<input type="date" data-f="date" value="${esc(m.date)}"></label>
       <label class="f">N° de match<input data-f="num" value="${esc(m.num)}"></label>
     </div></div>
-    <h2>Joueuses présentes (${pres.filter(p=>!p.extra).length})</h2>
+    ${started?'':`<div class="card" style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>Avant le match</b><br><span class="hint">L'effectif est-il à jour ? Ajoutez, modifiez ou retirez des joueuses.</span></span><button class="btn" data-act="rosterGo">${IC.lock} Modifier l'effectif</button></div>`}
+    <h2>Joueuses sélectionnées (${selCount(m)}/${MAX_SEL})</h2>
+    <p class="hint">14 au maximum, joueuses hors feuille comprises. Morgane (n°1 ou n°4) ne compte qu'une fois.</p>
     ${legend()}
     <div class="card" style="padding:4px 4px">${rows}</div>
     <h2>Joueuses hors feuille</h2>
@@ -1049,7 +1093,7 @@ function lineupHTML(m,S){
     <div class="bench"><button class="bchip ${!d.lib?'sel':''}" data-act="draftLib" data-id="">Sans libéro</button>
       ${libs.map(p=>`<button class="bchip ${d.lib===p.id?'sel':''}" data-act="draftLib" data-id="${p.id}"><span class="num r-L">${p.n}</span>${esc(dname(m,p.id))}</button>`).join('')}</div>
     ${libs.length?'':'<p class="hint">Aucune joueuse au poste de libéro (L). Changez un poste pour en ajouter une.</p>'}
-    ${complete?(()=>{const w=oppoIssues(m,d.zones,S.roles);return w.length?`<div class="warnbox">${w.map(esc).join('<br>')}</div>`:'';})():''}
+    ${complete?(()=>{const w=draftIssues();return w.length?`<div class="warnbox">${w.map(esc).join('<br>')}</div>`:'';})():''}
     ${complete?`<h2>Positions ${d.srv==='G'?'au service':'en réception'} ${pz?'— P'+pz:''}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,lib:d.lib,serving:d.srv,small:true})}`:''}
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>Commencer le set ${n}</button></div>`;
 }
@@ -1076,7 +1120,7 @@ function matchHTML(m,S){
   const pz=setterZone(S.zones,S.roles);
   const last=m.ev[m.ev.length-1],nxt=m.redo[m.redo.length-1];
   const regl=store.prefs.view==='regl',pc=playCoords(S.zones,S.roles,S.lib,S.serving);
-  const modeTxt=regl?'Placement réglementaire (au moment du service)':pc.mode==='serve'?'Positions après le service':pc.mode==='recep'?'Positions de réception':'Ordre non standard : placement réglementaire affiché';
+  const modeTxt=regl?'Placement réglementaire (au moment du service)':pc.mode==='serve'?'Positions après le service':pc.mode==='recep'?'Positions de réception':'Pas de passeuse sur le terrain : placement réglementaire affiché';
   const play=S.phase==='play';
   const hist=S.sets.length>1||set.winner?`<div class="hist">${S.sets.map((s,i)=>`<span class="hs ${s.winner==='G'?'w':s.winner==='A'?'l':''}">S${i+1} ${s.g}-${s.a}</span>`).join('')}</div>`:'';
   let mid;
@@ -1151,6 +1195,18 @@ function sheetHTML(m,S){
       <button class="btn" data-act="sound">${store.prefs.sound?IC.snd:IC.mute} Son ${store.prefs.sound?'activé':'coupé'}</button>
       <button class="btn danger" data-act="newMatch">${ui.confirm==='new'?'Confirmer : archiver ce match et en commencer un nouveau':'Nouveau match'}</button></div>`;
   }
+  if(ui.sheet==='redit'){
+    const r=ui.redit;
+    return `<div class="sh"><h3>${r.id?'Modifier la joueuse':'Ajouter une joueuse'}</h3>${close}</div>
+      <div class="grid2" style="grid-template-columns:90px 1fr 1fr">
+        <label class="f">N°<input id="rN" inputmode="numeric" value="${esc(r.n)}"></label>
+        <label class="f">Nom<input id="rNom" value="${esc(r.nom)}" autocapitalize="characters"></label>
+        <label class="f">Prénom<input id="rPre" value="${esc(title(r.pre))}"></label></div>
+      <h2>Postes</h2><p class="hint">Le premier poste choisi est le poste par défaut.</p>
+      <div class="roles" style="justify-content:flex-start">${ROLE_ORDER.map(k=>`<button class="rc r-${k} ${r.postes.includes(k)?'on':''}" data-act="rPoste" data-r="${k}" style="padding:0 12px">${ROLES[k]}</button>`).join('')}</div>
+      ${r.err?`<div class="warnbox">${esc(r.err)}</div>`:''}
+      <div style="margin-top:16px"><button class="btn big primary" data-act="rSave">Enregistrer</button></div>`;
+  }
   if(ui.sheet==='code'){
     return `<div class="sh"><h3>Code entraîneur</h3>${close}</div>
       <div class="dots" id="dots">${[0,1,2,3].map(i=>`<i class="${i<ui.code.length?'on':''}"></i>`).join('')}</div>
@@ -1220,6 +1276,11 @@ function coachHTML(){
     <h2>Fautes et points positifs</h2>${fxTable(m,S)}
     <div class="tools" style="margin-top:12px"><button class="btn primary" data-act="pdf" data-id="${view?view.id:''}">Exporter en PDF</button>
       <button class="btn" data-act="json">Exporter toutes les données</button><button class="btn" data-act="import">Importer des données</button></div>
+    <h2 id="rosterSec">Effectif de l'équipe (${store.roster.length} joueuses)</h2>
+    <p class="hint">Les modifications s'appliquent au match en cours et aux suivants. Les matchs archivés gardent leur effectif d'origine. La limite de 14 porte sur les joueuses sélectionnées pour un match, pas sur l'effectif.</p>
+    <div class="card" style="padding:4px">${store.roster.slice().sort((a,b)=>a.n-b.n).map(p=>`<div class="prow"><span class="num ${rcls(p.postes[0])}">${p.n}</span><span class="who"><b>${esc(title(p.pre))} ${esc(p.nom)}</b><small>${p.postes.map(r=>ROLES[r]).join(' ou ')||'aucun poste'}</small></span>
+      <button class="btn" data-act="rEdit" data-id="${p.id}">Modifier</button><button class="btn danger" data-act="rDel" data-id="${p.id}">${ui.confirm==='rdel:'+p.id?'Confirmer':'Retirer'}</button></div>`).join('')}</div>
+    <div style="margin-top:10px"><button class="btn primary" data-act="rEdit" data-id="" ${store.roster.length>=MAX_ROSTER?'disabled':''}>Ajouter une joueuse</button>${store.roster.length>=MAX_ROSTER?` <span class="hint">Effectif complet (${MAX_ROSTER} maximum).</span>`:''}</div>
     <h2>Nouveau match</h2>
     <p class="hint">Le match en cours est archivé, puis une nouvelle feuille de match s'ouvre avec les mêmes présences et postes.</p>
     <button class="btn danger" data-act="newMatch">${ui.confirm==='new'?'Confirmer : archiver ce match et en commencer un nouveau':'Lancer un nouveau match'}</button>
@@ -1291,7 +1352,35 @@ const A={
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
   stCancel(){ui.stPick=null;},
-  alertOk(){ui.alert=null;},
+  alertOk(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;},
+  alertFix(d){const all=ui.alertFixes||[],fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;if(!fx.length)return;
+    const m=store.cur,S=replay(m);
+    if(S.sets.length===0){fx.forEach(f=>{m.roles[f.p]=f.r;});save();}else fx.forEach(f=>dispatch({t:'role',p:f.p,r:f.r}));
+    toast(fx.map(f=>`${dname(m,f.p)} joue maintenant ${ROLES[f.r]}`).join(' ; '),'ok');
+    if(ui.screen==='lineup'&&ui.draft)draftCheck();
+    render();return 1;},
+  rEdit(d){const p=d.id?store.roster.find(x=>x.id===d.id):null;
+    ui.redit=p?{id:p.id,n:p.n,nom:p.nom,pre:p.pre,postes:p.postes.slice()}:{id:'',n:'',nom:'',pre:'',postes:[]};ui.sheet='redit';},
+  rPoste(d){rKeep();const a=ui.redit.postes,i=a.indexOf(d.r);if(i>=0)a.splice(i,1);else a.push(d.r);},
+  rSave(){rKeep();const r=ui.redit,n=parseInt(r.n);
+    r.err='';
+    if(!n||n<1||n>99)r.err='Numéro de maillot entre 1 et 99.';
+    else if(store.roster.some(x=>x.id!==r.id&&x.n===n))r.err='Ce numéro est déjà pris dans l\'effectif.';
+    else if(!String(r.nom).trim()&&!String(r.pre).trim())r.err='Indiquez au moins un nom ou un prénom.';
+    else if(!r.postes.length)r.err='Choisissez au moins un poste.';
+    else if(!r.id&&store.roster.length>=MAX_ROSTER)r.err='Effectif complet ('+MAX_ROSTER+' maximum).';
+    if(r.err)return;
+    const pl={n,nom:String(r.nom).trim().toUpperCase(),pre:String(r.pre).trim().toUpperCase(),postes:r.postes.slice()};
+    const m=store.cur,mr=rosterOf(m);if(!m.roster)m.roster=mr;
+    if(r.id){const t=store.roster.find(x=>x.id===r.id);Object.assign(t,pl);const tm=m.roster.find(x=>x.id===r.id);if(tm)Object.assign(tm,pl);else m.roster.push(clone(t));toast('Joueuse modifiée','ok');}
+    else{const np=Object.assign({id:'r'+Date.now().toString(36)},pl);store.roster.push(np);m.roster.push(clone(np));m.roles[np.id]=np.postes[0];if(selCount(m)<MAX_SEL){m.present[np.id]=true;toast('Joueuse ajoutée et sélectionnée','ok');}else{m.present[np.id]=false;toast('Joueuse ajoutée, non sélectionnée : 14 joueuses déjà retenues','warn');}}
+    save();ui.sheet=null;ui.redit=null;},
+  rDel(d){const key='rdel:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}
+    store.roster=store.roster.filter(x=>x.id!==d.id);
+    const m=store.cur,used=m.ev.some(e=>JSON.stringify(e).includes('"'+d.id+'"'));
+    if(m.roster&&!used){m.roster=m.roster.filter(x=>x.id!==d.id);delete m.present[d.id];delete m.roles[d.id];toast('Joueuse retirée de l\'effectif');}
+    else toast('Joueuse retirée de l\'effectif ; elle reste dans le match en cours car elle y a déjà joué');
+    save();},
   stDel(d){const ev=store.cur.ev[store.cur.ev.length-1];if(!ev||ev.t!=='pt'||!ev.st)return;ev.st.splice(+d.i,1);if(!ev.st.length)delete ev.st;save();},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
   pt(d){if(replay(store.cur).phase==='play')dispatch({t:'pt',w:d.w});return 1;},
@@ -1301,7 +1390,11 @@ const A={
     if(S.roles[d.id]==='L')ui.sub={o:null,i:null};else if(d.id===e.libFor)ui.sub={o:d.id,i:null};else ui.sub={o:null,i:d.id};ui.sheet='sub';},
   openSub(){ui.sub={o:null,i:null};ui.sheet='sub';},
   subO(d){ui.sub.o=d.id;}, subI(d){ui.sub.i=d.id;},
-  subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;dispatch({t:'sub',o,i});return 1;},
+  subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m),ro=S.roles[o],ri=S.roles[i];
+    dispatch({t:'sub',o,i});
+    if(ro&&ro!==ri&&ro!=='L'){const msg=`${dname(m,i)} (${pnum(m,i)}, ${ROLES[ri]||'sans poste'}) remplace ${dname(m,o)} (${pnum(m,o)}, ${ROLES[ro]}) : les postes sont différents.`;
+      ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
+    return 1;},
   setLib(d){const S=replay(store.cur);const v=d.id||null;if(v!==S.lib){ui.sheet=null;dispatch({t:'lib',p:v});return 1;}},
   to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}dispatch({t:'to',s:d.s});toast(`Temps mort ${d.s==='G'?short(store.cur):'adversaire'} (${set.to[d.s]+1}/2)`);return 1;},
   roles(){ui.sheet='roles';},
@@ -1311,6 +1404,7 @@ const A={
   view(d){store.prefs.view=d.v;save();},
   sound(){store.prefs.sound=!store.prefs.sound;save();if(store.prefs.sound)beep('ok');},
   lock(){openLock();},
+  rosterGo(){ui.coachJump='roster';openLock();},
   key(d){
     if(d.k==='del')ui.code=ui.code.slice(0,-1);else if(ui.code.length<4)ui.code+=d.k;
     if(ui.code.length===4){
@@ -1318,7 +1412,7 @@ const A={
       else{ui.code='';render();const el=$('#dots');if(el){el.classList.add('shake');}toast('Code incorrect','warn');return 1;}
     }
   },
-  relock(){ui.coach=false;ui.screen=null;ui.coachView=null;},
+  relock(){ui.coachJump=null;ui.coach=false;ui.screen=null;ui.coachView=null;},
   toMatch(){ui.screen=null;ui.sheet=null;},
   toSetup(){ui.screen='setup';ui.sheet=null;},
   compose(){const m=store.cur,S=replay(m);
@@ -1332,24 +1426,28 @@ const A={
   pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
   draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
-  startSet(){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;ui.skipOppo=ui.draftKey||null;ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
+  startSet(){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});return 1;},
   pres(d){const m=store.cur,S=replay(m);const on=!m.present[d.id];
     if(!on&&S.phase==='play'&&(S.zones.includes(d.id)||d.id===S.lib)){toast('Cette joueuse est sur le terrain ou libéro active : faites d\'abord un changement','warn');return;}
-    m.present[d.id]=on;const p=ROSTER.find(p=>p.id===d.id);
-    if(on&&p.grp)ROSTER.filter(q=>q.grp===p.grp&&q.id!==p.id).forEach(q=>{if(S.phase==='play'&&(S.zones.includes(q.id)||q.id===S.lib))return;m.present[q.id]=false;});
+    const before=Object.assign({},m.present);
+    m.present[d.id]=on;const p=rosterOf(m).find(p=>p.id===d.id);
+    if(on&&p&&p.grp)rosterOf(m).filter(q=>q.grp===p.grp&&q.id!==p.id).forEach(q=>{if(S.phase==='play'&&(S.zones.includes(q.id)||q.id===S.lib))return;m.present[q.id]=false;});
+    if(on&&selCount(m)>MAX_SEL){m.present=before;toast('14 joueuses sont déjà sélectionnées : décochez-en une d\'abord','warn');return;}
     save();},
   xOn(d){const m=store.cur,x=m.extras[+d.x],S=replay(m);
     if(x.on&&S.phase==='play'&&(S.zones.includes(x.id)||x.id===S.lib)){toast('Cette joueuse est sur le terrain : faites d\'abord un changement','warn');return;}
+    if(!x.on&&selCount(m)>=MAX_SEL){toast('14 joueuses sont déjà sélectionnées : décochez-en une d\'abord','warn');return;}
     x.on=!x.on;save();},
-  newMatch(){if(ui.confirm!=='new'){ui.confirm='new';return 'keep';}archiveCur();store.cur=newMatch(store.cur);save();ui.screen='setup';ui.sheet=null;toast('Match archivé, nouvelle feuille prête','ok');},
+  newMatch(){if(ui.confirm!=='new'){ui.confirm='new';return 'keep';}archiveCur();store.cur=newMatch(store.cur,store.roster);save();ui.screen='setup';ui.sheet=null;toast('Match archivé, nouvelle feuille prête','ok');},
   cv(d){ui.coachView=d.id||null;},
   pdf(d){const m=d.id?store.arch.find(a=>a.id===d.id):store.cur;if(m)exportPDF(m);return 1;},
-  json(){saveFile(`gigean-volley_${today()}.json`,JSON.stringify({app:'gigean-volley',v:1,exported:new Date().toISOString(),cur:lean(store.cur),arch:store.arch}));return 1;},
+  json(){saveFile(`gigean-volley_${today()}.json`,JSON.stringify({app:'gigean-volley',v:1,exported:new Date().toISOString(),cur:lean(store.cur),arch:store.arch,roster:store.roster}));return 1;},
   import(){$('#importFile').click();return 1;},
   resume(d){const key='res:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}
     const k=store.arch.findIndex(a=>a.id===d.id);if(k<0)return;const m=store.arch.splice(k,1)[0];archiveCur();m.redo=[];store.cur=m;save();ui.screen=null;ui.coachView=null;toast('Match repris','ok');},
   del(d){const key='del:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}store.arch=store.arch.filter(a=>a.id!==d.id);if(ui.coachView===d.id)ui.coachView=null;save();toast('Match supprimé');},
 };
+function rKeep(){const r=ui.redit;if(!r)return;const g=id=>{const e=document.getElementById(id);return e?e.value:null;};const n=g('rN'),a=g('rNom'),b=g('rPre');if(n!==null)r.n=n;if(a!==null)r.nom=a;if(b!==null)r.pre=b;}
 function addStat(x){const m=store.cur,ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;(ev.st||(ev.st=[])).push(x);save();render();}
 function initDraft(m,S){
   const i=S.sets.length,prev=S.sets[i-1],pres=new Set(present(m).map(p=>p.id));
