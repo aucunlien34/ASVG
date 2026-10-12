@@ -1684,6 +1684,15 @@ $('#importFile').addEventListener('change',e=>{
   r.readAsText(f);
 });
 render();
+// Empêche la mise en veille de l'écran pendant l'utilisation (API Screen Wake Lock)
+let wakeLock=null;
+async function keepAwake(){
+  if(!('wakeLock' in navigator)||wakeLock||document.visibilityState!=='visible')return;
+  try{wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null;});}catch(e){wakeLock=null;}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')keepAwake();});
+document.addEventListener('click',keepAwake,true);
+keepAwake();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
