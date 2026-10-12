@@ -1266,7 +1266,7 @@ function sheetHTML(m,S){
     const chip=(id,act,sel,extra)=>`<button class="bchip ${sel?'sel':''}" data-act="${act}" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span>${esc(dname(m,id))}${extra?`<em>${extra}</em>`:''}</button>`;
     return `<div class="sh"><h3>Changement</h3>${close}</div>
       <p class="hint">Set ${S.sets.length} : ${set.subs}/6 changements effectués. Double-touchez une joueuse pour changer son poste.</p>
-      <h2>Sort</h2><div class="bench">${onCourt.map(id=>chip(id,'subO',ui.sub.o===id,id===e.libFor?'remplacée par la libéro':'')).join('')}</div>
+      <h2>Sort</h2><div class="bench">${(ui.sub.fixed&&ui.sub.o?[ui.sub.o]:onCourt).map(id=>chip(id,'subO',ui.sub.o===id,id===e.libFor?'remplacée par la libéro':'')).join('')}</div>
       <h2>Entre</h2><div class="bench">${ins.length?ins.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join(''):'<span class="hint">Aucune remplaçante disponible.</span>'}</div>
       ${w.length?`<div class="warnbox">Changement non réglementaire : ${esc(w.join(' ; '))}. Vous pouvez quand même le valider.</div>`:''}
       <div style="margin-top:14px"><button class="btn big primary" data-act="subOk" ${ui.sub.o&&ui.sub.i?'':'disabled'}>Valider le changement</button></div>
@@ -1507,7 +1507,7 @@ const A={
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
   pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});return 1;},
   undo(){undo();return 1;}, redo(){redo();return 1;},
-  tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null};ui.sheet='sub';},
+  tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
     if(S.roles[d.id]==='L')ui.sub={o:null,i:null};else if(d.id===e.libFor)ui.sub={o:d.id,i:null};else ui.sub={o:null,i:d.id};ui.sheet='sub';},
   openSub(){ui.sub={o:null,i:null};ui.sheet='sub';},
