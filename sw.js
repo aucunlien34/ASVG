@@ -1,6 +1,6 @@
 // Hors ligne : la page est d'abord demandée au réseau (mise à jour immédiate),
 // puis servie depuis le cache si pas de connexion. Changer VERSION à chaque mise à jour.
-const VERSION='gigean-v32';
+const VERSION='gigean-v33';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VERSION).map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
