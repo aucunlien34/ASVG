@@ -903,6 +903,8 @@ body.easy.phstats .dock .undo{flex:none}
 #tuto .tspot{transition:none!important}#tuto .tspot.clk{pointer-events:auto;cursor:pointer}
 #tuto .tbtn .tdim{background:#E4E9F0;color:#5B697D;border-color:#D3DAE5;font-weight:600}
 .tipsl{margin:8px 0 0;padding-left:22px;line-height:1.5}.tipsl li{margin-bottom:8px}.tipsl b{color:var(--ink)}
+.tipsd summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}.tipsd summary::-webkit-details-marker{display:none}.tipsd summary::after{content:'▾';color:var(--muted);font-size:18px}.tipsd[open] summary::after{content:'▴'}
+.setnb.on{background:rgba(242,190,34,.30)}.setsec{scroll-margin-top:10px}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1012,7 +1014,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',LEGACY_ID='gigean-volley',KEY=APPID+'-v1',OLDKEY=LEGACY_ID+'-v1'; // OLDKEY : migration unique des données existantes
 const CODE='2627';
-const APP_VERSION='V119';
+const APP_VERSION='V120';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1933,6 +1935,12 @@ Date : ……</p>`],
 function legalSheet(close){const k=LEGAL[ui.legal]?ui.legal:'mentions';
   return `<div class="sh"><h3>${LEGAL[k][0]}</h3>${close}</div><nav class="legnav" aria-label="Pages légales">${Object.entries(LEGAL).map(([key,v])=>`<button class="${key===k?'on':''}" data-act="legal" data-k="${key}">${v[0]}</button>`).join('')}</nav><div class="legal">${LEGAL[k][1]}</div>`;}
 function footerHTML(){return `<footer class="legfoot"><span>VolleyCoach ${APP_VERSION}</span>${Object.entries(LEGAL).map(([k,v])=>`<button class="linkbtn" data-act="legal" data-k="${k}">${v[0]}</button>`).join('')}</footer>`;}
+// Réglages : la section affichée à l'écran est mise en surbrillance dans le menu latéral
+function setSpy(force){const nav=document.querySelector('.setnav');if(!nav)return;let cur=force;
+  if(!cur){const secs=[...document.querySelectorAll('.setsec')];cur=secs.length?secs[0].id.slice(4):null;secs.forEach(x=>{if(x.getBoundingClientRect().top<=Math.min(140,innerHeight*0.3))cur=x.id.slice(4);});
+    if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4&&secs.length)cur=secs[secs.length-1].id.slice(4);}
+  ui.setSec=cur;nav.querySelectorAll('.setnb').forEach(b=>b.classList.toggle('on',b.dataset.id===cur));}
+let SPY_LOCK=0;window.addEventListener('scroll',()=>{if(Date.now()-SPY_LOCK<600)return;if(ui.coach&&ui.screen==='coach'&&ui.ctab==='settings')setSpy();},{passive:true});
 function render(){
   if(ui.screen!=='coach')ui.coach=false;
   try{if(ui.coach&&ui.screen==='coach')sessionStorage.setItem('vc-coach',JSON.stringify({ctab:ui.ctab,coachView:ui.coachView,statView:ui.statView,seasonSel:ui.seasonSel,fxSet:ui.fxSet}));else sessionStorage.removeItem('vc-coach');}catch(e){}
@@ -1947,6 +1955,7 @@ function render(){
   else h=matchHTML(m,S);
   if(!store.prefs.tutoSeen&&!ui.tuto&&!ui.sheet&&!ui.alert){store.prefs.tutoSeen=true;save();setTimeout(()=>{A.tutoStart({c:'0'});render();},60);}
   const SPL=store.prefs.splashDay!==today()&&!ui.noSplash&&!ui.tuto&&store.prefs.tutoSeen;
+  setTimeout(()=>{if(ui.coach&&ui.screen==='coach'&&ui.ctab==='settings')setSpy(Date.now()-SPY_LOCK<600?ui.setSec:null);},0);
   $('#app').innerHTML=(ui.tip?tipHTML():'')+(SPL?splashHTML():'')+(ui.newVersion!=null?`<div class="upd">Nouvelle version ${esc(ui.newVersion)} disponible <button class="btn primary" data-act="forceUpd">Mettre à jour</button></div>`:'')+h;if(tmr)tmrTick();
   document.body.classList.toggle('phstats',!!(store.prefs.dockOpen&&document.querySelector('#app .dock .stp')));document.body.classList.toggle('easy',!!store.prefs.easy);fitCourt();
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet ${ui.sheet==='pfull'?'full':''}" role="dialog">${sheetHTML(m,S)}</div>`:'';
@@ -2548,11 +2557,13 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
       ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label><p class="hint">Bloque l’écran dans son orientation actuelle (portrait ou paysage) ; l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}
       <hr class="sep"><b class="cond" style="font-size:20px">Statistique Bloc${tipB('blk')}</b>
       <p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seules les 3 joueuses au filet sont proposées.</p>
-      <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>`)+card('Conseils pour la saisie des stats',`<ol class="tipsl">
+      <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>
+      <hr class="sep"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
       <li><b>Faites-le à deux !</b> Un premier joueur regarde le match et annonce à voix haute : « réception = : 7 », « passe + », « attaque + : 12 », « point domicile ». Le deuxième saisit.</li>
       <li><b>Entraînez-vous !</b> Saisir des statistiques au volley, c'est difficile. L'interface est pensée pour faciliter la saisie : avec un peu d'entraînement, on y arrive bien.</li>
-      <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li></ol>`,'style="margin-top:12px"'))}
+      <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li>
+      <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details>`))}
     ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk"><input type="checkbox" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger l'espace entraîneur par un code</label>
       <p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture de l’espace entraîneur.':`Désactivé : l’espace entraîneur s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
@@ -3320,7 +3331,7 @@ const A={
   seasonJson(){if(!isPro()){ui.sheet='pro';return;}saveFile(`saison_${today()}.json`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:teamArch()}));return 1;},
   pasteOpen(){ui.sheet='paste';},
   tutoSteps(){ui.tutoSteps=!ui.tutoSteps;},
-  setGo(d){ui.setSec=d.id;const el=document.getElementById('set-'+d.id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return 1;},
+  setGo(d){ui.setSec=d.id;const el=document.getElementById('set-'+d.id);if(el){window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-10),behavior:'instant'});}SPY_LOCK=Date.now();setSpy(d.id);return 1;},
   legal(d){ui.legal=d.k||'mentions';ui.sheet='legal';},
   tutoStart(d){const F=tFlat(),ci=+(d.c||0);
     if(!ui.tutoReal){ui.tutoReal=store.cur;ui.tutoTeam={id:store.teamId,roster:store.roster};tEarthEnsure();const v=store.teams.find(t=>t.id==='t-earth');store.teamId=v.id;store.roster=v.roster;ui.coachView=null;ui.seasonSel='s-earth-wl';tFresh();}
