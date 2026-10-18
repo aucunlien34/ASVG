@@ -1,6 +1,6 @@
 // Hors ligne : la page est toujours demandée au serveur en contournant tous les caches
 // (navigateur et réseau de diffusion), puis servie depuis le cache si pas de connexion.
-const VERSION='gigean-v108';
+const VERSION='gigean-v109';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VERSION).map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
