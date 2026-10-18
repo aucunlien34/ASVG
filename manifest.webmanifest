@@ -1,6 +1,6 @@
 {
- "name": "ASVG Gigean — Banc de touche",
- "short_name": "ASVG Volley",
+ "name": "VolleyCoach — Banc de touche",
+ "short_name": "VolleyCoach",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
