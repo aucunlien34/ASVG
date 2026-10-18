@@ -905,6 +905,7 @@ body.easy.phstats .dock .undo{flex:none}
 .tipsl{margin:8px 0 0;padding-left:22px;line-height:1.5}.tipsl li{margin-bottom:8px}.tipsl b{color:var(--ink)}
 .tipsd summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}.tipsd summary::-webkit-details-marker{display:none}.tipsd summary::after{content:'▾';color:var(--muted);font-size:18px}.tipsd[open] summary::after{content:'▴'}
 .setnb.on{background:rgba(242,190,34,.30)}.setsec{scroll-margin-top:10px}
+.tipsd .dsc{margin-top:6px}.tipsd .dsc .hint{margin:4px 0}.card>.tipsd+*{margin-top:8px}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1014,7 +1015,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',LEGACY_ID='gigean-volley',KEY=APPID+'-v1',OLDKEY=LEGACY_ID+'-v1'; // OLDKEY : migration unique des données existantes
 const CODE='2627';
-const APP_VERSION='V121';
+const APP_VERSION='V122';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2547,42 +2548,38 @@ function rankHTML(m,S,set){return `<p class="hint">Touchez un classement pour l'
 // Réglages : sections regroupées, barre latérale rétractable (icônes seules après quelques secondes) qui suit le défilement
 const SETSEC=[['gen','⚙️','Général'],['saisie','✍️','Saisie'],['secu','🔒','Sécurité'],['abo','⭐','Abonnement'],['data','💾','Données'],['aide','❓','Aide'],['legal','ℹ️','À propos']];
 function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section class="setsec" id="set-${id}" aria-labelledby="h-${id}"><h3 id="h-${id}" class="cond">${title}</h3>${inner}</section>`;
-  const card=(t,inner,extra='')=>`<div class="card" ${extra}><b class="cond" style="font-size:20px">${t}</b>${inner}</div>`;
+  // titre cliquable : la description se déplie sous le titre (les réglages restent visibles)
+  const D=(t,desc)=>`<details class="tipsd"><summary><b class="cond" style="font-size:20px">${t}</b></summary><div class="dsc">${desc}</div></details>`;
+  const card=(t,inner,extra='',desc)=>`<div class="card" ${extra}>${desc?D(t,desc):`<b class="cond" style="font-size:20px">${t}</b>`}${inner}</div>`;
   return `<div class="setwrap">
   <nav class="setnav" aria-label="Sections des réglages">${SETSEC.map(([id,ic,l])=>`<button class="setnb ${ui.setSec===id?'on':''}" data-act="setGo" data-id="${id}" aria-label="${l}" title="${l}"><span class="ic">${ic}</span></button>`).join('')}</nav>
   <div class="setbody">
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`))}
-    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Un appui sur « Revenir au terrain » ou « Stats de l'échange » passe de l'un à l'autre.</p>
-      <label class="chk"><input type="checkbox" data-pref="easy" ${P.easy?'checked':''}> Activer le mode stats faciles</label>
-      ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label><p class="hint">Bloque l’écran dans son orientation actuelle (portrait ou paysage) ; l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}
-      <hr class="sep"><b class="cond" style="font-size:20px">Statistique Bloc${tipB('blk')}</b>
-      <p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seules les 3 joueuses au filet sont proposées.</p>
+    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk"><input type="checkbox" data-pref="easy" ${P.easy?'checked':''}> Activer le mode stats faciles</label>
+      ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}
+      <hr class="sep">${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seules les 3 joueuses au filet sont proposées.</p>`)}
       <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>
       <hr class="sep"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
       <li><b>Faites-le à deux !</b> Un premier joueur regarde le match et annonce à voix haute : « réception = : 7 », « passe + », « attaque + : 12 », « point domicile ». Le deuxième saisit.</li>
       <li><b>Entraînez-vous !</b> Saisir des statistiques au volley, c'est difficile. L'interface est pensée pour faciliter la saisie : avec un peu d'entraînement, on y arrive bien.</li>
       <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li>
-      <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details>`))}
+      <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details>`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Un appui sur « Revenir au terrain » ou « Stats de l'échange » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`))}
     ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk"><input type="checkbox" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger l'espace entraîneur par un code</label>
-      <p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture de l’espace entraîneur.':`Désactivé : l’espace entraîneur s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Nouveau code (4 chiffres)<input id="cNew1" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Confirmer le nouveau code<input id="cNew2" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label></div>
-      <div style="margin-top:10px"><button class="btn primary" data-act="codeChange">Changer le code</button></div>`:''}`))}
+      <div style="margin-top:10px"><button class="btn primary" data-act="codeChange">Changer le code</button></div>`:''}`,'',`<p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture de l’espace entraîneur.':`Désactivé : l’espace entraîneur s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>`))}
     ${sec('abo','Abonnement',card('VolleyCoach Pro',`<p class="hint">${proStatus()}</p>
       <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button>`))}
-    ${sec('data','Données',card('Sauvegarde',`<p class="hint">Tout est enregistré sur cet appareil. Exportez régulièrement les données pour en garder une copie sur un autre support.</p>
-      <div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
+    ${sec('data','Données',card('Sauvegarde',`<div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
       <label class="chk" style="margin-top:10px"><input type="checkbox" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .json à la fin de chaque match)</label>
       <label class="chk"><input type="checkbox" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
-      <hr class="sep"><b class="cond" style="font-size:20px">Importer</b>
-      <p class="hint">Matchs, saisons ou effectifs (.json) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer.</p>
+      <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.json) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer.</p>`)}
       <div class="tools"><button class="btn" data-act="import">📄 Choisir un fichier</button><button class="btn" data-act="pasteOpen">📋 Coller des données</button></div>
-      <hr class="sep"><b class="cond" style="font-size:20px">Mise à jour</b>
-      <p class="hint">Version installée : ${APP_VERSION}. Recharger la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées).</p>
-      <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'} La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>
-      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`,'id="importSec"'))}
+      <hr class="sep">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
+      <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
+      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`,'id="importSec"',`<p class="hint">Tout est enregistré sur cet appareil. Exportez régulièrement les données pour en garder une copie sur un autre support (téléphone, e-mail, messagerie).</p>`))}
     ${sec('aide','Aide',card('Tutoriel',`<div class="tools" style="margin-top:6px"><button class="btn primary" data-act="tutoStart" data-c="0">▶ Revoir le tutoriel</button><button class="btn" data-act="tutoSteps" aria-expanded="${!!ui.tutoSteps}">Étapes ${ui.tutoSteps?'▴':'▾'}</button></div>
       ${ui.tutoSteps?`<div class="tchaps">${TUTO.map((c,i)=>`<button class="btn" data-act="tutoStart" data-c="${i}">${i+1}. ${esc(c.t)}</button>`).join('')}</div>`:''}`))}
     ${sec('legal','À propos',card('VolleyCoach '+APP_VERSION,`<p class="hint">Application de banc de touche pour le volley-ball. Vos données restent sur cet appareil.</p>${footerHTML()}`))}
