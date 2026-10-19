@@ -916,7 +916,8 @@ body.easy .ptn,body.easy .dtog .cnt{display:none!important}
 body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display:none!important}
 .vat tr.vah td{font-weight:700;color:var(--muted);font-size:12px;text-align:left;padding-top:8px;border-bottom:0}
 .covb{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:middle}.covb.g{background:rgba(35,146,74,.15);color:var(--r4)}.covb.o{background:rgba(242,190,34,.25);color:#8A6400}.covb.r{background:rgba(215,38,61,.12);color:var(--pu)}
-.rott td,.rott th{text-align:right}.rott td:first-child,.rott th:first-child{text-align:left}.rott tr.rbest td:first-child{color:var(--r4)}.rott tr.rworst td:first-child{color:var(--pu)}
+.rott{table-layout:fixed;width:100%}.rott col.c0{width:24%}.rkt.rott tr.rkh th{text-align:right;white-space:nowrap}.rkt.rott tr.rkh th:first-child,.rott td:first-child{text-align:left}.rott td{text-align:right;white-space:nowrap}.rott .rmk{display:inline-block;width:1.2em;text-align:center}.rott .rb{color:var(--r4);font-style:normal}.rott .rw{color:var(--pu);font-style:normal}
+@media (max-width:560px){.rott .rn{display:none}.rott td,.rott th{font-size:14px}}.rott tr.rbest td:first-child{color:var(--r4)}.rott tr.rworst td:first-child{color:var(--pu)}
 .stdl{margin:8px 0;border-top:1px solid var(--line);padding-top:6px}.stdl>b{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}.stdg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.stdg span{display:flex;flex-direction:column}.stdg small{font-size:11px;color:var(--muted)}.stdg b{font-size:16px}.stdg b.p{color:var(--r4)}.stdg b.m{color:var(--pu)}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
@@ -1027,7 +1028,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V135';
+const APP_VERSION='V136';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2853,13 +2854,14 @@ function rotAgg(S,set){const out={};(set==null?S.rot:[S.rot[set]]).forEach(R=>{O
 function rotHTML(m,S,set){const R=rotAgg(S,set),zs=[1,2,3,4,5,6].filter(z=>R[z]&&(R[z].soP+R[z].brP)>0);if(!zs.length)return '<div class="card"><div class="hint">Aucun point joué.</div></div>';
   const so=z=>R[z].soP?R[z].soW/R[z].soP:null,br=z=>R[z].brP?R[z].brW/R[z].brP:null,tot=z=>(R[z].soP+R[z].brP)?(R[z].soW+R[z].brW)/(R[z].soP+R[z].brP):null;
   const mso=median(zs.map(so).filter(v=>v!=null)),mbr=median(zs.map(br).filter(v=>v!=null)),mt=median(zs.map(tot).filter(v=>v!=null));
-  const cell=(v,n,md)=>v==null?'<td class="rv">–</td>':`<td class="rv ${n>=5&&md!=null&&v-md>=0.1?'p':n>=5&&md!=null&&v-md<=-0.1?'m':''}">${Math.round(v*100)} %<small> ${n}</small></td>`;
-  const best=zs.reduce((a,z)=>tot(z)!=null&&(a==null||tot(z)>tot(a))?z:a,null),worst=zs.reduce((a,z)=>tot(z)!=null&&(a==null||tot(z)<tot(a))?z:a,null);
+  const bestOf=f=>zs.reduce((a,z)=>f(z)!=null&&(a==null||f(z)>f(a))?z:a,null),worstOf=f=>zs.reduce((a,z)=>f(z)!=null&&(a==null||f(z)<f(a))?z:a,null);
+  const best=bestOf(tot),worst=worstOf(tot),bSo=bestOf(so),wSo=worstOf(so),bBr=bestOf(br),wBr=worstOf(br);
+  const cell=(v,n,md,b,w)=>v==null?'<td class="rv">–</td>':`<td class="rv ${n>=5&&md!=null&&v-md>=0.1?'p':n>=5&&md!=null&&v-md<=-0.1?'m':''}"><span class="rmk">${b?'<i class="rb">★</i>':w?'<i class="rw">▽</i>':''}</span>${Math.round(v*100)} %<small class="rn"> ${n}</small></td>`;
   return `<div class="card rotc"><b class="cond" style="font-size:20px">Rotations${tipB('rot')}</b>
-    <table class="rkt rott"><tr class="rkh"><th>Rotation</th><th>Side-out · points</th><th>Break · points</th><th>Total</th></tr>
-    ${zs.map(z=>`<tr class="${z===best?'rbest':z===worst?'rworst':''}"><td><b>P${z}</b>${z===best?' ★':z===worst?' ▽':''}</td>${cell(so(z),R[z].soP,mso)}${cell(br(z),R[z].brP,mbr)}${cell(tot(z),R[z].soP+R[z].brP,mt)}</tr>`).join('')}
+    <table class="rkt rott"><colgroup><col class="c0"><col><col><col></colgroup><tr class="rkh"><th>Rotation</th><th>Side-out<small class="rn"> · points</small></th><th>Break<small class="rn"> · points</small></th><th>Total</th></tr>
+    ${zs.map(z=>`<tr class="${z===best?'rbest':z===worst?'rworst':''}"><td><b>P${z}</b>${z===best?' ★':z===worst?' ▽':''}</td>${cell(so(z),R[z].soP,mso,z===bSo,z===wSo)}${cell(br(z),R[z].brP,mbr,z===bBr,z===wBr)}${cell(tot(z),R[z].soP+R[z].brP,mt)}</tr>`).join('')}
     <tr class="teamr"><td>Médiane</td><td class="rv">${mso!=null?Math.round(mso*100)+' %':'–'}</td><td class="rv">${mbr!=null?Math.round(mbr*100)+' %':'–'}</td><td class="rv">${mt!=null?Math.round(mt*100)+' %':'–'}</td></tr></table>
-    <p class="hint">Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation, ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum).</p></div>`;}
+    <p class="hint">Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation (au total, en side-out, en break), ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum).</p></div>`;}
 // Indicateurs standards du volley
 function stdStats(r){const A=(r.attP||0)+(r.attN||0)+(r.attM||0),Rc=(r.recP||0)+(r.recN||0)+(r.recM||0),Sv=(r.srvP||0)+(r.srvN||0)+(r.srvM||0),B=(r.blkP||0)+(r.blkN||0)+(r.blkM||0);
   return {A,Rc,Sv,B,kill:A?(r.attP||0)/A:null,attErr:A?(r.attM||0)/A:null,attEff:A?((r.attP||0)-(r.attM||0))/A:null,recPos:Rc?(r.recP||0)/Rc:null,aces:r.aceN||0,srvErr:r.srvM||0,blkP:r.blkP||0};}
