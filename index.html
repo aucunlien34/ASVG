@@ -910,6 +910,8 @@ body.easy.phstats .dock .undo{flex:none}
 .vat{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.vat th,.vat td{padding:4px 6px;text-align:right;border-bottom:1px solid var(--line)}.vat th:first-child,.vat td:first-child{text-align:left}.vat .p{color:var(--r4);font-weight:700}.vat .m{color:var(--pu);font-weight:700}
 .vad{margin:6px 0 10px}.vad summary b{font-size:14px;color:var(--muted)}
 .rkt tr.rkh th{font-size:11px;font-weight:600;color:var(--muted);text-align:left;padding:0 4px 4px;border-bottom:1px solid var(--line)}.rkt tr.rkh th:last-child{text-align:right;white-space:nowrap}
+/* sous-menu des stats (Joueurs, Zones, Classements, Résumé / Progression) : reste visible en haut pendant le défilement */
+.vtabs{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1019,7 +1021,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',LEGACY_ID='gigean-volley',KEY=APPID+'-v1',OLDKEY=LEGACY_ID+'-v1'; // OLDKEY : migration unique des données existantes
 const CODE='2627';
-const APP_VERSION='V128';
+const APP_VERSION='V129';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
