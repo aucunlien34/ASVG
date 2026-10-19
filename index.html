@@ -919,6 +919,8 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 .rott{table-layout:fixed;width:100%}.rott col.c0{width:24%}.rkt.rott tr.rkh th{text-align:right;white-space:nowrap}.rkt.rott tr.rkh th:first-child,.rott td:first-child{text-align:left}.rott td{text-align:right;white-space:nowrap}.rott .rmk{display:inline-block;width:1.2em;text-align:center}.rott .rb{color:var(--r4);font-style:normal}.rott .rw{color:var(--pu);font-style:normal}
 @media (max-width:560px){.rott .rn{display:none}.rott td,.rott th{font-size:14px}}.rott tr.rbest td:first-child{color:var(--r4)}.rott tr.rworst td:first-child{color:var(--pu)}
 .stdl{margin:8px 0;border-top:1px solid var(--line);padding-top:6px}.stdl>b{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}.stdg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.stdg span{display:flex;flex-direction:column}.stdg small{font-size:11px;color:var(--muted)}.stdg b{font-size:16px}.stdg b.p{color:var(--r4)}.stdg b.m{color:var(--pu)}
+.diffr{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin:8px 0}.diffr .dfb{min-height:52px}.diffr .d-1{border-color:var(--r4)}.diffr .d1{border-color:var(--pu)}
+@media (max-width:560px){.diffr{grid-template-columns:1fr 1fr 1fr}.diffr>.btn:last-child{grid-column:1/-1}}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1028,7 +1030,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V137';
+const APP_VERSION='V138';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1207,6 +1209,7 @@ const STAT_CFG={
   CALIB_K:30,     // calibration : poids de la table de niveau (en ballons) face aux données de la saison
   ZONE_MIN_M:6,ZONE_MIN_S:12, // ballons minimum pour une zone ou un circuit favorable (match / saison)
   COV_MIN:0.5,    // complétude minimale (passes avec 1re touche notée) pour afficher la VA du passeur
+  DIFF:{e:0.30,h:-0.35}, // option « difficulté du ballon adverse » : écart d'attente d'une 1re touche sur ballon facile / dur (note sur 2)
   // Poids de la valeur ajoutée par poste (composantes : ip passe, ia attaque, ftr réception, ftd défense, ft 1re touche, blk bloc)
   VA_W:{Pa:{ip:0.85,ft:0.15},L:{ftr:0.6,ftd:0.4},R4:{ia:0.6,ft:0.4},Pu:{ia:0.8,ft:0.2},C:{ia:0.7,blk:0.3},X:{ia:0.7,ft:0.3}},
   // Note attendue sur 2 (− = +) selon le ballon reçu ; ft = 1re touche ; blk = bloc
@@ -1229,7 +1232,10 @@ function expectFor(k){const E=(EXPECT[CUR_LEVEL]||EXPECT.R),T=CUR_CAL,K=STAT_CFG
   const base=E[k==='ipr'||k==='ipd'?'ip':k];if(!T)return base;const kk=(k==='ipr'||k==='ipd')?'ip':k;
   return base.map((b,i)=>{const q=['M','E','P'][i],n=T[kk+q]||0,obs=n?(T[kk+'S'+q]||0)/n:b;return (b*K+obs*n)/(K+n);});}
 function vaOf(o,k){if(!o)return null;const E=expectFor(k);
-  if(k==='ft'||k==='ftr'||k==='ftd'){const nk=k+'N',sk=k+'S',n=o[nk]||0;return n?{v:Math.round(((o[sk]||0)-n*E)/n*50),n}:null;}
+  if(k==='ft'||k==='ftr'||k==='ftd'){const nk=k+'N',sk=k+'S',n=o[nk]||0;if(!n)return null;
+    // attente ajustée pour les ballons notés faciles / durs (option)
+    const ks=k==='ft'?['ftr','ftd']:[k];let adj=0;ks.forEach(kk=>{adj+=(o[kk+'_eN']||0)*STAT_CFG.DIFF.e+(o[kk+'_hN']||0)*STAT_CFG.DIFF.h;});
+    return {v:Math.round(((o[sk]||0)-n*E-adj)/n*50),n};}
   if(k==='blk'){const M=o.blkM||0,N=o.blkN||0,P=o.blkP||0,n=M+N+P;return n?{v:Math.round(((N+2*P)-n*E)/n*50),n}:null;}
   let n=0,d=0;['M','E','P'].forEach((q,i)=>{const c=o[k+q]||0;if(!c)return;n+=c;d+=(o[k+'S'+q]||0)-c*E[i];});return n?{v:Math.round(d/n*50),n}:null;}
 // Valeur ajoutée d'un joueur : passe (passeur) ou attaque, plus les premières touches (réception, défense) pour une faible part
@@ -1255,13 +1261,16 @@ function vaDetailRows(r){const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',rows=
   else if(k)parts=[[k,'Passe']];
   parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const n=r[kk+q]||0;if(!n)return;rows.push({lab:`${lab} ${{M:'−',E:'=',P:'+'}[q]}`,n,avg:(r[kk+'S'+q]||0)/n,exp:E[k][i]});}));
   if(r.ftN&&(r.role==='L'||r.role==='R4')){rows.push({hdr:'1re touche'});
-    if((r.ftrN||0)>=VA_SPLIT&&(r.ftdN||0)>=VA_SPLIT){rows.push({lab:'Réception',n:r.ftrN,avg:(r.ftrS||0)/r.ftrN,exp:E.ft});rows.push({lab:'Défense',n:r.ftdN,avg:(r.ftdS||0)/r.ftdN,exp:E.ft});}
+    const dif=(kk,lab)=>{const eN=r[kk+'_eN']||0,hN=r[kk+'_hN']||0,nN=(r[kk+'N']||0)-eN-hN;if(!store.prefs.oppDiff||(eN<VA_SPLIT&&hN<VA_SPLIT))return false;
+      const push=(l,n,S,ex)=>{if(n)rows.push({lab:l,n,avg:S/n,exp:ex});};
+      push(lab+' · ballon facile',eN,r[kk+'_eS']||0,E.ft+STAT_CFG.DIFF.e);push(lab+' · ballon normal',nN,(r[kk+'S']||0)-(r[kk+'_eS']||0)-(r[kk+'_hS']||0),E.ft);push(lab+' · ballon dur',hN,r[kk+'_hS']||0,E.ft+STAT_CFG.DIFF.h);return true;};
+    if((r.ftrN||0)>=VA_SPLIT&&(r.ftdN||0)>=VA_SPLIT){if(!dif('ftr','Réception'))rows.push({lab:'Réception',n:r.ftrN,avg:(r.ftrS||0)/r.ftrN,exp:E.ft});if(!dif('ftd','Défense'))rows.push({lab:'Défense',n:r.ftdN,avg:(r.ftdS||0)/r.ftdN,exp:E.ft});}
     else{rows.push({lab:'Récep./déf.',n:r.ftN,avg:(r.ftS||0)/r.ftN,exp:E.ft});grouped=true;}}
   if(BLK()&&r.role==='C'){const M=r.blkM||0,N=r.blkN||0,P=r.blkP||0,n=M+N+P;if(n){rows.push({hdr:'Bloc'});rows.push({lab:'Bloc',n,avg:(N+2*P)/n,exp:expectFor('blk')});}}
   return {rows,grouped};}
 function vaDetailHTML(r){const {rows,grouped}=vaDetailRows(r);if(!rows.length)return '';
   const tr=x=>{if(x.hdr)return `<tr class="vah"><td colspan="5">${x.hdr}</td></tr>`;const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(g>0?'+':'')+g.toFixed(0)} pts</td></tr>`;};
-  return `<details class="tipsd vad"><summary><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}</summary><table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></details>`;}
+  return `<details class="tipsd vad"><summary><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}${store.prefs.oppDiff?tipB('oppd'):''}</summary><table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></details>`;}
 function vaAll(o){const a=vaOf(o,'ip'),b=vaOf(o,'ia'),f=vaOf(o,'ft');if(!a&&!b&&!f)return null;const wa=a?a.n:0,wb=b?b.n:0,wf=f?f.n*FT_W:0;return {v:Math.round(((a?a.v*wa:0)+(b?b.v*wb:0)+(f?f.v*wf:0))/(wa+wb+wf)),n:wa+wb+(f?f.n:0)};}
 const facTxt=f=>f&&f.n>=VA_MIN&&!f.cov?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+' pts':'–';
 // Renvoi sans attaque : compté comme une attaque −, sauf si la passe qui le précède est −
@@ -1445,8 +1454,9 @@ function replay0(m){
       // Valeur ajoutée (ordre de saisie) : passe notée ← 1re touche (réception ou défense, non notée = « = ») ;
       // attaque notée ← passe (non notée = « = »). Écart en crans, de −2 à +2.
       if(ev.st&&ev.st.length){let ft=null,ftK=null,pq=null;const Q={'-1':'M','0':'E','1':'P'};const imp=(pid,k,inq,outq)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),q=Q[String(inq)];a[si][k+q]=(a[si][k+q]||0)+1;a[si][k+'S'+q]=(a[si][k+'S'+q]||0)+outq+1;};
-        const ftA=(pid,sg,k)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),kk=k==='def'?'ftd':'ftr';a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;a[si][kk+'N']=(a[si][kk+'N']||0)+1;a[si][kk+'S']=(a[si][kk+'S']||0)+sg+1;};
-        ev.st.forEach(([k,sg,pid])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
+        const ftA=(pid,sg,k,dif)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),kk=k==='def'?'ftd':'ftr';a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;a[si][kk+'N']=(a[si][kk+'N']||0)+1;a[si][kk+'S']=(a[si][kk+'S']||0)+sg+1;
+          if(dif===-1||dif===1){const d=dif===1?'_h':'_e';a[si][kk+d+'N']=(a[si][kk+d+'N']||0)+1;a[si][kk+d+'S']=(a[si][kk+d+'S']||0)+sg+1;}};
+        ev.st.forEach(([k,sg,pid,rl,dif])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k,dif);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
       // Ace : service + seul noté sur l'échange et point gagné (le service a fait le point).
       // Faute de réception : réception − seule notée sur l'échange et point perdu.
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
@@ -2176,7 +2186,8 @@ function statPanel(m,S){
     return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   return `<div class="stp"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
-    ${ui.stPick?(()=>{
+    ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))} — ${rec?'service adverse':'attaque adverse'} ?</div>
+      <div class="diffr">${(rec?[[-1,'Facile'],[0,'Normal'],[1,'Dur']]:[[-1,'Facile'],[0,'Normale'],[1,'Dure']]).map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}<button class="btn" data-act="diffSkip">Passer</button></div>`;})():ui.stPick?(()=>{
       // Joueurs placées comme sur le terrain (filet en haut) : en 5-1 selon leur poste de jeu, sinon dans l'ordre réglementaire
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving),q42=is42(S.zones,S.roles);let dm=(!q42&&setterOn(S))?layoutPlay(eff,pr):null;
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
@@ -2435,7 +2446,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=["hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP','a2M','a2N','a2P','apM','apN','apP','srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
+const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP','a2M','a2N','a2P','apM','apN','apP','srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);CUR_CAL=calibTot(m);CUR_COV=S&&S.cov?(set==null?S.cov:(S.covSet&&S.covSet[set])||S.cov):null;
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -2658,6 +2669,8 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
       ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}
       <hr class="sep">${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seules les 3 joueuses au filet sont proposées.</p>`)}
       <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>
+      <hr class="sep">${D('Difficulté du ballon adverse',`<p class="hint">Après avoir choisi le joueur d'une réception ou d'une défense, une question de plus : service adverse facile / normal / dur, ou attaque adverse facile / normale / dure. La valeur ajoutée de la première touche en tient compte (un ballon dur est moins pénalisant, un ballon facile moins valorisé). Un appui de plus par première touche : à réserver aux saisies à deux ou aux statisticiens entraînés. « Passer » = ballon normal.</p>`)}
+      <label class="chk"><input type="checkbox" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Activer la difficulté du ballon adverse</label>
       <hr class="sep"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
       <li><b>Faites-le à deux !</b> Un premier joueur regarde le match et annonce à voix haute : « réception = : 7 », « passe + », « attaque + : 12 », « point domicile ». Le deuxième saisit.</li>
@@ -2690,7 +2703,7 @@ function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;co
     if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;return;}
     if(!cur||!play)return;
     if(ev.t==='pt'){const sv=SA[idx]||'@A';if(sv!==last){if(sv==='@A')cur.rows.push({k:'srvA',a:m.opp||'Adversaire'});else cur.rows.push({k:'srv',a:`${pnum(m,sv)} ${dname(m,sv)}`});}last=sv;ev.w==='G'?cur.g++:cur.a++;const st=ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
-      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,lab:st?stLab(st[0],st[1]):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
+      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service dur)':' (attaque dure)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
       const hi=Math.max(cur.g,cur.a);if(hi>=setTarget(m,si)&&Math.abs(cur.g-cur.a)>=2){play=false;cur.done=true;}}
     else if(ev.t==='sub')cur.rows.push({k:'sub',a:tag(m,ev.i),b:tag(m,ev.o)});
     else if(ev.t==='to')cur.rows.push({k:'to',a:ev.s==='G'?short(m):(m.opp||'Adversaire')});
@@ -2784,6 +2797,7 @@ const TIPS={
  ea:["Erreurs d'attaque","Attaques ratées ou ballons renvoyés sans attaquer alors que la passe était bonne (+ ou =). Ne compte que ce qui dépend de l'attaquant : une mauvaise passe n'est pas reprochée. Différent des fautes directes, qui ne regardent que la dernière action de l'échange."],
  fd:['Fautes directes',"Fautes qui donnent immédiatement le point à l'adversaire : service, défense, attaque ou bloc ratés en dernière action de l'échange, quelle que soit la passe. Une attaque ratée sur bonne passe compte aussi dans les erreurs d'attaque."],
  vagrp:['Réception et défense regroupées',"Les réceptions et les défenses (1re touche : elles ne font pas suite à une passe ni à une réception / défense) sont détaillées séparément à partir de 5 actions chacune. En dessous, elles sont regroupées sur une ligne « Récep./déf. »."],
+ oppd:['Difficulté du ballon adverse',"Option de saisie : la qualité du service ou de l'attaque adverse est notée avec la première touche. L'attente d'un ballon facile est relevée, celle d'un ballon dur abaissée ; un ballon non noté compte comme normal."],
  cov:['Complétude de la saisie',"Part des points où au moins une action a été notée. En dessous de 80 %, les statistiques décrivent une partie du match seulement ; en dessous de 50 %, la valeur ajoutée du passeur n'est plus affichée."],
  rot:['Rotations',"Side-out : points gagnés quand l'adversaire sert (on est en réception). Break : points gagnés quand on sert. Par position du passeur (P1 à P6) : utile pour choisir la rotation de départ et repérer celle qui pose problème."],
  std:['Indicateurs standards',"Les chiffres utilisés dans les statistiques officielles : kill % (attaques gagnantes / attaques), erreurs d'attaque %, efficacité d'attaque (gagnantes − erreurs) / attaques, réception positive % (réceptions +), aces et fautes au service."],
@@ -2833,6 +2847,7 @@ function methodHTML(close){const C=STAT_CFG,E=C.EXPECT,w=o=>Object.entries(o).ma
     <p><b>Notes attendues</b> (ballon reçu − / = / +) : ${tab('J')} ; ${tab('R')} ; ${tab('N')}. Avec la calibration de saison, ces valeurs sont mélangées aux moyennes observées de la saison (poids de la table : ${C.CALIB_K} ballons).</p>
     <p><b>Classements.</b> Ligne Équipe = médiane des joueurs classés (hors grisés). Un joueur est grisé sous ${C.LOW_MIN} actions, ou quand son intervalle de confiance à ${Math.round((1-2*(1-0.95))*100)} % (Wilson) recouvre la médiane, jamais au-delà de ${C.LOW_OK} actions. Vert / rouge : intervalle entièrement au-dessus / en dessous de la médiane.</p>
     <p><b>Rotations.</b> Side-out = points gagnés quand l'adversaire sert ; break = points gagnés sur notre service, par position du passeur (P1 à P6).</p>
+    <p><b>Difficulté du ballon adverse</b> (option). Pour une première touche notée sur ballon facile, l'attente est relevée de ${Math.round(C.DIFF.e*50)} points ; sur ballon dur, abaissée de ${Math.round(-C.DIFF.h*50)} points. Un ballon non noté compte comme normal.</p>
     <p><b>Fin de set.</b> Actions jouées quand les deux équipes sont à ${C.HOT} points ou moins de la fin du set, ou sur balle de set.</p>
     <p><b>Zones et circuits favorables.</b> À partir de ${C.ZONE_MIN_M} ballons sur un match, ${C.ZONE_MIN_S} sur une saison.</p>
     <p><b>Progression.</b> Courbe brute et courbe lissée sur 3 matchs (pondérée par le nombre d'actions) ; tendance = pente de la régression pondérée, affichée si l'évolution prédite dépasse 5 points.</p>
@@ -3334,7 +3349,10 @@ const A={
       if(j>=0){if(m.pend[j][1]!==sg){m.pend[j]=['pas',sg,m.pend[j][2]];save();render();}return 1;}
       addStat(['pas',sg,setterOn(S)||'']);return 1;}
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
-  stP(d){if(!ui.stPick)return;const x=ui.stPick.k==='relay'?['rly',0,d.id||'']:[ui.stPick.k,ui.stPick.s,d.id||''];ui.stPick=null;addStat(x);return 1;},
+  stP(d){if(!ui.stPick)return;const x=ui.stPick.k==='relay'?['rly',0,d.id||'']:[ui.stPick.k,ui.stPick.s,d.id||''];const k=ui.stPick.k;ui.stPick=null;
+    if(store.prefs.oppDiff&&(k==='rec'||k==='def')&&d.id){ui.diffAsk={k,x};render();return 1;}addStat(x);return 1;},
+  diffSet(d){const q=ui.diffAsk;ui.diffAsk=null;if(!q)return;const x=q.x.slice();while(x.length<4)x.push(null);x[4]=+d.v;addStat(x);return 1;},
+  diffSkip(){const q=ui.diffAsk;ui.diffAsk=null;if(q)addStat(q.x);return 1;},
   stCancel(){ui.stPick=null;},
   roleClose(){ui.roleFor=null;},
   swapRC(){const d=ui.draft,sw=ui.swapRC||[];ui.alert=null;ui.alertMode=null;ui.swapRC=null;if(!d)return;
