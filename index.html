@@ -1023,7 +1023,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V131';
+const APP_VERSION='V132';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1204,7 +1204,8 @@ function vaRole(o){return o.role==='Pa'?vaMix(o,'ip'):o.role==='L'?vaOf(o,'ft'):
 const VALAB={Pa:'passe',L:'défense',R4:'mixte'};const vaLab=o=>VALAB[o.role]||'attaque';
 // Détail de la valeur ajoutée (fiche agrandie) : nombre de ballons et note moyenne selon la qualité du ballon reçu
 function vaDetailHTML(r){const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',E=(EXPECT[CUR_LEVEL]||EXPECT.R),rows=[];
-  if(k)['M','E','P'].forEach((q,i)=>{const n=r[k+q]||0;if(!n)return;const avg=(r[k+'S'+q]||0)/n,exp=E[k][i];rows.push(`<tr><td>${k==='ip'?'Réception':'Passe'} ${{M:'−',E:'=',P:'+'}[q]}</td><td>${n}</td><td>${(avg*50).toFixed(0)} %</td><td>${(exp*50).toFixed(0)} %</td><td class="${avg-exp>0.05?'p':avg-exp<-0.05?'m':''}">${(avg-exp>0?'+':'')+((avg-exp)*50).toFixed(0)} pts</td></tr>`);});
+  const parts=k==='ip'?[['ipr','Réception'],['ipd','Défense']]:k?[[k,'Passe']]:[];
+  parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const n=r[kk+q]||0;if(!n)return;const avg=(r[kk+'S'+q]||0)/n,exp=E[k][i];rows.push(`<tr><td>${lab} ${{M:'−',E:'=',P:'+'}[q]}</td><td>${n}</td><td>${(avg*50).toFixed(0)} %</td><td>${(exp*50).toFixed(0)} %</td><td class="${avg-exp>0.05?'p':avg-exp<-0.05?'m':''}">${(avg-exp>0?'+':'')+((avg-exp)*50).toFixed(0)} pts</td></tr>`);}));
   if(r.ftN&&(r.role==='L'||r.role==='R4')){const avg=(r.ftS||0)/r.ftN,exp=E.ft;rows.push(`<tr><td>1re touche</td><td>${r.ftN}</td><td>${(avg*50).toFixed(0)} %</td><td>${(exp*50).toFixed(0)} %</td><td class="${avg-exp>0.05?'p':avg-exp<-0.05?'m':''}">${(avg-exp>0?'+':'')+((avg-exp)*50).toFixed(0)} pts</td></tr>`);}
   if(!rows.length)return '';
   return `<details class="tipsd vad"><summary><b>Détail de la valeur ajoutée</b></summary><table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></details>`;}
@@ -1384,9 +1385,9 @@ function replay0(m){
         if(pid&&qq>=0&&(k==='rel'||sg<0)&&S.roles[pid]!=='Pa'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].eatN=(a[si].eatN||0)+1;}});}
       // Valeur ajoutée (ordre de saisie) : passe notée ← 1re touche (réception ou défense, non notée = « = ») ;
       // attaque notée ← passe (non notée = « = »). Écart en crans, de −2 à +2.
-      if(ev.st&&ev.st.length){let ft=null,pq=null;const Q={'-1':'M','0':'E','1':'P'};const imp=(pid,k,inq,outq)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),q=Q[String(inq)];a[si][k+q]=(a[si][k+q]||0)+1;a[si][k+'S'+q]=(a[si][k+'S'+q]||0)+outq+1;};
+      if(ev.st&&ev.st.length){let ft=null,ftK=null,pq=null;const Q={'-1':'M','0':'E','1':'P'};const imp=(pid,k,inq,outq)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),q=Q[String(inq)];a[si][k+q]=(a[si][k+q]||0)+1;a[si][k+'S'+q]=(a[si][k+'S'+q]||0)+outq+1;};
         const ftA=(pid,sg)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;};
-        ev.st.forEach(([k,sg,pid])=>{if(k==='rec'||k==='def'){ft=sg;pq=null;if(pid)ftA(pid,sg);}else if(k==='pas'){if(pid&&ft!=null)imp(pid,'ip',ft,sg);pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
+        ev.st.forEach(([k,sg,pid])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg);}else if(k==='pas'){if(pid&&ft!=null){imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
       // Ace : service + seul noté sur l'échange et point gagné (le service a fait le point).
       // Faute de réception : réception − seule notée sur l'échange et point perdu.
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
@@ -2373,7 +2374,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['rlyN','ftN','ftS','blkM','blkN','blkP','a2M','a2N','a2P','apM','apN','apP','srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
+const FXK=['iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP','a2M','a2N','a2P','apM','apN','apP','srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -2988,7 +2989,8 @@ function exportPDF(m){
     T(`Aces : ${r.aceN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=10;
     // valeur ajoutée : détail du calcul (ballon reçu, ballons, note obtenue, note attendue, écart)
     {const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',E=(EXPECT[CUR_LEVEL]||EXPECT.R),rows=[];
-      if(k)['M','E','P'].forEach((q,i)=>{const nn=r[k+q]||0;if(nn)rows.push([`${k==='ip'?'Réception':'Passe'} ${{M:'-',E:'=',P:'+'}[q]}`,nn,(r[k+'S'+q]||0)/nn,E[k][i]]);});
+      const parts=k==='ip'?[['ipr','Réception'],['ipd','Défense']]:k?[[k,'Passe']]:[];
+      parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const nn=r[kk+q]||0;if(nn)rows.push([`${lab} ${{M:'-',E:'=',P:'+'}[q]}`,nn,(r[kk+'S'+q]||0)/nn,E[k][i]]);}));
       if(r.ftN&&(r.role==='L'||r.role==='R4'))rows.push(['1re touche',r.ftN,(r.ftS||0)/r.ftN,E.ft]);
       const tot=vaRole(r);
       if(rows.length){doc.setDrawColor(215,222,232);doc.setLineWidth(0.3);doc.line(x0+4,by-3,x0+W-4,by-3);
