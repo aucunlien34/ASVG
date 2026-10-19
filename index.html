@@ -912,6 +912,7 @@ body.easy.phstats .dock .undo{flex:none}
 .rkt tr.rkh th{font-size:11px;font-weight:600;color:var(--muted);text-align:left;padding:0 4px 4px;border-bottom:1px solid var(--line)}.rkt tr.rkh th:last-child{text-align:right;white-space:nowrap}
 /* sous-menu des stats (Joueurs, Zones, Classements, Résumé / Progression) : reste visible en haut pendant le défilement */
 .vtabs{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}
+body.easy .ptn,body.easy .dtog .cnt{display:none!important}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1021,7 +1022,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',LEGACY_ID='gigean-volley',KEY=APPID+'-v1',OLDKEY=LEGACY_ID+'-v1'; // OLDKEY : migration unique des données existantes
 const CODE='2627';
-const APP_VERSION='V129';
+const APP_VERSION='V130';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1861,7 +1862,7 @@ function tPos(el,c,o){
   let els=c.st.sel?[...document.querySelectorAll(c.st.sel)].filter(x=>x.offsetParent!==null&&x.getBoundingClientRect().width>0):[];
   if(c.st.up)els=els.map(x=>x.closest(c.st.up)||x);
   els=[...new Set(els)].slice(0,c.st.n||(act?1:6));
-  el.classList.toggle('act',act);bub.style.maxWidth=Math.min(420,W-24)+'px';
+  el.classList.toggle('act',act);bub.style.maxWidth=Math.min(innerHeight<500?600:420,W-24)+'px';
   const bw=bub.offsetWidth,bh=bub.offsetHeight;
   const tabEl=(ui.coach&&ui.screen==='coach')?tVis(TAB(ui.ctab)):null;
   if(tabEl&&!act&&!els.includes(tabEl)){const q=tabEl.getBoundingClientRect();nav.style.cssText=`display:block;left:${q.left-3}px;top:${q.top-3}px;width:${q.width+6}px;height:${q.height+6}px`;}else nav.style.display='none';
@@ -1870,17 +1871,23 @@ function tPos(el,c,o){
   el.classList.remove('center');
   const rectOf=()=>{let L=1e9,T=1e9,R=-1e9,B=-1e9;els.forEach(x=>{const r=x.getBoundingClientRect();L=Math.min(L,r.left);T=Math.min(T,r.top);R=Math.max(R,r.right);B=Math.max(B,r.bottom);});return {left:L,top:T,right:R,bottom:B,width:R-L,height:B-T};};
   let r=rectOf();
-  if(o&&o.fit){ // une seule mise au point par étape : défilement minimal pour que le cadre ET la bulle tiennent à l'écran
-    const total=r.height+2*pad+GAP+bh+2*M,clamp=(v,a,b)=>Math.min(Math.max(v,a),b);
-    if(total<=Hv){
-      const bMin=M+pad,bMax=Hv-M-bh-GAP-pad-r.height,aMin=M+bh+GAP+pad,aMax=Hv-M-pad-r.height;
-      const tb=clamp(r.top,bMin,bMax),ta=clamp(r.top,aMin,aMax),best=Math.abs(r.top-tb)<=Math.abs(r.top-ta)?tb:ta,dy=r.top-best;
-      if(Math.abs(dy)>1)window.scrollBy({top:dy,left:0,behavior:'instant'});
-    }else{const dy=r.top-(M+pad);if(Math.abs(dy)>1)window.scrollBy({top:dy,left:0,behavior:'instant'});}
-    r=rectOf();
+  // menus flottants en haut (sous-menu des stats) : la zone utile commence sous eux
+  const topInset=(()=>{const v=tVis('.vtabs');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
+  if(o&&o.fit){ // une seule mise au point par étape (défilement instantané, avant d'afficher la bulle) :
+    // 1) de préférence l'élément en haut de la zone utile (sous les menus flottants) et la bulle dessous ;
+    // 2) sinon l'élément calé en bas, au-dessus du menu du bas, et la bulle au-dessus ;
+    // les positions sont mesurées après chaque essai (éléments collants ou fixes : la page ne les déplace pas toujours)
+    const sy=window.scrollY,maxS=Math.max(0,document.documentElement.scrollHeight-innerHeight),clampS=v=>Math.max(0,Math.min(maxS,Math.round(v))),docTop=r.top+sy;
+    const cands=[...new Set([clampS(docTop-(top0+pad)),clampS(docTop+r.height-(Hv-M-pad)),clampS(sy),0,maxS])];let best=null;
+    for(const c of cands){window.scrollTo({top:c,left:0,behavior:'instant'});const q=rectOf(),sb=Hv-M-(q.bottom+pad),sa=(q.top-pad)-top0;
+      const vis=q.top>=-1&&q.top<Hv-20,score=!vis?-2:q.top<top0+pad-1?-1:sb>=bh+GAP?3:sa>=bh+GAP?2:Math.max(sb,sa)>=bh+4?1:0; /* visible, jamais sous un menu flottant */if(!best||score>best.score||(score===best.score&&score>=0&&Math.max(sb,sa)>best.m))best={c,score,m:Math.max(sb,sa)};if(score===3)break;}
+    window.scrollTo({top:best.c,left:0,behavior:'instant'});r=rectOf();
   }
-  const spaceBelow=Hv-M-(r.bottom+pad),spaceAbove=(r.top-pad)-M;let place='below',rh=r.height;
-  if(spaceBelow>=bh+GAP)place='below';else if(spaceAbove>=bh+GAP)place='above';else rh=Math.max(40,Hv-M-bh-GAP-pad-r.top);
+  const spaceBelow=Hv-M-(r.bottom+pad),spaceAbove=(r.top-pad)-top0;let place='below',rh=r.height;
+  const spaceR=W-(r.right+pad)-12,spaceL=(r.left-pad)-12;
+  if(spaceBelow>=bh+GAP)place='below';else if(spaceAbove>=bh+GAP)place='above';else if(spaceBelow>=bh+4)place='below';else if(spaceAbove>=bh+4)place='above';
+  else if(Math.max(spaceR,spaceL)>=Math.min(bw,300)+GAP)place=spaceR>=spaceL?'right':'left'; // écran bas (paysage) : bulle à côté de l'élément
+  else rh=Math.max(40,Hv-M-bh-GAP-pad-r.top);
   const L=r.left-pad,T=r.top-pad,Wd=r.width+2*pad,Hd=rh+2*pad;
   spot.style.cssText=`left:${L}px;top:${T}px;width:${Wd}px;height:${Hd}px`;
   if(act){spot.removeAttribute('data-act');spot.classList.remove('clk');
@@ -1888,8 +1895,10 @@ function tPos(el,c,o){
     blk[0].style.cssText=`left:0;top:0;width:100%;height:${Math.max(0,T)}px`;blk[1].style.cssText=`left:0;top:${T+Hd}px;width:100%;height:${Math.max(0,innerHeight-T-Hd)}px`;
     blk[2].style.cssText=`left:0;top:${T}px;width:${Math.max(0,L)}px;height:${Hd}px`;blk[3].style.cssText=`left:${L+Wd}px;top:${T}px;width:${Math.max(0,W-L-Wd)}px;height:${Hd}px`;
   }else{spot.setAttribute('data-act','tutoSpot');spot.classList.add('clk');blk.forEach((b,i)=>{b.style.cssText=i?'display:none':'left:0;top:0;width:100%;height:100%';});}
+  if(place==='right'||place==='left'){const sw=Math.min(bw,place==='right'?spaceR-GAP:spaceL-GAP);bub.style.maxWidth=sw+'px';const bh2=bub.offsetHeight,bw2=bub.offsetWidth;
+    const lt=place==='right'?L+Wd+GAP:L-GAP-bw2,tp=Math.max(top0,Math.min(Hv-M-bh2,T+Hd/2-bh2/2));bub.style.left=lt+'px';bub.style.top=tp+'px';bub.style.visibility='visible';return;}
   const top=place==='below'?T+Hd+GAP:T-GAP-bh,left=Math.max(12,Math.min(W-bw-12,r.left+r.width/2-bw/2));
-  bub.style.left=left+'px';bub.style.top=Math.max(M,top)+'px';bub.style.visibility='visible';
+  bub.style.left=left+'px';bub.style.top=Math.max(place==='above'?top0:M,Math.min(top,Hv-M-bh))+'px';bub.style.visibility='visible';
 }
 function tutoPlace(){let el=document.getElementById('tuto');if(!ui.tuto){if(el)el.remove();return;}
   const F=tFlat(),c=F[ui.tuto.i];
@@ -2139,7 +2148,7 @@ function statPanel(m,S){
         <button class="eb" data-act="stUndo" ${st.length?'':'disabled'}>↶ Annuler<br>dernière stat</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
     :(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       return `<div class="stgrid ${BLK()?'b4':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})()}
-    ${st.length?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
+    ${st.length&&!store.prefs.easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
 }
 function matchHTML(m,S){
