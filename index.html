@@ -914,6 +914,7 @@ body.easy.phstats .dock .undo{flex:none}
 .vtabs{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}
 body.easy .ptn,body.easy .dtog .cnt{display:none!important}
 body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display:none!important}
+.vat tr.vah td{font-weight:700;color:var(--muted);font-size:12px;text-align:left;padding-top:8px;border-bottom:0}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1023,7 +1024,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V133';
+const APP_VERSION='V134';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1210,12 +1211,12 @@ function vaDetailRows(r){const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',E=(EX
   if(k==='ip'){if(cnt('ipr')>=VA_SPLIT&&cnt('ipd')>=VA_SPLIT)parts=[['ipr','Réception'],['ipd','Défense']];else{parts=[['ip','Récep./déf.']];grouped=true;}}
   else if(k)parts=[[k,'Passe']];
   parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const n=r[kk+q]||0;if(!n)return;rows.push({lab:`${lab} ${{M:'−',E:'=',P:'+'}[q]}`,n,avg:(r[kk+'S'+q]||0)/n,exp:E[k][i]});}));
-  if(r.ftN&&(r.role==='L'||r.role==='R4')){
+  if(r.ftN&&(r.role==='L'||r.role==='R4')){rows.push({hdr:'1re touche'});
     if((r.ftrN||0)>=VA_SPLIT&&(r.ftdN||0)>=VA_SPLIT){rows.push({lab:'Réception',n:r.ftrN,avg:(r.ftrS||0)/r.ftrN,exp:E.ft});rows.push({lab:'Défense',n:r.ftdN,avg:(r.ftdS||0)/r.ftdN,exp:E.ft});}
     else{rows.push({lab:'Récep./déf.',n:r.ftN,avg:(r.ftS||0)/r.ftN,exp:E.ft});grouped=true;}}
   return {rows,grouped};}
 function vaDetailHTML(r){const {rows,grouped}=vaDetailRows(r);if(!rows.length)return '';
-  const tr=x=>{const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(g>0?'+':'')+g.toFixed(0)} pts</td></tr>`;};
+  const tr=x=>{if(x.hdr)return `<tr class="vah"><td colspan="5">${x.hdr}</td></tr>`;const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(g>0?'+':'')+g.toFixed(0)} pts</td></tr>`;};
   return `<details class="tipsd vad"><summary><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}</summary><table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></details>`;}
 function vaAll(o){const a=vaOf(o,'ip'),b=vaOf(o,'ia'),f=vaOf(o,'ft');if(!a&&!b&&!f)return null;const wa=a?a.n:0,wb=b?b.n:0,wf=f?f.n*FT_W:0;return {v:Math.round(((a?a.v*wa:0)+(b?b.v*wb:0)+(f?f.v*wf:0))/(wa+wb+wf)),n:wa+wb+(f?f.n:0)};}
 const facTxt=f=>f&&f.n>=VA_MIN?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+' pts':'–';
@@ -2711,7 +2712,7 @@ const TIPS={
  fautes:['Fautes',"Part des actions ratées (−) parmi toutes les actions notées du joueur : service, réception, défense et attaque."],
  ea:["Erreurs d'attaque","Attaques ratées ou ballons renvoyés sans attaquer alors que la passe était bonne (+ ou =). Ne compte que ce qui dépend de l'attaquant : une mauvaise passe n'est pas reprochée. Différent des fautes directes, qui ne regardent que la dernière action de l'échange."],
  fd:['Fautes directes',"Fautes qui donnent immédiatement le point à l'adversaire : service, défense, attaque ou bloc ratés en dernière action de l'échange, quelle que soit la passe. Une attaque ratée sur bonne passe compte aussi dans les erreurs d'attaque."],
- vagrp:['Réception et défense regroupées',"Les réceptions et les défenses sont détaillées séparément à partir de 5 actions chacune. En dessous, elles sont regroupées sur une ligne « Récep./déf. »."],
+ vagrp:['Réception et défense regroupées',"Les réceptions et les défenses (1re touche : elles ne font pas suite à une passe ni à une réception / défense) sont détaillées séparément à partir de 5 actions chacune. En dessous, elles sont regroupées sur une ligne « Récep./déf. »."],
  va:['Valeur ajoutée',"Le joueur améliore-t-il ou dégrade-t-il les ballons qu'il reçoit ? Chaque ballon reçu a une qualité (réception avant la passe, passe avant l'attaque) ; on compare ce que le joueur en fait à ce qu'on attend, à ce niveau de jeu, d'un ballon de cette qualité.\n\n+ : mieux que prévu. 0 : conforme au niveau. − : moins bien. Un joueur qui reçoit de bons ballons n'est donc pas avantagé.\n\nUne seule valeur ajoutée par poste : passe pour le passeur, défense et réception pour le libéro, attaque et premières touches pour les R4, attaque pour les pointus et les centres. Affichée à partir de 10 ballons. Les ballons dont la touche précédente n'est pas notée ne comptent pas : avec une saisie partielle, le passeur en a peu. Le niveau se règle dans la saison ; le détail − / = / + est dans la fiche agrandie."],
  aces:['Aces',"Services qui font directement le point (aucune autre action notée sur l'échange)."],
  rf:['Fautes de réception',"Réceptions ratées qui donnent directement le point à l'adversaire."],
@@ -2998,13 +2999,13 @@ function exportPDF(m){
     bar('Fautes',fr2(r),fr2(Tt),true,v=>`${v.c}/${v.n}`);if(r.role!=='Pa')bar('Err. att.',er2(r),er2(Tt),true,v=>`${v.c}/${v.n}`);
     T(`Aces : ${r.aceN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=10;
     // valeur ajoutée : détail du calcul (ballon reçu, ballons, note obtenue, note attendue, écart)
-    {const {rows:R0,grouped}=vaDetailRows(r),rows=R0.map(x=>[x.lab.replace('−','-'),x.n,x.avg,x.exp]);
+    {const {rows:R0,grouped}=vaDetailRows(r),rows=R0.map(x=>x.hdr?[x.hdr]:[x.lab.replace('−','-'),x.n,x.avg,x.exp]);
       const tot=vaRole(r);
       if(rows.length){doc.setDrawColor(215,222,232);doc.setLineWidth(0.3);doc.line(x0+4,by-3,x0+W-4,by-3);
         T(`VALEUR AJOUTÉE (${vaLab(r).toUpperCase()}) : ${tot&&tot.n>=VA_MIN?facTxt(tot).replace('−','-'):'- (moins de '+VA_MIN+' ballons)'}`,x0+4,by+1.5,7.2,true,tot&&tot.n>=VA_MIN?(tot.v>0?GREEN:tot.v<0?RED:[60,60,60]):[110,110,110]);by+=5;
         const cx=[x0+4,x0+34,x0+50,x0+66,x0+W-4];
         [['Ballon reçu','left'],['Ballons','right'],['Obtenu','right'],['Attendu','right'],['Écart','right']].forEach(([t,al],c)=>T(t,c===0?cx[0]:cx[c],by,6.4,true,[110,110,110],al));by+=3.8;
-        rows.forEach(([lab,nn,avg,exp])=>{const g=(avg-exp)*50;T(lab,cx[0],by,7,false,[40,40,40]);T(String(nn),cx[1],by,7,false,[40,40,40],'right');T(`${Math.round(avg*50)} %`,cx[2],by,7,false,[40,40,40],'right');T(`${Math.round(exp*50)} %`,cx[3],by,7,false,[40,40,40],'right');
+        rows.forEach(([lab,nn,avg,exp])=>{if(nn==null){T(lab,cx[0],by,6.8,true,[90,90,90]);by+=3.8;return;}const g=(avg-exp)*50;T(lab,cx[0],by,7,false,[40,40,40]);T(String(nn),cx[1],by,7,false,[40,40,40],'right');T(`${Math.round(avg*50)} %`,cx[2],by,7,false,[40,40,40],'right');T(`${Math.round(exp*50)} %`,cx[3],by,7,false,[40,40,40],'right');
           T(`${g>0?'+':g<0?'-':''}${Math.abs(Math.round(g))} pts`,cx[4],by,7,true,g>2.5?GREEN:g<-2.5?RED:[60,60,60],'right');by+=3.8;});
         doc.setFont('helvetica','normal');doc.setFontSize(5.8);doc.setTextColor(120);doc.splitTextToSize("Note moyenne : 0 % = tout -, 100 % = tout +. Attendu : selon la qualité du ballon reçu et le niveau de la saison."+(grouped?" Réception et défense regroupées (moins de 5 actions dans l'une d'elles).":""),W-8).forEach((l,i)=>doc.text(l,x0+4,by+0.5+i*2.6));doc.setTextColor(0);by+=grouped?10.5:8;}}
     // progression (par set pour un match, par match pour une saison)
