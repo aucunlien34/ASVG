@@ -913,6 +913,7 @@ body.easy.phstats .dock .undo{flex:none}
 /* sous-menu des stats (Joueurs, Zones, Classements, Résumé / Progression) : reste visible en haut pendant le défilement */
 .vtabs{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}
 body.easy .ptn,body.easy .dtog .cnt{display:none!important}
+body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display:none!important}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1873,15 +1874,12 @@ function tPos(el,c,o){
   let r=rectOf();
   // menus flottants en haut (sous-menu des stats) : la zone utile commence sous eux
   const topInset=(()=>{const v=tVis('.vtabs');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
-  if(o&&o.fit){ // une seule mise au point par étape (défilement instantané, avant d'afficher la bulle) :
-    // 1) de préférence l'élément en haut de la zone utile (sous les menus flottants) et la bulle dessous ;
-    // 2) sinon l'élément calé en bas, au-dessus du menu du bas, et la bulle au-dessus ;
-    // les positions sont mesurées après chaque essai (éléments collants ou fixes : la page ne les déplace pas toujours)
-    const sy=window.scrollY,maxS=Math.max(0,document.documentElement.scrollHeight-innerHeight),clampS=v=>Math.max(0,Math.min(maxS,Math.round(v))),docTop=r.top+sy;
-    const cands=[...new Set([clampS(docTop-(top0+pad)),clampS(docTop+r.height-(Hv-M-pad)),clampS(sy),0,maxS])];let best=null;
-    for(const c of cands){window.scrollTo({top:c,left:0,behavior:'instant'});const q=rectOf(),sb=Hv-M-(q.bottom+pad),sa=(q.top-pad)-top0;
-      const vis=q.top>=-1&&q.top<Hv-20,score=!vis?-2:q.top<top0+pad-1?-1:sb>=bh+GAP?3:sa>=bh+GAP?2:Math.max(sb,sa)>=bh+4?1:0; /* visible, jamais sous un menu flottant */if(!best||score>best.score||(score===best.score&&score>=0&&Math.max(sb,sa)>best.m))best={c,score,m:Math.max(sb,sa)};if(score===3)break;}
-    window.scrollTo({top:best.c,left:0,behavior:'instant'});r=rectOf();
+  if(o&&o.fit){ // une seule mise au point par étape : l'élément au-dessus de la bulle si possible, sinon l'élément en bas et la bulle au-dessus
+    const stick=[...document.querySelectorAll('.vtabs')].filter(x=>x.offsetParent!==null&&getComputedStyle(x).position==='sticky'&&!els.includes(x)&&!els.some(e=>x.contains(e))).reduce((a,x)=>Math.max(a,x.getBoundingClientRect().bottom),0);
+    const topB=Math.max(M,stick+M);
+    window.scrollBy({top:r.top-(topB+pad),left:0,behavior:'instant'});r=rectOf();
+    if(r.bottom+pad+GAP+bh>Hv-M){ // pas de place sous l'élément : on cale l'élément en bas, la bulle passera au-dessus
+      window.scrollBy({top:r.bottom-(Hv-M-pad),left:0,behavior:'instant'});r=rectOf();}
   }
   const spaceBelow=Hv-M-(r.bottom+pad),spaceAbove=(r.top-pad)-top0;let place='below',rh=r.height;
   const spaceR=W-(r.right+pad)-12,spaceL=(r.left-pad)-12;
