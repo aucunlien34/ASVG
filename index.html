@@ -1035,7 +1035,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V144';
+const APP_VERSION='V145';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1151,6 +1151,21 @@ function assign(ids,roles,prefs,slots){
 // Positions de jeu : avant 4=R4, 3=C, 2=Pa/Pu ; arrière 5=L, 6=R4, 1=Pa/Pu (centre au service : elle défend en 5 comme libéro, R4 en 6)
 // LIBPOS : poste de défense de libéro (5 par défaut, ou 6) ; la centre arrière suit libéro, la R4 arrière prend l'autre poste
 let LIBPOS=5;
+// Grille de saisie des stats (5-1) : passeur toujours en base arrière (poste 1), pointue au filet ;
+// devant : R4 en 4, centre en 3, pointue en 2 — sauf en P1 : pointue en 4, R4 en 2. Aucun effet sur le terrain.
+function statGrid(S,eff){const R=S.roles,on=[1,2,3,4,5,6].map(z=>eff[z]).filter(Boolean);
+  const pa=on.find(id=>R[id]==='Pa'),pu=on.find(id=>R[id]==='Pu');if(!pa||!pu||on.filter(id=>R[id]==='Pa').length>1)return null;
+  let F=[eff[2],eff[3],eff[4]].filter(Boolean),B=[eff[5],eff[6],eff[1]].filter(Boolean);
+  if(F.includes(pa)){F=F.filter(id=>id!==pa);if(B.includes(pu)){B=B.filter(id=>id!==pu);F.push(pu);}B.push(pa);}
+  const p1=setterZone(S.zones,R)===1,out={1:pa},take=(L,f)=>{const i=L.findIndex(f);return i<0?null:L.splice(i,1)[0];};
+  const fr=F.slice(),put=(z,id)=>{if(id)out[z]=id;};
+  const fpu=take(fr,id=>id===pu),fc=take(fr,id=>R[id]==='C'),fr4=take(fr,id=>R[id]==='R4');
+  if(p1){put(4,fpu);put(3,fc);put(2,fr4);}else{put(4,fr4);put(3,fc);put(2,fpu);}
+  [4,3,2].forEach(z=>{if(!out[z]&&fr.length)out[z]=fr.shift();});
+  const bk=B.filter(id=>id!==pa),lz=LIBPOS===6?6:5,oz=lz===5?6:5;
+  const bl=take(bk,id=>R[id]==='L'||R[id]==='C'),br=take(bk,id=>R[id]==='R4');put(lz,bl);put(oz,br);
+  [5,6].forEach(z=>{if(!out[z]&&bk.length)out[z]=bk.shift();});
+  return out;}
 function layoutPlay(eff,roles){const BP=LIBPOS===6?Object.assign({},BACK_P,{C:[6,5,1],L:[6,5,1],R4:[5,6,1]}):BACK_P;
   return Object.assign({},assign([eff[2],eff[3],eff[4]],roles,FRONT_P,[4,3,2]),assign([eff[1],eff[6],eff[5]],roles,BP,[5,6,1]));
 }
@@ -1588,6 +1603,21 @@ function alertHTML(m){
 }
 // Contrôle immédiat quand on place un joueur dans la composition
 const COMP={R4:'R4',C:'C',Pa:'Pu',Pu:'Pa'};
+// Contrôle de placement générique : zones (1 à 6), poste z ; renvoie messages et correction proposée
+function placeIssue(m,zones,R,z){const x=zones[z];if(!x)return null;
+  const rx=R[x],oz=OPP[z],y=zones[oz],ry=y?R[y]:null,sz=setterZone(zones,R);
+  const SL=SLOTS[sysOf(zones,R)],ex=sz?SL[(z-sz+6)%6]:null,ey=sz&&y?SL[(oz-sz+6)%6]:null;
+  const lab={C:'un centre',Pu:'la pointe',R4:'un R4',Pa:'la passe'},tagR=id=>`${dname(m,id)} (${pnum(m,id)}, ${ROLES[R[id]]||'sans poste'})`;
+  const q42=is42(zones,R),slotBad=!!(sz&&!q42&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry&&!(rx==='Pa'&&ry==='Pa'));
+  const pa2=rx==='Pa'?[1,2,3,4,5,6].find(k=>k!==z&&zones[k]&&R[zones[k]]==='Pa'):null,paBad=!!(pa2&&pa2!==oz);
+  if(!slotBad&&!oppBad&&!paBad)return null;const msgs=[],fixes=[];
+  if(paBad)msgs.push(`${tagR(x)} est au poste ${z} et l'autre passe, ${tagR(zones[pa2])}, au poste ${pa2} : en 4-2, les deux passes doivent être en opposition (postes ${z} et ${oz}).`);
+  if(slotBad)msgs.push(`${tagR(x)} est au poste ${z} : par rapport à la passe, cette place correspond à ${lab[ex]}.`);
+  if(oppBad)msgs.push(`${tagR(x)} est en opposition avec ${tagR(y)} (poste ${oz}) : l'opposition doit être R4 / R4, centre / centre ou passe / pointe.`);
+  const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
+  if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Faire jouer ${dname(m,x)} en ${ROLES[t1]}`});
+  else if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Faire jouer ${dname(m,y)} en ${ROLES[t2]}`});}
+  return {msgs,fixes};}
 function placeCheck(z){
   const d=ui.draft,m=store.cur,S=replay(m),R=S.roles,x=d.zones[z];if(!x)return;
   const rx=R[x],oz=OPP[z],y=d.zones[oz],ry=y?R[y]:null,sz=setterZone(d.zones,R);
@@ -1603,8 +1633,8 @@ function placeCheck(z){
   if(oppBad)msgs.push(`${tagR(x)} est en opposition avec ${tagR(y)} (poste ${oz}) : l'opposition doit être R4 / R4, centre / centre ou passe / pointe.`);
   const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
   // 3 options : changer le poste du joueur placé, forcer le placement, annuler (retour à la sélection du joueur)
-  if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Changer ${dname(m,x)} en ${ROLES[t1]}`});
-  else if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Changer ${dname(m,y)} en ${ROLES[t2]}`});}
+  if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Faire jouer ${dname(m,x)} en ${ROLES[t1]}`});
+  else if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Faire jouer ${dname(m,y)} en ${ROLES[t2]}`});}
   ui.alert=msgs;ui.alertFixes=fixes;ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=z;beep('warn');
 }
 function draftCheck(){
@@ -2208,7 +2238,7 @@ function statPanel(m,S){
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
       let recAbs=null;
       if(ui.stPick.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
-      if(dm&&ui.stPick.k==='att'){const z2=dm[2],zp=Object.keys(dm).find(z=>dm[z]&&S.roles[dm[z]]==='Pu');if(zp&&+zp!==2){dm=Object.assign({},dm);dm[zp]=z2;dm[2]=dm[2]&&S.roles[dm[2]]==='Pu'?dm[2]:Object.values(layoutPlay(eff,pr)).find(id=>S.roles[id]==='Pu');}}
+      if(dm&&ui.stPick.k!=='rec'){const g=statGrid(S,eff);if(g)dm=g;}
       const blkPick=ui.stPick.k==='blk';
       if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=setterZone(S.zones,S.roles)===1,bd={};
         const c=F.find(id=>R[id]==='C'),r4=F.find(id=>R[id]==='R4'),pp=F.find(id=>R[id]==='Pa'||R[id]==='Pu'),rest=F.filter(id=>![c,r4,pp].includes(id));
@@ -3385,10 +3415,11 @@ const A={
   roleSet(d){const id=ui.roleFor;ui.roleFor=null;if(!id)return;const r=A.role({id,r:d.r});toast(`${dname(store.cur,id)} joue maintenant ${ROLES[d.r]}`,'ok');
     if(ui.screen==='lineup'&&ui.draft){const z=ui.draft.zones.indexOf(id);draftCheck();if(z>0)placeCheck(z);}
     if(r===1)render();},
-  placeForce(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.placeZ=null;},
-  placeCancel(){const z=ui.placeZ;ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.placeZ=null;if(ui.draft&&z){ui.draft.zones[z]=null;ui.pick=z;ui.sheet='pick';draftCheck();}},
+  placeForce(){ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.placeZ=null;ui.subUndo=null;},
+  placeCancel(){const z=ui.placeZ;ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.placeZ=null;
+    if(ui.subUndo){const u=ui.subUndo,m=store.cur;ui.subUndo=null;const e=m.ev[m.ev.length-1];if(m.ev.length===u.n&&e&&e.t==='sub'&&e.o===u.o&&e.i===u.i){m.ev.pop();save();}ui.sub={o:u.o,i:null};ui.sheet='sub';return;}if(ui.draft&&z){ui.draft.zones[z]=null;ui.pick=z;ui.sheet='pick';draftCheck();}},
   alertOk(){if(ui.alertMode==='place'){A.placeCancel();return 1;}ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.swapRC=null;},
-  alertFix(d){const all=ui.alertFixes||[];let fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;
+  alertFix(d){const all=ui.alertFixes||[];let fx=d.i==='all'?all:[all[+d.i]].filter(Boolean);ui.alert=null;ui.alertFixes=null;ui.alertChoice=false;ui.alertClose=null;ui.alertMode=null;ui.subUndo=null;
     if(fx.some(f=>f.fourtwo)){toast('Passage en 4-2 : placement réglementaire','ok');fx=fx.filter(f=>!f.fourtwo);}
     if(!fx.length)return;
     const m=store.cur,S=replay(m);
@@ -3451,16 +3482,11 @@ const A={
     if(S.roles[d.id]==='L')ui.sub={o:null,i:null};else if(d.id===e.libFor)ui.sub={o:d.id,i:null,fixed:true};else ui.sub={o:null,i:d.id,fixedI:true};ui.sheet='sub';},
   openSub(){ui.sub={o:null,i:null};ui.sheet='sub';},
   subO(d){ui.sub.o=d.id;}, subI(d){ui.sub.i=d.id;},
-  subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m),ro=S.roles[o],ri=S.roles[i];
+  subOk(){const {o,i}=ui.sub;if(!o||!i)return;ui.sheet=null;const m=store.cur,S=replay(m);
     dispatch({t:'sub',o,i});
-    if(ro==='Pu'&&ri==='Pa'){const S2=replay(m),oz=[1,2,3,4,5,6].find(z=>S2.zones[z]&&S2.zones[z]!==i&&S2.roles[S2.zones[z]]==='Pa');
-      if(oz){const pa=S2.zones[oz];
-        ui.alertMode=null;ui.alertClose=false;ui.alertChoice=true;
-        ui.alert=[`${dname(m,i)} (${pnum(m,i)}, Passe) remplace ${dname(m,o)} (${pnum(m,o)}, Pointe) : deux passes sont maintenant sur le terrain, avec ${dname(m,pa)} (${pnum(m,pa)}) au poste ${oz}.`];
-        ui.alertFixes=[{p:pa,r:'Pu',lab:`Changer l'opposition : ${dname(m,pa)} passe en Pointe`},{p:i,r:'Pu',lab:`Changer la passe entrante : ${dname(m,i)} en Pointe`},{fourtwo:true,lab:'Ne rien faire (passage en 4-2)'}];
-        render();return 1;}}
-    if(ro&&ro!==ri&&ro!=='L'){const msg=`${dname(m,i)} (${pnum(m,i)}, ${ROLES[ri]||'sans poste'}) remplace ${dname(m,o)} (${pnum(m,o)}, ${ROLES[ro]}) : les postes sont différents.`;
-      ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
+    // même contrôle que la composition : faire jouer X en Y / forcer le placement / annuler (retour au choix du changement)
+    const S2=replay(m),z=[1,2,3,4,5,6].find(k=>S2.zones[k]===i),q=z?placeIssue(m,S2.zones,S2.roles,z):null;
+    if(q){ui.alert=q.msgs;ui.alertFixes=q.fixes;ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=null;ui.subUndo={o,i,n:m.ev.length};beep('warn');render();}
     return 1;},
   setLib(d){const S=replay(store.cur);const v=d.id||null;if(v===S.lib&&!S.libNext)return;ui.sheet=null;dispatch({t:'lib',p:v});return 1;},
   to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}ui.toStats=true;ui.coachView=null;ui.fxSet=null;ui.stPick=null;ui.statView='h';ui.sumLast=5;window.scrollTo(0,0);dispatch({t:'to',s:d.s});startTimer(`Temps mort ${d.s==='G'?short(store.cur):'adverse'} (${set.to[d.s]+1}/2)`);return 1;},
