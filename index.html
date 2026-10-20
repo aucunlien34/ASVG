@@ -1030,7 +1030,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V139';
+const APP_VERSION='V140';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1248,7 +1248,7 @@ let CUR_COV=null; // complétude de la saisie du périmètre affiché
 // Valeur ajoutée d'un joueur : composantes pondérées selon son poste (STAT_CFG.VA_W), par ballon
 function vaRole(o){const W=STAT_CFG.VA_W[o.role]||STAT_CFG.VA_W.X;let num=0,den=0,n=0;
   for(const k in W){if(k==='blk'&&!BLK())continue;const v=vaOf(o,k);if(!v)continue;num+=v.v*v.n*W[k];den+=v.n*W[k];n+=v.n;}
-  if(!den)return null;const r={v:Math.round(num/den),n};
+  if(!den)return null;const r={v:Math.round(num/den)||0,n};
   if(o.role==='Pa'&&CUR_COV&&CUR_COV.pas>=VA_MIN&&CUR_COV.pasFt/CUR_COV.pas<STAT_CFG.COV_MIN)r.cov=true; // saisie trop partielle
   return r;}
 const VALAB={Pa:'passe',L:'défense',R4:'mixte',C:'attaque',Pu:'attaque'};const vaLab=o=>o.role==='C'&&BLK()?'att. + bloc':(VALAB[o.role]||'attaque');
@@ -1522,7 +1522,7 @@ const normName=p=>(String(p.pre||'')+' '+String(p.nom||'')).toUpperCase().normal
 function rosterSim(A,B){const a=new Set(A.map(normName).filter(Boolean)),b=new Set(B.map(normName).filter(Boolean));let k=0;a.forEach(x=>{if(b.has(x))k++;});const d=Math.min(a.size,b.size);return {v:d?k/d:0,k};}
 // Équipes et saisons intégrées à l'application
 const SEED_TEAMS=[{id:'t-earth',name:'Team Earth',gender:'X',locked:true,roster:[{"id":"e1","n":1,"nom":"S.","pre":"DARIA","postes":["Pa"]},{"id":"e2","n":2,"nom":"V.","pre":"MELISSA","postes":["Pu"]},{"id":"e3","n":3,"nom":"G.","pre":"BOJANA","postes":["R4"]},{"id":"e4","n":4,"nom":"A.","pre":"EKATERINA","postes":["R4"]},{"id":"e5","n":5,"nom":"K.","pre":"JÚLIA","postes":["C"]},{"id":"e6","n":6,"nom":"G.","pre":"ZEHRA","postes":["C"]},{"id":"e7","n":7,"nom":"G.","pre":"JULIETTE","postes":["L"]},{"id":"e8","n":8,"nom":"B.","pre":"ANTOINE","postes":["Pa"]},{"id":"e9","n":9,"nom":"N.","pre":"ALEKSANDAR","postes":["Pu"]},{"id":"e10","n":10,"nom":"F.","pre":"TOMASZ","postes":["R4"]},{"id":"e11","n":11,"nom":"H.","pre":"MATHIS","postes":["R4"]},{"id":"e12","n":12,"nom":"H.","pre":"JACKSON","postes":["C"]},{"id":"e13","n":13,"nom":"K.","pre":"JAKUB","postes":["C"]},{"id":"e14","n":14,"nom":"M.","pre":"FRANCO","postes":["L"]}]}];
-const SEED_SEASONS=[{team:'t-earth',id:'s-earth-wl',name:'Solar League',closed:true,level:'N'}];
+const SEED_SEASONS=[{team:'t-earth',id:'s-earth-wl',name:'Solar League',closed:true,level:'N',calib:true}];
 function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.seedTeams||[];s.seedSeasons=s.seedSeasons||[];
   (s.teams||[]).forEach(t=>{if(!t.gender)t.gender='F';});
   s.prefs=s.prefs||{};if(!s.prefs.trialStart)s.prefs.trialStart=today(); // essai Pro de 14 jours à la première ouverture
@@ -1535,7 +1535,7 @@ function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.s
     if(!t.seasons.some(x=>x.id===ss.id))t.seasons.unshift({id:ss.id,name:ss.name,closed:ss.closed});});
   RETIRED_SEEDS.forEach(id=>{if(s.retired.includes(id))return;s.retired.push(id);s.arch=s.arch.filter(a=>a.id!==id);});
   SEED_MATCHES.forEach(mm=>{if(s.seeds.includes(mm.id))return;s.seeds.push(mm.id);if(mm.teamId==='t-earth'&&!(s.teams||[]).some(t=>t.id==='t-earth'))return;if(!s.arch.some(a=>a.id===mm.id||(a.opp===mm.opp&&a.date===mm.date&&a.num===mm.num))){const c=clone(mm);c.teamId=c.teamId||(s.teams&&s.teams[0].id)||'t1';s.arch.push(c);}});
-  {const te=(s.teams||[]).find(t=>t.id==='t-earth');if(te&&te.seasons)te.seasons.forEach(x=>{x.level='N';if(x.id==='s-earth-wl')x.name='Solar League';});} // Team Earth : niveau avancé, saison Solar League
+  {const te=(s.teams||[]).find(t=>t.id==='t-earth');if(te&&te.seasons)te.seasons.forEach(x=>{x.level='N';if(x.id==='s-earth-wl'){x.name='Solar League';x.calib=true;}});} // Team Earth : niveau avancé, attentes calibrées sur la Solar League
   s.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));return s;}
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];s.roster=s.roster||clone(ROSTER);if(!s.cur.roster)s.cur.roster=clone(s.roster);return addSeeds(migrateTeams(s));}}catch(e){}
@@ -1907,7 +1907,7 @@ function tRun(dir){const F=tFlat(),i=ui.tuto.i;
   if(dir==='next'){const g=F[i].st.go;if(g)g();return;}
   let k=i;while(k>0&&!(F[k].st.init||F[k].st.go))k--;const st=F[k].st;(st.init||st.go||(()=>{}))();}
 // Équipe d'exemple Team Earth : celle de l'application, ou une copie temporaire si elle a été supprimée
-function earthTeamObj(){const st=SEED_TEAMS.find(x=>x.id==='t-earth'),ss=SEED_SEASONS.find(x=>x.team==='t-earth');const t=clone({id:st.id,name:st.name,gender:st.gender,locked:true,roster:st.roster});ensureSeasons(t);t.seasons.unshift({id:ss.id,name:ss.name,closed:true});t.seasons.forEach(x=>{x.level='N';});return t;}
+function earthTeamObj(){const st=SEED_TEAMS.find(x=>x.id==='t-earth'),ss=SEED_SEASONS.find(x=>x.team==='t-earth');const t=clone({id:st.id,name:st.name,gender:st.gender,locked:true,roster:st.roster});ensureSeasons(t);t.seasons.unshift({id:ss.id,name:ss.name,closed:true,calib:true});t.seasons.forEach(x=>{x.level='N';});return t;}
 function tEarthEnsure(){if(store.teams.some(t=>t.id==='t-earth'))return;store.teams.push(earthTeamObj());SEED_MATCHES.filter(m=>m.teamId==='t-earth').forEach(m=>{if(!store.arch.some(a=>a.id===m.id))store.arch.push(clone(m));});ui.tutoTemp=true;}
 function tEarthDrop(){if(!ui.tutoTemp)return;store.teams=store.teams.filter(t=>t.id!=='t-earth');store.arch=store.arch.filter(a=>a.teamId!=='t-earth');ui.tutoTemp=false;}
 // Matchs d'exemple : copie d'un match archivé de l'équipe active (jamais enregistrée)
