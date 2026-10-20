@@ -1036,7 +1036,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V147';
+const APP_VERSION='V148';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -3745,7 +3745,8 @@ document.addEventListener('input',e=>{
 });
 let swX=null,swY=null;
 document.addEventListener('touchstart',e=>{const sh=e.target.closest&&e.target.closest('.sheet.full');if(!sh){swX=null;return;}swX=e.touches[0].clientX;swY=e.touches[0].clientY;},{passive:true});
-document.addEventListener('touchend',e=>{if(swX==null||ui.sheet!=='pfull')return;const dx=e.changedTouches[0].clientX-swX,dy=e.changedTouches[0].clientY-swY;swX=null;
+document.addEventListener('touchend',e=>{if(swX==null||ui.sheet!=='pfull'||ui.pfT==='p')return; // pas de balayage sur les fiches joueurs plein écran (flèches seulement)
+  const dx=e.changedTouches[0].clientX-swX,dy=e.changedTouches[0].clientY-swY;swX=null;
   if(Math.abs(dx)>60&&Math.abs(dx)>1.5*Math.abs(dy)){A.pfGo({d:dx<0?1:-1});render();}},{passive:true});
 document.addEventListener('change',e=>{
   const t=e.target;
