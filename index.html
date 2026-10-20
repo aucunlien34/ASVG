@@ -919,11 +919,13 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 .rott{table-layout:fixed;width:100%}.rott col.c0{width:24%}.rkt.rott tr.rkh th{text-align:right;white-space:nowrap}.rkt.rott tr.rkh th:first-child,.rott td:first-child{text-align:left}.rott td{text-align:right;white-space:nowrap}.rott .rmk{display:inline-block;width:1.2em;text-align:center}.rott .rb{color:var(--r4);font-style:normal}.rott .rw{color:var(--pu);font-style:normal}
 @media (max-width:560px){.rott .rn{display:none}.rott td,.rott th{font-size:14px}}.rott tr.rbest td:first-child{color:var(--r4)}.rott tr.rworst td:first-child{color:var(--pu)}
 .stdl{margin:8px 0;border-top:1px solid var(--line);padding-top:6px}.stdl>b{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}.stdg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.stdg span{display:flex;flex-direction:column}.stdg small{font-size:11px;color:var(--muted)}.stdg b{font-size:16px}.stdg b.p{color:var(--r4)}.stdg b.m{color:var(--pu)}
-.diffr{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:10px 0}.dfcol{display:flex;flex-direction:column;gap:12px}
-.diffr .dfb{min-height:88px;font-size:28px;font-family:'Barlow Condensed',sans-serif;font-weight:700;border-width:3px}.diffr .d-1{border-color:var(--r4);color:var(--r4)}.diffr .d0{border-color:var(--muted)}.diffr .d1{border-color:var(--pu);color:var(--pu)}
-.diffr .dfskip{height:auto;min-height:0;font-size:24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--muted)}
-.dfq{display:block;margin-top:6px;font-size:20px;color:var(--ink)}
-body.easy .diffr .dfb{min-height:120px;font-size:34px}
+.diffr{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin:10px 0}.dfcol{display:flex;flex-direction:column;gap:10px}
+.diffr .dfb{min-height:84px;font-size:28px;font-family:'Barlow Condensed',sans-serif;font-weight:700;border:0;color:#fff}
+.diffr .d-1{background:#23924A}.diffr .d0{background:#7C8A9E}.diffr .d1{background:#D7263D}
+.diffr .dfskip{height:auto;min-height:0;font-size:24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--muted);border:2px dashed var(--line)}
+.dfq{display:block;margin-top:6px;font-size:19px;color:var(--ink)}
+/* mode stats faciles : les trois boutons se partagent la hauteur restante de l'écran */
+body.easy .diffr{height:max(250px,calc(100dvh - 470px))}body.easy .dfcol{height:100%}body.easy .diffr .dfb{min-height:0;flex:1;font-size:clamp(26px,5vh,40px)}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1033,7 +1035,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V143';
+const APP_VERSION='V144';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2206,6 +2208,7 @@ function statPanel(m,S){
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
       let recAbs=null;
       if(ui.stPick.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
+      if(dm&&ui.stPick.k==='att'){const z2=dm[2],zp=Object.keys(dm).find(z=>dm[z]&&S.roles[dm[z]]==='Pu');if(zp&&+zp!==2){dm=Object.assign({},dm);dm[zp]=z2;dm[2]=dm[2]&&S.roles[dm[2]]==='Pu'?dm[2]:Object.values(layoutPlay(eff,pr)).find(id=>S.roles[id]==='Pu');}}
       const blkPick=ui.stPick.k==='blk';
       if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=setterZone(S.zones,S.roles)===1,bd={};
         const c=F.find(id=>R[id]==='C'),r4=F.find(id=>R[id]==='R4'),pp=F.find(id=>R[id]==='Pa'||R[id]==='Pu'),rest=F.filter(id=>![c,r4,pp].includes(id));
