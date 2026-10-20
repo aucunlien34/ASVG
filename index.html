@@ -921,6 +921,11 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 .stdl{margin:8px 0;border-top:1px solid var(--line);padding-top:6px}.stdl>b{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}.stdg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.stdg span{display:flex;flex-direction:column}.stdg small{font-size:11px;color:var(--muted)}.stdg b{font-size:16px}.stdg b.p{color:var(--r4)}.stdg b.m{color:var(--pu)}
 .diffr{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin:8px 0}.diffr .dfb{min-height:52px}.diffr .d-1{border-color:var(--r4)}.diffr .d1{border-color:var(--pu)}
 @media (max-width:560px){.diffr{grid-template-columns:1fr 1fr 1fr}.diffr>.btn:last-child{grid-column:1/-1}}
+.vtabs{scrollbar-width:none;-ms-overflow-style:none;padding-right:28px}.vtabs::-webkit-scrollbar{display:none}
+.vtabs button.on{color:var(--ink);background:rgba(242,190,34,.30);border-radius:10px 10px 0 0;border-bottom-color:#F2BE22}
+.vtw{position:sticky;top:0;z-index:12}.vtw .vtabs{position:relative}
+.vtmore{position:absolute;right:0;top:0;bottom:2px;width:34px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;font:700 22px Barlow,sans-serif;color:var(--ink);background:linear-gradient(90deg,transparent,var(--bg) 55%);pointer-events:none;z-index:13}
+.vtmore.l{left:0;right:auto;justify-content:flex-start;padding-left:4px;background:linear-gradient(270deg,transparent,var(--bg) 55%)}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1030,7 +1035,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V141';
+const APP_VERSION='V142';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1944,9 +1949,9 @@ function tPos(el,c,o){
   const rectOf=()=>{let L=1e9,T=1e9,R=-1e9,B=-1e9;els.forEach(x=>{const r=x.getBoundingClientRect();L=Math.min(L,r.left);T=Math.min(T,r.top);R=Math.max(R,r.right);B=Math.max(B,r.bottom);});return {left:L,top:T,right:R,bottom:B,width:R-L,height:B-T};};
   let r=rectOf();
   // menus flottants en haut (sous-menu des stats) : la zone utile commence sous eux
-  const topInset=(()=>{const v=tVis('.vtabs');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
+  const topInset=(()=>{const v=tVis('.vtw');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
   if(o&&o.fit){ // une seule mise au point par étape : l'élément au-dessus de la bulle si possible, sinon l'élément en bas et la bulle au-dessus
-    const stick=[...document.querySelectorAll('.vtabs')].filter(x=>x.offsetParent!==null&&getComputedStyle(x).position==='sticky'&&!els.includes(x)&&!els.some(e=>x.contains(e))).reduce((a,x)=>Math.max(a,x.getBoundingClientRect().bottom),0);
+    const stick=[...document.querySelectorAll('.vtw')].filter(x=>x.offsetParent!==null&&getComputedStyle(x).position==='sticky'&&!els.includes(x)&&!els.some(e=>x.contains(e))).reduce((a,x)=>Math.max(a,x.getBoundingClientRect().bottom),0);
     const topB=Math.max(M,stick+M);
     window.scrollBy({top:r.top-(topB+pad),left:0,behavior:'instant'});r=rectOf();
     if(r.bottom+pad+GAP+bh>Hv-M){ // pas de place sous l'élément : on cale l'élément en bas, la bulle passera au-dessus
@@ -2039,6 +2044,14 @@ let SPY_LOCK=0;window.addEventListener('scroll',()=>{if(Date.now()-SPY_LOCK<600)
 // Textes trop longs dans les boutons et onglets : la police est réduite par paliers jusqu'à tenir (13 px minimum)
 function fitButtons(){document.querySelectorAll('.btn,.seg>button,.cbar button span,.crail button span,.stb .el,.ek .el,.setnb').forEach(b=>{if(b.closest('#tuto'))return;b.style.fontSize='';if(b.scrollWidth<=b.clientWidth+1)return;
   let fs=parseFloat(getComputedStyle(b).fontSize);for(let i=0;i<6&&b.scrollWidth>b.clientWidth+1&&fs>13;i++){fs=Math.max(13,fs-1.5);b.style.fontSize=fs+'px';}});}
+// Onglets des stats : flèche quand d'autres onglets sont cachés à droite (ou à gauche), onglet actif visible
+function vtMore(){document.querySelectorAll('.vtabs').forEach(v=>{const w=v.parentElement;if(!w)return;
+  if(!w.classList.contains('vtw')){const box=document.createElement('div');box.className='vtw';v.parentElement.insertBefore(box,v);box.appendChild(v);}
+  const W=v.parentElement;let r=W.querySelector('.vtmore:not(.l)'),l=W.querySelector('.vtmore.l');
+  if(!r){r=document.createElement('span');r.className='vtmore';r.textContent='›';r.setAttribute('aria-hidden','true');W.appendChild(r);}
+  if(!l){l=document.createElement('span');l.className='vtmore l';l.textContent='‹';l.setAttribute('aria-hidden','true');W.appendChild(l);}
+  const upd=()=>{r.style.display=v.scrollLeft+v.clientWidth<v.scrollWidth-4?'flex':'none';l.style.display=v.scrollLeft>4?'flex':'none';};
+  if(!v._vt){v.addEventListener('scroll',upd,{passive:true});v._vt=1;const on=v.querySelector('.on');if(on){const q=on.getBoundingClientRect(),b=v.getBoundingClientRect();if(q.right>b.right-28||q.left<b.left)v.scrollLeft+=q.left-b.left-30;}}upd();});}
 function render(){
   if(ui.screen!=='coach')ui.coach=false;
   try{if(ui.coach&&ui.screen==='coach')sessionStorage.setItem('vc-coach',JSON.stringify({ctab:ui.ctab,coachView:ui.coachView,statView:ui.statView,seasonSel:ui.seasonSel,fxSet:ui.fxSet}));else sessionStorage.removeItem('vc-coach');}catch(e){}
@@ -2060,7 +2073,7 @@ function render(){
   sh.classList.toggle('open',!!ui.sheet);
   const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!(ui.alert||ui.roleFor));
-  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
+  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -2715,6 +2728,12 @@ function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;co
   return sets;}
 function summaryHTML(m){const sets=summaryData(m);
   if(!sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
+  // temps mort : les 5 derniers points, du plus récent au plus ancien (avec leurs événements)
+  if(ui.toStats&&ui.sumLast){const all=[];sets.forEach((x,i)=>x.rows.forEach(r=>all.push(Object.assign({set:i},r))));let n=0,k=all.length;while(k>0&&n<ui.sumLast){k--;if(all[k].k==='pt')n++;}
+    const last=all.slice(k).reverse(),evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
+    return `<div class="card sumc"><div class="sumh"><b>${ui.sumLast} derniers points</b><span class="hint" style="margin:0">du plus récent au plus ancien</span></div>
+      <div class="sumrows">${last.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span><span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span></div>`).join('')}</div>
+      <button class="btn" style="margin-top:10px" data-act="sumAll">Voir tout le résumé</button></div>`;}
   const set=ui.fxSet,evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
   return sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
     <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span><span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span></div>`).join('')}</div></div>`).join('');}
@@ -3443,9 +3462,10 @@ const A={
       ui.alertMode=null;ui.alertClose=null;ui.alert=[msg].concat(ui.alert||[]);ui.alertFixes=[{p:i,r:ro}].concat(ui.alertFixes||[]).filter((f,j,a)=>a.findIndex(g=>g.p===f.p&&g.r===f.r)===j);render();}
     return 1;},
   setLib(d){const S=replay(store.cur);const v=d.id||null;if(v===S.lib&&!S.libNext)return;ui.sheet=null;dispatch({t:'lib',p:v});return 1;},
-  to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}ui.toStats=true;ui.coachView=null;ui.fxSet=null;ui.stPick=null;if(!['p','z','r'].includes(ui.statView))ui.statView='p';window.scrollTo(0,0);dispatch({t:'to',s:d.s});startTimer(`Temps mort ${d.s==='G'?short(store.cur):'adverse'} (${set.to[d.s]+1}/2)`);return 1;},
-  tmrClose(){stopTimer();if(ui.toStats){ui.toStats=false;window.scrollTo(0,0);return;}return 1;},
-  toBack(){stopTimer();ui.toStats=false;window.scrollTo(0,0);},
+  to(d){const S=replay(store.cur),set=S.sets[S.sets.length-1];if(set.to[d.s]>=2){toast('Les 2 temps morts de ce set sont déjà pris','warn');return;}ui.toStats=true;ui.coachView=null;ui.fxSet=null;ui.stPick=null;ui.statView='h';ui.sumLast=5;window.scrollTo(0,0);dispatch({t:'to',s:d.s});startTimer(`Temps mort ${d.s==='G'?short(store.cur):'adverse'} (${set.to[d.s]+1}/2)`);return 1;},
+  tmrClose(){stopTimer();ui.sumLast=null;if(ui.toStats){ui.toStats=false;window.scrollTo(0,0);return;}return 1;},
+  toBack(){stopTimer();ui.toStats=false;ui.sumLast=null;window.scrollTo(0,0);},
+  sumAll(){ui.sumLast=null;},
   setStats(d){ui.toStats=true;ui.coachView=null;ui.fxSet=d.i===''||d.i==null?null:+d.i;ui.stPick=null;if(!['p','z','r','h'].includes(ui.statView))ui.statView='p';window.scrollTo(0,0);},
   roles(){ui.sheet='roles';},
   role(d){const m=store.cur,S=replay(m);if(S.sets.length===0){m.roles[d.id]=d.r;save();}else if(S.roles[d.id]!==d.r){dispatch({t:'role',p:d.id,r:d.r});return 1;}},
