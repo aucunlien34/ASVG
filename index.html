@@ -1036,7 +1036,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V146';
+const APP_VERSION='V147';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2747,7 +2747,7 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
     ${sec('data','Données',card('Sauvegarde',`<div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
       <label class="chk" style="margin-top:10px"><input type="checkbox" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .json à la fin de chaque match)</label>
       <label class="chk"><input type="checkbox" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
-      <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.json) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer.</p>`)}
+      <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.json) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer. Sur Android, avec l'appli installée sur l'écran d'accueil, un fichier reçu (WhatsApp, e-mail, Fichiers) peut aussi être envoyé directement : Partager › VolleyCoach.</p>`)}
       <div class="tools"><button class="btn" data-act="import">📄 Choisir un fichier</button><button class="btn" data-act="pasteOpen">📋 Coller des données</button></div>
       <hr class="sep">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
       <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
@@ -3805,11 +3805,17 @@ function mergeMatches(loc,imp,trust){const T=trust==='imp'?imp:loc,O=trust==='im
   out.merged=(loc.merged||0)+1;return {m:out,rep};}
 function mergeReport(r,trust){return `${r.pts} point${r.pts>1?'s':''} recoupé${r.pts>1?'s':''} ; ${r.added} action${r.added>1?'s':''} ajoutée${r.added>1?'s':''} ; ${r.filled} complétée${r.filled>1?'s':''} ; ${r.conflicts} désaccord${r.conflicts>1?'s':''} tranché${r.conflicts>1?'s':''} en faveur des données ${trust==='imp'?'importées':'de cet appareil'}`+(r.ptsT!==r.ptsO?` ; nombres de points différents (${r.ptsT} / ${r.ptsO}) : la liste des points vient de la source de confiance`:'')+(r.setsDiff?' ; nombre de sets différent':'');}
 
+// Fichier reçu par « Partager › VolleyCoach » (Android, appli installée) : mis de côté par le service worker, importé à l'ouverture
+async function checkShared(){if(!/[?&]share=1/.test(location.search)||!('caches' in window))return;
+  try{const c=await caches.open('volleycoach-share'),r=await c.match('./shared-file');history.replaceState(null,'',location.pathname);if(!r)return;
+    const txt=await r.text();await c.delete('./shared-file');if(!txt.trim()){toast('Fichier partagé vide ou illisible','warn');return;}
+    ui.tuto=null;ui.sheet=null;importText(txt);}catch(e){toast('Impossible de lire le fichier partagé','warn');}}
+setTimeout(checkShared,300);
 function importText(txt){
   let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;
   try{d=JSON.parse(raw);}catch(e){const i=raw.indexOf('{'),j=raw.lastIndexOf('}');
     try{d=JSON.parse(raw.slice(i,j+1));}catch(e2){toast('Fichier illisible : ce n\'est pas un fichier de données VolleyCoach (.json)','warn');return false;}}
-  if(!d||typeof d!=='object'||(d.app&&!/volley/i.test(String(d.app)))||!(Array.isArray(d.arch)||Array.isArray(d.roster)||(d.cur&&Array.isArray(d.cur.ev)))){
+  if(!d||typeof d!=='object'||(d.app&&!/volley/i.test(String(d.app)))||!(Array.isArray(d.arch)||Array.isArray(d.roster)||Array.isArray(d.teams)||(d.cur&&Array.isArray(d.cur.ev)))){
     toast('Ce fichier ne contient ni match ni effectif VolleyCoach','warn');return false;}
   let n=0,rn=-1;const teamsOnly=!!ui.importTeamsOnly;ui.importTeamsOnly=false;
   if(teamsOnly&&!(Array.isArray(d.teams)||Array.isArray(d.roster))){toast('Ce fichier ne contient aucun effectif','warn');return false;}
