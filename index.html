@@ -926,6 +926,7 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 .dfq{display:block;margin-top:6px;font-size:19px;color:var(--ink)}
 /* mode stats faciles : les trois boutons se partagent la hauteur restante de l'écran */
 body.easy .diffr{height:max(250px,calc(100dvh - 470px))}body.easy .dfcol{height:100%}body.easy .diffr .dfb{min-height:0;flex:1;font-size:clamp(26px,5vh,40px)}
+.mgcmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.mgcmp>div{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column}.mgcmp small{color:var(--muted);font-size:12px}
 .cshell{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}
 .crail{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));height:calc(100vh - 20px - env(safe-area-inset-top,0px));background:#14243D;border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .crail button,.cbar button{background:none;border:0;color:#fff;opacity:.82;border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 Barlow,sans-serif;text-align:center;min-height:56px;justify-content:center}
@@ -1035,7 +1036,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V145';
+const APP_VERSION='V146';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2429,6 +2430,16 @@ function sheetHTML(m,S){
       <div class="card"><b>Fiche 2 · ${side2.map(x=>ROLES[x]).join(', ')}</b><label class="f" style="margin-top:6px">Numéro de maillot pour ${side2.length>1?'ces postes':'ce poste'}<input id="splitN" inputmode="numeric" maxlength="2" placeholder="ex. 18"></label></div>
       <p class="hint">Les deux fiches sont liées : sur une feuille de match, une seule des deux est cochée à la fois.</p>
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="splitGo">Créer les deux fiches</button><button class="btn big" data-act="splitBack">Revenir à la fiche</button></div>`;}
+  if(ui.sheet==='merge1'&&ui.mergeQ){const q=ui.mergeQ,loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id),pn=m=>(m.ev||[]).filter(e=>e.t==='pt').length,sn=m=>(m.ev||[]).filter(e=>e.t==='pt').reduce((a,e)=>a+(e.st?e.st.length:0),0);
+    return `<div class="sh"><h3>Nouveau match ?</h3>${close}</div>
+      <p>Le match importé, <b>${esc(q.imp.team||'')} – ${esc(q.imp.opp||'')}</b> du ${fmtDate(q.imp.date)}, porte le même intitulé qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil.</p>
+      <div class="mgcmp"><div><small>Sur cet appareil</small><b>${pn(loc)} points · ${sn(loc)} actions</b></div><div><small>Importé</small><b>${pn(q.imp)} points · ${sn(q.imp)} actions</b></div></div>
+      <p class="hint">Deux personnes ont noté le même match ? La fusion recoupe les deux saisies point par point et complète les actions manquantes de part et d'autre.</p>
+      <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeYes">Oui : fusionner les deux saisies</button><button class="btn big" data-act="mergeNo">Non : garder les deux matchs (doublon)</button></div>`;}
+  if(ui.sheet==='merge2'&&ui.mergeQ){return `<div class="sh"><h3>En cas de doute ?</h3>${close}</div>
+      <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
+      <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
+      <p class="hint" style="margin-top:8px">Les actions présentes d'un seul côté sont toujours ajoutées ; un joueur ou une difficulté manquants sont complétés.</p>`;}
   if(ui.sheet==='teamPick'){
     return `<div class="sh"><h3>Changer d'équipe</h3>${close}</div>
       ${store.cur.ev.length?'<p class="hint">Le match en cours sera archivé avant de changer d\'équipe.</p>':''}
@@ -2722,6 +2733,7 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
       <hr class="sep"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
       <li><b>Faites-le à deux !</b> Un premier joueur regarde le match et annonce à voix haute : « réception = : 7 », « passe + », « attaque + : 12 », « point domicile ». Le deuxième saisit.</li>
+      <li><b>Faites-le à deux ! (encore ?)</b> Deux personnes peuvent noter le même match chacune de son côté, puis fusionner leurs saisies : il suffit d'importer le match de l'autre. Attention à respecter l'intitulé : même adversaire, même date.</li>
       <li><b>Entraînez-vous !</b> Saisir des statistiques au volley, c'est difficile. L'interface est pensée pour faciliter la saisie : avec un peu d'entraînement, on y arrive bien.</li>
       <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li>
       <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details>`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Un appui sur « Revenir au terrain » ou « Stats de l'échange » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`))}
@@ -3583,6 +3595,11 @@ const A={
   pdf(d){if(!isPro()&&!isDemoTeam()){ui.sheet='pro';return;}const m=d.id==='season'?(teamArch().length?seasonMatch():null):d.id?store.arch.find(a=>a.id===d.id):store.cur;if(m)exportPDF(m);return 1;},
   seasonJson(){if(!isPro()){ui.sheet='pro';return;}saveFile(`saison_${today()}.json`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:teamArch()}));return 1;},
   pasteOpen(){ui.sheet='paste';},
+  mergeYes(){ui.sheet='merge2';},
+  mergeNo(){const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const c=JSON.parse(JSON.stringify(q.imp));c.id='m'+Date.now().toString(36);store.arch.push(c);store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));save();toast('Match importé en doublon dans l’archive','ok');},
+  mergeGo(d){const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id);if(!loc)return;
+    const {m,rep}=mergeMatches(loc,q.imp,d.v);if(q.where==='cur'){m.pend=store.cur.pend||[];store.cur=m;}else{const k=store.arch.findIndex(a=>a.id===q.id);store.arch[k]=m;}save();
+    ui.alert=['Fusion terminée.',mergeReport(rep,d.v)];ui.alertFixes=[];ui.alertMode=null;ui.alertClose='Fermer';},
   methodOpen(){ui.sheet='method';},
   tutoSteps(){ui.tutoSteps=!ui.tutoSteps;},
   setGo(d){ui.setSec=d.id;const el=document.getElementById('set-'+d.id);if(el){window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-10),behavior:'instant'});}SPY_LOCK=Date.now();setSpy(d.id);return 1;},
@@ -3744,6 +3761,50 @@ document.addEventListener('change',e=>{
   if(t.dataset&&(t.dataset.x!==undefined||t.dataset.f))render();
 });
 // Import de données (fichier ou texte collé) : tolérant sur le format, messages d'erreur précis
+// ===== Fusion de deux saisies d'un même match (deux statisticiens) =====
+// Points alignés set par set sur la suite des gagnants (plus longue sous-suite commune) ; actions recoupées par type et par ordre.
+const mgNorm=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+function mergeCandidate(mm){const ok=a=>a&&a.id!==mm.id&&Array.isArray(a.ev)&&a.date===mm.date&&mgNorm(a.opp)===mgNorm(mm.opp)&&mgNorm(a.opp)!=='';
+  if(ok(store.cur)&&store.cur.ev.length)return {where:'cur',m:store.cur};const a=store.arch.find(ok);return a?{where:'arch',m:a}:null;}
+function setsOf(m){const out=[];let cur=null;(m.ev||[]).forEach(e=>{if(e.t==='set'){cur={head:e,ev:[]};out.push(cur);}else if(cur)cur.ev.push(e);});return out;}
+function lcsAlign(A,B,eq){const n=A.length,m=B.length,D=Array.from({length:n+1},()=>new Int16Array(m+1));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)D[i][j]=eq(A[i],B[j])?D[i+1][j+1]+1:Math.max(D[i+1][j],D[i][j+1]);
+  const pairs=[];let i=0,j=0;while(i<n&&j<m){if(eq(A[i],B[j])){pairs.push([i,j]);i++;j++;}else if(D[i+1][j]>=D[i][j+1])i++;else j++;}return pairs;}
+// fusion des actions d'un point : base = source de confiance ; on complète avec l'autre
+function mergeSt(T,O,rep){T=(T||[]).map(x=>x.slice());O=(O||[]).map(x=>x.slice());if(!O.length)return T;if(!T.length){rep.added+=O.length;return O;}
+  // alignement des actions : même type, même note, même joueur (ou joueur absent d'un côté)
+  const eq=(a,b)=>a[0]===b[0]&&a[1]===b[1]&&(!a[2]||!b[2]||a[2]===b[2]);
+  const fill=(t,x)=>{if(!t[2]&&x[2]){t[2]=x[2];rep.filled++;}if(t[4]==null&&x[4]!=null){while(t.length<5)t.push(null);t[4]=x[4];rep.filled++;}};
+  const pairs=lcsAlign(T,O,eq);pairs.forEach(([a,b])=>fill(T[a],O[b]));
+  const out=[];let pa=0,pb=0;
+  const gap=(ta,tb,oa,ob)=>{const tg=T.slice(ta,tb),used=new Set();tg.forEach(t=>out.push(t));
+    O.slice(oa,ob).forEach(x=>{const k=tg.findIndex((t,i)=>!used.has(i)&&t[0]===x[0]);
+      if(k>=0){used.add(k);rep.conflicts++;fill(tg[k],x);} // même action notée différemment : la source de confiance l'emporte
+      else{out.push(x);rep.added++;}});};
+  pairs.forEach(([a,b])=>{gap(pa,a,pb,b);out.push(T[a]);pa=a+1;pb=b+1;});gap(pa,T.length,pb,O.length);
+  return out;}
+function mergeMatches(loc,imp,trust){const T=trust==='imp'?imp:loc,O=trust==='imp'?loc:imp,rep={pts:0,ptsT:0,ptsO:0,added:0,filled:0,conflicts:0,setsDiff:false};
+  const ST=setsOf(T),SO=setsOf(O);if(ST.length!==SO.length)rep.setsDiff=true;
+  const ev=[];
+  let si=-1;const ptsO=SO.map(s=>s.ev.filter(e=>e.t==='pt'));
+  const pairsBySet=ST.map((s,i)=>{const pt=s.ev.filter(e=>e.t==='pt'),po=ptsO[i]||[];const pr=lcsAlign(pt,po,(a,b)=>a.w===b.w);const map=new Map(pr.map(([a,b])=>[pt[a],po[b]]));rep.ptsT+=pt.length;rep.ptsO+=po.length;rep.pts+=pr.length;return map;});
+  const clone=new Map();
+  (T.ev||[]).forEach(e=>{if(e.t==='set'){si++;ev.push(JSON.parse(JSON.stringify(e)));return;}
+    if(e.t==='pt'&&si>=0){const o=pairsBySet[si].get(e),c=JSON.parse(JSON.stringify(e));if(o)c.st=mergeSt(e.st,o.st,rep);clone.set(e,c);ev.push(c);return;}
+    ev.push(JSON.parse(JSON.stringify(e)));});
+  // temps morts présents seulement dans l'autre saisie : ajoutés au bon endroit (avant le même point aligné)
+  SO.forEach((s,i)=>{if(!ST[i])return;const pt=s.ev.filter(e=>e.t==='pt');s.ev.forEach((e,k)=>{if(e.t!=='to')return;
+      const tos=ST[i].ev.filter(x=>x.t==='to'&&x.s===e.s).length,toO=s.ev.slice(0,k+1).filter(x=>x.t==='to'&&x.s===e.s).length;if(toO<=tos)return;
+      const nextPt=s.ev.slice(k).find(x=>x.t==='pt');const tgt=nextPt?[...pairsBySet[i].entries()].find(([a,b])=>b===nextPt):null;
+      const pos=tgt?ev.indexOf(clone.get(tgt[0])):-1;
+      if(pos>=0){ev.splice(pos,0,JSON.parse(JSON.stringify(e)));rep.added++;}});});
+  const out=JSON.parse(JSON.stringify(T));out.ev=ev;out.id=loc.id;out.teamId=loc.teamId;if(loc.seasonId)out.seasonId=loc.seasonId;out.pend=[];out.redo=[];
+  // effectif : union (joueurs saisis d'un seul côté)
+  const ros=(loc.roster||[]).slice();(imp.roster||[]).forEach(p=>{if(!ros.some(x=>x.id===p.id))ros.push(p);});out.roster=ros;
+  out.present=Object.assign({},O.present||{},T.present||{});out.roles=Object.assign({},O.roles||{},T.roles||{});
+  out.merged=(loc.merged||0)+1;return {m:out,rep};}
+function mergeReport(r,trust){return `${r.pts} point${r.pts>1?'s':''} recoupé${r.pts>1?'s':''} ; ${r.added} action${r.added>1?'s':''} ajoutée${r.added>1?'s':''} ; ${r.filled} complétée${r.filled>1?'s':''} ; ${r.conflicts} désaccord${r.conflicts>1?'s':''} tranché${r.conflicts>1?'s':''} en faveur des données ${trust==='imp'?'importées':'de cet appareil'}`+(r.ptsT!==r.ptsO?` ; nombres de points différents (${r.ptsT} / ${r.ptsO}) : la liste des points vient de la source de confiance`:'')+(r.setsDiff?' ; nombre de sets différent':'');}
+
 function importText(txt){
   let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;
   try{d=JSON.parse(raw);}catch(e){const i=raw.indexOf('{'),j=raw.lastIndexOf('}');
@@ -3754,6 +3815,7 @@ function importText(txt){
   if(teamsOnly&&!(Array.isArray(d.teams)||Array.isArray(d.roster))){toast('Ce fichier ne contient aucun effectif','warn');return false;}
   try{
     const list=teamsOnly?[]:(d.arch||[]).concat(d.cur&&Array.isArray(d.cur.ev)&&d.cur.ev.length?[d.cur]:[]);
+    if(list.length===1&&list[0]&&Array.isArray(list[0].ev)){const c=mergeCandidate(list[0]);if(c){ui.mergeQ={imp:lean(list[0]),where:c.where,id:c.m.id};ui.sheet='merge1';render();return true;}}
     list.forEach(mm=>{if(!mm||!mm.id||!Array.isArray(mm.ev))return;if(mm.id===store.cur.id||store.arch.some(a=>a.id===mm.id))return;store.arch.push(lean(mm));n++;});
     store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
     // effectifs : équipe ressemblante (≥ 50 % de joueurs en commun) → proposition de remplacement ; sinon nouvelle équipe
