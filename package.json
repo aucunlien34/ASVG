@@ -1,0 +1,31 @@
+{
+  "name": "volleycoach",
+  "version": "1.50.0",
+  "private": true,
+  "description": "VolleyCoach — banc de touche volley (webapp + coque native Capacitor iOS / Android)",
+  "scripts": {
+    "build:www": "node scripts/build-www.mjs",
+    "native:add": "npm run build:www && npx cap add android && npx cap add ios && node scripts/native-patch.mjs",
+    "native:patch": "node scripts/native-patch.mjs",
+    "native:icons": "node scripts/make-icon.mjs && npx @capacitor/assets generate --android --ios --iconBackgroundColor \"#14243D\" --iconBackgroundColorDark \"#14243D\" --splashBackgroundColor \"#FFFFFF\" --splashBackgroundColorDark \"#14243D\"",
+    "sync": "npm run build:www && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "ios": "npm run sync && npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "8.0.1",
+    "@capacitor/android": "8.5.3",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/ios": "8.5.3",
+    "@capacitor/preferences": "8.0.1",
+    "@capacitor/screen-orientation": "8.0.2",
+    "@capacitor/share": "8.0.3",
+    "@revenuecat/purchases-capacitor": "13.7.4"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.5.3"
+  }
+}

@@ -1037,7 +1037,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V149';
+const APP_VERSION='V150';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1561,8 +1561,9 @@ function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.s
   SEED_MATCHES.forEach(mm=>{if(s.seeds.includes(mm.id))return;s.seeds.push(mm.id);if(mm.teamId==='t-earth'&&!(s.teams||[]).some(t=>t.id==='t-earth'))return;if(!s.arch.some(a=>a.id===mm.id||(a.opp===mm.opp&&a.date===mm.date&&a.num===mm.num))){const c=clone(mm);c.teamId=c.teamId||(s.teams&&s.teams[0].id)||'t1';s.arch.push(c);}});
   {const te=(s.teams||[]).find(t=>t.id==='t-earth');if(te&&te.seasons)te.seasons.forEach(x=>{x.level='N';if(x.id==='s-earth-wl'){x.name='Solar League';x.calib=true;}});} // Team Earth : niveau avancé, attentes calibrées sur la Solar League
   s.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));return s;}
-function load(){
-  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];s.roster=s.roster||clone(ROSTER);if(!s.cur.roster)s.cur.roster=clone(s.roster);return addSeeds(migrateTeams(s));}}catch(e){}
+var BOOT_EMPTY=null; // localStorage vide au démarrage (première ouverture, ou données effacées par le système)
+function load(raw){
+  try{if(raw===undefined){raw=localStorage.getItem(KEY);if(BOOT_EMPTY===null)BOOT_EMPTY=!raw;}const s=JSON.parse(raw);if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];s.roster=s.roster||clone(ROSTER);if(!s.cur.roster)s.cur.roster=clone(s.roster);return addSeeds(migrateTeams(s));}}catch(e){}
   return addSeeds(migrateTeams({cur:newMatch(),arch:[],roster:clone(ROSTER),prefs:{sound:true,view:'jeu',orient:0}}));
 }
 let store=load();
@@ -1644,7 +1645,7 @@ function draftCheck(){
   const w=draftIssues(),k=w.map(x=>x.key).join('|');
   ui.draftKey=k;
 }
-function save(){try{const t=activeTeam();if(t)t.roster=store.roster;const real=(typeof ui!=='undefined'&&ui&&ui.tutoReal)||null,tt=(typeof ui!=='undefined'&&ui&&ui.tutoTeam)||null;const o=real?Object.assign({},store,{cur:real},tt?{teamId:tt.id,roster:tt.roster}:{}):Object.assign({},store);if(typeof ui!=='undefined'&&ui&&ui.tutoTemp){o.teams=store.teams.filter(t=>t.id!=='t-earth');o.arch=store.arch.filter(a=>a.teamId!=='t-earth');}localStorage.setItem(KEY,JSON.stringify(o));}catch(e){toast('Sauvegarde impossible sur cet appareil','warn');}}
+function save(){try{const t=activeTeam();if(t)t.roster=store.roster;const real=(typeof ui!=='undefined'&&ui&&ui.tutoReal)||null,tt=(typeof ui!=='undefined'&&ui&&ui.tutoTeam)||null;const o=real?Object.assign({},store,{cur:real},tt?{teamId:tt.id,roster:tt.roster}:{}):Object.assign({},store);if(typeof ui!=='undefined'&&ui&&ui.tutoTemp){o.teams=store.teams.filter(t=>t.id!=='t-earth');o.arch=store.arch.filter(a=>a.teamId!=='t-earth');}o.savedAt=Date.now();const json=JSON.stringify(o);nativeMirror(json);localStorage.setItem(KEY,json);}catch(e){if(!isNativeApp()||!nativePlug('Preferences'))toast('Sauvegarde impossible sur cet appareil','warn');}}
 let dlP=null;
 function downloadsCap(){if(!dlP)dlP=(window.claude&&window.claude.use)?window.claude.use('downloads').catch(()=>null):Promise.resolve(null);return dlP;}
 setTimeout(downloadsCap,0);
@@ -1855,6 +1856,25 @@ async function forceUpdate(){try{if(window.caches){const k=await caches.keys();a
 // Appli native (Capacitor, iOS / Android) : mises à jour par les stores, fichiers par les modules natifs s'ils sont installés
 const NATIVE=!!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());
 const CAP=()=>(window.Capacitor&&window.Capacitor.Plugins)||{};
+
+// ===== Appli native (1) : sauvegarde doublée dans le stockage natif (module Preferences), que le système ne vide jamais
+// iOS peut effacer le localStorage d'une WebView (manque de place, appli peu ouverte) : chaque sauvegarde est recopiée
+// dans Preferences ; au démarrage, la copie la plus récente (horodatage savedAt) l'emporte.
+function isNativeApp(){return !!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());}
+function nativePlatform(){try{return window.Capacitor.getPlatform();}catch(e){return 'web';}}
+function nativePlug(n){return (window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins[n])||null;}
+var nPrefT=null,nPrefV=null,nRestored=false; // var : utilisable même si save() est appelée avant cette ligne
+function nativeMirror(json){if(!isNativeApp()||!nativePlug('Preferences'))return;nPrefV=json;if(!nRestored)return; // rien n'est recopié avant la vérification de démarrage
+  clearTimeout(nPrefT);nPrefT=setTimeout(nativeFlush,400);}
+function nativeFlush(){if(!nRestored)return Promise.resolve();clearTimeout(nPrefT);nPrefT=null;const v=nPrefV,P=nativePlug('Preferences');nPrefV=null;if(v==null||!P)return Promise.resolve();return P.set({key:KEY,value:v}).catch(()=>{});}
+function nativeWipe(){clearTimeout(nPrefT);nPrefT=null;nPrefV=null;const P=isNativeApp()&&nativePlug('Preferences');return P?P.remove({key:KEY}).catch(()=>{}):Promise.resolve();}
+async function nativeRestore(){const P=isNativeApp()&&nativePlug('Preferences');if(!P){nRestored=true;return;}let took=false;
+  try{const r=await P.get({key:KEY}),v=r&&r.value;let loc=null;try{loc=localStorage.getItem(KEY);}catch(e){}
+    const ts=x=>{try{return (JSON.parse(x)||{}).savedAt||0;}catch(e){return -1;}};
+    // localStorage vidé par le système (vide au démarrage) ou copie native plus récente : la copie native l'emporte
+    if(v&&(BOOT_EMPTY||!loc||ts(v)>ts(loc))){const s=load(v);if(s&&s.savedAt){took=true;
+      try{localStorage.setItem(KEY,v);}catch(e){}store=s;ui.screen=null;ui.sheet=null;try{render();}catch(e){}if(BOOT_EMPTY)toast('Données restaurées depuis la sauvegarde de l’appareil','ok');}}}catch(e){}
+  nRestored=true;if(took){nPrefV=null;}else{try{nPrefV=nPrefV||localStorage.getItem(KEY);}catch(e){}nativeFlush();}}
 let UPD={at:null,found:null,err:null};
 async function checkUpdate(manual){if(NATIVE){UPD={at:new Date(),found:APP_VERSION,err:null};if(manual)toast('Les mises à jour passent par le store','ok');return;}if(!location.protocol.startsWith('http')){UPD={at:new Date(),found:null,err:'hors ligne'};if(manual){toast('Vérification impossible hors ligne','warn');render();}return;}
   try{const r=await fetch('version.json?_='+Date.now()+'-'+Math.random().toString(36).slice(2),{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
@@ -2902,6 +2922,58 @@ const PLANS={month:{lab:'Mensuel',price:'2,99 €',per:'par mois'},season:{lab:'
 // Codes d'activation (en attendant le paiement en ligne) : test et pilote
 const LIC_CODES={'VCS-PRO-TEST':{plan:'season',until:'2027-08-31'},'VCS-PILOTE-2627':{plan:'season',until:'2027-08-31'}};
 const TRIAL_DAYS=14;
+// ===== Appli native (3) : achats intégrés App Store / Google Play via RevenueCat (@revenuecat/purchases-capacitor)
+// Apple et Google imposent leur système de paiement pour débloquer des fonctions numériques dans une appli des stores.
+// À configurer (voir NATIVE.md) : clés publiques RevenueCat, droit « pro », offre courante avec 2 formules :
+//   month  = abonnement mensuel auto-renouvelable (forfait RevenueCat « $rc_monthly »)
+//   season = pass saison, achat sans renouvellement valable jusqu'au 31 août (forfait personnalisé « saison »)
+// Le pass club reste vendu hors stores (codes d'activation), sur le web et — si les règles du store le permettent — dans l'appli.
+const IAP_CFG={entitlement:'pro',keys:{ios:'appl_A_REMPLIR',android:'goog_A_REMPLIR'},packages:{month:'$rc_monthly',season:'saison'},codes:{web:true,android:true,ios:false}};
+const IAP={ready:false,busy:false,pk:{},plan:{},err:null};
+function iapOn(){return isNativeApp()&&!!nativePlug('Purchases')&&!/A_REMPLIR/.test(IAP_CFG.keys[nativePlatform()]||'A_REMPLIR');}
+function codesOn(){return !!IAP_CFG.codes[isNativeApp()?nativePlatform():'web'];}
+function seasonEnd(d){const x=new Date(d||Date.now());const y=x.getMonth()>=8?x.getFullYear()+1:x.getFullYear();return y+'-08-31';}
+function iapApply(ci){const act=ci&&ci.entitlements&&ci.entitlements.active,e=act&&act[IAP_CFG.entitlement],was=JSON.stringify(store.lic||null);
+  if(e){const plan=IAP.plan[e.productIdentifier]||(e.expirationDate?'month':'season');
+    const until=e.expirationDate?String(e.expirationDate).slice(0,10):plan==='season'?seasonEnd(e.latestPurchaseDate||e.originalPurchaseDate):null;
+    if(!(store.lic&&store.lic.src!=='iap'&&isPro()&&store.lic.until&&until&&store.lic.until>until)) // un code club plus long reste prioritaire
+      store.lic={plan,until,src:'iap',product:e.productIdentifier,renew:!!e.willRenew};}
+  else if(store.lic&&store.lic.src==='iap')store.lic=null; // abonnement expiré ou remboursé
+  if(JSON.stringify(store.lic||null)!==was){save();try{render();}catch(err){}}}
+async function iapInit(){if(!iapOn()||IAP.ready)return;const P=nativePlug('Purchases');
+  try{await P.configure({apiKey:IAP_CFG.keys[nativePlatform()]});
+    const o=await P.getOfferings(),cur=o&&o.current;
+    ((cur&&cur.availablePackages)||[]).forEach(pk=>{Object.entries(IAP_CFG.packages).forEach(([k,id])=>{if(pk.identifier===id){IAP.pk[k]=pk;if(pk.product)IAP.plan[pk.product.identifier]=k;}});});
+    IAP.ready=true;await iapRefresh();try{render();}catch(e){}}
+  catch(e){IAP.err=String((e&&e.message)||e);}}
+async function iapRefresh(){if(!IAP.ready)return;try{const r=await nativePlug('Purchases').getCustomerInfo();iapApply(r&&r.customerInfo);}catch(e){}}
+function iapCancelled(e){return !!(e&&(e.userCancelled||(e.data&&e.data.userCancelled)||String(e.code)==='1'||/cancel/i.test(String(e.message||''))));}
+async function iapBuy(k){if(IAP.busy)return;if(!IAP.ready)await iapInit();const pk=IAP.pk[k];
+  if(!pk){toast('Offre indisponible pour le moment : vérifiez la connexion au store','warn');return;}
+  IAP.busy=true;try{render();}catch(e){}
+  try{const r=await nativePlug('Purchases').purchasePackage({aPackage:pk});iapApply(r&&r.customerInfo);
+    if(store.lic&&store.lic.src==='iap'&&isPro()){ui.sheet=null;toast('VolleyCoach Pro activé','ok');}}
+  catch(e){if(!iapCancelled(e))toast('Achat non abouti : '+((e&&e.message)||'erreur du store'),'warn');}
+  IAP.busy=false;try{render();}catch(e){}}
+async function iapRestore(){if(!IAP.ready)await iapInit();if(!IAP.ready){toast('Store injoignable pour le moment','warn');return;}
+  IAP.busy=true;try{render();}catch(e){}
+  try{const r=await nativePlug('Purchases').restorePurchases();iapApply(r&&r.customerInfo);
+    toast(store.lic&&store.lic.src==='iap'&&isPro()?'Achats restaurés : VolleyCoach Pro actif':'Aucun achat VolleyCoach Pro à restaurer sur ce compte',store.lic&&store.lic.src==='iap'?'ok':'');}
+  catch(e){toast('Restauration impossible : '+((e&&e.message)||'erreur du store'),'warn');}
+  IAP.busy=false;try{render();}catch(e){}}
+function proStoreHTML(close){const L=store.lic,store_=nativePlatform()==='ios'?'App Store':'Google Play';
+  const price=k=>{const pk=IAP.pk[k];return pk&&pk.product&&pk.product.priceString?pk.product.priceString:PLANS[k].price;};
+  const plans={month:{lab:PLANS.month.lab,per:'renouvelé chaque mois, résiliable à tout moment'},season:{lab:PLANS.season.lab,per:'paiement unique, valable jusqu’au 31 août'}};
+  return `<div class="sh"><h3>VolleyCoach Pro</h3>${close}</div>
+    <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:#B88A00">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
+    <ul class="prol"><li>Stats de tous les joueurs (le gratuit couvre le premier tiers, les plus utilisés)</li><li>Zones, classements, valeur ajoutée, progression</li><li>Stats de saison</li><li>Exports PDF des statistiques</li></ul>
+    <div class="plans">${Object.entries(plans).map(([k,o])=>`<div class="plan ${k==='season'?'best':''}">${k==='season'?'<span class="pbadge">Le plus avantageux</span>':''}<b>${o.lab}</b><div class="pp">${esc(price(k))}</div><small class="hint">${o.per}</small><button class="btn ${k==='season'?'primary':''}" data-act="buy" data-k="${k}" ${IAP.busy?'disabled':''}>${IAP.busy?'…':'Choisir'}</button></div>`).join('')}</div>
+    ${L&&L.src==='iap'&&isPro()?`<p class="hint" style="font-weight:700">Actif : ${esc((PLANS[L.plan]||{lab:L.plan}).lab)}${L.until?(L.renew?' — prochain renouvellement le ':' jusqu’au ')+fmtDate(L.until):''}.</p>`:''}
+    <div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><button class="btn" data-act="iapRestore" ${IAP.busy?'disabled':''}>Restaurer mes achats</button></div>
+    <p class="hint">Restent gratuits : la saisie des matchs, les résumés de match (PDF compris) et la sauvegarde complète des données (.json).</p>
+    <p class="hint">Paiement par votre compte ${store_}. Mensuel : renouvellement automatique sauf résiliation au moins 24 h avant la fin de la période, dans les réglages d’abonnement de ${store_}. Pass saison : achat unique sans renouvellement. <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales</button>.</p>
+    ${codesOn()?`<div class="card" style="margin-top:10px"><b>Code d'activation</b><div class="row" style="margin-top:6px"><input id="licIn" type="text" placeholder="ex. VCS-XXXX-XXXX" autocapitalize="characters" style="flex:1"><button class="btn" data-act="licGo">Activer</button></div>
+    ${L&&L.plan&&L.plan!=='free'&&L.src!=='iap'?`<p class="hint">Activé : ${esc((PLANS[L.plan]||{lab:L.plan}).lab)}${L.until?' jusqu’au '+fmtDate(L.until):''}.</p>`:''}</div>`:''}`;}
 function trialLeft(){const t=store.prefs.trialStart;if(!t)return 0;const d=Math.floor((new Date(today())-new Date(t))/86400000);return Math.max(0,TRIAL_DAYS-d);}
 function isPro(){const L=store.lic;if(L&&L.plan&&L.plan!=='free'&&(!L.until||L.until>=today()))return true;return trialLeft()>0;}
 function proStatus(){const L=store.lic;if(L&&L.plan&&L.plan!=='free'&&(!L.until||L.until>=today()))return `VolleyCoach Pro actif${L.until?' jusqu’au '+fmtDate(L.until):''}.`;const n=trialLeft();if(n>0)return `Essai Pro gratuit : ${n} jour${n>1?'s':''} restant${n>1?'s':''}. Toutes les fonctions sont ouvertes.`;return 'Version gratuite : saisie des matchs, résumés de match (PDF compris), sauvegarde complète, stats du premier tiers des joueurs (les plus utilisés) et premier tiers de chaque classement.';}
@@ -2923,7 +2995,7 @@ function methodHTML(close){const C=STAT_CFG,E=C.EXPECT,w=o=>Object.entries(o).ma
     <p><b>Zones et circuits favorables.</b> À partir de ${C.ZONE_MIN_M} ballons sur un match, ${C.ZONE_MIN_S} sur une saison.</p>
     <p><b>Progression.</b> Courbe brute et courbe lissée sur 3 matchs (pondérée par le nombre d'actions) ; tendance = pente de la régression pondérée, affichée si l'évolution prédite dépasse 5 points.</p>
     <p><b>Complétude.</b> Part des points avec au moins une action notée. Vert ≥ 80 %, orange 50 à 80 %, rouge en dessous.</p></div>`;}
-function proSheetHTML(close){const L=store.lic;
+function proSheetHTML(close){if(iapOn())return proStoreHTML(close);const L=store.lic;
   return `<div class="sh"><h3>VolleyCoach Pro</h3>${close}</div>
     <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:#B88A00">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
     <ul class="prol"><li>Stats de tous les joueurs (le gratuit couvre le premier tiers, les plus utilisés)</li><li>Zones, classements, valeur ajoutée, progression</li><li>Stats de saison</li><li>Exports PDF des statistiques</li></ul>
@@ -3534,7 +3606,7 @@ const A={
     }
   },
   codeForgot(){ui.confirm=null;ui.sheet='forgot';},
-  wipeAll(){if(ui.confirm!=='wipe'){ui.confirm='wipe';return 'keep';}try{localStorage.removeItem(KEY);sessionStorage.clear();}catch(e){}location.reload();return 1;},
+  wipeAll(){if(ui.confirm!=='wipe'){ui.confirm='wipe';return 'keep';}try{localStorage.removeItem(KEY);sessionStorage.clear();}catch(e){}nativeWipe().finally(()=>location.reload());return 1;},
   codeOnOff(){if(store.prefs.codeOn){store.prefs.codeOn=false;save();toast('Code entraîneur désactivé','ok');return;}ui.code='';ui.codeMode='enable';ui.sheet='code';},
   relock(){ui.coachJump=null;ui.coach=false;ui.screen=null;ui.coachView=null;ui.afterCode=null;},
   toMatch(){ui.screen=null;ui.sheet=null;},
@@ -3624,7 +3696,8 @@ const A={
   tutoEnd(){if(ui.tutoReal){store.cur=ui.tutoReal;ui.tutoReal=null;}if(ui.tutoTeam){store.teamId=ui.tutoTeam.id;store.roster=ui.tutoTeam.roster;ui.tutoTeam=null;}tEarthDrop();
     ui.coachView=null;ui.seasonSel=null;ui.tuto=null;store.prefs.tutoSeen=true;save();ui.screen=null;ui.coach=false;ui.draft=null;ui.sheet=null;window.scrollTo(0,0);},
   pro(){ui.sheet='pro';},
-  buy(d){toast(`${PLANS[d.k].lab} : le paiement en ligne arrive bientôt. En attendant, utilisez un code d'activation.`,'warn');},
+  buy(d){if(iapOn()){iapBuy(d.k);return 'keep';}toast(`${PLANS[d.k].lab} : le paiement en ligne arrive bientôt. En attendant, utilisez un code d'activation.`,'warn');},
+  iapRestore(){iapRestore();return 'keep';},
   licGo(){const v=(($('#licIn')||{}).value||'').trim().toUpperCase(),c=LIC_CODES[v];if(!c){toast('Code d’activation inconnu','warn');return 'keep';}store.lic={plan:c.plan,until:c.until,code:v};save();ui.sheet=null;toast('VolleyCoach Pro activé','ok');},
   tip(d){ui.tip=ui.tip===d.k?null:d.k;},
   tipClose(){ui.tip=null;},
@@ -3759,6 +3832,27 @@ document.addEventListener('wheel',e=>{if(e.ctrlKey)e.preventDefault();},{passive
 if(NATIVE&&CAP().App){CAP().App.addListener('backButton',()=>{
   if(ui.tip){ui.tip=null;}else if(ui.alert){A.alertOk&&A.alertOk();ui.alert=null;}else if(ui.sheet){ui.sheet=null;}else if(ui.tuto){A.tutoEnd();}
   else if(ui.toStats){A.toBack();}else if(ui.coach){ui.coach=false;ui.screen=null;}else if(ui.screen){ui.screen=null;ui.draft=null;}else{CAP().App.minimizeApp&&CAP().App.minimizeApp();return;}render();});}
+// ===== Appli native (2) : ouverture d'un fichier .vbcs / .json reçu du système (« Ouvrir avec », Fichiers, pièce jointe)
+// iOS : le fichier est copié dans la boîte de réception de l'appli (file://) ; Android : adresse content:// ou file://.
+// Lecture par le module Filesystem, à défaut par la WebView (convertFileSrc), puis même import que « Importer un fichier ».
+let nOpenLast={u:'',t:0};
+async function nativeOpenUrl(url){if(!url||!/^(file|content):/i.test(url))return;
+  if(nOpenLast.u===url&&Date.now()-nOpenLast.t<5000)return;nOpenLast={u:url,t:Date.now()}; // démarrage à froid : getLaunchUrl et appUrlOpen peuvent signaler le même fichier
+  let txt='';const F=nativePlug('Filesystem');
+  try{if(F){const r=await F.readFile({path:url,encoding:'utf8'});txt=(r&&r.data)||'';}}catch(e){}
+  if(!txt){try{const r=await fetch(window.Capacitor.convertFileSrc(url));if(r.ok)txt=await r.text();}catch(e){}}
+  if(!String(txt).trim()){toast('Impossible de lire le fichier reçu','warn');return;}
+  ui.tuto=null;ui.sheet=null;importText(txt);}
+if(NATIVE){
+  setTimeout(nativeRestore,0);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)nativeFlush();});
+  const App=CAP().App;
+  if(App){App.addListener('appUrlOpen',e=>{setTimeout(()=>nativeOpenUrl(e&&e.url),300);});
+    App.addListener('pause',()=>{nativeFlush();});
+    App.addListener('resume',()=>{iapRefresh();});
+    if(App.getLaunchUrl)App.getLaunchUrl().then(r=>{if(r&&r.url)setTimeout(()=>nativeOpenUrl(r.url),600);}).catch(()=>{});}
+  setTimeout(iapInit,800);
+}
 let swX=null,swY=null;
 document.addEventListener('touchstart',e=>{const sh=e.target.closest&&e.target.closest('.sheet.full');if(!sh){swX=null;return;}swX=e.touches[0].clientX;swY=e.touches[0].clientY;},{passive:true});
 document.addEventListener('touchend',e=>{if(swX==null||ui.sheet!=='pfull'||ui.pfT==='p')return; // pas de balayage sur les fiches joueurs plein écran (flèches seulement)

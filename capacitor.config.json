@@ -1,0 +1,18 @@
+{
+  "appId": "fr.volleycoach.app",
+  "appName": "VolleyCoach",
+  "webDir": "www",
+  "backgroundColor": "#FFFFFF",
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "never",
+    "scheme": "VolleyCoach"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

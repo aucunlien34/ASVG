@@ -1,0 +1,7 @@
+node_modules/
+www/
+# Projets natifs générés par « npm run native:add » (en CI pour l'instant) ;
+# à versionner plus tard, une fois les réglages Xcode / Android Studio personnalisés.
+android/
+ios/
+assets/
