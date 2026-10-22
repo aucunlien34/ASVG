@@ -32,6 +32,11 @@
   --c:#2F6FDB;--l:#9049CF;--pos:#5FD08A;--neg:#FF6B7D;color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+/* Mode match : fond teinté « terrain » (même luminosité que le Menu, sans coût de batterie) et liseré jaune en haut */
+body.mmode{--bg:#E6EFE8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body.mmode{--bg:#0B1915}}
+:root[data-theme="dark"] body.mmode{--bg:#0B1915}
+body.mmode::before{content:"";position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:5px;background:var(--pa);z-index:50;pointer-events:none}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.4;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:3px solid var(--c);outline-offset:2px}
@@ -99,7 +104,7 @@ label.f select:disabled{opacity:.7}
 /* Téléphone : bloc flottant en bas, partie stats repliable */
 .dtog{display:none}
 @media (max-width:560px){
-  .dtog{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;min-height:40px;margin-bottom:8px;border-radius:10px;border:1.5px dashed var(--line);background:var(--surface2);color:var(--ink);font-weight:600;font-size:15px}
+  .dtog{display:flex;width:100%;min-height:44px;margin-bottom:8px;border-radius:12px;border:2px solid var(--team);background:var(--surface);color:var(--ink);font-weight:700;font-size:16px;overflow:hidden}
   .dtog .cnt{background:var(--team);color:var(--teamInk);border-radius:10px;padding:1px 8px;font-size:13px}
   .dock.folded .stp,.dock.folded .stpick{display:none}
   body.phstats #app .courtwrap,body.phstats #app .libinfo,body.phstats #app .vtog{display:none}
@@ -381,7 +386,9 @@ tr.tot td{font-weight:700;background:var(--surface2)}
 .sume.ssrv{color:#8a6a00;font-weight:700;border-bottom:0;padding-top:6px;padding-bottom:1px}.sume.ssrv.sa{color:var(--neg)}
 @media (min-width:900px){.sumrows{display:grid;grid-template-columns:1fr 1fr;column-gap:16px}}
 /* Mode stats faciles : bascule terrain / stats comme sur téléphone, stats en plein écran, gros boutons */
-body.easy .dtog{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;min-height:52px;margin-bottom:10px;border-radius:12px;border:2px dashed var(--line);background:var(--surface2);color:var(--ink);font-weight:700;font-size:18px}
+body.easy .dtog{display:flex;width:100%;min-height:52px;margin-bottom:10px;border-radius:12px;border:2px solid var(--team);background:var(--surface);color:var(--ink);font-weight:700;font-size:18px;overflow:hidden}
+.dtog button{flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:8px;border:0;background:none;color:inherit;font:inherit;min-height:inherit;padding:0 10px}
+.dtog button.on{background:var(--team);color:var(--teamInk)}.dtog button.on .cnt{background:var(--teamInk);color:var(--team)}
 body.easy .dtog .cnt{background:var(--team);color:var(--teamInk);border-radius:10px;padding:1px 8px;font-size:14px}
 body.easy .dock.folded .stp,body.easy .dock.folded .stpick{display:none}
 body.easy.phstats #app>*:not(.dock):not(.upd){display:none!important}
@@ -392,7 +399,7 @@ body.easy.phstats .stgrid .stb .lgl,body.easy.phstats .stgrid .stb .shl{font-siz
 body.easy.phstats .stgrid .stc,body.easy.phstats .stgrid .stl{font-size:17px}
 body.easy.phstats .pickc{gap:12px}body.easy.phstats .pickc .bchip{min-height:76px;font-size:19px}body.easy.phstats .pickc .bchip .num{width:42px;height:42px;font-size:20px}
 body.easy.phstats .dock .undo .btn{min-height:58px}
-body.easy.phstats #app .dock{display:flex;flex-direction:column}body.easy.phstats .dock .dtog{order:-2;background:#14243D;color:#fff;border:0;min-height:clamp(60px,7vh,90px);font-size:clamp(20px,2.6vh,30px)}
+body.easy.phstats #app .dock{display:flex;flex-direction:column}body.easy.phstats .dock .dtog{order:-2;min-height:clamp(60px,7vh,90px);font-size:clamp(20px,2.6vh,30px)}
 @media (min-width:700px){body.easy.phstats .dock .score .tside{min-height:110px}body.easy.phstats .dock .score .big{font-size:72px}body.easy.phstats .dock .score .tn{font-size:24px}}body.easy.phstats .dock .score{order:-1}
 body.easy.phstats .dock .stp .sth{display:none}
 .egrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 8px}
@@ -446,7 +453,7 @@ body.easy.phstats .dock .undo{flex:none}
 .spl{position:absolute;transform:translateX(-50%);font-size:10.5px;font-weight:700;line-height:1;white-space:nowrap;pointer-events:none}.spl.mn{color:var(--neg)}.spl.mx{color:var(--pos)}
 @media (max-width:560px){.prw{grid-template-columns:78px 46px minmax(0,1fr) 56px!important}.prw .pl{font-size:13px}}
 .linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;font:inherit;font-size:15px;padding:8px}
-.warnc{border:2px solid var(--pu);background:rgba(215,38,61,.06)}.warnc b{color:var(--neg)}
+.warnc{border:2px solid var(--pu);background:rgba(215,38,61,.06)}.warnc b{color:var(--neg)}.warnc p{color:var(--ink)}
 .cprog{margin-top:8px;border-top:1px solid var(--line);padding-top:6px}.cprog .cpt{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
 .prw.cpr{grid-template-columns:70px 38px minmax(0,1fr) 54px!important;margin:0}.prw.cpr .pl{font-size:12.5px}.prw.cpr .pst{font-size:12px}.prw.cpr .pvar{font-size:16px}
 .splash{position:fixed;inset:0;z-index:60;background:rgba(8,14,24,.62);display:flex;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px}
@@ -466,6 +473,10 @@ body.easy.phstats .dock .undo{flex:none}
 .passes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0}.passes .buyc{margin:0}
 .buyc.off{border-color:var(--line);box-shadow:none;background:var(--surface2)}.buyc.off .pp{color:var(--muted)}
 .restb{display:block;margin:4px auto 0;font-size:15px;min-height:44px}
+.pcmp{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pcmp th,.pcmp td{padding:8px 10px;border-bottom:1px solid var(--line);white-space:normal;text-align:center}.pcmp td:first-child,.pcmp th:first-child{text-align:left}
+.pcmp th{font-size:13px;color:var(--muted);font-weight:700}.pcmp tr:last-child td{border-bottom:0}.pcmp td+td{width:68px}
+.pcmp .cy{color:var(--pos);font-weight:800;font-size:19px}.pcmp .cn{color:var(--neg);font-weight:800;font-size:17px}
 .okline{font-weight:700;color:var(--ok);background:var(--okBg);border-radius:10px;padding:10px 12px}
 .plan .pp{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700}.plan .btn{margin-top:6px}.pbadge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#F2BE22;color:#241B00;font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap}
 .freeh{margin:4px 0 10px}
@@ -644,7 +655,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V152';
+const APP_VERSION='V153';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1491,7 +1502,7 @@ const TUTO=[
  // Chapitre 1, lancé à la première ouverture : seulement la navigation entre les écrans. Les autres chapitres se lancent un par un depuis Réglages › Aide.
  {t:'Découverte de l’appli',s:[
   {txt:"VolleyCoach vous accompagne sur le banc : rotations, score et statistiques, point par point.\n\nPetit tour des écrans, avec l'équipe fictive Team Earth. Touchez « Suivant », ou les éléments entourés en jaune.",init:()=>tPlay(),go:()=>tPlay()},
-  {sel:'.courtwrap',txt:"Le Terrain, écran principal du match : composition, rotations, score et saisie des stats de chaque échange."},
+  {sel:'.courtwrap',txt:"Le Terrain, écran principal du match, en deux vues : « Positions » (composition, rotations) et « Stats » (saisie de chaque échange). Le score reste toujours visible."},
   {act:1,sel:'[data-act=lock]',txt:"Le Menu ouvre l'espace entraîneur. Touchez « Menu ».",until:()=>inCoach()},
   {sel:TAB('match'),txt:"Match : préparer un nouveau match, le terminer, régler son format.",go:()=>tCoachOpen('match')},
   {sel:TAB('stats'),txt:"Stats : fiches des joueurs, zones, rotations, classements et résumé du match.",go:()=>{tCoachOpen('stats');tStats('p');}},
@@ -1518,13 +1529,13 @@ const TUTO=[
   {act:1,sel:'[data-act=startSet]',txt:"Touchez « Commencer le set ».",until:()=>!ui.screen&&replay(store.cur).sets.length>0}]},
  {t:'Pendant le match',s:[
   {sel:'.dock .score',txt:"Un échange = une série de touches jusqu'au point. À la fin, vous touchez l'équipe qui marque ; service et rotations suivent.",init:()=>tPlay()},
-  {act:1,sel:'[data-act=dockTog]',txt:"Touchez « Stats de l'échange ».",until:()=>!!tVis('[data-act=stCat]')},
+  {act:1,sel:'[data-act=dockSet][data-v=stats]',txt:"Le terrain a deux vues : « Positions » et « Stats ». Touchez « Stats ».",until:()=>!!tVis('[data-act=stCat]')},
   {act:1,sel:'[data-act=stCat][data-k=rec][data-s="1"]',txt:"L'adversaire sert. Touchez « Réception + ».",until:()=>!!(ui.stPick&&ui.stPick.k==='rec')||(store.cur.pend||[]).some(x=>x[0]==='rec')},
   {act:1,sel:'.pickc',tap:'.pickc .bchip',txt:"Touchez le joueur qui a réceptionné : chacun est à sa place du terrain.",until:()=>!ui.stPick&&(store.cur.pend||[]).some(x=>x[0]==='rec')},
   {sel:'.stp',txt:"Même geste pour les autres touches. La passe est attribuée d'office au passeur. Les actions notées s'affichent sous la grille.",go:()=>tPend()},
   {act:1,sel:'.dock .tside.g',txt:"Touchez le score de votre équipe : le point est enregistré avec ses stats.",until:()=>{const S=replay(store.cur),x=S.sets[0];return !!x&&x.g+x.a>0;}},
   {sel:'[data-act=undo]',txt:"« Annuler » revient au point précédent, « Rétablir » le refait."},
-  {act:1,sel:'[data-act=dockTog]',txt:"Touchez « Revenir au terrain ».",until:()=>!!tVis('[data-act=openSub]')},
+  {act:1,sel:'[data-act=dockSet][data-v=pos]',txt:"Touchez « Positions » : la composition et les rotations.",until:()=>!!tVis('[data-act=openSub]')},
   {sel:'[data-act=openSub]',txt:"Changements et libéro : le compteur et les règles sont vérifiés pour vous."},
   {sel:'[data-act=to]',txt:"Temps morts : un bouton par équipe, avec compte à rebours et stats du match."},
   {act:1,sel:'[data-act=flip]',txt:"Touchez : le terrain tourne d'un quart de tour.",go:()=>{ui.tutoO=store.prefs.orient;},until:()=>store.prefs.orient!==ui.tutoO},
@@ -1716,6 +1727,8 @@ function render(){
   const SPL=store.prefs.splashDay!==today()&&!ui.noSplash&&!ui.tuto&&store.prefs.tutoSeen;
   setTimeout(()=>{if(ui.coach&&ui.screen==='coach'&&ui.ctab==='settings')setSpy(Date.now()-SPY_LOCK<600?ui.setSec:null);},0);
   $('#app').innerHTML=(ui.tip?tipHTML():'')+(SPL?splashHTML():'')+(ui.newVersion!=null?`<div class="upd">Nouvelle version ${esc(ui.newVersion)} disponible <button class="btn primary" data-act="forceUpd">Mettre à jour</button></div>`:'')+h;if(tmr)tmrTick();
+  // mode match (tout sauf le Menu) : teinte et liseré propres, pour ne pas le confondre avec le Menu
+  document.body.classList.toggle('mmode',!(ui.coach&&ui.screen==='coach'));
   document.body.classList.toggle('phstats',!!(store.prefs.dockOpen&&document.querySelector('#app .dock .stp')));document.body.classList.toggle('easy',!!store.prefs.easy);fitCourt();
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet ${ui.sheet==='pfull'?'full':''}" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
@@ -1927,7 +1940,7 @@ function matchHTML(m,S){
     <section class="dock ${store.prefs.dockOpen?'':'folded'}">
       <div id="tmr" hidden aria-live="polite"></div>
       <div class="score">${side(sw2?'A':'G','L')}<div class="smid"><b>S${si+1}</b>${isTieBreak(m,si)?'tie-break':fmt(m).pts!==25?fmt(m).pts+' pts':'set'}</div>${side(sw2?'G':'A','R')}</div>
-      ${play?`<button class="dtog" data-act="dockTog" aria-expanded="${!!store.prefs.dockOpen}">${store.prefs.dockOpen?'Revenir au terrain':'Stats de l\'échange'}${(m.pend||[]).length?`<span class="cnt">${(m.pend||[]).length} en attente</span>`:''}</button>`:''}
+      ${play?`<div class="dtog" role="group" aria-label="Affichage du terrain"><button data-act="dockSet" data-v="pos" class="${store.prefs.dockOpen?'':'on'}" aria-pressed="${!store.prefs.dockOpen}">Positions</button><button data-act="dockSet" data-v="stats" class="${store.prefs.dockOpen?'on':''}" aria-pressed="${!!store.prefs.dockOpen}">Stats${(m.pend||[]).length?`<span class="cnt">${(m.pend||[]).length}</span>`:''}</button></div>`:''}
       ${statPanel(m,S)}
       ${mid}
       <div class="undo">
@@ -2340,7 +2353,7 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
   <div class="setbody">
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`))}
     ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk"><input type="checkbox" data-pref="easy" ${P.easy?'checked':''}> Activer le mode stats faciles</label>
-      ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Un appui sur « Revenir au terrain » ou « Stats de l'échange » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
+      ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
       +card('Statistiques supplémentaires',`<p class="hint">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
       <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>
@@ -2569,6 +2582,12 @@ function methodHTML(close){const C=STAT_CFG,E=C.EXPECT,w=o=>Object.entries(o).ma
     <p><b>Zones et circuits favorables.</b> À partir de ${C.ZONE_MIN_M} ballons sur un match, ${C.ZONE_MIN_S} sur une saison.</p>
     <p><b>Progression.</b> Courbe brute et courbe lissée sur 3 matchs (pondérée par le nombre d'actions) ; tendance = pente de la régression pondérée, affichée si l'évolution prédite dépasse 5 points.</p>
     <p><b>Complétude.</b> Part des points avec au moins une action notée. Vert ≥ 80 %, orange 50 à 80 %, rouge en dessous.</p></div>`;}
+// Comparatif gratuit / pass : coche = inclus, croix = non inclus
+const PRO_CMP=[['Saisie du match : score, rotations, positions et stats',1],['Résumé du match point par point (PDF compris)',1],['Sauvegarde complète des données',1],
+  ['Stats du passeur, d’un R4 et d’un central',1],['Stats de tous les joueurs et classements complets',0],['Zones de réception et de défense, analyse des rotations',0],
+  ['Stats de saison et progression',0],['Exports PDF et CSV des statistiques',0],['Partage d’un match ou d’une équipe (.vbcs)',0],['Fusion des saisies faites à deux',0]];
+function proCmpHTML(){const y='<span class="cy" aria-label="Oui">✓</span>',n='<span class="cn" aria-label="Non">✕</span>';
+  return `<table class="pcmp"><thead><tr><th></th><th>Gratuit</th><th>Pass</th></tr></thead><tbody>${PRO_CMP.map(([t,f])=>`<tr><td>${t}</td><td>${f?y:n}</td><td>${y}</td></tr>`).join('')}</tbody></table>`;}
 function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(!L.until||L.until>=today()),O=passOffers(),any=O.some(o=>o.on);
   // Les deux pass restent visibles ; hors de sa période de vente, un pass est grisé et indique quand il sera en vente
   const buy=`<div class="passes">${O.map(o=>{const pr=IAP.products[o.id];return `<div class="card buyc ${o.on?'':'off'}">
@@ -2581,10 +2600,9 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
     <button class="linkbtn restb" data-act="restore">Restaurer mes achats</button>`;
   return `<div class="sh"><h3 data-act="iapTap">VolleyCoach Pro</h3>${close}</div>
     <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:var(--warn)">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
-    <ul class="prol"><li>Stats de tous les joueurs (le gratuit analyse le passeur, un R4 et un central)</li><li>Zones, classements, valeur ajoutée, progression</li><li>Stats de saison</li><li>Exports PDF et CSV des statistiques</li><li>Fusion des saisies d’un même match faites à deux</li></ul>
+    ${proCmpHTML()}
     ${act?`<p class="okline">${L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
     <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
-    <p class="hint">Restent gratuits : la saisie des matchs, les résumés de match (PDF compris) et la sauvegarde complète des données (.vbcs).</p>
     <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Avant de payer, consultez les <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales de vente</button> et vos <button class="linkbtn" data-act="legal" data-k="retract">droits de rétractation et de remboursement</button> (14 jours, formulaire type). Éditeur : [À REMPLIR].</p>`;}
 // Complétude de la saisie : badge vert / orange / rouge
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
@@ -3174,7 +3192,8 @@ const A={
   menu(){ui.sheet='menu';},
   flip(){const nd=(dispOrient()+1)%4;store.prefs.orient=PAR%2?mirrorO(nd):nd;save();toast('Filet '+['en haut','à droite','en bas','à gauche'][nd]);},
   view(d){store.prefs.view=d.v;save();},
-  dockTog(){store.prefs.dockOpen=!store.prefs.dockOpen;save();},
+  // Terrain : vue « Positions » (composition, rotations) ou « Stats » (saisie de l'échange)
+  dockSet(d){store.prefs.dockOpen=d.v==='stats';save();},
   swapT(){store.prefs.swapT=!store.prefs.swapT;save();toast(dispSwap()?`${short(store.cur)} à droite`:`${short(store.cur)} à gauche`);},
   sound(){store.prefs.sound=!store.prefs.sound;save();if(store.prefs.sound)beep('ok');},
   lock(){openLock();},
