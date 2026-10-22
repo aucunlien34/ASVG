@@ -655,7 +655,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V156';
+const APP_VERSION='V157';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -847,6 +847,7 @@ const STAT_CFG={
   FT_W:0.25,      // (ancien) part des premières touches, gardé pour compatibilité
   HOT:5,          // « fin de set » : les deux équipes à (points du set − 5) ou plus, ou balle de set
   CALIB_K:30,     // calibration : poids de la table de niveau (en ballons) face aux données de la saison
+  AZ_MIN:5,       // attaques minimum pour détailler l'attaque d'un joueur dans un poste
   ZONE_MIN_M:6,ZONE_MIN_S:12, // ballons minimum pour une zone ou un circuit favorable (match / saison)
   COV_MIN:0.5,    // complétude minimale (passes avec 1re touche notée) pour afficher la VA du passeur
   DIFF:{e:0.30,h:-0.35}, // option « difficulté du ballon adverse » : écart d'attente d'une 1re touche sur ballon facile / difficile (note sur 2)
@@ -957,6 +958,7 @@ function i18nPatterns(L){if(L==='fr')return [];const W=Object.assign({},I18W.en,
   [/^(.+) \((\d+)\), (Libéro|Passe|Pointe|Centre|R4)$/,(m,a,b,c)=>`${a} (${b}), ${c==='Passe'?T('Passe'):T(c)}`],
   [/^(Zone favorable|Zone défavorable|Circuit favorable|Circuit défavorable) : (.+) \(attaque (\d+) % sur (\d+)\)$/,(m,k,a,b,c)=>`${W[{'Zone favorable':'zf','Zone défavorable':'zd','Circuit favorable':'cf','Circuit défavorable':'cd'}[k]]} : ${T(a)} (${T('attaque')} ${b} % ${W.on} ${c})`],
   [/^réussite (\d+) %$/,(m,a)=>`${W.success} ${a} %`],
+  [/^attaque (\d+) %$/,(m,a)=>`${T('attaque')} ${a} %`],
   [/^équipe (-?\d+) %$/,(m,a)=>`${W.team} ${a} %`],
   [/^(\d+) joueurs? · (\d+) match(?:s)? archivés?$/,(m,a,b)=>`${a} ${W.players} · ${b} ${W.matches} ${W.archived}`],
   [/^(\d+) joueurs?$/,(m,a)=>`${a} ${W.players}`],
@@ -1062,7 +1064,8 @@ function replay0(m){
         const p1rec=!lp.srv&&!q42&&setterZone(S.zones,S.roles)===1,Zs=S.zst[si]||(S.zst[si]={att:{},rec:{},def:{}});
         ev.st.forEach(([k,sg,pid])=>{if(!pid||!Zs[k])return;
           const z=k==='att'?(p1rec?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
-          const key=[1,2,3,4,5,6].includes(z)?z:'x',c=Zs[k][key]||(Zs[k][key]={M:0,P:0,N:0});c[sg>0?'P':sg<0?'M':'N']++;});
+          const key=[1,2,3,4,5,6].includes(z)?z:'x',c=Zs[k][key]||(Zs[k][key]={M:0,P:0,N:0});c[sg>0?'P':sg<0?'M':'N']++;
+          if(k==='att'&&key!=='x'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),k2='az'+key+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}});
       }
       // Passes : chaque passe est reliée à l'attaque du même échange (k-ième passe ↔ k-ième attaque) ;
       // attaque sans passe = passe neutre ; passe sans attaque = comptée sans poste. Note : − = 0, = = 1, + = 2.
@@ -1099,8 +1102,7 @@ function replay0(m){
       if(ev.st&&ev.st.length){
         for(const [k,sg,pid,rl] of ev.st){const key=k+(sg>0?'P':sg<0?'M':'N'),who=pid||'_eq';
           const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;if(rl)a[si].relN=(a[si].relN||0)+1;
-          if(S.hotNow&&['srv','rec','def','att','blk'].includes(k)){a[si]['hot_'+key]=(a[si]['hot_'+key]||0)+1;a[si].hot_n=(a[si].hot_n||0)+1;}
-          if(k==='att'&&pid&&S.roles[pid]==='Pu'){const k2=([2,3,4].includes(eff.indexOf(pid))?'a2':'ap')+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}}
+          if(S.hotNow&&['srv','rec','def','att','blk'].includes(k)){a[si]['hot_'+key]=(a[si]['hot_'+key]||0)+1;a[si].hot_n=(a[si].hot_n||0)+1;}}
         if(ev.w==='A'&&ev.st.some(x=>x[1]<0&&x[0]!=='pas'))set.oppFault++;
       }
       // Service neutre : service de l'équipe sans stat Service + ou − sur ce point
@@ -2035,7 +2037,7 @@ function sheetHTML(m,S){
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
-      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + qui fait le point)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
+      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + seul noté sur le point, point gagné)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
       <p class="hint">Efficacité = points / maximum (+ = 2, = = 1, − = 0). Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum). Valeur ajoutée : pour chaque ballon dont la touche précédente est notée (1re touche pour la passe, passe pour l'attaque), écart entre la note obtenue et la note attendue à ce niveau pour un ballon de cette qualité, en points d'efficacité. 0 = conforme au niveau, + = améliore les ballons reçus, − = les dégrade.</p>
       ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
   }
@@ -2151,7 +2153,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP','a2M','a2N','a2P','apM','apN','apP','srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
+const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].map(q=>'az'+z+q)),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);CUR_CAL=calibTot(m);CUR_COV=S&&S.cov?(set==null?S.cov:(S.covSet&&S.covSet[set])||S.cov):null;
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -2209,6 +2211,8 @@ function passBestTxt(b){const f=x=>`${x.l} (attaque ${Math.round(x.v*100)} % sur
   if((b.z&&b.z.worst)||(b.j&&b.j.worst))L.push([`Zone défavorable : ${b.z&&b.z.worst?f(b.z.worst):'–'}`,`Circuit défavorable : ${b.j&&b.j.worst?f(b.j.worst):'–'}`]);return L;}
 function passAgg(S,set){const out={};(set==null?S.pst:[S.pst[set]]).forEach(P=>{if(!P)return;Object.entries(P).forEach(([sid,o])=>{const t=out[sid]||(out[sid]={});
   Object.entries(o).forEach(([z,c])=>{const d=t[z]||(t[z]={n:0,s:0,M:0,N:0,P:0,w:0,as:0,an:0});['n','s','M','N','P','w','as','an'].forEach(k=>d[k]+=c[k]);});});});return out;}
+// Attaque qui suit la passe, par zone (+ = 2, = = 1, − = 0) et moyenne toutes zones
+const zAtt=c=>c&&c.an?c.as/(2*c.an):null,zAttAvg=P=>{let a=0,n=0;PPOSTS.forEach(([z])=>{if(P[z]){a+=P[z].as||0;n+=P[z].an||0;}});return n?a/(2*n):null;};
 function passTot(P){return Object.values(P).reduce((a,c)=>({n:a.n+c.n,s:a.s+c.s,M:a.M+c.M,N:a.N+c.N,P:a.P+c.P}),{n:0,s:0,M:0,N:0,P:0});}
 // Valeur ajoutée d'un joueur (k = 'ip' passe, 'ia' attaque) sur le match / la saison ou un set
 function impAgg(S,set,id,k){const a=S.fx[id],o={};if(a)(set==null?a:[a[set]]).forEach(x=>{if(x)FXK.forEach(key=>{if(x[key])o[key]=(o[key]||0)+x[key];});});return vaMix(o,k||'ip');}
@@ -2221,8 +2225,8 @@ function impLines(S,set,r){const f=vaRole(r);
 function impHTML(S,set,r){const L=impLines(S,set,r);if(!L.length)return '';
   return `<div class="impl">${L.map(x=>`<div><span>Efficacité ${x.lab}${tipB('eff')} <b>${x.eff==null?'–':x.eff+' %'}</b></span><span>Valeur ajoutée ${x.vl}${tipB('va')} <b class="${x.f&&x.f.n>=VA_MIN?(x.f.v>0?'p':x.f.v<0?'m':''):''}">${facTxt(x.f)}</b>${x.f?`<small> (${x.f.n}${x.f.n<VA_MIN?' / '+VA_MIN:''})</small>`:''}</span></div>`).join('')}</div>`;}
 function passCard(m,sid,P,PP,imp){
-  const tt=passTot(P),Tn=PPOSTS.reduce((a,[z])=>a+(P[z]?P[z].n:0),0),avg=tt.n?tt.s/(2*tt.n):0;if(!tt.n)return '';
-  const colOf=c=>{const e=c.s/(2*c.n);return c.n>=3&&e-avg>=0.10?'var(--r4)':c.n>=3&&e-avg<=-0.10?'var(--pu)':'var(--ink)';};
+  const tt=passTot(P),Tn=PPOSTS.reduce((a,[z])=>a+(P[z]?P[z].n:0),0),avg=zAttAvg(P);if(!tt.n)return '';
+  const colOf=c=>{const e=zAtt(c);return e==null||avg==null?'var(--ink)':c.an>=3&&e-avg>=0.10?'var(--r4)':c.an>=3&&e-avg<=-0.10?'var(--pu)':'var(--ink)';};
   const R=86,W=340,cx=W/2,cy=R*1.3+46,H=cy+R*1.3+40,mx=Math.max(1e-9,...PPOSTS.map(([z])=>P[z]&&Tn?P[z].n/Tn:0)),pt=(a,v)=>[cx+R*v*Math.cos(a*Math.PI/180),cy+R*v*Math.sin(a*Math.PI/180)],f=x=>x.toFixed(1);
   let g='';[0.25,0.5,0.75,1].forEach(l=>{g+=`<polygon points="${PPOSTS.map(([,,a])=>pt(a,l).map(f).join(',')).join(' ')}" fill="none" stroke="var(--line)" stroke-width="${l===1?1.3:0.8}"/>`;});
   PPOSTS.forEach(([,,a])=>{const [x,y]=pt(a,1);g+=`<line x1="${cx}" y1="${cy}" x2="${f(x)}" y2="${f(y)}" stroke="var(--line)"/>`;});
@@ -2232,9 +2236,9 @@ function passCard(m,sid,P,PP,imp){
     const [lx,ly]=pt(a,1.25),cs=Math.cos(a*Math.PI/180),anc=Math.abs(cs)<0.2?'middle':cs>0?'start':'end';
     g+=`<text x="${f(lx)}" y="${f(ly-10)}" text-anchor="${anc}" font-size="14" fill="var(--muted)">${lab}</text>`;
     g+=`<text x="${f(lx)}" y="${f(ly+7)}" text-anchor="${anc}" font-size="17" font-weight="700" fill="var(--ink)">${c?Math.round(sh*100)+' %':'–'}<tspan font-size="12" font-weight="400" fill="var(--muted)">${c?' ('+c.n+')':''}</tspan></text>`;
-    if(c)g+=`<text x="${f(lx)}" y="${f(ly+23)}" text-anchor="${anc}" font-size="14" font-weight="700" fill="${colOf(c)}">réussite ${Math.round(c.s/(2*c.n)*100)} %</text>`;});
+    if(c&&c.an)g+=`<text x="${f(lx)}" y="${f(ly+23)}" text-anchor="${anc}" font-size="14" font-weight="700" fill="${colOf(c)}">attaque ${Math.round(zAtt(c)*100)} %</text>`;});
   const qb=c=>`<div class="qbar"><i class="m" style="width:${c.M/c.n*100}%"></i><i class="n" style="width:${c.N/c.n*100}%"></i><i class="p" style="width:${c.P/c.n*100}%"></i></div>`;
-  const rows=PPOSTS.filter(([z])=>P[z]).map(([z,lab])=>{const c=P[z];return `<tr><td><b>${lab}</b></td><td class="r">${c.n}</td><td class="r">${Math.round(c.n/Tn*100)} %</td><td style="width:38%">${qb(c)}</td><td class="r" style="color:${colOf(c)};font-weight:700">${Math.round(c.s/(2*c.n)*100)} %</td></tr>`;}).join('')
+  const rows=PPOSTS.filter(([z])=>P[z]).map(([z,lab])=>{const c=P[z];return `<tr><td><b>${lab}</b></td><td class="r">${c.n}</td><td class="r">${Math.round(c.n/Tn*100)} %</td><td style="width:38%">${qb(c)}</td><td class="r" style="color:${colOf(c)};font-weight:700">${c.an?Math.round(zAtt(c)*100)+' %':'–'}</td></tr>`;}).join('')
     +(P.x?`<tr><td colspan="5" class="hint">+ ${P.x.n} passe${P.x.n>1?'s':''} sans attaque notée</td></tr>`:'');
   const nm=sid==='_eq'?'passe non identifiée':`${pnum(m,sid)} ${dname(m,sid)}`;
   return `<div class="sc"><div class="hd"><span class="num">${sid==='_eq'?'?':pnum(m,sid)}</span><b style="font-size:19px">Passe — ${esc(nm)}</b></div>
@@ -2242,19 +2246,21 @@ function passCard(m,sid,P,PP,imp){
     <div style="flex:1;min-width:200px"><div class="qbar" style="height:16px">${qb(tt).slice(18,-6)}</div>
     <div class="qlg"><span><i style="background:#D7263D"></i>− ${tt.M} (0 pt)</span><span><i style="background:#B8C2CF"></i>= ${tt.N} (1 pt)</span><span><i style="background:#23924A"></i>+ ${tt.P} (2 pts)</span><span>${tt.n} passes</span></div></div></div>
     <div class="grid"><svg viewBox="-55 0 ${W+110} ${H}" style="width:100%;display:block">${g}</svg>
-    <table class="ptab"><tr><th>Destination</th><th class="r">Passes</th><th class="r">Part</th><th>− / = / +</th><th class="r">Réussite</th></tr>${rows}</table></div>
+    <table class="ptab"><tr><th>Destination</th><th class="r">Passes</th><th class="r">Part</th><th>− / = / +</th><th class="r">Attaque</th></tr>${rows}</table></div>
     ${(()=>{const L=passBestTxt(passBest(P,PP,m));if(!L.length)return `<p class="hint">Zones et circuits favorables : pas assez de ballons (${m&&m.season?STAT_CFG.ZONE_MIN_S:STAT_CFG.ZONE_MIN_M} minimum).${tipB('pzone')}</p>`;return L.length?`<div class="pbest">${L.map((l,i)=>`<div class="${i?'bad':'good'}"><b>${esc(l[0])}</b><br><b>${esc(l[1])}</b></div>`).join('')}${tipB('pzone')}</div>`:'';})()}
-    <div class="qlg">Toile : où partent les passes (filet en haut).</div></div>`;
+    <div class="qlg">Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.</div></div>`;
 }
 // Barres de progression par compétence : vert = efficacité, rouge = taux de fautes ; trait foncé = niveau de l'équipe
+// Attaque d'un joueur détaillée par poste : postes avec au moins AZ_MIN attaques, si le joueur a attaqué de plusieurs postes
+function attZones(r){const L=PPOSTS.map(([z,l])=>{const P=r['az'+z+'P']||0,N=r['az'+z+'N']||0,M=r['az'+z+'M']||0,n=P+N+M;return {l,n,v:n?(2*P+N)/(2*n):0};}).filter(x=>x.n);
+  return L.length>1?L.filter(x=>x.n>=STAT_CFG.AZ_MIN):[];}
 function rateBars(r,f){
   const T=teamTot(f),me=radEff(r),tm=radEff(T),cats=BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att'];
   const fr=o=>{const M=cats.reduce((a,k)=>a+(o[k+'M']||0),0),n=cats.reduce((a,k)=>a+(o[k+'M']||0)+(o[k+'N']||0)+(o[k+'P']||0),0);return n?{v:M/n,n,c:M}:null;};
   const er=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
   const row=(lab,v,tv,red,cnt)=>`<div class="sbar ${red?'red':''}"><span class="sl">${lab}</span><span class="st">${v?`<i style="width:${(v.v*100).toFixed(1)}%"></i>`:''}${tv?`<b class="tm" style="left:${(tv.v*100).toFixed(1)}%" title="équipe ${Math.round(tv.v*100)} %"></b>`:''}</span><span class="sv">${v?Math.round(v.v*100)+' %':'–'}<small>${v?cnt(v):''}</small></span></div>`;
-  const sub=(o,p)=>{const P=o[p+'P']||0,N=o[p+'N']||0,M=o[p+'M']||0,n=P+N+M;return n?{v:(2*P+N)/(2*n),n}:null;};
   const L=(l,k)=>`${l}${tipB(k)}`;
-  return `<div class="sbars">${[['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).map(([l,k])=>row(L(l,k),me[k],tm[k],false,v=>' '+v.n)+(k==='att'&&r.role==='Pu'?row('· poste 2'+tipB('a2'),sub(r,'a2'),tm.att,false,v=>' '+v.n)+row('· pointe'+tipB('ap'),sub(r,'ap'),tm.att,false,v=>' '+v.n):'')).join('')}
+  return `<div class="sbars">${[['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).map(([l,k])=>row(L(l,k),me[k],tm[k],false,v=>' '+v.n)+(k==='att'?attZones(r).map((x,i)=>row('· '+tr(x.l)+(i?'':tipB('az')),x,tm.att,false,v=>' '+v.n)).join(''):'')).join('')}
     ${row(L('Fautes','fautes'),fr(r),fr(T),true,v=>` ${v.c} / ${v.n}`)}${r.role==='Pa'?'':row(L('Err. att.','ea'),er(r),er(T),true,v=>` ${v.c} / ${v.n}`)}</div>`;
 }
 function abbr(n){const w=String(n||'').trim().split(/\s+/);return w.length>1?`${w[0]} ${w[1].charAt(0)}.`:w[0]||'';}
@@ -2504,9 +2510,8 @@ const TIPS={
  def:['Défense',"+ : défense qui permet de contre-attaquer. = : ballon sauvé mais difficile à exploiter. − : ballon perdu."],
  att:['Attaque',"+ : attaque gagnante ou qui met l'adversaire en grande difficulté. = : attaque défendue, le jeu continue. − : attaque dehors, dans le filet ou contrée."],
  blk:['Bloc',"+ : bloc gagnant ou qui met l'adversaire en difficulté. = : bloc touché, le jeu continue. − : bloc faute (filet, out sur le bloc). Statistique optionnelle (Réglages) : difficile à noter en temps réel, elle charge la grille sur téléphone. Seuls les 3 joueurs au filet sont proposés (R4 en 4, centre en 3, passe ou pointe en 2 ; en P1, R4 et pointe sont inversées)."],
- a2:['Attaque poste 2',"Attaques de la pointe en ligne avant (poste 2), là où elle frappe face au bloc."],
- ap:['Attaque pointe',"Attaques de la pointe depuis la ligne arrière (attaque « pointe »), derrière la ligne des 3 m."],
- pas:['Passe',"Qualité de la passe donnée à l'attaquant. La réussite tient compte de ce qu'a fait l'attaque derrière."],
+ az:['Attaque par poste',"Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes."],
+ pas:['Passe',"Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones."],
  fautes:['Fautes',"Part des actions ratées (−) parmi toutes les actions notées du joueur : service, réception, défense et attaque."],
  ea:["Erreurs d'attaque","Attaques ratées ou ballons renvoyés sans attaquer alors que la passe était bonne (+ ou =). Ne compte que ce qui dépend de l'attaquant : une mauvaise passe n'est pas reprochée. Différent des fautes directes, qui ne regardent que la dernière action de l'échange."],
  fd:['Fautes directes',"Fautes qui donnent immédiatement le point à l'adversaire : service, défense, attaque ou bloc ratés en dernière action de l'échange, quelle que soit la passe. Une attaque ratée sur bonne passe compte aussi dans les erreurs d'attaque."],
@@ -2827,7 +2832,7 @@ function exportPDF(m){
   const T=(t,x,yy,sz,b,c,al)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(sz);doc.setTextColor(...(c||[0,0,0]));doc.text(String(t),x,yy,{align:al||'left'});};
   const poly=(q,mode)=>doc.lines(q.slice(1).concat([q[0]]).map((pp,i)=>[pp[0]-q[i][0],pp[1]-q[i][1]]),q[0][0],q[0][1],[1,1],mode,true);
   // ---- Section Passe (une par passe ayant des passes), en tête du PDF
-  const passRadar=(P,cx,cy,R,big)=>{const Tn=PPOSTS.reduce((a,[z])=>a+(P[z]?P[z].n:0),0),tt=passTot(P),avg=tt.n?tt.s/(2*tt.n):0,mx=Math.max(1e-9,...PPOSTS.map(([z])=>P[z]&&Tn?P[z].n/Tn:0));
+  const passRadar=(P,cx,cy,R,big)=>{const Tn=PPOSTS.reduce((a,[z])=>a+(P[z]?P[z].n:0),0),tt=passTot(P),avg=zAttAvg(P),mx=Math.max(1e-9,...PPOSTS.map(([z])=>P[z]&&Tn?P[z].n/Tn:0));
     const pt=(a,v)=>[cx+R*v*Math.cos(a*Math.PI/180),cy+R*v*Math.sin(a*Math.PI/180)];
     doc.setDrawColor(215,222,232);[0.25,0.5,0.75,1].forEach(l=>{doc.setLineWidth(l===1?0.35:0.2);poly(PPOSTS.map(([,,a])=>pt(a,l)),'S');});
     PPOSTS.forEach(([,,a])=>{const [x,yy]=pt(a,1);doc.setLineWidth(0.2);doc.line(cx,cy,x,yy);});
@@ -2836,13 +2841,13 @@ function exportPDF(m){
       doc.setDrawColor(...YEL);doc.setLineWidth(big?0.7:0.5);poly(q,'S');}
     PPOSTS.forEach(([z,lab,a])=>{const c=P[z];if(c&&Tn){const [x,yy]=pt(a,Math.sqrt((c.n/Tn)/mx));doc.setFillColor(...YEL);doc.circle(x,yy,big?1:0.7,'F');}
       if(!big&&!c)return;const [lx,ly]=pt(a,big?1.32:1.3),cs=Math.cos(a*Math.PI/180),al=Math.abs(cs)<0.2?'center':cs>0?'left':'right';
-      const ef=c?c.s/(2*c.n):null,col=!c?[150,150,150]:(c.n>=3&&ef-avg>=0.10)?GREEN:(c.n>=3&&ef-avg<=-0.10)?RED:[0,0,0];
-      if(big){T(lab,lx,ly-3.2,7.5,false,[110,110,110],al);T(c?`${Math.round(c.n/Tn*100)} %`:'-',lx,ly+0.6,9.5,true,[0,0,0],al);if(c)T(`réussite ${Math.round(ef*100)} %`,lx,ly+4.2,7.5,true,col,al);}
-      else{T(`${Math.round(c.n/Tn*100)} %`,lx,ly,6.5,true,[0,0,0],al);T(`${Math.round(ef*100)} %`,lx,ly+2.8,6,true,col,al);}});
+      const ef=zAtt(c),col=ef==null?[150,150,150]:(avg!=null&&c.an>=3&&ef-avg>=0.10)?GREEN:(avg!=null&&c.an>=3&&ef-avg<=-0.10)?RED:[0,0,0];
+      if(big){T(lab,lx,ly-3.2,7.5,false,[110,110,110],al);T(c?`${Math.round(c.n/Tn*100)} %`:'-',lx,ly+0.6,9.5,true,[0,0,0],al);if(ef!=null)T(`attaque ${Math.round(ef*100)} %`,lx,ly+4.2,7.5,true,col,al);}
+      else{T(`${Math.round(c.n/Tn*100)} %`,lx,ly,6.5,true,[0,0,0],al);if(ef!=null)T(`${Math.round(ef*100)} %`,lx,ly+2.8,6,true,col,al);}});
     return {tt,avg,Tn};};
   const passSection=(sid,PM,Y)=>{ // Y = haut de la section
     const nm=sid==='_eq'?'passe non identifiée':pById(m,sid).n+' '+`${title(pById(m,sid).pre)} ${pById(m,sid).nom}`.trim();
-    T('Passe',14,Y,13,true);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110);doc.splitTextToSize('Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite : - = 0, = = 1, + = 2 ; vert / rouge : 10 points au-dessus / en dessous de la moyenne de la passe.',182).forEach((l,i)=>doc.text(l,14,Y+5.5+i*3.2));doc.setTextColor(0);
+    T('Passe',14,Y,13,true);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110);doc.splitTextToSize('Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.',182).forEach((l,i)=>doc.text(l,14,Y+5.5+i*3.2));doc.setTextColor(0);
     const r=passRadar(PM,62,Y+66,26,true),tt=r.tt;
     doc.setDrawColor(...INK2);doc.setLineWidth(0.9);doc.line(28,Y+16,96,Y+16);T('FILET',62,Y+14.5,6.5,false,[110,110,110],'center');
     T(nm,112,Y+20,12,true,INK2);
@@ -2899,8 +2904,7 @@ function exportPDF(m){
     const Tt=teamTot(fx),cats=['srv','rec','def','att'];
     const fr2=o=>{const M=cats.reduce((a,k)=>a+(o[k+'M']||0),0),n=cats.reduce((a,k)=>a+(o[k+'M']||0)+(o[k+'N']||0)+(o[k+'P']||0),0);return n?{v:M/n,n,c:M}:null;};
     const er2=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
-    const sub2=(o,p)=>{const P=o[p+'P']||0,N=o[p+'N']||0,M=o[p+'M']||0,n=P+N+M;return n?{v:(2*P+N)/(2*n),n}:null;};
-    [['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).forEach(([l,k])=>{bar(l,me[k],teamR[k],false,v=>String(v.n));if(k==='att'&&r.role==='Pu'){bar('  poste 2',sub2(r,'a2'),teamR.att,false,v=>String(v.n));bar('  pointe',sub2(r,'ap'),teamR.att,false,v=>String(v.n));}});
+    [['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).forEach(([l,k])=>{bar(l,me[k],teamR[k],false,v=>String(v.n));if(k==='att')attZones(r).forEach(x=>bar('  '+x.l,x,teamR.att,false,v=>String(v.n)));});
     bar('Fautes',fr2(r),fr2(Tt),true,v=>`${v.c}/${v.n}`);if(r.role!=='Pa')bar('Err. att.',er2(r),er2(Tt),true,v=>`${v.c}/${v.n}`);
     T(`Aces : ${r.aceN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
     {const sd=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',sg=v=>v==null?'-':(v>0?'+':'')+Math.round(v*100)+' %',parts=[];
