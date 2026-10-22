@@ -655,7 +655,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V155';
+const APP_VERSION='V156';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2083,7 +2083,7 @@ function sheetHTML(m,S){
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">
         <button class="btn big primary" data-act="exportShare">${IC.share} Partager (WhatsApp, e-mail…)</button>
         <button class="btn big" data-act="exportKeep">Enregistrer sur l’appareil</button></div>
-      <p class="hint">Enregistré dans Documents › VolleyCoach (appli Fichiers).</p>`;}
+      <p class="hint">Vous choisissez le dossier : Téléchargements, Documents, Drive…</p>`;}
   if(ui.sheet==='merge2'&&ui.mergeQ){return `<div class="sh"><h3>En cas de doute ?</h3>${close}</div>
       <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
@@ -2779,8 +2779,14 @@ const b64Of=data=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>
 // Partage du système (WhatsApp, e-mail, Drive, Fichiers…) : fichier écrit dans le cache de l'appli puis transmis
 async function nativeSave(filename,data){const P=CAP();if(!P.Filesystem||!P.Share)return false;
   const w=await P.Filesystem.writeFile({path:filename,data:await b64Of(data),directory:'CACHE'});await P.Share.share({title:filename,files:[w.uri],dialogTitle:'Partager'});return true;}
-// Enregistrement sur l'appareil (Android) : dossier Documents/VolleyCoach, visible dans l'appli Fichiers
-async function nativeKeep(filename,data){const P=CAP();await P.Filesystem.writeFile({path:'VolleyCoach/'+filename,data:await b64Of(data),directory:'DOCUMENTS',recursive:true});return true;}
+// Enregistrement sur l'appareil (Android) : fenêtre système « Enregistrer sous » (module natif SaveAs de l'appli),
+// l'utilisateur choisit le dossier ; renvoie false si l'enregistrement est annulé
+const MIME_OF=f=>/.pdf$/i.test(f)?'application/pdf':/.csv$/i.test(f)?'text/csv':'application/octet-stream';
+async function nativeKeep(filename,data){const P=CAP();
+  // contenu écrit d'abord dans le cache : seul le chemin passe au module natif (résiste à l'arrêt de l'appli par Android)
+  const w=await P.Filesystem.writeFile({path:filename,data:await b64Of(data),directory:'CACHE'});
+  try{await P.SaveAs.save({filename,path:w.uri,mime:MIME_OF(filename)});return true;}
+  catch(e){if(/cancel|annul/i.test(String(e&&(e.code||e.message)||e)))return false;throw e;}}
 // Partage du système dans un navigateur mobile (fichier joint), sinon rien
 async function shareOut(filename,data){const blob=data instanceof Blob?data:new Blob([data],{type:'application/json'});
   try{const f=new File([blob],filename,{type:blob.type||(filename.endsWith('.pdf')?'application/pdf':'application/json')});
@@ -3178,7 +3184,7 @@ const A={
   async exportShare(){const q=ui.exportQ;ui.exportQ=null;ui.sheet=null;render();if(!q)return 1;
     try{await nativeSave(q.filename,q.data);}catch(e){if(!/cancel|abort/i.test(String(e&&e.message||e)))toast('Partage impossible sur cet appareil','warn');}return 1;},
   async exportKeep(){const q=ui.exportQ;ui.exportQ=null;ui.sheet=null;render();if(!q)return 1;
-    try{await nativeKeep(q.filename,q.data);toast('Enregistré dans Documents › VolleyCoach','ok');}catch(e){toast('Enregistrement impossible sur cet appareil','warn');}return 1;},
+    try{if(await nativeKeep(q.filename,q.data))toast('Fichier enregistré','ok');}catch(e){toast('Enregistrement impossible sur cet appareil','warn');}return 1;},
   seasonRen(){ui.seasonMode='ren';ui.sheet='seasonName';},
   seasonDel(){if(isDemoTeam())return;ui.seasonDelId=selSeason();ui.confirm=null;ui.sheet='seasonDel';},
   // export proposé avant suppression : permis aussi en version gratuite (protection des données)

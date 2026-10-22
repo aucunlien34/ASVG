@@ -734,7 +734,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Saved in Documents › VolleyCoach (Files app).",
   "Enregistré dans Documents › VolleyCoach": "Saved in Documents › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Could not save on this device",
-  "Partage impossible sur cet appareil": "Could not share on this device"
+  "Partage impossible sur cet appareil": "Could not share on this device",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "You choose the folder: Downloads, Documents, Drive…"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -1231,7 +1232,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Guardado en Documentos › VolleyCoach (app Archivos).",
   "Enregistré dans Documents › VolleyCoach": "Guardado en Documentos › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "No se pudo guardar en este dispositivo",
-  "Partage impossible sur cet appareil": "No se pudo compartir en este dispositivo"
+  "Partage impossible sur cet appareil": "No se pudo compartir en este dispositivo",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Usted elige la carpeta: Descargas, Documentos, Drive…"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -1728,7 +1730,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Salvato in Documenti › VolleyCoach (app File).",
   "Enregistré dans Documents › VolleyCoach": "Salvato in Documenti › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Impossibile salvare su questo dispositivo",
-  "Partage impossible sur cet appareil": "Impossibile condividere su questo dispositivo"
+  "Partage impossible sur cet appareil": "Impossibile condividere su questo dispositivo",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Scegli tu la cartella: Download, Documenti, Drive…"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -2225,7 +2228,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Gespeichert unter Dokumente › VolleyCoach (Dateien-App).",
   "Enregistré dans Documents › VolleyCoach": "Gespeichert unter Dokumente › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Speichern auf diesem Gerät nicht möglich",
-  "Partage impossible sur cet appareil": "Teilen auf diesem Gerät nicht möglich"
+  "Partage impossible sur cet appareil": "Teilen auf diesem Gerät nicht möglich",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Sie wählen den Ordner: Downloads, Dokumente, Drive…"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -2722,7 +2726,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Zapisano w Dokumenty › VolleyCoach (aplikacja Pliki).",
   "Enregistré dans Documents › VolleyCoach": "Zapisano w Dokumenty › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Nie można zapisać na tym urządzeniu",
-  "Partage impossible sur cet appareil": "Nie można udostępnić na tym urządzeniu"
+  "Partage impossible sur cet appareil": "Nie można udostępnić na tym urządzeniu",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Wybierasz folder: Pobrane, Dokumenty, Dysk…"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -3219,7 +3224,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Salvo em Documentos › VolleyCoach (app Arquivos).",
   "Enregistré dans Documents › VolleyCoach": "Salvo em Documentos › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Não foi possível salvar neste aparelho",
-  "Partage impossible sur cet appareil": "Não foi possível compartilhar neste aparelho"
+  "Partage impossible sur cet appareil": "Não foi possível compartilhar neste aparelho",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Você escolhe a pasta: Downloads, Documentos, Drive…"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -3696,7 +3702,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Belgeler › VolleyCoach klasörüne kaydedildi (Dosyalar uygulaması).",
   "Enregistré dans Documents › VolleyCoach": "Belgeler › VolleyCoach klasörüne kaydedildi",
   "Enregistrement impossible sur cet appareil": "Bu cihaza kaydedilemedi",
-  "Partage impossible sur cet appareil": "Bu cihazda paylaşılamadı"
+  "Partage impossible sur cet appareil": "Bu cihazda paylaşılamadı",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Klasörü siz seçersiniz: İndirilenler, Belgeler, Drive…"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -4146,7 +4153,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "書類 › VolleyCoach に保存しました（ファイルアプリ）。",
   "Enregistré dans Documents › VolleyCoach": "書類 › VolleyCoach に保存しました",
   "Enregistrement impossible sur cet appareil": "この端末に保存できませんでした",
-  "Partage impossible sur cet appareil": "この端末で共有できませんでした"
+  "Partage impossible sur cet appareil": "この端末で共有できませんでした",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "保存先フォルダを選べます：ダウンロード、ドキュメント、ドライブ…"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -4596,7 +4604,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "已保存到“文档 › VolleyCoach”（文件应用）。",
   "Enregistré dans Documents › VolleyCoach": "已保存到“文档 › VolleyCoach”",
   "Enregistrement impossible sur cet appareil": "无法保存到此设备",
-  "Partage impossible sur cet appareil": "无法在此设备上分享"
+  "Partage impossible sur cet appareil": "无法在此设备上分享",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "由您选择文件夹：下载、文档、云端硬盘…"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -4995,7 +5004,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Opgeslagen in Documenten › VolleyCoach (app Bestanden).",
   "Enregistré dans Documents › VolleyCoach": "Opgeslagen in Documenten › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Opslaan op dit apparaat is niet gelukt",
-  "Partage impossible sur cet appareil": "Delen op dit apparaat is niet gelukt"
+  "Partage impossible sur cet appareil": "Delen op dit apparaat is niet gelukt",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "U kiest de map: Downloads, Documenten, Drive…"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -5394,7 +5404,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Sačuvano u Dokumenti › VolleyCoach (aplikacija Datoteke).",
   "Enregistré dans Documents › VolleyCoach": "Sačuvano u Dokumenti › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Čuvanje na ovom uređaju nije uspelo",
-  "Partage impossible sur cet appareil": "Deljenje na ovom uređaju nije uspelo"
+  "Partage impossible sur cet appareil": "Deljenje na ovom uređaju nije uspelo",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Vi birate fasciklu: Preuzimanja, Dokumenti, Disk…"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -5793,7 +5804,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Запазено в Документи › VolleyCoach (приложение Файлове).",
   "Enregistré dans Documents › VolleyCoach": "Запазено в Документи › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Неуспешно запазване на това устройство",
-  "Partage impossible sur cet appareil": "Неуспешно споделяне на това устройство"
+  "Partage impossible sur cet appareil": "Неуспешно споделяне на това устройство",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Вие избирате папката: Изтегляния, Документи, Диск…"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -6192,7 +6204,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Shranjeno v Dokumenti › VolleyCoach (aplikacija Datoteke).",
   "Enregistré dans Documents › VolleyCoach": "Shranjeno v Dokumenti › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Shranjevanje v to napravo ni uspelo",
-  "Partage impossible sur cet appareil": "Deljenje v tej napravi ni uspelo"
+  "Partage impossible sur cet appareil": "Deljenje v tej napravi ni uspelo",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Mapo izberete sami: Prenosi, Dokumenti, Drive…"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -6591,7 +6604,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Збережено в Документи › VolleyCoach (застосунок Файли).",
   "Enregistré dans Documents › VolleyCoach": "Збережено в Документи › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Не вдалося зберегти на цьому пристрої",
-  "Partage impossible sur cet appareil": "Не вдалося поділитися на цьому пристрої"
+  "Partage impossible sur cet appareil": "Не вдалося поділитися на цьому пристрої",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Ви обираєте папку: Завантаження, Документи, Диск…"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -6990,7 +7004,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Uloženo do Dokumenty › VolleyCoach (aplikace Soubory).",
   "Enregistré dans Documents › VolleyCoach": "Uloženo do Dokumenty › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Uložení do tohoto zařízení se nezdařilo",
-  "Partage impossible sur cet appareil": "Sdílení na tomto zařízení se nezdařilo"
+  "Partage impossible sur cet appareil": "Sdílení na tomto zařízení se nezdařilo",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Složku si vyberete sami: Stažené, Dokumenty, Disk…"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -7389,7 +7404,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "บันทึกใน เอกสาร › VolleyCoach แล้ว (แอปไฟล์)",
   "Enregistré dans Documents › VolleyCoach": "บันทึกใน เอกสาร › VolleyCoach แล้ว",
   "Enregistrement impossible sur cet appareil": "บันทึกลงอุปกรณ์นี้ไม่ได้",
-  "Partage impossible sur cet appareil": "แชร์บนอุปกรณ์นี้ไม่ได้"
+  "Partage impossible sur cet appareil": "แชร์บนอุปกรณ์นี้ไม่ได้",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "คุณเลือกโฟลเดอร์ได้เอง: ดาวน์โหลด, เอกสาร, ไดรฟ์…"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -7788,7 +7804,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "문서 › VolleyCoach에 저장했습니다(파일 앱).",
   "Enregistré dans Documents › VolleyCoach": "문서 › VolleyCoach에 저장했습니다",
   "Enregistrement impossible sur cet appareil": "이 기기에 저장할 수 없습니다",
-  "Partage impossible sur cet appareil": "이 기기에서 공유할 수 없습니다"
+  "Partage impossible sur cet appareil": "이 기기에서 공유할 수 없습니다",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "저장할 폴더를 선택합니다: 다운로드, 문서, 드라이브…"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -8187,7 +8204,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Na-save sa Documents › VolleyCoach (Files app).",
   "Enregistré dans Documents › VolleyCoach": "Na-save sa Documents › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Hindi ma-save sa device na ito",
-  "Partage impossible sur cet appareil": "Hindi maibahagi sa device na ito"
+  "Partage impossible sur cet appareil": "Hindi maibahagi sa device na ito",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Ikaw ang pipili ng folder: Downloads, Documents, Drive…"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -8586,7 +8604,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Disimpan di Dokumen › VolleyCoach (aplikasi File).",
   "Enregistré dans Documents › VolleyCoach": "Disimpan di Dokumen › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Tidak dapat menyimpan di perangkat ini",
-  "Partage impossible sur cet appareil": "Tidak dapat berbagi di perangkat ini"
+  "Partage impossible sur cet appareil": "Tidak dapat berbagi di perangkat ini",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Anda memilih foldernya: Download, Dokumen, Drive…"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -8985,7 +9004,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Сохранено в Документы › VolleyCoach (приложение Файлы).",
   "Enregistré dans Documents › VolleyCoach": "Сохранено в Документы › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Не удалось сохранить на этом устройстве",
-  "Partage impossible sur cet appareil": "Не удалось поделиться на этом устройстве"
+  "Partage impossible sur cet appareil": "Не удалось поделиться на этом устройстве",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Вы выбираете папку: Загрузки, Документы, Диск…"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -9384,7 +9404,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "تم الحفظ في المستندات › VolleyCoach (تطبيق الملفات).",
   "Enregistré dans Documents › VolleyCoach": "تم الحفظ في المستندات › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "تعذّر الحفظ على هذا الجهاز",
-  "Partage impossible sur cet appareil": "تعذّرت المشاركة على هذا الجهاز"
+  "Partage impossible sur cet appareil": "تعذّرت المشاركة على هذا الجهاز",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "أنت تختار المجلد: التنزيلات، المستندات، Drive…"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -9783,7 +9804,8 @@ const I18N = {
   "Enregistré dans Documents › VolleyCoach (appli Fichiers).": "Đã lưu vào Tài liệu › VolleyCoach (ứng dụng Tệp).",
   "Enregistré dans Documents › VolleyCoach": "Đã lưu vào Tài liệu › VolleyCoach",
   "Enregistrement impossible sur cet appareil": "Không thể lưu vào thiết bị này",
-  "Partage impossible sur cet appareil": "Không thể chia sẻ trên thiết bị này"
+  "Partage impossible sur cet appareil": "Không thể chia sẻ trên thiết bị này",
+  "Vous choisissez le dossier : Téléchargements, Documents, Drive…": "Bạn chọn thư mục: Tải xuống, Tài liệu, Drive…"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
