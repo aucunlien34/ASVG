@@ -655,7 +655,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V153';
+const APP_VERSION='V154';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1641,13 +1641,13 @@ function tutoPlace(){let el=document.getElementById('tuto');if(!ui.tuto){if(el)e
   tPos(el,c,{fit:!el._fit});el._fit=true;}
 window.addEventListener('resize',()=>{if(ui.tuto)tutoPlace();});
 window.addEventListener('scroll',()=>{const el=document.getElementById('tuto');if(ui.tuto&&el&&el._k!=null)tPos(el,tFlat()[ui.tuto.i],{fit:false});},{passive:true});
-// ===== Pages légales (textes à compléter : les mentions [À REMPLIR] ne sont pas inventées)
+// ===== Pages légales (complétées le 22/10/2026 ; médiateur de la consommation et SIRET à ajouter avant l'ouverture des ventes)
 const LEGAL={
- mentions:['Mentions légales',`<p><b>Éditeur de l'application</b><br>[À REMPLIR : nom / dénomination], [À REMPLIR : statut, ex. micro-entrepreneur], [À REMPLIR : adresse], [À REMPLIR : SIRET], [À REMPLIR : e-mail de contact], [À REMPLIR : téléphone].<br>Directeur de la publication : [À REMPLIR].<br>TVA : [À REMPLIR : numéro de TVA, ou mention « TVA non applicable, article 293 B du CGI »].</p>
-<p><b>Distribution</b><br>Application pour mobile et tablette distribuée via l'App Store (Apple) et Google Play (Google) [À REMPLIR : stores effectifs et pays], et, pour les tests, une version web hébergée par [À REMPLIR : hébergeur, adresse, téléphone]. Vos données de match ne sont envoyées ni à l'éditeur, ni aux stores, ni à l'hébergeur : elles restent sur votre appareil.</p>
+ mentions:['Mentions légales',`<p><b>Éditeur de l'application</b><br>VolleyCoach, particulier, entreprise en cours de création (SIRET en cours d’attribution).<br>Adresse : 45 impasse des Maseliers, 34660 Cournonsec, France.<br>E-mail : volleycoachstats@gmail.com. Téléphone : +33 6 79 62 06 61.<br>Directeur de la publication : VolleyCoach.<br>TVA non applicable, article 293 B du CGI.</p>
+<p><b>Distribution</b><br>Application pour mobile et tablette distribuée dans tous les pays via l'App Store (Apple Distribution International Ltd., Hollyhill Industrial Estate, Cork, Irlande) et Google Play (Google Ireland Ltd., Gordon House, Barrow Street, Dublin 4, Irlande). Vos données de match ne sont envoyées ni à l'éditeur ni aux stores : elles restent sur votre appareil.</p>
 <p><b>Propriété intellectuelle</b><br>L'application, son code, ses textes et ses visuels sont protégés par le droit d'auteur. Toute reproduction sans autorisation est interdite.</p>
-<p><b>Nous contacter</b><br>[À REMPLIR : e-mail].</p>`],
- privacy:['Politique de confidentialité',`<p><b>Responsable du traitement</b> : [À REMPLIR : nom et coordonnées de l'éditeur]. Pour les données des joueurs saisies par un entraîneur ou un club, l'entraîneur ou le club est responsable du traitement ; l'application n'y a pas accès.</p>
+<p><b>Nous contacter</b><br>volleycoachstats@gmail.com</p>`],
+ privacy:['Politique de confidentialité',`<p><b>Responsable du traitement</b> : VolleyCoach, 45 impasse des Maseliers, 34660 Cournonsec, France, volleycoachstats@gmail.com. Pour les données des joueurs saisies par un entraîneur ou un club, l'entraîneur ou le club est responsable du traitement ; l'application n'y a pas accès.</p>
 <p><b>Où sont vos données ?</b> Sur votre appareil uniquement (stockage de l'application, avec une copie de sécurité dans ses fichiers). Aucune donnée de match, d'effectif ou de statistique n'est transmise à l'éditeur ni à un tiers. Les exports (PDF, .vbcs) sont créés sur votre appareil et partagés par vous seul.</p>
 <p><b>Données traitées et finalités</b></p><ul><li>Effectif : nom, prénom, numéro de maillot, postes, numéro de licence (facultatif). Finalité : tenue de la feuille de match et des statistiques. Base légale : intérêt légitime de l'entraîneur ou du club (organisation sportive). Durée : tant que vous les conservez dans l'application ; vous pouvez les supprimer à tout moment.</li>
 <li>Matchs et statistiques : scores, actions notées, changements. Mêmes finalité, base et durée.</li>
@@ -1656,36 +1656,36 @@ const LEGAL={
 <p><b>Pour les stores</b> : l'application ne collecte aucune donnée personnelle sur ses serveurs et n'utilise aucun identifiant publicitaire ni mesure d'audience. Les rapports de plantage éventuels sont ceux des stores, selon vos réglages d'appareil.</p>
 <p><b>Destinataires</b> : aucun, hors Apple et Google pour les achats intégrés. Aucun transfert de vos données de match hors de votre appareil.</p>
 <p><b>Mineurs</b> : les joueurs peuvent être mineurs. Ne saisissez que les données nécessaires (pas de date de naissance, pas de photo) et supprimez-les quand elles ne servent plus.</p>
-<p><b>Vos droits</b> : accès, rectification, effacement, limitation, opposition et portabilité. Comme les données sont sur votre appareil, vous les exercez directement dans l'application (modifier, retirer, exporter, supprimer une équipe ou tout effacer dans Réglages). Pour toute question : [À REMPLIR : e-mail]. Vous pouvez aussi saisir la CNIL (www.cnil.fr).</p>
+<p><b>Vos droits</b> : accès, rectification, effacement, limitation, opposition et portabilité. Comme les données sont sur votre appareil, vous les exercez directement dans l'application (modifier, retirer, exporter, supprimer une équipe ou tout effacer dans Réglages). Pour toute question : volleycoachstats@gmail.com. Vous pouvez aussi saisir la CNIL (www.cnil.fr).</p>
 <p><b>Cookies et traceurs</b> : aucun, voir « Données sur l'appareil ».</p>
-<p>Dernière mise à jour : [À REMPLIR : date].</p>`],
+<p>Dernière mise à jour : 22 octobre 2026.</p>`],
  cgu:["Conditions générales d'utilisation",`<p><b>Objet</b> : VolleyCoach est une application de banc de touche pour le volley-ball (feuille de match, rotations, score, statistiques). En l'utilisant, vous acceptez ces conditions.</p>
 <p><b>Compte et données</b> : aucun compte n'est nécessaire. Vos données restent sur votre appareil ; vous êtes responsable de leur sauvegarde (Réglages › Exporter toutes les données). L'éditeur ne peut pas les restaurer.</p>
 <p><b>Usage</b> : l'application est destinée à un usage sportif. Vous vous engagez à saisir uniquement les données des joueurs pour lesquels vous y êtes autorisé (club, équipe) et à respecter le RGPD vis-à-vis d'eux.</p>
 <p><b>Version gratuite et Pro</b> : la version gratuite est décrite dans Réglages › Abonnement. Les fonctions Pro sont accessibles gratuitement jusqu'au 31 août 2027, puis pendant 14 jours pour les nouveaux utilisateurs, puis avec un pass (voir les CGV).</p>
 <p><b>Disponibilité</b> : l'application fonctionne hors connexion ; les mises à jour passent par les stores. L'éditeur peut faire évoluer l'application sans préavis, sans supprimer les données stockées sur votre appareil.</p>
 <p><b>Responsabilité</b> : les statistiques sont fournies à titre indicatif, à partir de vos saisies. L'éditeur ne peut être tenu responsable d'une perte de données liée à l'appareil, au navigateur ou à l'absence de sauvegarde.</p>
-<p><b>Droit applicable</b> : droit français. Éditeur : [À REMPLIR].</p>`],
- cgv:['Conditions générales de vente',`<p><b>Vendeur</b> : [À REMPLIR : nom, statut, adresse, SIRET, e-mail].</p>
+<p><b>Droit applicable</b> : droit français. Éditeur : VolleyCoach (voir les mentions légales).</p>`],
+ cgv:['Conditions générales de vente',`<p><b>Vendeur</b> : VolleyCoach, particulier, entreprise en cours de création (SIRET en cours d’attribution), 45 impasse des Maseliers, 34660 Cournonsec, France, volleycoachstats@gmail.com, +33 6 79 62 06 61. TVA non applicable, article 293 B du CGI.</p>
 <p><b>Offres et prix</b> : Pass saison à 29,99 €, en vente de septembre à décembre, et pass mi-saison à 19,99 €, en vente de janvier à août ; tous deux valables jusqu'au 31 août qui suit l'achat. Le pass profite aux appareils connectés au même compte App Store ou Google Play. Essai gratuit de toutes les fonctions jusqu'au 31 août 2027, puis 14 jours pour les nouveaux utilisateurs. Prix en euros, toutes taxes comprises, fixés par les stores dans chaque pays. Aucun renouvellement automatique : à l'échéance, l'application revient en version gratuite, sans perte de données.</p>
 <p><b>Commande et paiement</b> : uniquement dans l'application, par achat intégré via l'App Store ou Google Play, aux conditions du store. Le pass est activé aussitôt dans l'application. La confirmation et le reçu sont envoyés par le store.</p>
 <p><b>Fourniture</b> : accès immédiat aux fonctions Pro après activation, pour la durée choisie.</p>
 <p><b>Droit de rétractation</b> : 14 jours à compter de l'achat, pour un consommateur, sauf si vous demandez l'exécution immédiate du service et renoncez expressément à ce droit (case à cocher au moment du paiement). Pour un achat via l'App Store ou Google Play, la demande se fait auprès du store, selon ses conditions. Détails et formulaire type : page « Rétractation et remboursement ».</p>
 <p><b>Garantie légale de conformité</b> : vous bénéficiez de la garantie légale de conformité applicable aux contenus et services numériques (articles L224-25-1 et suivants du Code de la consommation).</p>
-<p><b>Réclamations et médiation</b> : [À REMPLIR : e-mail]. En cas de litige non résolu, un consommateur peut recourir gratuitement au médiateur de la consommation : [À REMPLIR : nom et site du médiateur choisi]. Plateforme européenne de règlement en ligne des litiges : ec.europa.eu/consumers/odr.</p>
+<p><b>Réclamations et médiation</b> : volleycoachstats@gmail.com. En cas de litige non résolu, un consommateur peut recourir gratuitement à un médiateur de la consommation, qui sera désigné avant l'ouverture des ventes ; ses coordonnées figureront ici.</p>
 <p><b>Droit applicable</b> : droit français.</p>`],
  retract:['Rétractation et remboursement',`<p><b>Délai</b> : si vous êtes un consommateur, vous disposez de 14 jours à compter de l'achat pour vous rétracter, sans motif.</p>
 <p><b>Exception</b> : si vous demandez que l'accès Pro commence immédiatement et que vous renoncez expressément à votre droit de rétractation (case à cocher au moment du paiement), le droit de rétractation ne s'applique plus une fois le service commencé. L'achat dans l'application n'est possible qu'avec cette demande, qui est enregistrée sur votre appareil avec sa date.</p>
-<p><b>Comment faire</b> : le pass étant acheté via l'App Store ou Google Play, le remboursement se demande au store (Apple : reportaproblem.apple.com ; Google : Google Play › Historique des commandes). Vous pouvez aussi nous adresser une déclaration claire avant la fin du délai (e-mail à [À REMPLIR]), par exemple avec le formulaire ci-dessous.</p>
+<p><b>Comment faire</b> : le pass étant acheté via l'App Store ou Google Play, le remboursement se demande au store (Apple : reportaproblem.apple.com ; Google : Google Play › Historique des commandes). Vous pouvez aussi nous adresser une déclaration claire avant la fin du délai (e-mail à volleycoachstats@gmail.com), par exemple avec le formulaire ci-dessous.</p>
 <p><b>Formulaire type de rétractation</b> (à compléter et renvoyer uniquement si vous souhaitez vous rétracter) :<br>
-À l'attention de [À REMPLIR : nom et adresse de l'éditeur, e-mail] :<br>
+À l'attention de VolleyCoach, 45 impasse des Maseliers, 34660 Cournonsec, France, volleycoachstats@gmail.com :<br>
 Je vous notifie par la présente ma rétractation du contrat portant sur la fourniture du service suivant : VolleyCoach Pro, formule : ……<br>
 Commandé le : …… / Reçu le : ……<br>
 Nom du consommateur : ……<br>
 Adresse du consommateur : ……<br>
 Signature (uniquement en cas de notification sur papier) : ……<br>
 Date : ……</p>`],
- cookies:["Données sur l'appareil",`<p><b>Aucun cookie, aucun traceur.</b> L'application (mobile, tablette et version web de test) ne dépose aucun cookie et ne charge aucun script tiers (ni mesure d'audience, ni publicité, ni réseaux sociaux). Les polices et le module PDF sont intégrés à l'application.</p>
+ cookies:["Données sur l'appareil",`<p><b>Aucun cookie, aucun traceur.</b> L'application ne dépose aucun cookie et ne charge aucun script tiers (ni mesure d'audience, ni publicité, ni réseaux sociaux). Les polices et le module PDF sont intégrés à l'application.</p>
 <p><b>Stockage local, strictement nécessaire</b> (exempté de consentement selon la CNIL) :</p><ul><li>stockage local du navigateur : vos équipes, matchs, statistiques et réglages ;</li><li>stockage de session : l'écran en cours du Menu, pour un rechargement de page ;</li><li>cache du service worker : les fichiers de l'application, pour fonctionner hors connexion.</li></ul>
 <p>Vous pouvez tout effacer dans Réglages (suppression d'une équipe, « Code oublié » › tout effacer) ou en effaçant les données du site dans votre navigateur.</p>
 <p>Les achats intégrés passent par l'App Store ou Google Play, qui appliquent leurs propres règles.</p>`]};
@@ -2603,7 +2603,7 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
     ${proCmpHTML()}
     ${act?`<p class="okline">${L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
     <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
-    <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Avant de payer, consultez les <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales de vente</button> et vos <button class="linkbtn" data-act="legal" data-k="retract">droits de rétractation et de remboursement</button> (14 jours, formulaire type). Éditeur : [À REMPLIR].</p>`;}
+    <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Avant de payer, consultez les <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales de vente</button> et vos <button class="linkbtn" data-act="legal" data-k="retract">droits de rétractation et de remboursement</button> (14 jours, formulaire type). Éditeur : VolleyCoach.</p>`;}
 // Complétude de la saisie : badge vert / orange / rouge
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
 function covBadge(c){const p=covPct(c);if(p==null)return '';const cl=p>=0.8?'g':p>=0.5?'o':'r';return ` <span class="covb ${cl}">Saisie : ${Math.round(p*100)} %${tipB('cov')}</span>`;}
