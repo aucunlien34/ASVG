@@ -655,7 +655,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V154';
+const APP_VERSION='V155';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1148,6 +1148,7 @@ function teamOf(a){const T=store.teams||[];if(a.teamId&&T.some(t=>t.id===a.teamI
 // Ordre des matchs : ordre manuel s'il a été défini (réorganisation), sinon chronologique (premier match en premier)
 function sortArch(L){return L.slice().sort((a,b)=>{const oa=a.order,ob=b.order;if(oa!=null&&ob!=null&&oa!==ob)return oa-ob;if(oa!=null&&ob==null)return -1;if(ob!=null&&oa==null)return 1;
   return String(a.date||'').localeCompare(String(b.date||''))||String(a.num||'').localeCompare(String(b.num||''),undefined,{numeric:true});});}
+function seasonMatches(id){return store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===id);}
 function teamArch(){const ss=selSeason();return sortArch(store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===ss));}
 const normName=p=>(String(p.pre||'')+' '+String(p.nom||'')).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z ]/g,'').replace(/\s+/g,' ').trim();
 // Ressemblance de deux effectifs : part des joueurs (prénom + nom) en commun
@@ -1253,9 +1254,6 @@ function draftCheck(){
   ui.draftKey=k;
 }
 function save(){try{const t=activeTeam();if(t)t.roster=store.roster;const real=(typeof ui!=='undefined'&&ui&&ui.tutoReal)||null,tt=(typeof ui!=='undefined'&&ui&&ui.tutoTeam)||null;const o=real?Object.assign({},store,{cur:real},tt?{teamId:tt.id,roster:tt.roster}:{}):Object.assign({},store);if(typeof ui!=='undefined'&&ui&&ui.tutoTemp){o.teams=store.teams.filter(t=>t.id!=='t-earth');o.arch=store.arch.filter(a=>a.teamId!=='t-earth');}localStorage.setItem(KEY,JSON.stringify(o));}catch(e){toast('Sauvegarde impossible sur cet appareil','warn');}}
-let dlP=null;
-function downloadsCap(){if(!dlP)dlP=(window.claude&&window.claude.use)?window.claude.use('downloads').catch(()=>null):Promise.resolve(null);return dlP;}
-setTimeout(downloadsCap,0);
 
 /* ============ RETOURS ============ */
 function toast(msg,kind){
@@ -1314,6 +1312,7 @@ function notify(m,before,after){
     else if(a&&a.f){toast(`Libéro sort : ${tag(m,a.f)} revient`,'lib');beep('lib');}
   }
   if(after.lastWarn&&after.lastWarn.length){toast('Changement non réglementaire : '+after.lastWarn.join(' ; '),'warn');beep('warn');}
+  if(!tbSwitched(m,before)&&tbSwitched(m,after)&&before.sets.length===after.sets.length){toast('8 points au tie-break : changement de côté','ok');beep('ok');}
   if(after.lastSetEnd){
     const n=after.sets.length,w=after.lastSetEnd==='G'?short(m):(m.opp||'l\'adversaire');
     toast(after.phase==='over'?`Match terminé : victoire de ${w}`:`Set ${n} gagné par ${w}`,'ok');beep('ok');
@@ -1416,6 +1415,9 @@ const SERVE=[84,98];
 // Changement de côté à chaque set : sets 2 et 4 inversés par rapport au réglage de base
 let PAR=0;
 const mirrorO=o=>o===1?3:o===3?1:o;
+// Set décisif (tie-break) : les équipes changent de côté dès qu'une équipe atteint 8 points
+function tbSwitched(m,S){const F=fmt(m),i=S.sets.length-1,x=S.sets[i];return F.win>1&&i===2*F.win-2&&!!x&&Math.max(x.g||0,x.a||0)>=8;}
+const ORIENT_LAB=['Filet en haut','Filet à droite','Filet en bas','Filet à gauche'];
 function dispOrient(){const b=store.prefs.orient||0;return PAR%2?mirrorO(b):b;}
 function dispSwap(){return !!store.prefs.swapT!==!!(PAR%2);}
 function oxy(c){const o=dispOrient();let [x,y]=c;
@@ -1716,7 +1718,7 @@ function render(){
   try{if(ui.coach&&ui.screen==='coach')sessionStorage.setItem('vc-coach',JSON.stringify({ctab:ui.ctab,coachView:ui.coachView,statView:ui.statView,seasonSel:ui.seasonSel,fxSet:ui.fxSet}));else sessionStorage.removeItem('vc-coach');}catch(e){}
   LIBPOS=+(store.cur.libPos||5);
   const m=store.cur,S=replay(m);let h;
-  PAR=(ui.screen==='lineup'&&ui.draft)?(ui.draft.set||0):Math.max(0,S.sets.length-1);
+  PAR=(ui.screen==='lineup'&&ui.draft)?(ui.draft.set||0):Math.max(0,S.sets.length-1)+(tbSwitched(m,S)?1:0);
   const old={};document.querySelectorAll('#mainCourt .tok').forEach(t=>{old[t.dataset.id]=t.getBoundingClientRect();});
   if(ui.screen==='coach'&&ui.coach)h=coachHTML();
   else if(ui.screen==='lineup'&&ui.draft)h=lineupHTML(m,S);
@@ -1806,10 +1808,12 @@ function lineupHTML(m,S){
   const pz=setterZone(d.zones,S.roles);
   return `<div class="top"><button class="btn" data-act="cancelLineup">Retour</button><h1>Set ${n} : 6 de départ</h1><button class="btn" data-act="toSetup">Postes</button></div>
     <p class="hint">Touchez un poste pour y placer un nom (ordre réglementaire de rotation, poste 1 = service). Touchez un nom placé pour le changer, double-touchez-le pour changer son poste.</p>
-    <div class="lrot"><button class="btn icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button></div>
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     ${(()=>{const F=fmt(m),lock=S.sets.length>0,b=(k,v,l)=>`<button class="${F[k]===v?'on':''}" data-act="fmtSet" data-k="${k}" data-v="${v}" ${lock?'disabled':''}>${l}</button>`;
-      return `<h2>Format du match</h2>
+      return `<h2>Orientation du terrain</h2>
+      <div class="fmtg"><span class="fl">${ORIENT_LAB[dispOrient()]}</span><button class="btn" data-act="flip" aria-label="Tourner le terrain d'un quart de tour">${IC.flip} Tourner le terrain</button></div>
+      <p class="hint">Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas.</p>
+      <h2>Format du match</h2>
       <div class="fmtg"><span class="fl">Sets gagnants</span><div class="seg">${b('win',1,'1')}${b('win',2,'2')}${b('win',3,'3')}</div></div>
       <div class="fmtg"><span class="fl">Points par set</span><div class="seg">${b('pts',25,'25')}${b('pts',21,'21')}${b('pts',15,'15')}</div></div>
       ${F.win>1?`<div class="fmtg"><span class="fl">Tie-break (15 points)</span><div class="seg">${b('tb',true,'Oui')}${b('tb',false,'Non')}</div></div>`:''}
@@ -2066,6 +2070,20 @@ function sheetHTML(m,S){
       <div class="mgcmp"><div><small>Sur cet appareil</small><b>${pn(loc)} points · ${sn(loc)} actions</b></div><div><small>Importé</small><b>${pn(q.imp)} points · ${sn(q.imp)} actions</b></div></div>
       <p class="hint">Deux personnes ont noté le même match ? La fusion recoupe les deux saisies point par point et complète les actions manquantes de part et d'autre.</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeYes">${isPro()?'':'🔒 '}Oui : fusionner les deux saisies</button><button class="btn big" data-act="mergeNo">Non : garder les deux matchs (doublon)</button></div>`;}
+  // Suppression d'une saison : avertissement, export proposé avant de supprimer, confirmation en deux temps
+  if(ui.sheet==='seasonDel'){const so=seasonObj(ui.seasonDelId),n=seasonMatches(ui.seasonDelId).length;if(!so){ui.sheet=null;return '';}
+    return `<div class="sh"><h3>Supprimer la saison ?</h3>${close}</div>
+      <div class="warnc card"><b>📁 ${esc(so.name)}</b><p>${n===1?'1 match sera supprimé de cet appareil.':n?`${n} matchs seront supprimés de cet appareil.`:'Cette saison ne contient aucun match.'}</p><p>Cette action est définitive. Exportez d'abord la saison si vous voulez pouvoir la retrouver : le fichier .vbcs se réimporte à tout moment.</p></div>
+      <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px">
+        ${n?'<button class="btn big primary" data-act="seasonDelExport">Exporter la saison (.vbcs)</button>':''}
+        <button class="btn big danger" data-act="seasonDelGo">${ui.confirm==='sdel'?'Confirmer la suppression définitive':'Supprimer la saison'}</button>
+        <button class="btn big" data-act="close">Annuler</button></div>`;}
+  // Export sur Android : partager ou enregistrer sur l'appareil
+  if(ui.sheet==='exportTo'&&ui.exportQ){return `<div class="sh"><h3>${esc(ui.exportQ.filename)}</h3>${close}</div>
+      <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">
+        <button class="btn big primary" data-act="exportShare">${IC.share} Partager (WhatsApp, e-mail…)</button>
+        <button class="btn big" data-act="exportKeep">Enregistrer sur l’appareil</button></div>
+      <p class="hint">Enregistré dans Documents › VolleyCoach (appli Fichiers).</p>`;}
   if(ui.sheet==='merge2'&&ui.mergeQ){return `<div class="sh"><h3>En cas de doute ?</h3>${close}</div>
       <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
@@ -2729,7 +2747,7 @@ function coachHTML(){
       return `<button class="sline ${x.id===so.id?'on':''}" style="--gc:${teamColor(T)}" data-act="seasonPick" data-id="${x.id}"><b>📁 ${esc(x.name)}</b><small>${n} match${n>1?'s':''} · ${x.id===T.curSeason?'en cours':'clôturée'}</small></button>`;}).join('');
     body=`<div class="slist">${list}</div>
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span></div>
-      <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>
+      <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>${isDemoTeam()?'':'<button class="btn danger" data-act="seasonDel">Supprimer la saison…</button>'}
       ${cur?`<button class="btn danger" data-act="seasonClose">Clôturer la saison…</button>`:`<button class="btn primary" data-act="seasonReopen">${ui.confirm==='sreopen'?`Confirmer : « ${esc(seasonObj(T.curSeason).name)} » sera clôturée`:'Rouvrir cette saison'}</button>`}</div>
       <p class="hint">${cur?'Les matchs archivés vont dans cette saison. Clôturer la saison en ouvre une nouvelle (à nommer).':'Saison clôturée : consultation seule. La rouvrir la remet en cours (la saison actuelle est alors clôturée).'}</p>
       <div class="librow" style="margin-top:6px"><b>Niveau</b><div class="seg lpseg">${LEVELS.map(([v,l])=>`<button class="${(so&&so.level||'R')===v?'on':''}" data-act="seasonLevel" data-v="${v}">${l}</button>`).join('')}</div></div>
@@ -2757,24 +2775,25 @@ function coachHTML(){
 }
 // Partage : menu de partage du téléphone (WhatsApp, Fichiers…) si disponible, sinon enregistrement classique
 let SHARE=false;
+const b64Of=data=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(data instanceof Blob?data:new Blob([data]));});
+// Partage du système (WhatsApp, e-mail, Drive, Fichiers…) : fichier écrit dans le cache de l'appli puis transmis
 async function nativeSave(filename,data){const P=CAP();if(!P.Filesystem||!P.Share)return false;
-  const blob=data instanceof Blob?data:new Blob([data]);const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(blob);});
-  const w=await P.Filesystem.writeFile({path:filename,data:b64,directory:'CACHE'});await P.Share.share({title:filename,url:w.uri,dialogTitle:'Partager'});return true;}
+  const w=await P.Filesystem.writeFile({path:filename,data:await b64Of(data),directory:'CACHE'});await P.Share.share({title:filename,files:[w.uri],dialogTitle:'Partager'});return true;}
+// Enregistrement sur l'appareil (Android) : dossier Documents/VolleyCoach, visible dans l'appli Fichiers
+async function nativeKeep(filename,data){const P=CAP();await P.Filesystem.writeFile({path:'VolleyCoach/'+filename,data:await b64Of(data),directory:'DOCUMENTS',recursive:true});return true;}
+// Partage du système dans un navigateur mobile (fichier joint), sinon rien
 async function shareOut(filename,data){const blob=data instanceof Blob?data:new Blob([data],{type:'application/json'});
   try{const f=new File([blob],filename,{type:blob.type||(filename.endsWith('.pdf')?'application/pdf':'application/json')});
     if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:filename});return true;}}
   catch(e){if(e&&e.name==='AbortError')return true;}
   return false;}
-async function saveFile(filename,data){
-  if(NATIVE){SHARE=false;try{if(await nativeSave(filename,data))return;}catch(e){if(/cancel|abort/i.test(String(e&&e.message||e)))return;}}
-  if(SHARE){SHARE=false;if(await shareOut(filename,data))return;}
-  try{
-    const dl=await downloadsCap();
-    if(dl){await dl.save({filename,data});toast('Fichier enregistré','ok');return;}
-  }catch(e){
-    if(e&&e.code==='declined'){toast('Enregistrement annulé');return;}
-    if(e&&e.code==='rate_limited'){toast('Une demande est déjà ouverte, réessayez dans un instant','warn');return;}
-  }
+const MOBILE_WEB=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+// Tout export (stats PDF/CSV, résumé, données .vbcs) : iOS → partage du système (qui propose aussi « Enregistrer dans Fichiers ») ;
+// Android → choix entre partage et enregistrement sur l'appareil ; navigateur mobile → partage, sinon téléchargement
+async function saveFile(filename,data){SHARE=false;
+  if(NATIVE){if(window.Capacitor.getPlatform()==='android'){ui.exportQ={filename,data};ui.sheet='exportTo';render();return;}
+    try{if(await nativeSave(filename,data))return;}catch(e){if(/cancel|abort/i.test(String(e&&e.message||e)))return;toast('Partage impossible sur cet appareil','warn');return;}}
+  if(MOBILE_WEB&&await shareOut(filename,data))return;
   try{const blob=data instanceof Blob?data:new Blob([data]);const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();}
   catch(e){toast('Le téléchargement n\'est pas possible ici','warn');}
 }
@@ -3156,7 +3175,21 @@ const A={
     else toast('Retrait de l\'effectif ; reste dans le match en cours (déjà en jeu)');
     save();},
   stDel(d){const m=store.cur;if(!m.pend)return;m.pend.splice(+d.i,1);save();},
+  async exportShare(){const q=ui.exportQ;ui.exportQ=null;ui.sheet=null;render();if(!q)return 1;
+    try{await nativeSave(q.filename,q.data);}catch(e){if(!/cancel|abort/i.test(String(e&&e.message||e)))toast('Partage impossible sur cet appareil','warn');}return 1;},
+  async exportKeep(){const q=ui.exportQ;ui.exportQ=null;ui.sheet=null;render();if(!q)return 1;
+    try{await nativeKeep(q.filename,q.data);toast('Enregistré dans Documents › VolleyCoach','ok');}catch(e){toast('Enregistrement impossible sur cet appareil','warn');}return 1;},
   seasonRen(){ui.seasonMode='ren';ui.sheet='seasonName';},
+  seasonDel(){if(isDemoTeam())return;ui.seasonDelId=selSeason();ui.confirm=null;ui.sheet='seasonDel';},
+  // export proposé avant suppression : permis aussi en version gratuite (protection des données)
+  seasonDelExport(){const so=seasonObj(ui.seasonDelId);if(!so)return;saveFile(`saison_${slug(so.name)}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:seasonMatches(so.id)}));return 'keep';},
+  seasonDelGo(){if(ui.confirm!=='sdel'){ui.confirm='sdel';return 'keep';}const T=activeTeam(),id=ui.seasonDelId,so=seasonObj(id);if(!T||!so)return;
+    const n=seasonMatches(id).length,wasCur=id===T.curSeason;
+    store.arch=store.arch.filter(a=>!(teamOf(a)===T.id&&seasonOf(a)===id));T.seasons=T.seasons.filter(x=>x.id!==id);
+    // saison en cours supprimée : une nouvelle saison vide prend le relais (les saisons clôturées le restent)
+    if(wasCur){const ns={id:'s'+Date.now().toString(36),name:seasonDefName(),closed:false};T.seasons.push(ns);T.curSeason=ns.id;}
+    ensureSeasons(T);ui.seasonSel=T.curSeason;ui.seasonDelId=null;ui.confirm=null;ui.sheet=null;ui.coachView=null;CAL_CACHE={k:null,v:null};save();
+    toast('Saison supprimée','ok');},
   seasonClose(){ui.seasonMode='close';ui.sheet='seasonName';},
   seasonOk(){const v=(($('#seasonIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}const T=activeTeam();
     if(ui.seasonMode==='close'){const so=seasonObj(T.curSeason);so.closed=true;
@@ -3190,7 +3223,7 @@ const A={
   roles(){ui.sheet='roles';},
   role(d){const m=store.cur,S=replay(m);if(S.sets.length===0){m.roles[d.id]=d.r;save();}else if(S.roles[d.id]!==d.r){dispatch({t:'role',p:d.id,r:d.r});return 1;}},
   menu(){ui.sheet='menu';},
-  flip(){const nd=(dispOrient()+1)%4;store.prefs.orient=PAR%2?mirrorO(nd):nd;save();toast('Filet '+['en haut','à droite','en bas','à gauche'][nd]);},
+  flip(){const nd=(dispOrient()+1)%4;store.prefs.orient=PAR%2?mirrorO(nd):nd;save();toast(ORIENT_LAB[nd]);},
   view(d){store.prefs.view=d.v;save();},
   // Terrain : vue « Positions » (composition, rotations) ou « Stats » (saisie de l'échange)
   dockSet(d){store.prefs.dockOpen=d.v==='stats';save();},

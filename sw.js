@@ -1,6 +1,6 @@
 // Hors ligne : la page est toujours demandée au serveur en contournant tous les caches
 // (navigateur et réseau de diffusion), puis servie depuis le cache si pas de connexion.
-const VERSION="volleycoach-v154-4c47891"; // rempli à la publication (scripts/publish.mjs)
+const VERSION="volleycoach-v155-454d5e8"; // rempli à la publication (scripts/publish.mjs)
 const FILES=["./","./fonts/f0.woff2","./fonts/f1.woff2","./fonts/f10.woff2","./fonts/f11.woff2","./fonts/f12.woff2","./fonts/f13.woff2","./fonts/f14.woff2","./fonts/f15.woff2","./fonts/f16.woff2","./fonts/f17.woff2","./fonts/f18.woff2","./fonts/f19.woff2","./fonts/f2.woff2","./fonts/f20.woff2","./fonts/f3.woff2","./fonts/f4.woff2","./fonts/f5.woff2","./fonts/f6.woff2","./fonts/f7.woff2","./fonts/f8.woff2","./fonts/f9.woff2","./fonts/fonts.css","./i18n.js","./icon-192.png","./icon-512.png","./index.html","./jspdf.umd.min.js","./manifest.webmanifest","./native-storage.js","./seed.js"]; // fichiers de l'appli, mis en cache pour l'usage hors connexion
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VERSION&&x!=='volleycoach-share').map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
