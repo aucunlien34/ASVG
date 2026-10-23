@@ -472,6 +472,7 @@ body.easy.phstats .dock .undo{flex:none}
 .chk.waiver{align-items:flex-start;font-weight:500;font-size:15px;line-height:1.35;padding:6px 0}.chk.waiver input{flex:none;margin-top:1px}
 .passes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0}.passes .buyc{margin:0}
 .buyc.off{border-color:var(--line);box-shadow:none;background:var(--surface2)}.buyc.off .pp{color:var(--muted)}
+.actcode{margin:10px 0}.actcode label{display:block;font-weight:700;margin-bottom:4px}.actcode .row{display:flex;gap:8px}.actcode input{flex:1;min-width:0;font:inherit;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);letter-spacing:1px}
 .restb{display:block;margin:4px auto 0;font-size:15px;min-height:44px}
 .pcmp{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .pcmp th,.pcmp td{padding:8px 10px;border-bottom:1px solid var(--line);white-space:normal;text-align:center}.pcmp td:first-child,.pcmp th:first-child{text-align:left}
@@ -655,7 +656,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V157';
+const APP_VERSION='V158';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2559,6 +2560,13 @@ function passOffers(d){d=d||today();const start=store.prefs.iapTest||d>TRIAL_END
 const PASS_RE=/^pass_(\d{4})_(\d{4})_(plein|reduit)$/;
 const TRIAL_DAYS=14;
 const TRIAL_END='2027-08-31'; // période d'essai ouverte à tous jusqu'à cette date
+// Codes d'activation des examinateurs des stores : empreinte SHA-256 du code → fin de sa saison (scripts/review-code.mjs ; codes hors dépôt).
+// Un code valide ouvre VolleyCoach Pro pendant 30 jours, au plus tard jusqu'à la fin de sa saison.
+const REVIEW_CODES={'d4a61e8b3ff5466e95184652e8ea10f32789d6f47ac977bfa2531be9a82eee0b':'2027-08-31','fe5d5200dab90305c12b2844f1738aeacc6dad86a52d072f8fc1bb1a23e8e9cc':'2028-08-31'};
+const REVIEW_DAYS=30;
+async function reviewCode(code){const c=String(code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(!c||!(crypto&&crypto.subtle))return null;
+  const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(c)))].map(b=>b.toString(16).padStart(2,'0')).join(''),end=REVIEW_CODES[h];
+  if(!end||end<today())return null;const u=new Date(Date.now()+REVIEW_DAYS*86400000).toISOString().slice(0,10);return u<end?u:end;}
 function daysBetween(a,b){return Math.floor((new Date(b)-new Date(a))/86400000);}
 function trialLeft(){const t=store.prefs.trialStart,d=today();if(d<=TRIAL_END)return daysBetween(d,TRIAL_END)+1;
   // après le 31 août 2027 : 14 jours d'essai pour les utilisateurs arrivés après cette date
@@ -2620,11 +2628,12 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
       <button class="btn big ${o.on?'primary':''}" data-act="buy" data-k="${o.k}" ${o.on&&ui.waiver&&!IAP.busy?'':'disabled'}>${!o.on?'Hors période de vente':IAP.busy?'Achat en cours…':'Acheter ce pass'}</button></div>`;}).join('')}</div>
     ${any?`<label class="chk waiver"><input type="checkbox" data-waiver ${ui.waiver?'checked':''}> <span>Je demande l’accès immédiat aux fonctions Pro et je renonce à mon droit de rétractation dès le début du service.</span></label>
       ${ui.waiver?'':'<p class="hint">Cochez la case pour acheter.</p>'}`:''}
-    <button class="linkbtn restb" data-act="restore">Restaurer mes achats</button>`;
+    <button class="linkbtn restb" data-act="restore">Restaurer mes achats</button>
+    ${ui.codeOpen?`<div class="actcode"><label for="actcode">Code d’activation</label><div class="row"><input id="actcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="VC-XXXX-XXXX-XXXX"><button class="btn primary" data-act="codeGo">Activer</button></div></div>`:'<button class="linkbtn restb" data-act="codeOpen">J’ai un code d’activation</button>'}`;
   return `<div class="sh"><h3 data-act="iapTap">VolleyCoach Pro</h3>${close}</div>
     <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:var(--warn)">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
     ${proCmpHTML()}
-    ${act?`<p class="okline">${L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
+    ${act?`<p class="okline">${L.src==='review'?`✓ VolleyCoach Pro activé par code jusqu’au ${fmtDate(L.until)}.`:L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
     <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
     <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Avant de payer, consultez les <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales de vente</button> et vos <button class="linkbtn" data-act="legal" data-k="retract">droits de rétractation et de remboursement</button> (14 jours, formulaire type). Éditeur : VolleyCoach.</p>`;}
 // Complétude de la saisie : badge vert / orange / rouge
@@ -3340,7 +3349,13 @@ const A={
     ui.coachView=null;ui.seasonSel=null;ui.tuto=null;store.prefs.tutoSeen=true;save();ui.draft=null;ui.sheet=null;
     // retour à la liste des chapitres (Réglages › Aide › Tutoriel)
     tCoachOpen('settings');ui.setSec='aide';setTimeout(()=>A.setGo({id:'aide'}),0);},
-  pro(){ui.sheet='pro';},
+  pro(){ui.sheet='pro';ui.codeOpen=false;},
+  codeOpen(){ui.codeOpen=true;render();setTimeout(()=>{const i=document.getElementById('actcode');if(i)i.focus();},0);},
+  // Code d'activation (examinateurs des stores) : licence Pro de 30 jours, jamais à la place d'un pass acheté plus long
+  async codeGo(){const i=document.getElementById('actcode'),until=await reviewCode(i&&i.value);
+    if(!until){toast('Code d’activation non valable','warn');return;}
+    const L=store.lic;if(!(L&&L.plan&&L.plan!=='free'&&L.until&&L.until>=until))store.lic={plan:'season',until,src:'review'};
+    save();ui.codeOpen=false;ui.sheet=null;toast('VolleyCoach Pro activé jusqu’au '+fmtDate(store.lic.until),'ok');render();},
   // Achat du pass saison : case de renonciation cochée, puis paiement dans le store ; la licence est enregistrée avec la date du consentement
   async buy(d){const o=passOffers().find(x=>x.k===d.k);if(!o||!o.on||!ui.waiver||IAP.busy)return;const P=IAP.plugin(),id=o.id,consent=new Date().toISOString();
     if(!P){store.lic={plan:'season',until:o.end,src:'test',product:id,consent};save();ui.sheet=null;ui.waiver=false;toast('VolleyCoach Pro activé (achat simulé hors appli native)','ok');render();return;}

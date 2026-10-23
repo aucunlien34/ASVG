@@ -740,7 +740,12 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Attack efficiency by the position the player attacks from (after switching), as in the zone chart. A position only appears from 5 attacks, and only if the player attacked from several positions.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Set success: quality of the set itself (− = 0, = = 1, + = 2), whatever the attack did. What the attack made of the set is shown in the zone chart.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Web: where the sets go (net at the top). − / = / +: set quality. Attack: efficiency of the attack that follows the set in this zone.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: share of sets to each position, edge = most-served position (index 100), square-root scale, net at the top. Set success: set quality (- = 0, = = 1, + = 2). Attack: efficiency of the attack that follows the set in the zone; green / red: 10 points above / below average."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: share of sets to each position, edge = most-served position (index 100), square-root scale, net at the top. Set success: set quality (- = 0, = = 1, + = 2). Attack: efficiency of the attack that follows the set in the zone; green / red: 10 points above / below average.",
+  "Code d’activation": "Activation code",
+  "J’ai un code d’activation": "I have an activation code",
+  "Code d’activation non valable": "Invalid activation code",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro activated by code until {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activated until {N}"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -1243,7 +1248,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Eficacia del ataque según la posición desde la que ataca (tras la permuta), como en el diagrama de zonas. Una posición solo aparece a partir de 5 ataques, y solo si se atacó desde varias posiciones.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Éxito de colocación: calidad de la colocación en sí (− = 0, = = 1, + = 2), sea cual sea el resultado del ataque. Lo que el ataque hizo con la colocación se ve en el diagrama de zonas.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Red: hacia dónde van las colocaciones (red arriba). − / = / +: calidad de la colocación. Ataque: eficacia del ataque que sigue a la colocación en esta zona.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Red: parte de las colocaciones hacia cada posición, borde = posición más servida (índice 100), escala de raíz cuadrada, red arriba. Éxito de colocación: calidad de la colocación (- = 0, = = 1, + = 2). Ataque: eficacia del ataque que sigue a la colocación en la zona; verde / rojo: 10 puntos por encima / por debajo de la media."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Red: parte de las colocaciones hacia cada posición, borde = posición más servida (índice 100), escala de raíz cuadrada, red arriba. Éxito de colocación: calidad de la colocación (- = 0, = = 1, + = 2). Ataque: eficacia del ataque que sigue a la colocación en la zona; verde / rojo: 10 puntos por encima / por debajo de la media.",
+  "Code d’activation": "Código de activación",
+  "J’ai un code d’activation": "Tengo un código de activación",
+  "Activer": "Activar",
+  "Code d’activation non valable": "Código de activación no válido",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro activado por código hasta el {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activado hasta el {N}"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -1746,7 +1757,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Efficacia dell'attacco secondo il posto da cui si attacca (dopo il cambio), come nel diagramma delle zone. Un posto appare solo da 5 attacchi, e solo se si è attaccato da più posti.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Riuscita dell'alzata: qualità dell'alzata in sé (− = 0, = = 1, + = 2), qualunque sia l'esito dell'attacco. Cosa ha fatto l'attacco dell'alzata si legge nel diagramma delle zone.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Ragnatela: dove vanno le alzate (rete in alto). − / = / +: qualità dell'alzata. Attacco: efficacia dell'attacco che segue l'alzata in questa zona.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Ragnatela: quota di alzate verso ogni posto, bordo = posto più servito (indice 100), scala a radice quadrata, rete in alto. Riuscita dell'alzata: qualità dell'alzata (- = 0, = = 1, + = 2). Attacco: efficacia dell'attacco che segue l'alzata nella zona; verde / rosso: 10 punti sopra / sotto la media."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Ragnatela: quota di alzate verso ogni posto, bordo = posto più servito (indice 100), scala a radice quadrata, rete in alto. Riuscita dell'alzata: qualità dell'alzata (- = 0, = = 1, + = 2). Attacco: efficacia dell'attacco che segue l'alzata nella zona; verde / rosso: 10 punti sopra / sotto la media.",
+  "Code d’activation": "Codice di attivazione",
+  "J’ai un code d’activation": "Ho un codice di attivazione",
+  "Activer": "Attiva",
+  "Code d’activation non valable": "Codice di attivazione non valido",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro attivato con codice fino al {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro attivato fino al {N}"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -2249,7 +2266,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Angriffseffizienz nach der Position, von der angegriffen wird (nach dem Wechsel), wie im Zonendiagramm. Eine Position erscheint erst ab 5 Angriffen und nur, wenn von mehreren Positionen angegriffen wurde.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Zuspielerfolg: Qualität des Zuspiels selbst (− = 0, = = 1, + = 2), unabhängig vom Ergebnis des Angriffs. Was der Angriff aus dem Zuspiel gemacht hat, zeigt das Zonendiagramm.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Netzdiagramm: wohin die Zuspiele gehen (Netz oben). − / = / +: Qualität des Zuspiels. Angriff: Effizienz des Angriffs nach dem Zuspiel in dieser Zone.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Netzdiagramm: Anteil der Zuspiele je Position, Rand = meistbediente Position (Index 100), Wurzelskala, Netz oben. Zuspielerfolg: Qualität des Zuspiels (- = 0, = = 1, + = 2). Angriff: Effizienz des Angriffs nach dem Zuspiel in der Zone; grün / rot: 10 Punkte über / unter dem Durchschnitt."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Netzdiagramm: Anteil der Zuspiele je Position, Rand = meistbediente Position (Index 100), Wurzelskala, Netz oben. Zuspielerfolg: Qualität des Zuspiels (- = 0, = = 1, + = 2). Angriff: Effizienz des Angriffs nach dem Zuspiel in der Zone; grün / rot: 10 Punkte über / unter dem Durchschnitt.",
+  "Code d’activation": "Aktivierungscode",
+  "J’ai un code d’activation": "Ich habe einen Aktivierungscode",
+  "Activer": "Aktivieren",
+  "Code d’activation non valable": "Ungültiger Aktivierungscode",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro per Code aktiviert bis {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviert bis {N}"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -2752,7 +2775,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Skuteczność ataku według pozycji, z której zawodnik atakuje (po zmianie), jak na diagramie stref. Pozycja pojawia się od 5 ataków i tylko gdy atakowano z kilku pozycji.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Skuteczność rozegrania: jakość samego wystawienia (− = 0, = = 1, + = 2), niezależnie od wyniku ataku. To, co atak zrobił z wystawieniem, widać na diagramie stref.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Pajęczyna: dokąd idą wystawy (siatka u góry). − / = / +: jakość wystawy. Atak: skuteczność ataku po wystawie w tej strefie.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Pajęczyna: udział wystaw na każdą pozycję, krawędź = najczęściej obsługiwana pozycja (indeks 100), skala pierwiastkowa, siatka u góry. Skuteczność rozegrania: jakość wystawy (- = 0, = = 1, + = 2). Atak: skuteczność ataku po wystawie w strefie; zielony / czerwony: 10 punktów powyżej / poniżej średniej."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Pajęczyna: udział wystaw na każdą pozycję, krawędź = najczęściej obsługiwana pozycja (indeks 100), skala pierwiastkowa, siatka u góry. Skuteczność rozegrania: jakość wystawy (- = 0, = = 1, + = 2). Atak: skuteczność ataku po wystawie w strefie; zielony / czerwony: 10 punktów powyżej / poniżej średniej.",
+  "Code d’activation": "Kod aktywacyjny",
+  "J’ai un code d’activation": "Mam kod aktywacyjny",
+  "Activer": "Aktywuj",
+  "Code d’activation non valable": "Nieprawidłowy kod aktywacyjny",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktywowany kodem do {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktywny do {N}"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -3255,7 +3284,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Eficácia do ataque conforme a posição de onde se ataca (após a troca), como no diagrama de zonas. Uma posição só aparece a partir de 5 ataques, e só se houve ataques de várias posições.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Sucesso do levantamento: qualidade do levantamento em si (− = 0, = = 1, + = 2), seja qual for o resultado do ataque. O que o ataque fez com o levantamento vê-se no diagrama de zonas.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Teia: para onde vão os levantamentos (rede em cima). − / = / +: qualidade do levantamento. Ataque: eficácia do ataque que segue o levantamento nesta zona.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Teia: parte dos levantamentos para cada posição, borda = posição mais servida (índice 100), escala de raiz quadrada, rede em cima. Sucesso do levantamento: qualidade do levantamento (- = 0, = = 1, + = 2). Ataque: eficácia do ataque que segue o levantamento na zona; verde / vermelho: 10 pontos acima / abaixo da média."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Teia: parte dos levantamentos para cada posição, borda = posição mais servida (índice 100), escala de raiz quadrada, rede em cima. Sucesso do levantamento: qualidade do levantamento (- = 0, = = 1, + = 2). Ataque: eficácia do ataque que segue o levantamento na zona; verde / vermelho: 10 pontos acima / abaixo da média.",
+  "Code d’activation": "Código de ativação",
+  "J’ai un code d’activation": "Tenho um código de ativação",
+  "Activer": "Ativar",
+  "Code d’activation non valable": "Código de ativação inválido",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro ativado por código até {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro ativado até {N}"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -3738,7 +3773,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Oyuncunun hücum ettiği pozisyona göre (yer değiştirmeden sonra) hücum verimi, bölge diyagramındaki gibi. Bir pozisyon ancak 5 hücumdan itibaren ve yalnızca birden fazla pozisyondan hücum edildiyse görünür.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Pas başarısı: hücumun sonucundan bağımsız olarak pasın kendi kalitesi (− = 0, = = 1, + = 2). Hücumun pasla ne yaptığı bölge diyagramında görülür.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Ağ: pasların gittiği yer (file üstte). − / = / +: pas kalitesi. Hücum: bu bölgede pası izleyen hücumun verimi.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Ağ: her pozisyona giden pas payı, kenar = en çok beslenen pozisyon (endeks 100), karekök ölçeği, file üstte. Pas başarısı: pas kalitesi (- = 0, = = 1, + = 2). Hücum: bölgede pası izleyen hücumun verimi; yeşil / kırmızı: ortalamanın 10 puan üstü / altı."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Ağ: her pozisyona giden pas payı, kenar = en çok beslenen pozisyon (endeks 100), karekök ölçeği, file üstte. Pas başarısı: pas kalitesi (- = 0, = = 1, + = 2). Hücum: bölgede pası izleyen hücumun verimi; yeşil / kırmızı: ortalamanın 10 puan üstü / altı.",
+  "Code d’activation": "Etkinleştirme kodu",
+  "J’ai un code d’activation": "Etkinleştirme kodum var",
+  "Activer": "Etkinleştir",
+  "Code d’activation non valable": "Geçersiz etkinleştirme kodu",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro kodla {N} tarihine kadar etkin.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro {N} tarihine kadar etkin"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -4194,7 +4235,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "アタックしたポジション（スイッチ後）ごとのアタック効率。ゾーン図と同じ基準です。5本以上のポジションのみ、複数のポジションから打った場合にだけ表示されます。",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "トス成功率：アタックの結果に関係なく、トスそのものの質（− = 0、= = 1、+ = 2）。アタックがトスをどう生かしたかはゾーン図で確認できます。",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "レーダー：トスの行き先（上がネット）。− / = / +：トスの質。アタック：このゾーンでトスに続くアタックの効率。",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "レーダー：各ポジションへのトスの割合、外周 = 最も多く上げたポジション（指数100）、平方根スケール、上がネット。トス成功率：トスの質（- = 0、= = 1、+ = 2）。アタック：ゾーン内でトスに続くアタックの効率。緑 / 赤：平均より10ポイント上 / 下。"
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "レーダー：各ポジションへのトスの割合、外周 = 最も多く上げたポジション（指数100）、平方根スケール、上がネット。トス成功率：トスの質（- = 0、= = 1、+ = 2）。アタック：ゾーン内でトスに続くアタックの効率。緑 / 赤：平均より10ポイント上 / 下。",
+  "Code d’activation": "アクティベーションコード",
+  "J’ai un code d’activation": "アクティベーションコードを持っています",
+  "Activer": "有効にする",
+  "Code d’activation non valable": "アクティベーションコードが無効です",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ コードにより VolleyCoach Pro が {N} まで有効です。",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro が {N} まで有効になりました"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -4650,7 +4697,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "按球员进攻位置（换位后）统计的进攻效率，与区域图一致。某位置至少有 5 次进攻才显示，且仅当球员从多个位置进攻时显示。",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "传球成功率：传球本身的质量（− = 0，= = 1，+ = 2），与进攻结果无关。进攻如何利用传球请看区域图。",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "雷达图：传球去向（网在上方）。− / = / +：传球质量。进攻：该区域内传球后进攻的效率。",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "雷达图：传向各位置的比例，边缘 = 传球最多的位置（指数 100），平方根刻度，网在上方。传球成功率：传球质量（- = 0，= = 1，+ = 2）。进攻：该区域内传球后进攻的效率；绿 / 红：高于 / 低于平均 10 个百分点。"
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "雷达图：传向各位置的比例，边缘 = 传球最多的位置（指数 100），平方根刻度，网在上方。传球成功率：传球质量（- = 0，= = 1，+ = 2）。进攻：该区域内传球后进攻的效率；绿 / 红：高于 / 低于平均 10 个百分点。",
+  "Code d’activation": "激活码",
+  "J’ai un code d’activation": "我有激活码",
+  "Activer": "激活",
+  "Code d’activation non valable": "激活码无效",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ 已通过激活码启用 VolleyCoach Pro，有效期至 {N}。",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro 已启用，有效期至 {N}"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -5055,7 +5108,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Aanvalsefficiëntie per positie van waaruit wordt aangevallen (na het wisselen), zoals in het zonediagram. Een positie verschijnt pas vanaf 5 aanvallen, en alleen als vanuit meerdere posities is aangevallen.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Spelverdeling: kwaliteit van de set zelf (− = 0, = = 1, + = 2), ongeacht het resultaat van de aanval. Wat de aanval met de set deed, staat in het zonediagram.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Web: waar de sets naartoe gaan (net bovenaan). − / = / +: kwaliteit van de set. Aanval: efficiëntie van de aanval na de set in deze zone.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: aandeel sets naar elke positie, rand = meest bediende positie (index 100), wortelschaal, net bovenaan. Spelverdeling: kwaliteit van de set (- = 0, = = 1, + = 2). Aanval: efficiëntie van de aanval na de set in de zone; groen / rood: 10 punten boven / onder het gemiddelde."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: aandeel sets naar elke positie, rand = meest bediende positie (index 100), wortelschaal, net bovenaan. Spelverdeling: kwaliteit van de set (- = 0, = = 1, + = 2). Aanval: efficiëntie van de aanval na de set in de zone; groen / rood: 10 punten boven / onder het gemiddelde.",
+  "Code d’activation": "Activeringscode",
+  "J’ai un code d’activation": "Ik heb een activeringscode",
+  "Activer": "Activeren",
+  "Code d’activation non valable": "Ongeldige activeringscode",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro met code geactiveerd tot {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro geactiveerd tot {N}"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -5460,7 +5519,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Efikasnost napada prema poziciji sa koje igrač napada (posle izmene mesta), kao na dijagramu zona. Pozicija se prikazuje tek od 5 napada, i samo ako je napadano sa više pozicija.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Uspešnost dizanja: kvalitet samog dizanja (− = 0, = = 1, + = 2), bez obzira na ishod napada. Šta je napad uradio sa dizanjem vidi se na dijagramu zona.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Mreža: kuda idu dizanja (mreža gore). − / = / +: kvalitet dizanja. Napad: efikasnost napada posle dizanja u ovoj zoni.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mreža: udeo dizanja na svaku poziciju, ivica = najčešće opslužena pozicija (indeks 100), kvadratna skala, mreža gore. Uspešnost dizanja: kvalitet dizanja (- = 0, = = 1, + = 2). Napad: efikasnost napada posle dizanja u zoni; zeleno / crveno: 10 poena iznad / ispod proseka."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mreža: udeo dizanja na svaku poziciju, ivica = najčešće opslužena pozicija (indeks 100), kvadratna skala, mreža gore. Uspešnost dizanja: kvalitet dizanja (- = 0, = = 1, + = 2). Napad: efikasnost napada posle dizanja u zoni; zeleno / crveno: 10 poena iznad / ispod proseka.",
+  "Code d’activation": "Aktivacioni kod",
+  "J’ai un code d’activation": "Imam aktivacioni kod",
+  "Activer": "Aktiviraj",
+  "Code d’activation non valable": "Neispravan aktivacioni kod",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktiviran kodom do {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -5865,7 +5930,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Ефективност на атаката според позицията, от която играчът атакува (след смяната), както в диаграмата на зоните. Позиция се показва едва от 5 атаки и само ако е атакувано от няколко позиции.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Успеваемост на подаването: качество на самото подаване (− = 0, = = 1, + = 2), независимо от резултата от атаката. Какво е направила атаката с подаването, се вижда в диаграмата на зоните.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Паяжина: накъде отиват подаванията (мрежата горе). − / = / +: качество на подаването. Атака: ефективност на атаката след подаването в тази зона.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Паяжина: дял на подаванията към всяка позиция, ръб = най-обслужваната позиция (индекс 100), коренна скала, мрежата горе. Успеваемост на подаването: качество на подаването (- = 0, = = 1, + = 2). Атака: ефективност на атаката след подаването в зоната; зелено / червено: 10 пункта над / под средното."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Паяжина: дял на подаванията към всяка позиция, ръб = най-обслужваната позиция (индекс 100), коренна скала, мрежата горе. Успеваемост на подаването: качество на подаването (- = 0, = = 1, + = 2). Атака: ефективност на атаката след подаването в зоната; зелено / червено: 10 пункта над / под средното.",
+  "Code d’activation": "Код за активиране",
+  "J’ai un code d’activation": "Имам код за активиране",
+  "Activer": "Активиране",
+  "Code d’activation non valable": "Невалиден код за активиране",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro е активиран с код до {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro е активиран до {N}"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -6270,7 +6341,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Učinkovitost napada glede na položaj, s katerega igralec napada (po menjavi), kot na diagramu con. Položaj se prikaže šele od 5 napadov in le, če je igralec napadal z več položajev.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Uspešnost podaje: kakovost same podaje (− = 0, = = 1, + = 2), ne glede na izid napada. Kaj je napad naredil s podajo, se vidi na diagramu con.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Mreža: kam gredo podaje (mreža zgoraj). − / = / +: kakovost podaje. Napad: učinkovitost napada po podaji v tej coni.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mreža: delež podaj na vsak položaj, rob = najbolj podajan položaj (indeks 100), korenska lestvica, mreža zgoraj. Uspešnost podaje: kakovost podaje (- = 0, = = 1, + = 2). Napad: učinkovitost napada po podaji v coni; zeleno / rdeče: 10 točk nad / pod povprečjem."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mreža: delež podaj na vsak položaj, rob = najbolj podajan položaj (indeks 100), korenska lestvica, mreža zgoraj. Uspešnost podaje: kakovost podaje (- = 0, = = 1, + = 2). Napad: učinkovitost napada po podaji v coni; zeleno / rdeče: 10 točk nad / pod povprečjem.",
+  "Code d’activation": "Aktivacijska koda",
+  "J’ai un code d’activation": "Imam aktivacijsko kodo",
+  "Activer": "Aktiviraj",
+  "Code d’activation non valable": "Neveljavna aktivacijska koda",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktiviran s kodo do {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -6675,7 +6752,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Ефективність атаки за позицією, з якої гравець атакує (після переходу), як на діаграмі зон. Позиція з’являється лише від 5 атак і тільки якщо атакували з кількох позицій.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Успішність передачі: якість самої передачі (− = 0, = = 1, + = 2), незалежно від результату атаки. Що атака зробила з передачею, видно на діаграмі зон.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Павутина: куди йдуть передачі (сітка вгорі). − / = / +: якість передачі. Атака: ефективність атаки після передачі в цій зоні.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Павутина: частка передач на кожну позицію, край = найчастіше обслуговувана позиція (індекс 100), коренева шкала, сітка вгорі. Успішність передачі: якість передачі (- = 0, = = 1, + = 2). Атака: ефективність атаки після передачі в зоні; зелений / червоний: на 10 пунктів вище / нижче середнього."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Павутина: частка передач на кожну позицію, край = найчастіше обслуговувана позиція (індекс 100), коренева шкала, сітка вгорі. Успішність передачі: якість передачі (- = 0, = = 1, + = 2). Атака: ефективність атаки після передачі в зоні; зелений / червоний: на 10 пунктів вище / нижче середнього.",
+  "Code d’activation": "Код активації",
+  "J’ai un code d’activation": "У мене є код активації",
+  "Activer": "Активувати",
+  "Code d’activation non valable": "Недійсний код активації",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro активовано кодом до {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активовано до {N}"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -7080,7 +7163,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Účinnost útoku podle pozice, ze které hráč útočí (po výměně), stejně jako v diagramu zón. Pozice se zobrazí až od 5 útoků a jen tehdy, když hráč útočil z více pozic.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Úspěšnost nahrávky: kvalita samotné nahrávky (− = 0, = = 1, + = 2), bez ohledu na výsledek útoku. Co útok s nahrávkou udělal, ukazuje diagram zón.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Pavučina: kam směřují nahrávky (síť nahoře). − / = / +: kvalita nahrávky. Útok: účinnost útoku po nahrávce v této zóně.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Pavučina: podíl nahrávek na každou pozici, okraj = nejvíce obsluhovaná pozice (index 100), odmocninová stupnice, síť nahoře. Úspěšnost nahrávky: kvalita nahrávky (- = 0, = = 1, + = 2). Útok: účinnost útoku po nahrávce v zóně; zelená / červená: o 10 bodů nad / pod průměrem."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Pavučina: podíl nahrávek na každou pozici, okraj = nejvíce obsluhovaná pozice (index 100), odmocninová stupnice, síť nahoře. Úspěšnost nahrávky: kvalita nahrávky (- = 0, = = 1, + = 2). Útok: účinnost útoku po nahrávce v zóně; zelená / červená: o 10 bodů nad / pod průměrem.",
+  "Code d’activation": "Aktivační kód",
+  "J’ai un code d’activation": "Mám aktivační kód",
+  "Activer": "Aktivovat",
+  "Code d’activation non valable": "Neplatný aktivační kód",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktivováno kódem do {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktivováno do {N}"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -7485,7 +7574,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "ประสิทธิภาพการตบตามตำแหน่งที่ผู้เล่นตบ (หลังสลับตำแหน่ง) เหมือนในแผนภาพโซน ตำแหน่งจะแสดงเมื่อมีการตบอย่างน้อย 5 ครั้ง และเฉพาะเมื่อผู้เล่นตบจากหลายตำแหน่ง",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "ความสำเร็จของการเซ็ต: คุณภาพของลูกเซ็ตเอง (− = 0, = = 1, + = 2) ไม่ว่าผลการตบจะเป็นอย่างไร ผลที่การตบทำได้จากลูกเซ็ตดูได้ในแผนภาพโซน",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "ใยแมงมุม: ลูกเซ็ตไปที่ใด (ตาข่ายอยู่ด้านบน) − / = / +: คุณภาพลูกเซ็ต การตบ: ประสิทธิภาพของการตบหลังลูกเซ็ตในโซนนี้",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "ใยแมงมุม: สัดส่วนลูกเซ็ตไปแต่ละตำแหน่ง ขอบ = ตำแหน่งที่ได้รับลูกมากที่สุด (ดัชนี 100) สเกลรากที่สอง ตาข่ายอยู่ด้านบน ความสำเร็จของการเซ็ต: คุณภาพลูกเซ็ต (- = 0, = = 1, + = 2) การตบ: ประสิทธิภาพของการตบหลังลูกเซ็ตในโซน เขียว / แดง: สูงกว่า / ต่ำกว่าค่าเฉลี่ย 10 จุด"
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "ใยแมงมุม: สัดส่วนลูกเซ็ตไปแต่ละตำแหน่ง ขอบ = ตำแหน่งที่ได้รับลูกมากที่สุด (ดัชนี 100) สเกลรากที่สอง ตาข่ายอยู่ด้านบน ความสำเร็จของการเซ็ต: คุณภาพลูกเซ็ต (- = 0, = = 1, + = 2) การตบ: ประสิทธิภาพของการตบหลังลูกเซ็ตในโซน เขียว / แดง: สูงกว่า / ต่ำกว่าค่าเฉลี่ย 10 จุด",
+  "Code d’activation": "รหัสเปิดใช้งาน",
+  "J’ai un code d’activation": "ฉันมีรหัสเปิดใช้งาน",
+  "Activer": "เปิดใช้งาน",
+  "Code d’activation non valable": "รหัสเปิดใช้งานไม่ถูกต้อง",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ เปิดใช้ VolleyCoach Pro ด้วยรหัสถึง {N}",
+  "VolleyCoach Pro activé jusqu’au {N}": "เปิดใช้ VolleyCoach Pro ถึง {N}"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -7890,7 +7985,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "선수가 공격한 포지션(스위치 후)별 공격 효율로, 구역 도표와 같은 기준입니다. 공격이 5회 이상인 포지션만, 여러 포지션에서 공격한 경우에만 표시됩니다.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "토스 성공률: 공격 결과와 상관없는 토스 자체의 품질(− = 0, = = 1, + = 2). 공격이 토스를 어떻게 살렸는지는 구역 도표에서 확인합니다.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "거미줄: 토스가 가는 곳(위쪽이 네트). − / = / +: 토스 품질. 공격: 이 구역에서 토스 다음 공격의 효율.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "거미줄: 포지션별 토스 비율, 가장자리 = 가장 많이 올린 포지션(지수 100), 제곱근 척도, 위쪽이 네트. 토스 성공률: 토스 품질(- = 0, = = 1, + = 2). 공격: 구역에서 토스 다음 공격의 효율. 초록 / 빨강: 평균보다 10포인트 높음 / 낮음."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "거미줄: 포지션별 토스 비율, 가장자리 = 가장 많이 올린 포지션(지수 100), 제곱근 척도, 위쪽이 네트. 토스 성공률: 토스 품질(- = 0, = = 1, + = 2). 공격: 구역에서 토스 다음 공격의 효율. 초록 / 빨강: 평균보다 10포인트 높음 / 낮음.",
+  "Code d’activation": "활성화 코드",
+  "J’ai un code d’activation": "활성화 코드가 있습니다",
+  "Activer": "활성화",
+  "Code d’activation non valable": "유효하지 않은 활성화 코드",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ 코드로 VolleyCoach Pro가 {N}까지 활성화되었습니다.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro가 {N}까지 활성화되었습니다"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -8295,7 +8396,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Bisa ng atake ayon sa posisyong pinag-atakihan ng manlalaro (pagkatapos magpalit), gaya ng sa diagram ng mga zone. Lumalabas lang ang posisyon mula 5 atake, at kung umatake mula sa ilang posisyon.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Tagumpay ng set: kalidad ng set mismo (− = 0, = = 1, + = 2), anuman ang naging resulta ng atake. Ang ginawa ng atake sa set ay makikita sa diagram ng mga zone.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Web: kung saan napupunta ang mga set (net sa itaas). − / = / +: kalidad ng set. Atake: bisa ng atakeng sumunod sa set sa zone na ito.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: bahagi ng mga set sa bawat posisyon, gilid = posisyong pinakamadalas bigyan (index 100), square-root na sukat, net sa itaas. Tagumpay ng set: kalidad ng set (- = 0, = = 1, + = 2). Atake: bisa ng atakeng sumunod sa set sa zone; berde / pula: 10 puntos lampas / kulang sa average."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Web: bahagi ng mga set sa bawat posisyon, gilid = posisyong pinakamadalas bigyan (index 100), square-root na sukat, net sa itaas. Tagumpay ng set: kalidad ng set (- = 0, = = 1, + = 2). Atake: bisa ng atakeng sumunod sa set sa zone; berde / pula: 10 puntos lampas / kulang sa average.",
+  "Code d’activation": "Activation code",
+  "J’ai un code d’activation": "May activation code ako",
+  "Activer": "I-activate",
+  "Code d’activation non valable": "Hindi wastong activation code",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ Na-activate ng code ang VolleyCoach Pro hanggang {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "Na-activate ang VolleyCoach Pro hanggang {N}"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -8700,7 +8807,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Efektivitas serangan menurut posisi tempat pemain menyerang (setelah bertukar), seperti pada diagram zona. Sebuah posisi baru tampil mulai 5 serangan, dan hanya jika pemain menyerang dari beberapa posisi.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Keberhasilan umpan: kualitas umpan itu sendiri (− = 0, = = 1, + = 2), apa pun hasil serangannya. Apa yang dilakukan serangan dengan umpan terlihat di diagram zona.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Jaring: ke mana umpan diarahkan (net di atas). − / = / +: kualitas umpan. Serangan: efektivitas serangan setelah umpan di zona ini.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Jaring: porsi umpan ke tiap posisi, tepi = posisi yang paling sering diumpan (indeks 100), skala akar kuadrat, net di atas. Keberhasilan umpan: kualitas umpan (- = 0, = = 1, + = 2). Serangan: efektivitas serangan setelah umpan di zona; hijau / merah: 10 poin di atas / di bawah rata-rata."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Jaring: porsi umpan ke tiap posisi, tepi = posisi yang paling sering diumpan (indeks 100), skala akar kuadrat, net di atas. Keberhasilan umpan: kualitas umpan (- = 0, = = 1, + = 2). Serangan: efektivitas serangan setelah umpan di zona; hijau / merah: 10 poin di atas / di bawah rata-rata.",
+  "Code d’activation": "Kode aktivasi",
+  "J’ai un code d’activation": "Saya punya kode aktivasi",
+  "Activer": "Aktifkan",
+  "Code d’activation non valable": "Kode aktivasi tidak valid",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro diaktifkan dengan kode hingga {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktif hingga {N}"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -9105,7 +9218,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Эффективность атаки по позиции, с которой игрок атакует (после перехода), как на диаграмме зон. Позиция показывается только от 5 атак и только если игрок атаковал с нескольких позиций.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Успешность передачи: качество самой передачи (− = 0, = = 1, + = 2), независимо от результата атаки. Что атака сделала с передачей, видно на диаграмме зон.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Паутина: куда уходят передачи (сетка вверху). − / = / +: качество передачи. Атака: эффективность атаки после передачи в этой зоне.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Паутина: доля передач на каждую позицию, край = самая обслуживаемая позиция (индекс 100), корневая шкала, сетка вверху. Успешность передачи: качество передачи (- = 0, = = 1, + = 2). Атака: эффективность атаки после передачи в зоне; зелёный / красный: на 10 пунктов выше / ниже среднего."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Паутина: доля передач на каждую позицию, край = самая обслуживаемая позиция (индекс 100), корневая шкала, сетка вверху. Успешность передачи: качество передачи (- = 0, = = 1, + = 2). Атака: эффективность атаки после передачи в зоне; зелёный / красный: на 10 пунктов выше / ниже среднего.",
+  "Code d’activation": "Код активации",
+  "J’ai un code d’activation": "У меня есть код активации",
+  "Activer": "Активировать",
+  "Code d’activation non valable": "Недействительный код активации",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro активирован кодом до {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активирован до {N}"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -9510,7 +9629,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "فعالية الهجوم حسب المركز الذي يهاجم منه اللاعب (بعد التبديل)، كما في مخطط المناطق. لا يظهر المركز إلا ابتداءً من 5 هجمات، وفقط إذا هاجم اللاعب من عدة مراكز.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "نجاح الإعداد: جودة الإعداد نفسه (− = 0، = = 1، + = 2) مهما كانت نتيجة الهجوم. ما فعله الهجوم بالإعداد يظهر في مخطط المناطق.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "الشبكة: إلى أين تذهب الإعدادات (الشبكة في الأعلى). − / = / +: جودة الإعداد. الهجوم: فعالية الهجوم الذي يلي الإعداد في هذه المنطقة.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "الشبكة: نسبة الإعدادات إلى كل مركز، الحافة = المركز الأكثر خدمة (المؤشر 100)، مقياس الجذر التربيعي، الشبكة في الأعلى. نجاح الإعداد: جودة الإعداد (- = 0، = = 1، + = 2). الهجوم: فعالية الهجوم الذي يلي الإعداد في المنطقة؛ أخضر / أحمر: 10 نقاط فوق / تحت المتوسط."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "الشبكة: نسبة الإعدادات إلى كل مركز، الحافة = المركز الأكثر خدمة (المؤشر 100)، مقياس الجذر التربيعي، الشبكة في الأعلى. نجاح الإعداد: جودة الإعداد (- = 0، = = 1، + = 2). الهجوم: فعالية الهجوم الذي يلي الإعداد في المنطقة؛ أخضر / أحمر: 10 نقاط فوق / تحت المتوسط.",
+  "Code d’activation": "رمز التفعيل",
+  "J’ai un code d’activation": "لدي رمز تفعيل",
+  "Activer": "تفعيل",
+  "Code d’activation non valable": "رمز التفعيل غير صالح",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ تم تفعيل VolleyCoach Pro بالرمز حتى {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "تم تفعيل VolleyCoach Pro حتى {N}"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -9915,7 +10040,13 @@ const I18N = {
   "Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes.": "Hiệu quả tấn công theo vị trí cầu thủ tấn công (sau khi đổi chỗ), giống biểu đồ khu vực. Một vị trí chỉ hiện từ 5 lần tấn công, và chỉ khi cầu thủ tấn công từ nhiều vị trí.",
   "Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones.": "Tỉ lệ chuyền hai thành công: chất lượng của chính đường chuyền (− = 0, = = 1, + = 2), bất kể kết quả tấn công. Pha tấn công đã tận dụng đường chuyền ra sao thì xem ở biểu đồ khu vực.",
   "Toile : où partent les passes (filet en haut). − / = / + : qualité de la passe. Attaque : efficacité de l'attaque qui suit la passe dans cette zone.": "Mạng nhện: bóng chuyền hai đi đâu (lưới ở trên). − / = / +: chất lượng chuyền hai. Tấn công: hiệu quả của pha tấn công sau đường chuyền ở khu vực này.",
-  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mạng nhện: tỉ lệ chuyền hai tới từng vị trí, viền = vị trí được chuyền nhiều nhất (chỉ số 100), thang căn bậc hai, lưới ở trên. Tỉ lệ chuyền hai thành công: chất lượng chuyền hai (- = 0, = = 1, + = 2). Tấn công: hiệu quả của pha tấn công sau đường chuyền trong khu vực; xanh / đỏ: cao / thấp hơn trung bình 10 điểm."
+  "Toile : part des passes vers chaque poste, bord = poste le plus servi (indice 100), échelle racine carrée, filet en haut. Réussite de passe : qualité de la passe (- = 0, = = 1, + = 2). Attaque : efficacité de l’attaque qui suit la passe dans la zone ; vert / rouge : 10 points au-dessus / en dessous de la moyenne.": "Mạng nhện: tỉ lệ chuyền hai tới từng vị trí, viền = vị trí được chuyền nhiều nhất (chỉ số 100), thang căn bậc hai, lưới ở trên. Tỉ lệ chuyền hai thành công: chất lượng chuyền hai (- = 0, = = 1, + = 2). Tấn công: hiệu quả của pha tấn công sau đường chuyền trong khu vực; xanh / đỏ: cao / thấp hơn trung bình 10 điểm.",
+  "Code d’activation": "Mã kích hoạt",
+  "J’ai un code d’activation": "Tôi có mã kích hoạt",
+  "Activer": "Kích hoạt",
+  "Code d’activation non valable": "Mã kích hoạt không hợp lệ",
+  "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro đã kích hoạt bằng mã đến {N}.",
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro đã kích hoạt đến {N}"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
