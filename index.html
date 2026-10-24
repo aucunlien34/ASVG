@@ -617,7 +617,11 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .chk.sw input::before{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
 .chk.sw input:checked{background:var(--pos)}.chk.sw input:checked::before{transform:translateX(18px)}
 .chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
-.sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;column-gap:4px;row-gap:2px}.sact.sfull i{font-style:normal;color:var(--muted)}
+.sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;align-items:center;column-gap:4px;row-gap:3px}.sact.sfull i{font-style:normal;color:var(--muted)}
+.sted{font-weight:800}.sch{font:inherit;font-size:14px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:3px 8px;min-height:30px;text-align:left;cursor:pointer}.sch.sted{border-color:var(--pa);border-width:2px;padding:2px 7px}
+.sch.sadd{min-width:30px;text-align:center;color:var(--muted);font-weight:800;border-style:dashed}
+.secmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 4px}.secmp>div{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;font-weight:700}.secmp .after{border-color:var(--ok);background:var(--okBg)}.secmp small{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.sechips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}.sechips .bchip{min-height:44px;font:inherit}
 .pbest{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.pbest>div{border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.35}.pbest .good{background:rgba(35,146,74,.12);color:var(--pos)}.pbest .bad{background:rgba(215,38,61,.1);color:var(--neg)}
 @media (max-width:560px){.pbest{grid-template-columns:1fr}}
 .sbars{display:flex;flex-direction:column;gap:6px;margin:6px 0 8px}
@@ -2008,6 +2012,18 @@ function sheetHTML(m,S){
       <p class="hint xp">Le cadre coloré indique le poste habituel. Le changement de poste s'applique immédiatement au placement.</p>${legend()}
       <div class="card" style="padding:4px">${present(m).map(p=>`<div class="prow"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span><span class="who"><b>${esc(dname(m,p.id))}</b><small>${esc(ROLES[S.roles[p.id]]||'')}</small></span>${roleChips(m,S,p.id,p.postes||[])}</div>`).join('')}</div>`;
   }
+  if(ui.sheet==='stEdit'&&ui.se){const se=ui.se,m2=sumMatch();if(!m2)return '';
+    const KS=[['srv','Service'],['rec','Réception'],['pas','Passe'],['att','Attaque'],['def','Défense']].concat(BLK()?[['blk','Bloc']]:[]).concat([['rel','Renvoi sans attaque'],['rly','Relais de passe']]);
+    const noSg=se.k==='rel'||se.k==='rly',after=`${stLab(se.k,noSg?0:se.sg)}${se.pid?' · '+tag(m2,se.pid):''}`,before=se.orig?`${stLab(se.orig[0],se.orig[1])}${se.orig[2]?' · '+tag(m2,se.orig[2]):''}`:'—';
+    return `<div class="sh"><h3>${se.mode==='edit'?'Modifier cette stat':'Ajouter une stat'}</h3>${close}</div>
+      <p class="hint">${esc(sumCtx(m2,se.ei))}${se.mode==='add'?` · nouvelle stat en position ${se.pos+1}`:''}</p>
+      <div class="secmp"><div><small>Avant</small>${esc(before)}</div><div class="after"><small>Après</small>${esc(after)}</div></div>
+      <h2>Action</h2><div class="sechips">${KS.map(([k,l])=>`<button class="bchip ${se.k===k?'sel':''}" data-act="seK" data-k="${k}">${l}</button>`).join('')}</div>
+      ${noSg?'':`<h2>Note</h2><div class="seg"><button class="${se.sg<0?'on':''}" data-act="seS" data-v="-1">− faute</button><button class="${se.sg===0?'on':''}" data-act="seS" data-v="0">= neutre</button><button class="${se.sg>0?'on':''}" data-act="seS" data-v="1">+ réussie</button></div>`}
+      <h2>Joueur</h2><div class="sechips"><button class="bchip ${!se.pid?'sel':''}" data-act="seP" data-id="">Sans joueur</button>${present(m2).map(p=>`<button class="bchip ${se.pid===p.id?'sel':''}" data-act="seP" data-id="${p.id}"><span class="num ${rcls((p.postes||[])[0])}">${p.n}</span>${esc(dname(m2,p.id))}</button>`).join('')}</div>
+      ${(se.k==='rec'||se.k==='def')?`<h2>${se.k==='rec'?'Service adverse':'Attaque adverse'}</h2><div class="seg">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile'],[null,'Non noté']].map(([v,l])=>`<button class="${se.dif===v?'on':''}" data-act="seD" data-v="${v===null?'':v}">${l}</button>`).join('')}</div>`:''}
+      <div class="tools" style="margin-top:14px"><button class="btn big primary" data-act="stEditOk">Valider</button>${se.mode==='edit'?`<button class="btn big ${ui.confirm==='sedel'?'danger':''}" data-act="stEditDel">${ui.confirm==='sedel'?'Confirmer la suppression':'Supprimer'}</button>`:''}<button class="btn big" data-act="close">Annuler</button></div>
+      ${se.mode==='edit'?`<p class="hint" style="margin-top:10px"><button class="linkbtn" data-act="seIns" data-v="0">Insérer une stat avant celle-ci</button> · <button class="linkbtn" data-act="seIns" data-v="1">après</button></p>`:''}`;}
   if(ui.sheet==='match'){const sc=S.sets.map(x=>`${x.g}-${x.a}`).join(', ');
     return `<div class="sh"><h3>Match</h3>${close}</div>
       <p class="hint"><b>${esc(matchTitle(m))}</b><br>${esc(fmtDate(m.date))}${m.num?' · match '+esc(m.num):''} — Sets ${S.wins.G}-${S.wins.A}${sc?' ('+sc+')':''}</p>
@@ -2429,7 +2445,8 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <li><b>Notez à deux, puis fusionnez (Pro) !</b> Deux personnes notent le même match, chacune sur son appareil : par exemple l'une les réceptions, défenses et passes, l'autre les services, attaques et blocs. Après le match, l'une envoie son match à l'autre (Partager, fichier .vbcs). À l'ouverture du fichier, VolleyCoach reconnaît le même match (même date, même adversaire) et propose de fusionner les deux saisies. Les points sont alignés set par set. Une action notée d'un seul côté est ajoutée ; un joueur ou une difficulté manquants sont complétés ; en cas de désaccord, vous choisissez la saisie qui fait foi. Chaque action est horodatée : la fusion remet les actions de chaque point dans l'ordre du jeu, réception ou défense, puis passe ou relais, puis attaque ou renvoi.</li>
       <li><b>Entraînez-vous !</b> Saisir des statistiques au volley, c'est difficile. L'interface est pensée pour faciliter la saisie : avec un peu d'entraînement, on y arrive bien.</li>
       <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li>
-      <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details></div>`)}
+      <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li>
+      <li><b>Une erreur ? Vous pouvez modifier les stats après le match !</b> Allez simplement dans le résumé (onglet Stats) et touchez le point à modifier.</li></ol></details></div>`)}
     ${sec('legal','À propos',card('VolleyCoach '+APP_VERSION,`<p class="hint">Application de banc de touche pour le volley-ball. Vos données restent sur cet appareil.</p>${footerHTML()}`))}`;
   void all;const pg=SETSEC.some(x=>x[0]===ui.setPage)?ui.setPage:null;if(!pg)return list();
   return `<section class="setsec" id="set-${pg}">${SEC[pg]}</section>`;}
@@ -2440,19 +2457,25 @@ function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;co
     if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;return;}
     if(!cur||!play)return;
     if(ev.t==='pt'){const sv=SA[idx]||'@A';if(sv!==last){if(sv==='@A')cur.rows.push({k:'srvA',a:m.opp||'Adversaire',rot:RA[idx]});else cur.rows.push({k:'srv',a:`${pnum(m,sv)} ${dname(m,sv)}`,rot:RA[idx]});}last=sv;ev.w==='G'?cur.g++:cur.a++;const st=ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
-      const all=(ev.st||[]).slice(0,-1).map(x=>({lab:stLab(x[0],x[1]),who:x[2]?tag(m,x[2]):''}));
-      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,all,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
+      const all=(ev.st||[]).slice(0,-1).map((x,j)=>({lab:stLab(x[0],x[1]),who:x[2]?tag(m,x[2]):'',si:j,ed:x[6]===1}));
+      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,all,ei:idx,si:st?ev.st.length-1:-1,edL:!!(st&&st[6]===1),ed:!!(st&&st[6]===1)||all.some(x=>x.ed)||ev.ed===1,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
       const hi=Math.max(cur.g,cur.a);if(hi>=setTarget(m,si)&&Math.abs(cur.g-cur.a)>=2){play=false;cur.done=true;}}
     else if(ev.t==='sub')cur.rows.push({k:'sub',a:tag(m,ev.i),b:tag(m,ev.o)});
     else if(ev.t==='to')cur.rows.push({k:'to',a:ev.s==='G'?short(m):(m.opp||'Adversaire')});
     else if(ev.t==='lib'&&ev.p)cur.rows.push({k:'lib',a:tag(m,ev.p)});});
   return sets;}
-// Action d'un point dans le résumé : la dernière action, ou toute la séquence de l'échange en résumé complet
-function sumAct(r){const one=x=>`<span>${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span>`;
-  return store.prefs.sumFull&&r.all&&r.all.length?`<span class="sact sfull">${r.all.concat([r]).map(one).join('<i aria-hidden="true">→</i>')}</span>`:`<span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span>`;}
-function summaryHTML(m){const sets=summaryData(m);
+// Action d'un point dans le résumé : la dernière action, ou toute la séquence de l'échange en résumé complet.
+// Résumé modifiable (onglet Stats, hors temps mort, saison et équipe d'exemple) : chaque action est un bouton, « + » ajoute une stat au point ; les actions modifiées après le match sont en gras.
+let SUM_EDIT=false;
+// Repère d'un point dans son match : set et score au moment du point
+function sumCtx(m,ei){let si=0,g=0,a=0;for(let i=0;i<=ei;i++){const e=m.ev[i];if(e.t==='set'){si++;g=0;a=0;}else if(e.t==='pt'){if(e.w==='G')g++;else a++;}}return `Set ${si} · ${g}-${a}`;}
+function sumMatch(){const m=ui.coachView==='season'?null:ui.coachView?store.arch.find(a=>a.id===ui.coachView):store.cur;return m&&!m.season?m:null;}
+function sumAct(r){const txt=x=>`${esc(x.lab)}${x.who?' · '+esc(x.who):''}`,chip=(x,si,ed)=>SUM_EDIT?`<button class="sch ${ed?'sted':''}" data-act="stEdit" data-ei="${r.ei}" data-si="${si}">${txt(x)}</button>`:`<span class="${ed?'sted':''}">${txt(x)}</span>`;
+  const add=SUM_EDIT?`<button class="sch sadd" data-act="stEdit" data-ei="${r.ei}" data-si="-1" aria-label="Ajouter une stat à ce point">+</button>`:'',last=r.si>=0?chip(r,r.si,r.edL):`<span>${txt(r)}</span>`;
+  return store.prefs.sumFull&&r.all&&r.all.length?`<span class="sact sfull">${r.all.map(x=>chip(x,x.si,x.ed)).concat([last]).join('<i aria-hidden="true">→</i>')}${add}</span>`:`<span class="sact ${SUM_EDIT?'sfull':''}">${last}${add}</span>`;}
+function summaryHTML(m){const sets=summaryData(m);SUM_EDIT=!ui.toStats&&!m.season&&sumMatch()===m&&!isDemoTeam(teamOf(m));
   if(!sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
-  const sw=`<label class="chk sw sumsw"><input type="checkbox" role="switch" data-pref="sumFull" ${store.prefs.sumFull?'checked':''}> Résumé complet</label>`;
+  const sw=`<label class="chk sw sumsw"><input type="checkbox" role="switch" data-pref="sumFull" ${store.prefs.sumFull?'checked':''}> Résumé complet</label>${SUM_EDIT?'<p class="hint xp">Touchez une stat pour la corriger, « + » pour en ajouter une à un point. Les stats modifiées après le match sont en gras.</p>':''}`;
   // temps mort : les 5 derniers points, du plus récent au plus ancien (avec leurs événements)
   if(ui.toStats&&ui.sumLast){const all=[];sets.forEach((x,i)=>x.rows.forEach(r=>all.push(Object.assign({set:i},r))));let n=0,k=all.length;while(k>0&&n<ui.sumLast){k--;if(all[k].k==='pt')n++;}
     const last=all.slice(k).reverse(),evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
@@ -2492,7 +2515,7 @@ function exportSummaryPDF(m){
     rows.forEach((r,idx)=>{const c=Math.floor(idx/Math.max(1,perCol));const cx=X0+c*CW,cy=startY+(idx-c*perCol)*RH;
       if(cy>285)return;
       if(r.k==='pt'){T(r.sc,cx,cy,8.2,true,r.w==='G'?GREEN:RED);doc.setFillColor(...(r.w==='G'?GREEN:RED));doc.circle(cx+10.5,cy-1,0.9,'F');
-        let t=trP(r.lab)+(r.who?' · '+pdfSafe(r.who):'');while(doc.getTextWidth(t)>CW-15&&t.length>4)t=t.slice(0,-2);T(t,cx+13,cy,7.6,false,[30,30,30]);}
+        let t=trP(r.lab)+(r.who?' · '+pdfSafe(r.who):'')+(r.ed?' *':'');while(doc.getTextWidth(t)>CW-15&&t.length>4)t=t.slice(0,-2);T(t,cx+13,cy,7.6,false,[30,30,30]);}
       else{const t=r.k==='sub'?`${trP('Changement')} : ${pdfSafe(r.a)} <> ${pdfSafe(r.b)}`:r.k==='to'?`${trP('Temps mort')} ${pdfSafe(r.a)}`:r.k==='srv'?`${trP('Au service')} : ${pdfSafe(r.a)}`:r.k==='srvA'?`${trP('Service')} ${pdfSafe(r.a)}`:`${trP('Libéro')} : ${pdfSafe(r.a)}`;
         let tx=cx+4;if((r.k==='srv'||r.k==='srvA')&&r.rot){doc.setDrawColor(20,36,61);doc.setFillColor(242,190,34);doc.roundedRect(cx+3.5,cy-2.7,7,3.6,0.8,0.8,'FD');doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.setTextColor(20,36,61);doc.text('P'+r.rot,cx+7,cy,{align:'center'});tx=cx+12;}
         doc.setFont('helvetica',r.k==='srv'||r.k==='srvA'?'bolditalic':'italic');doc.setFontSize(7);doc.setTextColor(...(r.k==='srvA'?[168,29,48]:GREY));let tt=t;while(doc.getTextWidth(tt)>CW-(tx-cx)&&tt.length>4)tt=tt.slice(0,-2);doc.text(tt,tx,cy);}
@@ -2501,6 +2524,7 @@ function exportSummaryPDF(m){
     doc.setDrawColor(225,230,238);doc.setLineWidth(0.2);[1,2].forEach(c=>doc.line(X0+c*CW-3,startY-3,X0+c*CW-3,ymax+1));
     y=ymax+9;});
   doc.setTextColor(0);
+  if(sets.some(x=>x.rows.some(r=>r.ed)))T('* '+trP('stat modifiée après le match'),14,291,7,false,[90,90,90]);
   saveFile(`resume_${slug(m.opp||'match')}_${m.date||today()}.pdf`,doc.output('blob'));}
 // Courbe compacte : départ à gauche, minimum (rouge, dessous), maximum (vert, dessus), variation à droite
 function sparkLine(arr,fct,titles,ws){const W=200,H=50,TOP=12,BOT=12,vals=arr.filter(v=>v!=null);
@@ -3263,6 +3287,23 @@ const A={
   setStats(d){ui.toStats=true;ui.coachView=null;ui.fxSet=d.i===''||d.i==null?null:+d.i;ui.stPick=null;if(!['p','z','r','h'].includes(ui.statView))ui.statView='p';window.scrollTo(0,0);},
   roles(){ui.sheet='roles';},
   role(d){const m=store.cur,S=replay(m);if(S.sets.length===0){m.roles[d.id]=d.r;save();}else if(S.roles[d.id]!==d.r){dispatch({t:'role',p:d.id,r:d.r});return 1;}},
+  // Modification des stats après le match : la fiche remplace ou ajoute une action de l'échange ; l'action porte la marque « modifiée » (7e champ)
+  stEdit(d){const m=sumMatch();if(!m)return;const ei=+d.ei,si=+d.si,ev=m.ev[ei];if(!ev||ev.t!=='pt')return;ui.confirm=null;
+    if(si>=0&&ev.st&&ev.st[si]){const x=ev.st[si];ui.se={ei,si,mode:'edit',k:x[0],sg:x[1]||0,pid:x[2]||'',dif:x[4]==null?null:x[4],orig:x.slice()};}
+    else ui.se={ei,si:-1,mode:'add',pos:(ev.st||[]).length,k:'att',sg:0,pid:'',dif:null,orig:null};
+    ui.sheet='stEdit';},
+  seK(d){const se=ui.se;se.k=d.k;if(d.k==='rel'||d.k==='rly')se.sg=0;if(d.k!=='rec'&&d.k!=='def')se.dif=null;},
+  seS(d){ui.se.sg=+d.v;}, seP(d){ui.se.pid=d.id||'';}, seD(d){ui.se.dif=d.v===''?null:+d.v;},
+  seIns(d){const se=ui.se;ui.se={ei:se.ei,si:-1,mode:'add',pos:se.si+(+d.v),k:'att',sg:0,pid:'',dif:null,orig:null};ui.confirm=null;},
+  stEditOk(){const m=sumMatch(),se=ui.se;if(!m||!se)return;const ev=m.ev[se.ei];ev.st=ev.st||[];
+    // horodatage : conservé en modification ; intercalé entre les voisines en ajout (ordre gardé par la fusion de deux saisies)
+    const p=ev.st[se.pos-1],n=ev.st[se.pos],pt=p&&p[5],nt=n&&n[5];
+    const t=se.mode==='edit'?(se.orig[5]!=null?se.orig[5]:null):pt!=null&&nt!=null?(pt+nt)/2:pt!=null?pt+1:nt!=null?nt-1:(ev.at||Date.now());
+    const x=[se.k,(se.k==='rel'||se.k==='rly')?0:se.sg,se.pid||'',se.mode==='edit'?(se.orig[3]||null):null,se.dif==null?null:se.dif,t,1];
+    if(se.mode==='edit')ev.st[se.si]=x;else ev.st.splice(se.pos,0,x);
+    CAL_CACHE={k:null,v:null};save();ui.sheet=null;ui.se=null;toast(se.mode==='edit'?'Stat modifiée':'Stat ajoutée','ok');},
+  stEditDel(){if(ui.confirm!=='sedel'){ui.confirm='sedel';return 'keep';}const m=sumMatch(),se=ui.se;if(!m||!se||se.mode!=='edit')return;const ev=m.ev[se.ei];
+    ev.st.splice(se.si,1);if(!ev.st.length)delete ev.st;ev.ed=1;CAL_CACHE={k:null,v:null};save();ui.sheet=null;ui.se=null;toast('Stat supprimée','ok');},
   matchSheet(){ui.sheet='match';ui.confirm=null;},
   matchStats(){ui.sheet=null;ui.coachView=null;ui.fxSet=null;A.ctab({v:'stats'});},
   matchFormat(){ui.sheet=null;A.compose();},
