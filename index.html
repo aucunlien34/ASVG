@@ -607,6 +607,12 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .pfnav{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:8px}.pfnav .btn{min-height:40px;padding:0 14px;font-size:22px}.pfnav span{font-weight:700;color:var(--muted);min-width:44px;text-align:center}
 .codegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}.chk input{width:22px;height:22px;min-height:0}
+/* interrupteur à bascule (réglages) */
+.chk.sw input{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:46px;height:28px;margin:0;border-radius:14px;background:var(--line);cursor:pointer;transition:background .15s}
+.chk.sw input::before{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.chk.sw input:checked{background:var(--pos)}.chk.sw input:checked::before{transform:translateX(18px)}
+.chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
+.sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;column-gap:4px;row-gap:2px}.sact.sfull i{font-style:normal;color:var(--muted)}
 .pbest{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.pbest>div{border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.35}.pbest .good{background:rgba(35,146,74,.12);color:var(--pos)}.pbest .bad{background:rgba(215,38,61,.1);color:var(--neg)}
 @media (max-width:560px){.pbest{grid-template-columns:1fr}}
 .sbars{display:flex;flex-direction:column;gap:6px;margin:6px 0 8px}
@@ -657,7 +663,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V160';
+const APP_VERSION='V161';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2385,21 +2391,21 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
   <nav class="setnav" aria-label="Sections des réglages">${SETSEC.map(([id,ic,l])=>`<button class="setnb ${ui.setSec===id?'on':''}" data-act="setGo" data-id="${id}" aria-label="${l}" title="${l}"><span class="ic">${ic}</span></button>`).join('')}</nav>
   <div class="setbody">
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`))}
-    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk"><input type="checkbox" data-pref="easy" ${P.easy?'checked':''}> Activer le mode stats faciles</label>
-      ${canLock()?`<label class="chk"><input type="checkbox" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
+    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label>
+      ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
       +card('Statistiques supplémentaires',`<p class="hint">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
-      <label class="chk"><input type="checkbox" data-pref="blk" ${P.blk?'checked':''}> Activer la statistique Bloc</label>
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="blk" ${P.blk?'checked':''}> Statistique Bloc</label>
       <hr class="sep">${D('Difficulté du ballon adverse',`<p class="hint">Après avoir choisi le joueur d'une réception ou d'une défense, une question de plus : service ou attaque adverse facile, moyen ou difficile. La valeur ajoutée de la première touche en tient compte (un ballon difficile est moins pénalisant, un ballon facile moins valorisé). Un appui de plus par première touche : à réserver aux saisies à deux ou aux statisticiens entraînés. « Passer » = ballon moyen.</p>`)}
-      <label class="chk"><input type="checkbox" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Activer la difficulté du ballon adverse</label>`)
-      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk"><input type="checkbox" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint">Réglage général pour toutes les saisons : les notes attendues de la valeur ajoutée sont mélangées aux moyennes réelles de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon ». Chaque saison peut garder son propre choix dans le menu Saisons.</p>`)
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>`)
+      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint">Réglage général pour toutes les saisons : les notes attendues de la valeur ajoutée sont mélangées aux moyennes réelles de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon ». Chaque saison peut garder son propre choix dans le menu Saisons.</p>`)
       +`<div class="card"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
       <li><b>Notez à deux, puis fusionnez (Pro) !</b> Deux personnes notent le même match, chacune sur son appareil : par exemple l'une les réceptions, défenses et passes, l'autre les services, attaques et blocs. Après le match, l'une envoie son match à l'autre (Partager, fichier .vbcs). À l'ouverture du fichier, VolleyCoach reconnaît le même match (même date, même adversaire) et propose de fusionner les deux saisies. Les points sont alignés set par set. Une action notée d'un seul côté est ajoutée ; un joueur ou une difficulté manquants sont complétés ; en cas de désaccord, vous choisissez la saisie qui fait foi. Chaque action est horodatée : la fusion remet les actions de chaque point dans l'ordre du jeu, réception ou défense, puis passe ou relais, puis attaque ou renvoi.</li>
       <li><b>Entraînez-vous !</b> Saisir des statistiques au volley, c'est difficile. L'interface est pensée pour faciliter la saisie : avec un peu d'entraînement, on y arrive bien.</li>
       <li><b>Ne négligez pas le matériel !</b> Un écran tactile peu réactif est très frustrant.</li>
       <li><b>On peut manquer une saisie, mais n'oubliez jamais la dernière pour le résumé !</b> La dernière action de chaque échange suffit à construire le résumé du match.</li></ol></details></div>`)}
-    ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk"><input type="checkbox" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger le Menu par un code</label>
+    ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk sw"><input type="checkbox" role="switch" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger le Menu par un code</label>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Nouveau code (4 chiffres)<input id="cNew1" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Confirmer le nouveau code<input id="cNew2" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label></div>
@@ -2407,8 +2413,8 @@ function settingsHTML(){const P=store.prefs,sec=(id,title,inner)=>`<section clas
     ${sec('abo','Abonnement',card('VolleyCoach Pro',`<p class="hint">${proStatus()}</p>
       <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button>`))}
     ${sec('data','Données',card('Sauvegarde',`<div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
-      <label class="chk" style="margin-top:10px"><input type="checkbox" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .vbcs à la fin de chaque match)</label>
-      <label class="chk"><input type="checkbox" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
+      <label class="chk sw" style="margin-top:10px"><input type="checkbox" role="switch" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .vbcs à la fin de chaque match)</label>
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
       <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.vbcs) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer. Sur Android, avec l'appli installée sur l'écran d'accueil, un fichier reçu (WhatsApp, e-mail, Fichiers) peut aussi être envoyé directement : Partager › VolleyCoach.</p>`)}
       <div class="tools"><button class="btn" data-act="import">📄 Choisir un fichier</button><button class="btn" data-act="pasteOpen">📋 Coller des données</button></div>
       ${NATIVE?'':`<hr class="sep">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
@@ -2425,23 +2431,28 @@ function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;co
     if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;return;}
     if(!cur||!play)return;
     if(ev.t==='pt'){const sv=SA[idx]||'@A';if(sv!==last){if(sv==='@A')cur.rows.push({k:'srvA',a:m.opp||'Adversaire',rot:RA[idx]});else cur.rows.push({k:'srv',a:`${pnum(m,sv)} ${dname(m,sv)}`,rot:RA[idx]});}last=sv;ev.w==='G'?cur.g++:cur.a++;const st=ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
-      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
+      const all=(ev.st||[]).slice(0,-1).map(x=>({lab:stLab(x[0],x[1]),who:x[2]?tag(m,x[2]):''}));
+      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,all,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
       const hi=Math.max(cur.g,cur.a);if(hi>=setTarget(m,si)&&Math.abs(cur.g-cur.a)>=2){play=false;cur.done=true;}}
     else if(ev.t==='sub')cur.rows.push({k:'sub',a:tag(m,ev.i),b:tag(m,ev.o)});
     else if(ev.t==='to')cur.rows.push({k:'to',a:ev.s==='G'?short(m):(m.opp||'Adversaire')});
     else if(ev.t==='lib'&&ev.p)cur.rows.push({k:'lib',a:tag(m,ev.p)});});
   return sets;}
+// Action d'un point dans le résumé : la dernière action, ou toute la séquence de l'échange en résumé complet
+function sumAct(r){const one=x=>`<span>${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span>`;
+  return store.prefs.sumFull&&r.all&&r.all.length?`<span class="sact sfull">${r.all.concat([r]).map(one).join('<i aria-hidden="true">→</i>')}</span>`:`<span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span>`;}
 function summaryHTML(m){const sets=summaryData(m);
   if(!sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
+  const sw=`<label class="chk sw sumsw"><input type="checkbox" role="switch" data-pref="sumFull" ${store.prefs.sumFull?'checked':''}> Résumé complet</label>`;
   // temps mort : les 5 derniers points, du plus récent au plus ancien (avec leurs événements)
   if(ui.toStats&&ui.sumLast){const all=[];sets.forEach((x,i)=>x.rows.forEach(r=>all.push(Object.assign({set:i},r))));let n=0,k=all.length;while(k>0&&n<ui.sumLast){k--;if(all[k].k==='pt')n++;}
     const last=all.slice(k).reverse(),evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
-    return `<div class="card sumc"><div class="sumh"><b>${ui.sumLast} derniers points</b><span class="hint" style="margin:0">du plus récent au plus ancien</span></div>
-      <div class="sumrows">${last.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span><span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span></div>`).join('')}</div>
+    return sw+`<div class="card sumc"><div class="sumh"><b>${ui.sumLast} derniers points</b><span class="hint" style="margin:0">du plus récent au plus ancien</span></div>
+      <div class="sumrows">${last.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div>
       <button class="btn" style="margin-top:10px" data-act="sumAll">Voir tout le résumé</button></div>`;}
   const set=ui.fxSet,evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
-  return sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
-    <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span><span class="sact">${esc(r.lab)}${r.who?' · '+esc(r.who):''}</span></div>`).join('')}</div></div>`).join('');}
+  return sw+sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
+    <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div></div>`).join('');}
 // Export du résumé en PDF (3 colonnes de points par set)
 // Export CSV : une ligne par joueur et par set (match) ou par match (saison) ; séparateur « ; », BOM pour Excel
 function exportCSV(m){const S=replay(m),units=m.season?S.sets.map((x,i)=>({set:i,lab:`${fmtDate(x.date)} ${x.label||''}`})):S.sets.map((x,i)=>({set:i,lab:`Set ${i+1}`})).concat([{set:null,lab:'Match'}]);
@@ -2776,7 +2787,7 @@ function coachHTML(){
       <p class="hint">${cur?'Les matchs archivés vont dans cette saison. Clôturer la saison en ouvre une nouvelle (à nommer).':'Saison clôturée : consultation seule. La rouvrir la remet en cours (la saison actuelle est alors clôturée).'}</p>
       <div class="librow" style="margin-top:6px"><b>Niveau</b><div class="seg lpseg">${LEVELS.map(([v,l])=>`<button class="${(so&&so.level||'R')===v?'on':''}" data-act="seasonLevel" data-v="${v}">${l}</button>`).join('')}</div></div>
       <p class="hint">Le niveau fixe la référence de la valeur ajoutée (note attendue d'une passe ou d'une attaque selon la qualité du ballon reçu).</p>
-      <label class="chk"><input type="checkbox" data-act="seasonCalib" ${calibOn(so)?'checked':''} ${isDemoTeam()?'disabled':''}> Calibrer les attentes sur les matchs de la saison${tipB('calib')}</label>${so&&so.calib==null?'<p class="hint" style="margin-top:2px">Selon le réglage général (Réglages › Saisie des statistiques).</p>':''}
+      <label class="chk sw"><input type="checkbox" role="switch" data-act="seasonCalib" ${calibOn(so)?'checked':''} ${isDemoTeam()?'disabled':''}> Calibrer les attentes sur les matchs de la saison${tipB('calib')}</label>${so&&so.calib==null?'<p class="hint" style="margin-top:2px">Selon le réglage général (Réglages › Saisie des statistiques).</p>':''}
       ${TA.length?`<div class="tools"><button class="btn primary" data-act="cv" data-id="season">📊 Stats de la saison</button><button class="btn icon" data-act="share" data-id="season" aria-label="Partager">${IC.share}</button></div>`:''}</div>
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
