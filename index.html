@@ -50,7 +50,7 @@ h3{font-size:24px;font-weight:700}
 .hint{color:var(--muted);font-size:14px;margin:4px 0 10px}
 /* explications masquables (Réglages › Général › Aides contextuelles) */
 body.nohints .xp{display:none!important}
-.hintask{border:2px solid var(--pa);margin-bottom:12px}.hintask .tools{margin-top:8px}
+.hintask{border:2px solid var(--pa);margin-bottom:12px}.reco{color:var(--ok);font-weight:700;margin:-2px 0 8px 56px}.hintask .tools{margin-top:8px}
 .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .top h1{flex:1;min-width:180px}
 .clublogo{height:46px;width:auto;flex:none;background:#fff;border-radius:10px;padding:3px 6px;box-shadow:0 1px 0 var(--line)}
@@ -489,10 +489,11 @@ body.easy.phstats .dock .undo{flex:none}
 .lockz{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:200px;cursor:pointer;color:var(--muted);text-align:center}.lockz b{color:var(--ink);font-size:18px}
 #tuto{position:fixed;inset:0;z-index:80;pointer-events:none}#tuto .tblk{position:fixed;pointer-events:auto}#tuto .tbub{pointer-events:auto}
 #tuto .tnav{position:fixed;display:none;border-radius:12px;box-shadow:0 0 0 3px #F2BE22,0 0 18px 4px rgba(242,190,34,.75);pointer-events:none;z-index:2}
-#tuto.act .tspot{box-shadow:0 0 0 9999px rgba(8,14,24,.62),0 0 0 4px #F2BE22,0 0 22px 6px rgba(242,190,34,.8);animation:tpulse 1.4s ease-in-out infinite}
-@keyframes tpulse{50%{box-shadow:0 0 0 9999px rgba(8,14,24,.62),0 0 0 6px #F2BE22,0 0 30px 10px rgba(242,190,34,.55)}}
+#tuto.act .tspot{animation:tpulse 2s ease-in-out infinite}
+@keyframes tpulse{50%{box-shadow:0 0 0 9999px rgba(8,14,24,.66),0 0 0 5px #F2BE22,0 0 0 11px rgba(242,190,34,.22),0 0 40px 16px rgba(242,190,34,.6)}}
 #tuto .tdo{font-weight:800;color:#B88A00;margin-bottom:4px}
-#tuto .tspot{position:fixed;border-radius:12px;box-shadow:0 0 0 9999px rgba(8,14,24,.62),0 0 0 3px #F2BE22;pointer-events:none}
+#tuto .tspot{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgba(8,14,24,.66),0 0 0 3px #F2BE22,0 0 0 7px rgba(242,190,34,.35),0 0 28px 10px rgba(242,190,34,.85);pointer-events:none}
+@media (prefers-reduced-motion:reduce){#tuto.act .tspot{animation:none}}
 #tuto.center .tspot{box-shadow:0 0 0 9999px rgba(8,14,24,.7)}
 #tuto .tbub{position:fixed;background:var(--surface);color:var(--ink);border-radius:16px;padding:14px 16px 12px;box-shadow:0 18px 44px rgba(0,0,0,.35);width:calc(100% - 24px);max-width:420px;z-index:3}
 #tuto.center .tbub{left:50%!important;top:50%!important;transform:translate(-50%,-50%)}
@@ -1174,7 +1175,8 @@ const DEMO_CUR={base:'seed-sl-04',id:'demo-tb',opp:'Team Pluto',num:'J9',date:'2
 const SEED_SEASONS=[{team:'t-earth',id:'s-earth-wl',name:'Solar League',closed:true,level:'N',calib:true}];
 function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.seedTeams||[];s.seedSeasons=s.seedSeasons||[];
   (s.teams||[]).forEach(t=>{if(!t.gender)t.gender='F';});
-  s.prefs=s.prefs||{};if(!s.prefs.trialStart)s.prefs.trialStart=today(); // essai Pro de 14 jours à la première ouverture
+  s.prefs=s.prefs||{};if(!s.prefs.trialStart){s.prefs.trialStart=today(); // essai Pro de 14 jours à la première ouverture
+    if(s.prefs.easy===undefined&&typeof matchMedia==='function')s.prefs.easy=matchMedia('(max-width:599px)').matches;} // première installation sur téléphone : mode stats faciles
   // ancienne équipe d'exemple (V117) : remplacée par Team Earth
   if((s.teams||[]).some(t=>t.id==='t-vnl')){s.teams=s.teams.filter(t=>t.id!=='t-vnl');s.arch=(s.arch||[]).filter(a=>a.teamId!=='t-vnl');
     if(!s.teams.some(t=>t.id===s.teamId)){s.teamId=s.teams[0].id;s.roster=s.teams[0].roster;if(s.cur&&s.cur.teamId==='t-vnl'){s.cur=newMatch(null,s.roster);s.cur.team=s.teams[0].name;s.cur.teamId=s.teamId;}}}
@@ -2396,7 +2398,7 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
   const all=`
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`)
       +card('Aides contextuelles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="hints" ${P.hints!==false?'checked':''}> Afficher les explications sous les écrans</label>`,'',`<p class="hint">Les explications et conseils affichés sous les titres et les boutons. Désactivées, les icônes ${tipB('eff').replace('data-act="tip" data-k="eff"','disabled')} restent disponibles à la demande, et les avertissements importants restent visibles.</p>`))}
-    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label>
+    ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label><p class="hint reco">Recommandé sur téléphone</p>
       ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint xp">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint xp">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint xp">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
       +card('Statistiques supplémentaires',`<p class="hint xp">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
@@ -2661,7 +2663,8 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
     ${proCmpHTML()}
     ${act?`<p class="okline">${L.src==='review'?`✓ VolleyCoach Pro activé par code jusqu’au ${fmtDate(L.until)}.`:L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
     <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
-    <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Avant de payer, consultez les <button class="linkbtn" data-act="legal" data-k="cgv">Conditions générales de vente</button> et vos <button class="linkbtn" data-act="legal" data-k="retract">droits de rétractation et de remboursement</button> (14 jours, formulaire type). Éditeur : VolleyCoach.</p>`;}
+    <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Droit de rétractation de 14 jours (formulaire type dans les textes légaux). Éditeur : VolleyCoach.</p>
+    <div class="tools"><button class="btn" data-act="legal" data-k="cgv">Conditions générales de vente</button><button class="btn" data-act="legal" data-k="retract">Rétractation et remboursement</button></div>`;}
 // Complétude de la saisie : badge vert / orange / rouge
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
 function covBadge(c){const p=covPct(c);if(p==null)return '';const cl=p>=0.8?'g':p>=0.5?'o':'r';return ` <span class="covb ${cl}">Saisie : ${Math.round(p*100)} %${tipB('cov')}</span>`;}
