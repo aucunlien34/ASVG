@@ -48,6 +48,9 @@ h1{font-size:30px;font-weight:700}
 h2{font-size:22px;font-weight:600;margin:22px 0 10px}
 h3{font-size:24px;font-weight:700}
 .hint{color:var(--muted);font-size:14px;margin:4px 0 10px}
+/* explications masquables (Réglages › Général › Aides contextuelles) */
+body.nohints .xp{display:none!important}
+.hintask{border:2px solid var(--pa);margin-bottom:12px}.hintask .tools{margin-top:8px}
 .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .top h1{flex:1;min-width:180px}
 .clublogo{height:46px;width:auto;flex:none;background:#fff;border-radius:10px;padding:3px 6px;box-shadow:0 1px 0 var(--line)}
@@ -1527,7 +1530,7 @@ const TUTO=[
   {sel:TAB('settings'),txt:"Réglages : langue, options de saisie, sauvegarde, abonnement et aide.",go:()=>tCoachOpen('settings')},
   {act:1,sel:TAB('terrain'),txt:"Touchez « Terrain » pour revenir au match.",until:()=>!inCoach()},
   {sel:'[data-act=matchSheet]',txt:"« ⋯ Match » : feuille de match, postes, terminer le match ou en commencer un nouveau."},
-  {sel:'#set-aide .tchaps',txt:"Le tutoriel complet est ici, dans Réglages › Aide : un chapitre par sujet (équipe, match, statistiques, saisons…). Revenez-y quand vous voulez.",go:()=>{tCoachOpen('settings');ui.setPage='aide';}}]},
+  {sel:'#set-aide .tchaps',txt:"Le tutoriel complet est ici, dans Réglages › Aide : un chapitre par sujet (équipe, match, statistiques, saisons…). Revenez-y quand vous voulez. Et quand vous serez à l'aise, masquez les explications dans Réglages › Général.",go:()=>{tCoachOpen('settings');ui.setPage='aide';}}]},
  {t:'Mon équipe',s:[
   {act:1,sel:TAB('team'),txt:"Touchez « Équipe ».",until:()=>inCoach('team'),init:()=>tHome(),go:()=>tHome()},
   {sel:'.teamc select',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une."},
@@ -1741,7 +1744,7 @@ function render(){
   const SPL=store.prefs.splashDay!==today()&&!ui.noSplash&&!ui.tuto&&store.prefs.tutoSeen;
   $('#app').innerHTML=(ui.tip?tipHTML():'')+(SPL?splashHTML():'')+(ui.newVersion!=null?`<div class="upd">Nouvelle version ${esc(ui.newVersion)} disponible <button class="btn primary" data-act="forceUpd">Mettre à jour</button></div>`:'')+navHTML()+`<div class="vmain">${h}</div>`;if(tmr)tmrTick();
   // mode match (tout sauf le Menu) : teinte et liseré propres, pour ne pas le confondre avec le Menu
-  document.body.classList.toggle('mmode',!(ui.coach&&ui.screen==='coach'));
+  document.body.classList.toggle('mmode',!(ui.coach&&ui.screen==='coach'));document.body.classList.toggle('nohints',store.prefs.hints===false);
   document.body.classList.toggle('phstats',!!(store.prefs.dockOpen&&document.querySelector('#app .dock .stp')));document.body.classList.toggle('easy',!!store.prefs.easy);fitCourt();
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet ${ui.sheet==='pfull'?'full':''}" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
@@ -1790,16 +1793,16 @@ function setupHTML(m,S){
     </div>`).join('');
   return `<div class="top"><h1>${esc(m.team||'Feuille de match')}</h1>
       ${started?'<button class="btn primary" data-act="toMatch">Retour au match</button>':''}</div>
-    <p class="hint">Cochez les présents et ajustez les postes.${tipB('sheet')}</p>
+    <p class="hint xp">Cochez les présents et ajustez les postes.${tipB('sheet')}</p>
     <div class="card"><div class="grid2">
       <label class="f">Équipe<select data-teamsel ${started?'disabled':''}>${(store.teams||[]).map(t=>`<option value="${esc(t.id)}" ${t.id===store.teamId?'selected':''}>${esc(t.name)}</option>`).join('')}<option value="__new">＋ Créer une équipe…</option></select></label>
       <label class="f">Adversaire<input data-f="opp" value="${esc(m.opp)}" placeholder="Nom de l'équipe adverse"></label>
       <label class="f">Date<input type="date" data-f="date" value="${esc(m.date)}"></label>
       <label class="f">N° de match<input data-f="num" value="${esc(m.num)}"></label>
     </div></div>
-    ${started?'':`<div class="card" style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>Avant le match</b><br><span class="hint">L'effectif est-il à jour ? Ajoutez, modifiez ou retirez des noms.</span></span><button class="btn" data-act="rosterGo">${IC.lock} Modifier l'effectif</button></div>`}
+    ${started?'':`<div class="card" style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>Avant le match</b><br><span class="hint xp">L'effectif est-il à jour ? Ajoutez, modifiez ou retirez des noms.</span></span><button class="btn" data-act="rosterGo">${IC.lock} Modifier l'effectif</button></div>`}
     <h2>Sélection (${selCount(m)}/${MAX_SEL})</h2>
-    <p class="hint">14 au maximum, hors feuille compris. Une personne à deux maillots ne compte qu'une fois.</p>
+    <p class="hint xp">14 au maximum, hors feuille compris. Une personne à deux maillots ne compte qu'une fois.</p>
     ${started?'':twinBanner()}
     ${legend()}
     <div class="card" style="padding:4px 4px">${rows}</div>
@@ -1822,26 +1825,26 @@ function lineupHTML(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L');
   const pz=setterZone(d.zones,S.roles);
   return `<div class="top"><button class="btn" data-act="cancelLineup">Retour</button><h1>Set ${n} : 6 de départ</h1><button class="btn" data-act="toSetup">Postes</button></div>
-    <p class="hint">Touchez un poste pour y placer un nom (ordre réglementaire de rotation, poste 1 = service). Touchez un nom placé pour le changer, double-touchez-le pour changer son poste.</p>
+    <p class="hint xp">Touchez un poste pour y placer un nom (ordre réglementaire de rotation, poste 1 = service). Touchez un nom placé pour le changer, double-touchez-le pour changer son poste.</p>
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     ${(()=>{const F=fmt(m),lock=S.sets.length>0,b=(k,v,l)=>`<button class="${F[k]===v?'on':''}" data-act="fmtSet" data-k="${k}" data-v="${v}" ${lock?'disabled':''}>${l}</button>`;
       return `<h2>Orientation du terrain</h2>
       <div class="fmtg"><span class="fl">${ORIENT_LAB[dispOrient()]}</span><button class="btn" data-act="flip" aria-label="Tourner le terrain d'un quart de tour">${IC.flip} Tourner le terrain</button></div>
-      <p class="hint">Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas.</p>
+      <p class="hint xp">Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas.</p>
       <h2>Format du match</h2>
       <div class="fmtg"><span class="fl">Sets gagnants</span><div class="seg">${b('win',1,'1')}${b('win',2,'2')}${b('win',3,'3')}</div></div>
       <div class="fmtg"><span class="fl">Points par set</span><div class="seg">${b('pts',25,'25')}${b('pts',21,'21')}${b('pts',15,'15')}</div></div>
       ${F.win>1?`<div class="fmtg"><span class="fl">Tie-break (15 points)</span><div class="seg">${b('tb',true,'Oui')}${b('tb',false,'Non')}</div></div>`:''}
-      <p class="hint">${lock?'Le format est fixé pour ce match (modifiable avant le 1er set).':`Match en ${F.win} set${F.win>1?'s':''} gagnant${F.win>1?'s':''} de ${F.pts} points${F.win>1?(F.tb?`, set décisif (${2*F.win-1}e) en 15 points`:', set décisif au même nombre de points'):''}, 2 points d'écart.`}</p>`;})()}
+      <p class="hint xp">${lock?'Le format est fixé pour ce match (modifiable avant le 1er set).':`Match en ${F.win} set${F.win>1?'s':''} gagnant${F.win>1?'s':''} de ${F.pts} points${F.win>1?(F.tb?`, set décisif (${2*F.win-1}e) en 15 points`:', set décisif au même nombre de points'):''}, 2 points d'écart.`}</p>`;})()}
     <h2>Premier service</h2>
     <div class="seg"><button class="${d.srv==='G'?'on':''}" data-act="draftSrv" data-s="G">${esc(short(m))} sert</button><button class="${d.srv==='A'?'on':''}" data-act="draftSrv" data-s="A">${esc(m.opp||'Adversaire')} sert</button></div>
-    ${n>1?'<p class="hint">Alterné automatiquement par rapport au set précédent, modifiable. Changement de côté appliqué : équipes inversées dans le score'+((store.prefs.orient||0)%2?' et terrain retourné':'')+'.</p>':''}
+    ${n>1?'<p class="hint xp">Alterné automatiquement par rapport au set précédent, modifiable. Changement de côté appliqué : équipes inversées dans le score'+((store.prefs.orient||0)%2?' et terrain retourné':'')+'.</p>':''}
     <h2>Libéro</h2>
     <div class="bench"><button class="bchip ${!d.lib?'sel':''}" data-act="draftLib" data-id="">Sans libéro</button>
       ${libs.map(p=>`<button class="bchip ${d.lib===p.id?'sel':''}" data-act="draftLib" data-id="${p.id}"><span class="num r-L">${p.n}</span>${esc(dname(m,p.id))}</button>`).join('')}</div>
     ${libs.length?'':'<p class="hint">Personne au poste de libéro (L). Changez un poste pour en ajouter.</p>'}
     ${d.lib?`<h2>Libéro en défense</h2><div class="seg"><button class="${(m.libPos||5)===5?'on':''}" data-act="libPos" data-v="5">Poste 5</button><button class="${m.libPos===6?'on':''}" data-act="libPos" data-v="6">Poste 6</button></div>
-      <p class="hint">Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.</p>`:''}
+      <p class="hint xp">Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.</p>`:''}
     ${complete?(()=>{const w=draftIssues();return w.length?`<div class="warnbox">${w.map(esc).join('<br>')}</div>`:'';})():''}
     ${complete?`<h2>Positions ${d.srv==='G'?'au service':'en réception'} ${pz?'— P'+pz:''}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,lib:d.lib,serving:d.srv,small:true})}`:''}
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>Commencer le set ${n}</button></div>`;
@@ -1995,12 +1998,12 @@ function sheetHTML(m,S){
       <h2>Entre</h2>${ui.sub.fixedI&&ui.sub.i?`<div class="bench">${chip(ui.sub.i,'subI',true,'')}</div>`:ins.length?groups.map(g=>`<div class="bench subgrp ${g.r===ro?'match':''}">${g.l.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join('')}</div>`).join(''):'<div class="bench"><span class="hint">Aucun remplaçant disponible.</span></div>'}
       ${w.length?`<div class="warnbox">Changement non réglementaire : ${esc(w.join(' ; '))}. Vous pouvez quand même le valider.</div>`:''}
       <div style="margin-top:14px"><button class="btn big primary" data-act="subOk" ${ui.sub.o&&ui.sub.i?'':'disabled'}>Valider le changement</button></div>
-      ${libs.length||S.lib?`<div class="librow"><h2>Libéro</h2><div class="seg lpseg">${[5,6].map(v=>`<button class="${(m.libPos||5)===v?'on':''}" data-act="libPos" data-v="${v}">Poste ${v}</button>`).join('')}</div></div><p class="hint">Le changement de libéro n'est pas compté comme un remplacement. Poste 5 / Poste 6 : place du libéro en défense quand ${esc(short(store.cur))} sert.</p>
+      ${libs.length||S.lib?`<div class="librow"><h2>Libéro</h2><div class="seg lpseg">${[5,6].map(v=>`<button class="${(m.libPos||5)===v?'on':''}" data-act="libPos" data-v="${v}">Poste ${v}</button>`).join('')}</div></div><p class="hint xp">Le changement de libéro n'est pas compté comme un remplacement. Poste 5 / Poste 6 : place du libéro en défense quand ${esc(short(store.cur))} sert.</p>
         <div class="bench"><button class="bchip ${!S.lib?'sel':''}" data-act="setLib" data-id="">Sans libéro</button>${libs.map(p=>chip(p.id,'setLib',S.lib===p.id,'')).join('')}</div>`:''}`;
   }
   if(ui.sheet==='roles'){
     return `<div class="sh"><h3>Postes</h3>${close}</div>
-      <p class="hint">Le cadre coloré indique le poste habituel. Le changement de poste s'applique immédiatement au placement.</p>${legend()}
+      <p class="hint xp">Le cadre coloré indique le poste habituel. Le changement de poste s'applique immédiatement au placement.</p>${legend()}
       <div class="card" style="padding:4px">${present(m).map(p=>`<div class="prow"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span><span class="who"><b>${esc(dname(m,p.id))}</b><small>${esc(ROLES[S.roles[p.id]]||'')}</small></span>${roleChips(m,S,p.id,p.postes||[])}</div>`).join('')}</div>`;
   }
   if(ui.sheet==='match'){const sc=S.sets.map(x=>`${x.g}-${x.a}`).join(', ');
@@ -2013,7 +2016,7 @@ function sheetHTML(m,S){
       ${S.sets.length?'':'<button class="btn" data-act="matchFormat">Format du match</button>'}
       <button class="btn ${ui.confirm==='end'?'danger':''}" data-act="endMatch" ${(m.ev.length&&!isDemoTeam())||ui.tuto?'':'disabled'}>${ui.confirm==='end'?'⚠ Confirmer : terminer et archiver':'🏁 Terminer le match'}</button>
       <button class="btn ${ui.confirm==='new'?'danger':''}" data-act="newMatch">${ui.confirm==='new'?'⚠ Confirmer : archiver ce match et en commencer un nouveau':'＋ Nouveau match'}</button></div>
-      <p class="hint">Terminer archive le match et ouvre ses stats. Nouveau match archive le match en cours, puis ouvre une nouvelle feuille de match.</p>`;
+      <p class="hint xp">Terminer archive le match et ouvre ses stats. Nouveau match archive le match en cours, puis ouvre une nouvelle feuille de match.</p>`;
   }
   if(ui.sheet==='redit'){
     const r=ui.redit;
@@ -2023,8 +2026,8 @@ function sheetHTML(m,S){
         <label class="f">Nom<input id="rNom" value="${esc(r.nom)}" autocapitalize="characters"></label>
         <label class="f">Prénom<input id="rPre" value="${esc(title(r.pre))}"></label></div>
       <label class="f" style="margin-top:10px">N° de licence (facultatif)<input id="rLic" value="${esc(r.lic||'')}" maxlength="30" autocomplete="off"></label>
-      <p class="hint privn">Ces informations restent sur cet appareil et ne sont transmises à personne. <button class="linkbtn" data-act="legal" data-k="privacy">Politique de confidentialité</button></p>
-      <h2>Postes${tipB('posdef')}</h2><p class="hint">Touchez pour ajouter ou retirer un poste ; double-touchez un poste pour en faire le poste par défaut (★).</p>
+      <p class="hint xp privn">Ces informations restent sur cet appareil et ne sont transmises à personne. <button class="linkbtn" data-act="legal" data-k="privacy">Politique de confidentialité</button></p>
+      <h2>Postes${tipB('posdef')}</h2><p class="hint xp">Touchez pour ajouter ou retirer un poste ; double-touchez un poste pour en faire le poste par défaut (★).</p>
       <div class="roles" style="justify-content:flex-start">${ROLE_ORDER.map(k=>`<button class="rc r-${k} ${r.postes.includes(k)?'on':''}" data-act="rPoste" data-r="${k}" style="padding:0 12px">${r.postes[0]===k?'★ ':''}${ROLES[k]}</button>`).join('')}</div>
       ${r.err?`<div class="warnbox">${esc(r.err)}</div>`:''}
       <div style="margin-top:16px"><button class="btn big primary" data-act="rSave">Enregistrer</button></div>`;
@@ -2033,8 +2036,8 @@ function sheetHTML(m,S){
     const M=ui.rankScope==='season'||ui.coachView==='season'?(teamArch().length?seasonMatch():store.cur):ui.coachView?(store.arch.find(a=>a.id===ui.coachView)||store.cur):store.cur,SS=replay(M),set=ui.rankScope==='season'?null:ui.fxSet;
     const LIST=ui.pfList||[],ix=Math.max(0,LIST.findIndex(x=>x.t===ui.pfT&&x.k===ui.pfK)),nav=LIST.length>1?`<div class="pfnav"><button class="btn" data-act="pfGo" data-d="-1" aria-label="Précédent">‹</button><span>${ix+1} / ${LIST.length}</span><button class="btn" data-act="pfGo" data-d="1" aria-label="Suivant">›</button></div>`:'';
     if(ui.pfT==='z'){const Z={att:{},rec:{},def:{}};(set==null?SS.zst:[SS.zst[set]]).forEach(Q=>{if(!Q)return;['att','rec','def'].forEach(k=>Object.entries(Q[k]).forEach(([z,c])=>{const t=Z[k][z]||(Z[k][z]={M:0,P:0,N:0});t.M+=c.M;t.P+=c.P;t.N+=c.N||0;}));});
-      return `<div class="pfw"><div class="sh"><h3>Zones</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${dualSVG(Z[ui.pfK],{att:'Attaque',rec:'Réception',def:'Défense'}[ui.pfK])}<p class="hint">Balayez vers la gauche ou la droite pour changer.</p></div>`;}
-    if(ui.pfT==='k')return `<div class="pfw"><div class="sh"><h3>Classements</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${rankTableHTML(M,SS,set,ui.pfK,true)}<p class="hint">Balayez vers la gauche ou la droite pour changer.</p></div>`;
+      return `<div class="pfw"><div class="sh"><h3>Zones</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${dualSVG(Z[ui.pfK],{att:'Attaque',rec:'Réception',def:'Défense'}[ui.pfK])}<p class="hint xp">Balayez vers la gauche ou la droite pour changer.</p></div>`;}
+    if(ui.pfT==='k')return `<div class="pfw"><div class="sh"><h3>Classements</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${rankTableHTML(M,SS,set,ui.pfK,true)}<p class="hint xp">Balayez vers la gauche ou la droite pour changer.</p></div>`;
     ui.pfullId=ui.pfK||ui.pfullId;
     const f=fxStats(M,SS,set),r=f.rows.find(x=>x.id===ui.pfullId);if(!r){ui.sheet=null;return '';}
     const team=radEff(teamTot(f)),me=radEff(r),tot=set==null?SS.sets.reduce((a,x)=>a+x.rallies,0):(SS.sets[set]?SS.sets[set].rallies:0);
@@ -2054,7 +2057,7 @@ function sheetHTML(m,S){
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
       <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + seul noté sur le point, point gagné)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
-      <p class="hint">Efficacité = points / maximum (+ = 2, = = 1, − = 0). Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum). Valeur ajoutée : pour chaque ballon dont la touche précédente est notée (1re touche pour la passe, passe pour l'attaque), écart entre la note obtenue et la note attendue à ce niveau pour un ballon de cette qualité, en points d'efficacité. 0 = conforme au niveau, + = améliore les ballons reçus, − = les dégrade.</p>
+      <p class="hint xp">Efficacité = points / maximum (+ = 2, = = 1, − = 0). Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum). Valeur ajoutée : pour chaque ballon dont la touche précédente est notée (1re touche pour la passe, passe pour l'attaque), écart entre la note obtenue et la note attendue à ce niveau pour un ballon de cette qualité, en points d'efficacité. 0 = conforme au niveau, + = améliore les ballons reçus, − = les dégrade.</p>
       ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
   }
   if(ui.sheet==='method')return methodHTML(close);
@@ -2064,11 +2067,11 @@ function sheetHTML(m,S){
     return `<div class="sh"><h3>Partager</h3>${close}</div><p class="hint">Que voulez-vous partager ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch">${w==='season'?'':'<button class="btn big" data-act="shareDo" data-k="sum">📝 Résumé du match (PDF)</button>'}<button class="btn big" data-act="shareDo" data-k="json">${isPro()?'':'🔒 '}🗂 Données (.vbcs)</button><button class="btn big primary" data-act="shareDo" data-k="pdf">${isPro()?'':'🔒 '}📄 Statistiques (PDF)</button><button class="btn big" data-act="shareDo" data-k="csv">${isPro()?'':'🔒 '}📊 Statistiques (CSV, tableur)</button></div>`;}
   if(ui.sheet==='archOrg'){const T=activeTeam(),L=teamArch();
-    return `<div class="sh"><h3>Réorganiser les matchs</h3>${close}</div><p class="hint">Changez l'ordre des matchs dans la saison, ou déplacez un match vers une autre saison.</p>
+    return `<div class="sh"><h3>Réorganiser les matchs</h3>${close}</div><p class="hint xp">Changez l'ordre des matchs dans la saison, ou déplacez un match vers une autre saison.</p>
       <div class="card" style="padding:4px">${L.map((a,k)=>`<div class="prow orow"><span class="onum">${k+1}</span><span class="who"><b>${esc(a.opp||'Adversaire')}</b><small>${esc(fmtDate(a.date))}${a.num?' · '+esc(a.num):''}</small></span>
         <button class="btn icon" data-act="archMove" data-id="${a.id}" data-v="-1" ${k?'':'disabled'} aria-label="Monter">▲</button><button class="btn icon" data-act="archMove" data-id="${a.id}" data-v="1" ${k<L.length-1?'':'disabled'} aria-label="Descendre">▼</button>
         <button class="btn icon" data-act="archMoveOpen" data-id="${a.id}" aria-label="Déplacer dans une autre saison" title="Déplacer dans une autre saison">📂</button></div>`).join('')}</div>
-      <p class="hint" style="margin-top:8px">📂 Déplacer dans une autre saison : pour un match classé par erreur (un match de coupe rangé en championnat, par exemple).</p>
+      <p class="hint xp" style="margin-top:8px">📂 Déplacer dans une autre saison : pour un match classé par erreur (un match de coupe rangé en championnat, par exemple).</p>
       <div class="tools" style="margin-top:10px"><button class="btn" data-act="archSortDate">Reclasser par date</button></div>`;}
   if(ui.sheet==='archMove'){const T=activeTeam(),a=store.arch.find(x=>x.id===ui.moveId);if(!a)return '';const cur=seasonOf(a),others=T.seasons.filter(x=>x.id!==cur).slice().reverse();
     return `<div class="sh"><h3>Déplacer dans une autre saison</h3>${close}</div><p class="hint">${esc(a.opp||'Adversaire')} · ${esc(fmtDate(a.date))} — actuellement dans « ${esc((T.seasons.find(x=>x.id===cur)||{}).name||'')} ».</p>
@@ -2080,13 +2083,13 @@ function sheetHTML(m,S){
       <p>${esc(nm)} a le poste de libéro et ${side2.concat(side1).filter(x=>x!=='L').length>1?'d’autres postes':'un autre poste'}. Un même maillot ne peut pas servir de libéro et de joueur de champ : l’application crée <b>deux fiches liées</b> (même joueur).</p>
       <div class="card" style="margin-bottom:10px"><b>Fiche 1 · n° ${esc(r.n)}</b><p class="hint" style="margin:4px 0 0">${side1.map(x=>ROLES[x]).join(', ')} (poste ★)</p></div>
       <div class="card"><b>Fiche 2 · ${side2.map(x=>ROLES[x]).join(', ')}</b><label class="f" style="margin-top:6px">Numéro de maillot pour ${side2.length>1?'ces postes':'ce poste'}<input id="splitN" inputmode="numeric" maxlength="2" placeholder="ex. 18"></label></div>
-      <p class="hint">Les deux fiches sont liées : sur une feuille de match, une seule des deux est cochée à la fois.</p>
+      <p class="hint xp">Les deux fiches sont liées : sur une feuille de match, une seule des deux est cochée à la fois.</p>
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="splitGo">Créer les deux fiches</button><button class="btn big" data-act="splitBack">Revenir à la fiche</button></div>`;}
   if(ui.sheet==='merge1'&&ui.mergeQ){const q=ui.mergeQ,loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id),pn=m=>(m.ev||[]).filter(e=>e.t==='pt').length,sn=m=>(m.ev||[]).filter(e=>e.t==='pt').reduce((a,e)=>a+(e.st?e.st.length:0),0);
     return `<div class="sh"><h3>Nouveau match ?</h3>${close}</div>
       <p>Le match importé, <b>${esc(q.imp.team||'')} – ${esc(q.imp.opp||'')}</b> du ${fmtDate(q.imp.date)}, porte le même intitulé qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil.</p>
       <div class="mgcmp"><div><small>Sur cet appareil</small><b>${pn(loc)} points · ${sn(loc)} actions</b></div><div><small>Importé</small><b>${pn(q.imp)} points · ${sn(q.imp)} actions</b></div></div>
-      <p class="hint">Deux personnes ont noté le même match ? La fusion recoupe les deux saisies point par point et complète les actions manquantes de part et d'autre.</p>
+      <p class="hint xp">Deux personnes ont noté le même match ? La fusion recoupe les deux saisies point par point et complète les actions manquantes de part et d'autre.</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeYes">${isPro()?'':'🔒 '}Oui : fusionner les deux saisies</button><button class="btn big" data-act="mergeNo">Non : garder les deux matchs (doublon)</button></div>`;}
   // Suppression d'une saison : avertissement, export proposé avant de supprimer, confirmation en deux temps
   if(ui.sheet==='seasonDel'){const so=seasonObj(ui.seasonDelId),n=seasonMatches(ui.seasonDelId).length;if(!so){ui.sheet=null;return '';}
@@ -2101,11 +2104,11 @@ function sheetHTML(m,S){
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">
         <button class="btn big primary" data-act="exportShare">${IC.share} Partager (WhatsApp, e-mail…)</button>
         <button class="btn big" data-act="exportKeep">Enregistrer sur l’appareil</button></div>
-      <p class="hint">Vous choisissez le dossier : Téléchargements, Documents, Drive…</p>`;}
+      <p class="hint xp">Vous choisissez le dossier : Téléchargements, Documents, Drive…</p>`;}
   if(ui.sheet==='merge2'&&ui.mergeQ){return `<div class="sh"><h3>En cas de doute ?</h3>${close}</div>
       <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
-      <p class="hint" style="margin-top:8px">Les actions présentes d'un seul côté sont toujours ajoutées ; un joueur ou une difficulté manquants sont complétés.</p>`;}
+      <p class="hint xp" style="margin-top:8px">Les actions présentes d'un seul côté sont toujours ajoutées ; un joueur ou une difficulté manquants sont complétés.</p>`;}
   if(ui.sheet==='teamPick'){
     return `<div class="sh"><h3>Changer d'équipe</h3>${close}</div>
       ${store.cur.ev.length?'<p class="hint">Le match en cours sera archivé avant de changer d\'équipe.</p>':''}
@@ -2113,7 +2116,7 @@ function sheetHTML(m,S){
         return `<div class="prow ${on?'trow on':'pclick tpick'}" ${on?'':`data-act="teamUse" data-id="${t.id}" data-force="1" role="button" tabindex="0"`}><span class="who"><b>${esc(t.name)}</b><small>${R.length} joueur${R.length>1?'s':''}</small></span>${on?'<span class="tact">active</span>':'<span class="chev">›</span>'}
         ${(()=>{const nm=store.arch.filter(a=>teamOf(a)===t.id).length;return `<button class="btn danger" data-act="teamDel" data-id="${t.id}">${ui.confirm==='tdel:'+t.id?`Confirmer (supprime ${nm} match${nm>1?'s':''})`:'Supprimer'}</button>`;})()}</div>`;}).join('')}</div>
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn" data-act="teamNew">Nouvelle équipe</button><button class="btn" data-act="teamImport">📥 Importer un effectif</button></div>
-      <p class="hint">Importer un effectif : seules les équipes du fichier (.vbcs) sont ajoutées, sans les matchs. Si une équipe ressemble à une équipe existante, vous choisissez de la conserver, de la remplacer ou d’annuler.</p>`;}
+      <p class="hint xp">Importer un effectif : seules les équipes du fichier (.vbcs) sont ajoutées, sans les matchs. Si une équipe ressemble à une équipe existante, vous choisissez de la conserver, de la remplacer ou d’annuler.</p>`;}
   if(ui.sheet==='seasonName'){const close2=ui.seasonMode==='close',so=seasonObj();
     return `<div class="sh"><h3>${close2?'Clôturer la saison':'Renommer la saison'}</h3>${close}</div>
       ${close2?`<p>La saison <b>« ${esc(so.name)} »</b> sera clôturée (reste consultable et peut être rouverte). Une nouvelle saison s'ouvre pour les prochains matchs.</p>`:''}
@@ -2134,7 +2137,7 @@ function sheetHTML(m,S){
         <button class="btn" data-act="teamImpSkip">Ne pas importer cet effectif</button></div>`;}
   if(ui.sheet==='paste'){
     return `<div class="sh"><h3>Coller des données</h3>${close}</div>
-      <p class="hint">Si le fichier ne s'ouvre pas sur ce téléphone : ouvre-le dans une autre appli, copie tout son contenu et colle-le ici.</p>
+      <p class="hint xp">Si le fichier ne s'ouvre pas sur ce téléphone : ouvre-le dans une autre appli, copie tout son contenu et colle-le ici.</p>
       <textarea id="pasteBox" style="width:100%;min-height:180px;font:13px/1.35 ui-monospace,monospace;border:1.5px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink)" placeholder='{"app":"volleycoach", ...}'></textarea>
       <div style="margin-top:12px"><button class="btn big primary" data-act="pasteGo">Importer</button></div>`;
   }
@@ -2142,7 +2145,7 @@ function sheetHTML(m,S){
     return `<div class="sh"><h3>Code oublié</h3>${close}</div>
       <div class="card warnc"><b>⚠ Réinitialiser le code efface toutes les données de l'appli</b>
       <p>Équipes, effectifs, matchs, saisons et réglages seront supprimés de cet appareil, sans retour possible. Le code entraîneur sera ensuite désactivé.</p>
-      <p class="hint">Si une sauvegarde existe (fichier .vbcs exporté), elle pourra être réimportée ensuite dans Réglages › Import / Export.</p></div>
+      <p class="hint xp">Si une sauvegarde existe (fichier .vbcs exporté), elle pourra être réimportée ensuite dans Réglages › Import / Export.</p></div>
       <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big ${ui.confirm==='wipe'?'danger':''}" data-act="wipeAll">${ui.confirm==='wipe'?'⚠ Confirmer : tout effacer':'Effacer toutes les données et réinitialiser le code'}</button><button class="btn big" data-act="close">Annuler</button></div>`;
   }
   if(ui.sheet==='code'){
@@ -2156,7 +2159,7 @@ function sheetHTML(m,S){
     const list=present(m).filter(p=>S.roles[p.id]!=='L'&&(!ui.tuto||(d.zones.indexOf(p.id)<0&&(!ui.tutoZ4||S.roles[p.id]===S.roles[ui.tutoZ4])))); // tutoriel : seulement les joueurs non placés du bon poste
     return `<div class="sh"><h3>Poste ${z}${z===1?' (service)':''}</h3>${d.zones[z]?'<button class="btn" data-act="pickClear">Retirer</button>':''}${close}</div>
       <div class="bench">${list.map(p=>{const k=d.zones.indexOf(p.id);return `<button class="bchip ${k===z?'sel':''}" data-act="pickP" data-id="${p.id}"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}${k>0&&k!==z?`<em>poste ${k}</em>`:''}</button>`;}).join('')}</div>
-      <p class="hint">Choisir un nom déjà placé échange les deux postes.</p>`;
+      <p class="hint xp">Choisir un nom déjà placé échange les deux postes.</p>`;
   }
   return '';
 }
@@ -2304,7 +2307,7 @@ function twinCands(R){const T=activeTeam(),ign=(T&&T.twinIgnore)||[],out=[];
     if(!((a.postes||[]).includes('L')||(b.postes||[]).includes('L')))return;if(a.grp&&a.grp===b.grp)return;
     const k=[a.id,b.id].sort().join('|');if(!ign.includes(k))out.push([a,b,k]);}));return out;}
 function twinBanner(){return twinCands(store.roster).map(([a,b,k])=>`<div class="card twin"><b>${esc(title(a.pre))} ${esc(a.nom)}</b> a deux maillots : n°${a.n} (${esc((a.postes||[]).join(', '))}) et n°${b.n} (${esc((b.postes||[]).join(', '))}).
-  <div class="hint" style="margin:4px 0 8px">En les liant, on ne peut sélectionner qu'un seul des deux maillots par match : choisir l'un désélectionne l'autre.</div>
+  <div class="hint xp" style="margin:4px 0 8px">En les liant, on ne peut sélectionner qu'un seul des deux maillots par match : choisir l'un désélectionne l'autre.</div>
   <div class="tools"><button class="btn primary" data-act="twinLink" data-id="${k}">Lier les deux maillots</button><button class="btn" data-act="twinIgnore" data-id="${k}">Ce sont deux personnes</button></div></div>`).join('');}
 // ---- Progression sur la saison : une courbe par compétence et par joueur (3 actions minimum par match)
 function progressHTML(){if(!proFor({season:true}))return lockHTML('Progression','Les courbes de progression sur la saison font partie de VolleyCoach Pro.');
@@ -2379,7 +2382,7 @@ function rankTableHTML(m,S,set,k,big){const {L,tv,lowBetter}=rankData(m,S,set,k)
     rows.push(`<tr class="${q.low?'lowr':''}"><td class="rk">${rk}</td><td><b>${q.r.n}</b> ${esc(abbr(q.r.full||q.r.name))}${fa?` <small class="hint">${q.v.lab}</small>`:''}</td><td><span class="rbar ${lowBetter?'red':''}"><i style="width:${w(q.v.v)}%"></i>${tv?`<b class="tm" style="left:${w(tv.v)}%"></b>`:''}</span></td><td class="rv ${c}">${pct(q.v.v)}<small> ${(k==='ea'||k==='fd')?`${q.v.c} / ${q.v.n}`:q.v.n}</small></td></tr>`);});
   if(!teamDone)rows.push(teamRow());
   return `<div class="card rkc ${big?'big':''}"><b class="cond" style="font-size:${big?24:20}px">${lab}</b>${tipB({fa:'va'}[k]||k)}${L.length?`<table class="rkt"><tr class="rkh"><th></th><th>Joueur</th><th></th><th>${k==='ea'?'Taux · erreurs / attaques':k==='fd'?'Taux · fautes / actions':fa?'Points · ballons':'Efficacité · actions'}</th></tr>${rows.join('')}</table>`:'<div class="hint">Aucune action.</div>'}</div>`;}
-function rankHTML(m,S,set){return `<p class="hint">Touchez un classement pour l'agrandir.${tipB('rank')}</p>
+function rankHTML(m,S,set){return `<p class="hint xp">Touchez un classement pour l'agrandir.${tipB('rank')}</p>
   <div class="rkgrid">${RKS().map(([k])=>`<div class="pclick" data-act="kfull" data-k="${k}">${rankTableHTML(m,S,set,k)}</div>`).join('')}</div>`;}
 // Paramètres : langue, code entraîneur, sauvegarde automatique
 // Réglages : sections regroupées, barre latérale rétractable (icônes seules après quelques secondes) qui suit le défilement
@@ -2391,15 +2394,16 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
   const D=(t,desc)=>`<details class="tipsd"><summary><b class="cond" style="font-size:20px">${t}</b></summary><div class="dsc">${desc}</div></details>`;
   const card=(t,inner,extra='',desc)=>`<div class="card" ${extra}>${desc?D(t,desc):`<b class="cond" style="font-size:20px">${t}</b>`}${inner}</div>`;
   const all=`
-    ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`))}
+    ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`)
+      +card('Aides contextuelles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="hints" ${P.hints!==false?'checked':''}> Afficher les explications sous les écrans</label>`,'',`<p class="hint">Les explications et conseils affichés sous les titres et les boutons. Désactivées, les icônes ${tipB('eff').replace('data-act="tip" data-k="eff"','disabled')} restent disponibles à la demande, et les avertissements importants restent visibles.</p>`))}
     ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label>
-      ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
+      ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint xp">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint xp">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint xp">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
-      +card('Statistiques supplémentaires',`<p class="hint">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
+      +card('Statistiques supplémentaires',`<p class="hint xp">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="blk" ${P.blk?'checked':''}> Statistique Bloc</label>
       <hr class="sep">${D('Difficulté du ballon adverse',`<p class="hint">Après avoir choisi le joueur d'une réception ou d'une défense, une question de plus : service ou attaque adverse facile, moyen ou difficile. La valeur ajoutée de la première touche en tient compte (un ballon difficile est moins pénalisant, un ballon facile moins valorisé). Un appui de plus par première touche : à réserver aux saisies à deux ou aux statisticiens entraînés. « Passer » = ballon moyen.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>`)
-      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint">Réglage général pour toutes les saisons : les notes attendues de la valeur ajoutée sont mélangées aux moyennes réelles de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon ». Chaque saison peut garder son propre choix dans le menu Saisons.</p>`)
+      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général pour toutes les saisons : les notes attendues de la valeur ajoutée sont mélangées aux moyennes réelles de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon ». Chaque saison peut garder son propre choix dans le menu Saisons.</p>`)
 )}
     ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk sw"><input type="checkbox" role="switch" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger le Menu par un code</label>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
@@ -2415,8 +2419,8 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <div class="tools"><button class="btn" data-act="import">📄 Choisir un fichier</button><button class="btn" data-act="pasteOpen">📋 Coller des données</button></div>
       ${NATIVE?'':`<hr class="sep">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
       <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
-      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`}`,'id="importSec"',`<p class="hint">Tout est enregistré sur cet appareil. Exportez régulièrement les données pour en garder une copie sur un autre support (téléphone, e-mail, messagerie).</p>`))}
-    ${sec('aide','Aide',card('Méthode de calcul',`<p class="hint">Comment sont calculées les statistiques, avec les seuils et les poids en vigueur.</p><button class="btn" data-act="methodOpen">📐 Voir la méthode de calcul</button>`)+card('Tutoriel',`<p class="hint">Un chapitre par sujet ; chacun se termine ici.</p>
+      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`}`,'id="importSec"',`<p class="hint xp">Tout est enregistré sur cet appareil. Exportez régulièrement les données pour en garder une copie sur un autre support (téléphone, e-mail, messagerie).</p>`))}
+    ${sec('aide','Aide',card('Méthode de calcul',`<p class="hint xp">Comment sont calculées les statistiques, avec les seuils et les poids en vigueur.</p><button class="btn" data-act="methodOpen">📐 Voir la méthode de calcul</button>`)+card('Tutoriel',`<p class="hint xp">Un chapitre par sujet ; chacun se termine ici.</p>
       <div class="tchaps">${TUTO.map((c,i)=>`<button class="btn ${i?'':'primary'}" data-act="tutoStart" data-c="${i}">${i+1}. ${esc(c.t)}</button>`).join('')}</div>`)
       +`<div class="card"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
       <li><b>Confiez-les à vos joueurs !</b> Apprendre à regarder la qualité des actions amène de l'autocritique. Regarder attentivement ses partenaires aide à comprendre la tactique.</li>
@@ -2673,7 +2677,7 @@ function rotHTML(m,S,set){const R=rotAgg(S,set),zs=[1,2,3,4,5,6].filter(z=>R[z]&
     <table class="rkt rott"><colgroup><col class="c0"><col><col><col></colgroup><tr class="rkh"><th>Rotation</th><th>Side-out<small class="rn"> · points</small></th><th>Break<small class="rn"> · points</small></th><th>Total</th></tr>
     ${zs.map(z=>`<tr class="${z===best?'rbest':z===worst?'rworst':''}"><td><b>P${z}</b>${z===best?' ★':z===worst?' ▽':''}</td>${cell(so(z),R[z].soP,mso,z===bSo,z===wSo)}${cell(br(z),R[z].brP,mbr,z===bBr,z===wBr)}${cell(tot(z),R[z].soP+R[z].brP,mt)}</tr>`).join('')}
     <tr class="teamr"><td>Médiane</td><td class="rv">${mso!=null?Math.round(mso*100)+' %':'–'}</td><td class="rv">${mbr!=null?Math.round(mbr*100)+' %':'–'}</td><td class="rv">${mt!=null?Math.round(mt*100)+' %':'–'}</td></tr></table>
-    <p class="hint">Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation (au total, en side-out, en break), ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum).</p></div>`;}
+    <p class="hint xp">Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation (au total, en side-out, en break), ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum).</p></div>`;}
 // Indicateurs standards du volley
 function stdStats(r){const A=(r.attP||0)+(r.attN||0)+(r.attM||0),Rc=(r.recP||0)+(r.recN||0)+(r.recM||0),Sv=(r.srvP||0)+(r.srvN||0)+(r.srvM||0),B=(r.blkP||0)+(r.blkN||0)+(r.blkM||0);
   return {A,Rc,Sv,B,kill:A?(r.attP||0)/A:null,attErr:A?(r.attM||0)/A:null,attEff:A?((r.attP||0)-(r.attM||0))/A:null,recPos:Rc?(r.recP||0)/Rc:null,aces:r.aceN||0,srvErr:r.srvM||0,blkP:r.blkP||0};}
@@ -2743,7 +2747,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
   const table=S.sets.length?`<div class="tblwrap"><table><thead><tr><th>N°</th><th>Joueur</th><th>Poste</th>${S.sets.map((s,i)=>`<th class="n">S${i+1}</th>`).join('')}<th class="n">Points</th><th>Temps de jeu</th></tr></thead><tbody>
     ${rows.map(r=>`<tr><td><span class="num ${rcls(r.role)}" style="min-width:30px;height:30px;font-size:16px">${r.n}</span></td><td>${esc(r.full)}</td><td>${esc(r.role||'')}</td>${r.sets.map(v=>`<td class="n">${v}</td>`).join('')}<td class="n">${r.tot}</td><td><div class="barcell"><span class="track"><i style="width:${r.pct.toFixed(1)}%"></i></span><b>${r.pct.toFixed(0)} %</b></div></td></tr>`).join('')}
     <tr class="tot"><td></td><td>Équipe (points disputés)</td><td></td>${teamSets.map(v=>`<td class="n">${v}</td>`).join('')}<td class="n">${total}</td><td>100 %</td></tr></tbody></table></div>
-    <p class="hint">Temps de jeu = points joués ÷ points disputés par l'équipe sur le match. Les noms hors feuille ne sont pas comptés.</p>`
+    <p class="hint xp">Temps de jeu = points joués ÷ points disputés par l'équipe sur le match. Les noms hors feuille ne sont pas comptés.</p>`
     :'<div class="card hint">Aucun point joué pour ce match.</div>';
   const demo=isDemoTeam(); // matchs d'exemple : consultation seule (ni reprise, ni suppression)
   const arch=TA.map(a=>{const s=replay(a);return `<div class="arch pclick" data-act="cv" data-id="${a.id}" role="button" tabindex="0"><span class="who"><b>${esc(matchTitle(a))}</b><small>${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A} (${s.sets.map(x=>x.g+'-'+x.a).join(', ')||'non joué'})</small></span>
@@ -2778,9 +2782,9 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span></div>
       <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>${isDemoTeam()?'':'<button class="btn danger" data-act="seasonDel">Supprimer la saison…</button>'}
       ${cur?`<button class="btn danger" data-act="seasonClose">Clôturer la saison…</button>`:`<button class="btn primary" data-act="seasonReopen">${ui.confirm==='sreopen'?`Confirmer : « ${esc(seasonObj(T.curSeason).name)} » sera clôturée`:'Rouvrir cette saison'}</button>`}</div>
-      <p class="hint">${cur?'Les matchs archivés vont dans cette saison. Clôturer la saison en ouvre une nouvelle (à nommer).':'Saison clôturée : consultation seule. La rouvrir la remet en cours (la saison actuelle est alors clôturée).'}</p>
+      <p class="hint xp">${cur?'Les matchs archivés vont dans cette saison. Clôturer la saison en ouvre une nouvelle (à nommer).':'Saison clôturée : consultation seule. La rouvrir la remet en cours (la saison actuelle est alors clôturée).'}</p>
       <div class="librow" style="margin-top:6px"><b>Niveau</b><div class="seg lpseg">${LEVELS.map(([v,l])=>`<button class="${(so&&so.level||'R')===v?'on':''}" data-act="seasonLevel" data-v="${v}">${l}</button>`).join('')}</div></div>
-      <p class="hint">Le niveau fixe la référence de la valeur ajoutée (note attendue d'une passe ou d'une attaque selon la qualité du ballon reçu).</p>
+      <p class="hint xp">Le niveau fixe la référence de la valeur ajoutée (note attendue d'une passe ou d'une attaque selon la qualité du ballon reçu).</p>
       <label class="chk sw"><input type="checkbox" role="switch" data-act="seasonCalib" ${calibOn(so)?'checked':''} ${isDemoTeam()?'disabled':''}> Calibrer les attentes sur les matchs de la saison${tipB('calib')}</label>${so&&so.calib==null?'<p class="hint" style="margin-top:2px">Selon le réglage général (Réglages › Saisie des statistiques).</p>':''}
       ${TA.length?`<div class="tools"><button class="btn primary" data-act="cv" data-id="season">📊 Stats de la saison</button><button class="btn icon" data-act="share" data-id="season" aria-label="Partager">${IC.share}</button></div>`:''}</div>
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
@@ -2792,14 +2796,15 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
       <div class="teamtools">${AT.locked?'':`<button class="btn" data-act="teamRen" data-id="${store.teamId}">Renommer</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
     <h2 id="rosterSec">Effectif — ${esc(AT.name)} (${store.roster.length} joueurs)</h2>
     ${twinBanner()}
-    <p class="hint">Les modifications s'appliquent au match en cours et aux suivants. Les matchs archivés gardent leur effectif d'origine. La limite de 14 porte sur les sélections pour un match, pas sur l'effectif.</p>
+    <p class="hint xp">Les modifications s'appliquent au match en cours et aux suivants. Les matchs archivés gardent leur effectif d'origine. La limite de 14 porte sur les sélections pour un match, pas sur l'effectif.</p>
     <div class="card" style="padding:4px">${store.roster.slice().sort((a,b)=>a.n-b.n).map(p=>`<div class="prow"><span class="num ${rcls(p.postes[0])}">${p.n}</span><span class="who"><b>${esc(title(p.pre))} ${esc(p.nom)}</b><small>${p.postes.map(r=>ROLES[r]).join(' ou ')||'aucun poste'}</small></span>
       <button class="btn" data-act="rEdit" data-id="${p.id}" ${AT.locked?'disabled':''}>Modifier</button><button class="btn danger" data-act="rDel" data-id="${p.id}" ${AT.locked?'disabled':''}>${ui.confirm==='rdel:'+p.id?'Confirmer':'Retirer'}</button></div>`).join('')}</div>
     <div style="margin-top:10px"><button class="btn primary" data-act="rEdit" data-id="" ${store.roster.length>=MAX_ROSTER||AT.locked?'disabled':''}>Nouvelle fiche</button>${store.roster.length>=MAX_ROSTER?` <span class="hint">Effectif complet (${MAX_ROSTER} maximum).</span>`:''}</div>`;}
   else {body=settingsHTML();}
-  const pg=ct==='settings'?SETSEC.find(x=>x[0]===ui.setPage):null;
+  const pg=ct==='settings'?SETSEC.find(x=>x[0]===ui.setPage):null,P0=store.prefs;
+  const ask=P0.hints!==false&&!P0.hintsAsked&&P0.trialStart&&daysBetween(P0.trialStart,today())>=14?`<div class="card hintask"><b class="cond" style="font-size:20px">Vous connaissez l'appli maintenant ?</b><p class="hint">Les explications sous les écrans peuvent être masquées. Réglages › Général les réaffiche quand vous voulez.</p><div class="tools"><button class="btn primary" data-act="hintsOff">Masquer les explications</button><button class="btn" data-act="hintsKeep">Les garder</button></div></div>`:'';
   return `<div class="cmain"><div class="top">${pg?`<button class="btn setback" data-act="setBack">‹ Réglages</button><h1 class="h1s">${pg[2]}</h1>`:`<h1>${{stats:'Stats',seasons:'Saisons',team:'Équipe',settings:'Réglages'}[ct]||'Stats'}</h1><span class="hint ctm">${esc(AT.name)}</span>`}</div>
-    ${body}<p class="hint" style="margin-top:20px">VolleyCoach ${APP_VERSION}</p></div>`;
+    ${ask}${body}<p class="hint" style="margin-top:20px">VolleyCoach ${APP_VERSION}</p></div>`;
 }
 // Partage : menu de partage du téléphone (WhatsApp, Fichiers…) si disponible, sinon enregistrement classique
 let SHARE=false;
@@ -3355,6 +3360,8 @@ const A={
     const {m,rep}=mergeMatches(loc,q.imp,d.v);if(q.where==='cur'){m.pend=store.cur.pend||[];store.cur=m;}else{const k=store.arch.findIndex(a=>a.id===q.id);store.arch[k]=m;}save();
     ui.alert=['Fusion terminée.',mergeReport(rep,d.v)];ui.alertFixes=[];ui.alertMode=null;ui.alertClose='Fermer';},
   methodOpen(){ui.sheet='method';},
+  hintsOff(){store.prefs.hints=false;store.prefs.hintsAsked=true;save();toast('Explications masquées (Réglages › Général)','ok');},
+  hintsKeep(){store.prefs.hintsAsked=true;save();},
   setOpen(d){ui.setPage=d.id;window.scrollTo(0,0);},
   setBack(){ui.setPage=null;window.scrollTo(0,0);},
   setGo(d){ui.setPage=d.id;window.scrollTo(0,0);},
