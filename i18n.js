@@ -745,7 +745,12 @@ const I18N = {
   "J’ai un code d’activation": "I have an activation code",
   "Code d’activation non valable": "Invalid activation code",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro activated by code until {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activated until {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activated until {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Placement when the team is defending (and statistics zones): libero and back-row middle defend at this position, back-row outside at the other.",
+  "Choisir l'équipe": "Choose the team",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth is for discovering the app: it can't be used to record a real match. A practice match is in progress at the tie-break (5th set, 0-0): it is never saved and starts over each time you return to the team. Choose or create your team to play.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Team Earth sample team: cannot be edited; all its statistics are unlocked. Its current match, at the tie-break, is for practice: it is never saved. You can delete it in “Manage teams”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Sample team: matches can only be viewed"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -1254,7 +1259,12 @@ const I18N = {
   "Activer": "Activar",
   "Code d’activation non valable": "Código de activación no válido",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro activado por código hasta el {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activado hasta el {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro activado hasta el {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Colocación cuando el equipo defiende (y zonas de estadísticas): líbero y central zaguero defienden en esta posición, receptor zaguero en la otra.",
+  "Choisir l'équipe": "Elegir el equipo",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth sirve para descubrir la aplicación: no puede usarse para registrar un partido real. Hay un partido de práctica en curso en el tie-break (5.º set, 0-0): nunca se guarda y vuelve a empezar cada vez que regresa al equipo. Elija o cree su equipo para jugar.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipo de ejemplo Team Earth: no editable; todas sus estadísticas están abiertas. Su partido en curso, en el tie-break, sirve de práctica: nunca se guarda. Puede eliminarlo en «Gestionar equipos».",
+  "Équipe d’exemple : les matchs se consultent seulement": "Equipo de ejemplo: los partidos solo se pueden consultar"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -1763,7 +1773,12 @@ const I18N = {
   "Activer": "Attiva",
   "Code d’activation non valable": "Codice di attivazione non valido",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro attivato con codice fino al {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro attivato fino al {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro attivato fino al {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Posizionamento quando la squadra difende (e zone delle statistiche): libero e centrale in seconda linea difendono in questo posto, schiacciatore in seconda linea nell’altro.",
+  "Choisir l'équipe": "Scegli la squadra",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth serve a scoprire l'app: non può essere usata per registrare una partita vera. È in corso una partita di prova al tie-break (5º set, 0-0): non viene mai salvata e riparte da zero ogni volta che torni alla squadra. Scegli o crea la tua squadra per giocare.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Squadra di esempio Team Earth: non modificabile; tutte le sue statistiche sono aperte. La sua partita in corso, al tie-break, serve per esercitarsi: non viene mai salvata. Puoi eliminarla in «Gestisci squadre».",
+  "Équipe d’exemple : les matchs se consultent seulement": "Squadra di esempio: le partite si possono solo consultare"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -2272,7 +2287,12 @@ const I18N = {
   "Activer": "Aktivieren",
   "Code d’activation non valable": "Ungültiger Aktivierungscode",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro per Code aktiviert bis {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviert bis {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviert bis {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Aufstellung, wenn das Team verteidigt (und Statistikzonen): Libero und Mitte hinten verteidigen auf dieser Position, Außen hinten auf der anderen.",
+  "Choisir l'équipe": "Team wählen",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth dient zum Kennenlernen der App: Es kann nicht für ein echtes Spiel verwendet werden. Ein Übungsspiel läuft im Tiebreak (5. Satz, 0:0): Es wird nie gespeichert und beginnt bei jeder Rückkehr zum Team von vorn. Wählen oder erstellen Sie Ihr Team, um zu spielen.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Beispielteam Team Earth: nicht bearbeitbar; alle Statistiken sind freigeschaltet. Sein laufendes Spiel im Tiebreak dient zum Üben: Es wird nie gespeichert. Sie können es unter „Teams verwalten“ löschen.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Beispielteam: Spiele können nur angesehen werden"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -2781,7 +2801,12 @@ const I18N = {
   "Activer": "Aktywuj",
   "Code d’activation non valable": "Nieprawidłowy kod aktywacyjny",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktywowany kodem do {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktywny do {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktywny do {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Ustawienie, gdy drużyna broni (i strefy statystyk): libero i środkowy z drugiej linii bronią na tej pozycji, przyjmujący z drugiej linii na drugiej.",
+  "Choisir l'équipe": "Wybierz drużynę",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth służy do poznania aplikacji: nie można jej używać do zapisu prawdziwego meczu. Trwa mecz treningowy w tie-breaku (5. set, 0:0): nigdy nie jest zapisywany i zaczyna się od nowa po każdym powrocie do drużyny. Wybierz lub utwórz swoją drużynę, aby grać.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Przykładowa drużyna Team Earth: bez możliwości edycji; wszystkie jej statystyki są dostępne. Jej trwający mecz w tie-breaku służy do ćwiczeń: nigdy nie jest zapisywany. Możesz ją usunąć w „Zarządzaj drużynami”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Przykładowa drużyna: mecze można tylko przeglądać"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -2791,7 +2816,7 @@ const I18N = {
   "☰ Menu": "☰ Menu",
   "Ouvrir le menu": "Abrir o menu",
   "Menu entraîneur": "Menu do treinador",
-  "Équipe actuelle": "Equipe atual",
+  "Équipe actuelle": "Equipa atual",
   "👥 Gestion de l'effectif": "👥 Elenco",
   "📊 Statistiques": "📊 Estatísticas",
   "Match en cours": "Jogo atual",
@@ -3290,7 +3315,12 @@ const I18N = {
   "Activer": "Ativar",
   "Code d’activation non valable": "Código de ativação inválido",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro ativado por código até {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro ativado até {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro ativado até {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Posicionamento quando a equipa defende (e zonas das estatísticas): líbero e central da linha de trás defendem nesta posição, ponta da linha de trás na outra.",
+  "Choisir l'équipe": "Escolher a equipa",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "A Team Earth serve para conhecer a aplicação: não pode ser usada para registar um jogo real. Está a decorrer um jogo de treino no tie-break (5.º set, 0-0): nunca é guardado e recomeça sempre que volta à equipa. Escolha ou crie a sua equipa para jogar.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipa de exemplo Team Earth: não editável; todas as estatísticas estão abertas. O jogo em curso, no tie-break, serve de treino: nunca é guardado. Pode eliminá-la em «Gerir equipas».",
+  "Équipe d’exemple : les matchs se consultent seulement": "Equipa de exemplo: os jogos só podem ser consultados"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -3779,7 +3809,12 @@ const I18N = {
   "Activer": "Etkinleştir",
   "Code d’activation non valable": "Geçersiz etkinleştirme kodu",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro kodla {N} tarihine kadar etkin.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro {N} tarihine kadar etkin"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro {N} tarihine kadar etkin",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Takım savunmadayken yerleşim (ve istatistik bölgeleri): libero ve arka orta oyuncu bu pozisyonda, arka smaçör diğerinde savunur.",
+  "Choisir l'équipe": "Takımı seç",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth uygulamayı tanımak içindir: gerçek bir maçı kaydetmek için kullanılamaz. Tie-break’te (5. set, 0-0) bir alıştırma maçı sürüyor: asla kaydedilmez ve takıma her dönüşte sıfırdan başlar. Oynamak için takımınızı seçin veya oluşturun.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Örnek takım Team Earth: düzenlenemez; tüm istatistikleri açıktır. Tie-break’teki güncel maçı alıştırma içindir: asla kaydedilmez. “Takımları yönet” bölümünden silebilirsiniz.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Örnek takım: maçlar yalnızca görüntülenebilir"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -4241,7 +4276,12 @@ const I18N = {
   "Activer": "有効にする",
   "Code d’activation non valable": "アクティベーションコードが無効です",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ コードにより VolleyCoach Pro が {N} まで有効です。",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro が {N} まで有効になりました"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro が {N} まで有効になりました",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "チームが守備のときの配置（統計ゾーンも同様）：リベロと後衛ミドルがこのポジション、後衛アウトサイドがもう一方を守ります。",
+  "Choisir l'équipe": "チームを選ぶ",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth はアプリを知るためのチームです。実際の試合の記録には使えません。タイブレーク（第5セット、0-0）の練習試合が進行中です。保存されることはなく、チームに戻るたびに最初からになります。プレーするには自分のチームを選ぶか作成してください。",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 サンプルチーム Team Earth：編集不可。すべての統計が利用できます。タイブレークの進行中の試合は練習用で、保存されません。「チームを管理」から削除できます。",
+  "Équipe d’exemple : les matchs se consultent seulement": "サンプルチーム：試合は閲覧のみです"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -4703,7 +4743,12 @@ const I18N = {
   "Activer": "激活",
   "Code d’activation non valable": "激活码无效",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ 已通过激活码启用 VolleyCoach Pro，有效期至 {N}。",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro 已启用，有效期至 {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro 已启用，有效期至 {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "球队防守时的站位（统计区域同此）：自由人和后排副攻防守此位置，后排主攻防守另一位置。",
+  "Choisir l'équipe": "选择球队",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth 用于了解应用：不能用来记录真实比赛。决胜局（第5局，0-0）有一场练习赛正在进行：它永远不会被保存，每次回到该球队都会重新开始。请选择或创建您的球队来比赛。",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 示例球队 Team Earth：不可编辑；所有统计均已开放。其决胜局中的进行中比赛用于练习：永远不会被保存。可在“管理球队”中删除。",
+  "Équipe d’exemple : les matchs se consultent seulement": "示例球队：比赛仅供查看"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -5114,7 +5159,13 @@ const I18N = {
   "Activer": "Activeren",
   "Code d’activation non valable": "Ongeldige activeringscode",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro met code geactiveerd tot {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro geactiveerd tot {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro geactiveerd tot {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Opstelling wanneer het team verdedigt (en statistiekzones): libero en midden achter verdedigen op deze positie, buitenaanvaller achter op de andere.",
+  "Équipe actuelle": "Huidig team",
+  "Choisir l'équipe": "Team kiezen",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth is bedoeld om de app te leren kennen: het kan niet worden gebruikt om een echte wedstrijd te registreren. Er loopt een oefenwedstrijd in de tiebreak (5e set, 0-0): die wordt nooit opgeslagen en begint opnieuw telkens als u naar het team terugkeert. Kies of maak uw team om te spelen.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Voorbeeldteam Team Earth: niet bewerkbaar; alle statistieken zijn beschikbaar. De lopende wedstrijd in de tiebreak is om te oefenen: die wordt nooit opgeslagen. U kunt het verwijderen via „Teams beheren”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Voorbeeldteam: wedstrijden kunnen alleen worden bekeken"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -5525,7 +5576,13 @@ const I18N = {
   "Activer": "Aktiviraj",
   "Code d’activation non valable": "Neispravan aktivacioni kod",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktiviran kodom do {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Raspored kada ekipa brani (i zone statistike): libero i srednji bloker u zadnjoj liniji brane na ovoj poziciji, primač u zadnjoj liniji na drugoj.",
+  "Équipe actuelle": "Trenutna ekipa",
+  "Choisir l'équipe": "Izaberi ekipu",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth služi za upoznavanje aplikacije: ne može se koristiti za beleženje pravog meča. U toku je meč za vežbu u tie-breaku (5. set, 0-0): nikada se ne čuva i počinje iznova pri svakom povratku na ekipu. Izaberite ili napravite svoju ekipu da biste igrali.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Primer ekipe Team Earth: ne može se menjati; sva statistika je otvorena. Njen meč u toku, u tie-breaku, služi za vežbu: nikada se ne čuva. Možete je obrisati u „Upravljanje ekipama”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Primer ekipe: mečevi se mogu samo pregledati"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -5936,7 +5993,13 @@ const I18N = {
   "Activer": "Активиране",
   "Code d’activation non valable": "Невалиден код за активиране",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro е активиран с код до {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro е активиран до {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro е активиран до {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Разположение, когато отборът защитава (и зони на статистиката): либеро и централен в задна линия защитават на тази позиция, посрещач в задна линия — на другата.",
+  "Équipe actuelle": "Текущ отбор",
+  "Choisir l'équipe": "Изберете отбор",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth служи за запознаване с приложението: не може да се използва за записване на истински мач. Тече тренировъчен мач в тайбрека (5-и гейм, 0-0): никога не се запазва и започва отначало при всяко връщане към отбора. Изберете или създайте своя отбор, за да играете.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Примерен отбор Team Earth: не може да се редактира; цялата му статистика е отворена. Текущият му мач в тайбрека е за упражнение: никога не се запазва. Можете да го изтриете в „Управление на отбори“.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Примерен отбор: мачовете могат само да се разглеждат"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -6347,7 +6410,13 @@ const I18N = {
   "Activer": "Aktiviraj",
   "Code d’activation non valable": "Neveljavna aktivacijska koda",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktiviran s kodo do {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktiviran do {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Postavitev, ko ekipa brani (in cone statistike): libero in srednji bloker v zadnji vrsti branita na tem položaju, sprejemalec v zadnji vrsti na drugem.",
+  "Équipe actuelle": "Trenutna ekipa",
+  "Choisir l'équipe": "Izberi ekipo",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth je namenjena spoznavanju aplikacije: ne more se uporabiti za beleženje prave tekme. V teku je vadbena tekma v tie-breaku (5. niz, 0-0): nikoli se ne shrani in se ob vsaki vrnitvi na ekipo začne znova. Izberite ali ustvarite svojo ekipo za igro.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Vzorčna ekipa Team Earth: ni je mogoče urejati; vsa statistika je odprta. Njena tekma v teku, v tie-breaku, je za vajo: nikoli se ne shrani. Izbrišete jo lahko v »Upravljanje ekip«.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Vzorčna ekipa: tekme si je mogoče le ogledati"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -6758,7 +6827,13 @@ const I18N = {
   "Activer": "Активувати",
   "Code d’activation non valable": "Недійсний код активації",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro активовано кодом до {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активовано до {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активовано до {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Розстановка, коли команда захищається (і зони статистики): ліберо й центральний задньої лінії захищають на цій позиції, догравальник задньої лінії — на іншій.",
+  "Équipe actuelle": "Поточна команда",
+  "Choisir l'équipe": "Вибрати команду",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth призначена для знайомства із застосунком: її не можна використати для запису справжнього матчу. Триває тренувальний матч на тай-брейку (5-та партія, 0-0): він ніколи не зберігається й починається заново щоразу, коли ви повертаєтеся до команди. Виберіть або створіть свою команду, щоб грати.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Зразкова команда Team Earth: не редагується; уся її статистика відкрита. Її поточний матч на тай-брейку — для вправ: він ніколи не зберігається. Видалити її можна в «Керування командами».",
+  "Équipe d’exemple : les matchs se consultent seulement": "Зразкова команда: матчі можна лише переглядати"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -7169,7 +7244,13 @@ const I18N = {
   "Activer": "Aktivovat",
   "Code d’activation non valable": "Neplatný aktivační kód",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro aktivováno kódem do {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktivováno do {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktivováno do {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Rozestavení, když tým brání (a zóny statistik): libero a blokař v zadní řadě brání na této pozici, smečař v zadní řadě na druhé.",
+  "Équipe actuelle": "Aktuální tým",
+  "Choisir l'équipe": "Vybrat tým",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth slouží k seznámení s aplikací: nelze jej použít k záznamu skutečného zápasu. Probíhá cvičný zápas v tie-breaku (5. set, 0:0): nikdy se neukládá a začíná znovu při každém návratu k týmu. Pro hraní vyberte nebo vytvořte svůj tým.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Ukázkový tým Team Earth: nelze upravovat; všechny jeho statistiky jsou otevřené. Jeho probíhající zápas v tie-breaku slouží k procvičení: nikdy se neukládá. Smazat jej můžete v „Spravovat týmy“.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Ukázkový tým: zápasy lze pouze prohlížet"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -7580,7 +7661,13 @@ const I18N = {
   "Activer": "เปิดใช้งาน",
   "Code d’activation non valable": "รหัสเปิดใช้งานไม่ถูกต้อง",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ เปิดใช้ VolleyCoach Pro ด้วยรหัสถึง {N}",
-  "VolleyCoach Pro activé jusqu’au {N}": "เปิดใช้ VolleyCoach Pro ถึง {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "เปิดใช้ VolleyCoach Pro ถึง {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "ตำแหน่งเมื่อทีมเป็นฝ่ายรับ (และโซนสถิติ): ลิเบอโรและตัวบล็อกกลางแดนหลังรับที่ตำแหน่งนี้ ตัวตบหัวเสาแดนหลังรับอีกตำแหน่ง",
+  "Équipe actuelle": "ทีมปัจจุบัน",
+  "Choisir l'équipe": "เลือกทีม",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth มีไว้เพื่อทำความรู้จักแอป ไม่สามารถใช้บันทึกการแข่งขันจริงได้ มีแมตช์ฝึกซ้อมกำลังเล่นอยู่ในไทเบรก (เซตที่ 5, 0-0) ซึ่งจะไม่ถูกบันทึกและเริ่มใหม่ทุกครั้งที่กลับมาที่ทีมนี้ เลือกหรือสร้างทีมของคุณเพื่อเล่น",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 ทีมตัวอย่าง Team Earth: แก้ไขไม่ได้ เปิดสถิติทั้งหมด แมตช์ที่กำลังเล่นในไทเบรกมีไว้ฝึกซ้อมและจะไม่ถูกบันทึก ลบทีมได้ใน “จัดการทีม”",
+  "Équipe d’exemple : les matchs se consultent seulement": "ทีมตัวอย่าง: ดูแมตช์ได้อย่างเดียว"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -7991,7 +8078,13 @@ const I18N = {
   "Activer": "활성화",
   "Code d’activation non valable": "유효하지 않은 활성화 코드",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ 코드로 VolleyCoach Pro가 {N}까지 활성화되었습니다.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro가 {N}까지 활성화되었습니다"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro가 {N}까지 활성화되었습니다",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "팀이 수비할 때의 배치(통계 구역도 동일): 리베로와 후위 미들이 이 포지션, 후위 아웃사이드가 다른 포지션을 수비합니다.",
+  "Équipe actuelle": "현재 팀",
+  "Choisir l'équipe": "팀 선택",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth는 앱을 둘러보기 위한 팀으로, 실제 경기를 기록하는 데 사용할 수 없습니다. 타이브레이크(5세트, 0-0) 연습 경기가 진행 중이며, 저장되지 않고 팀으로 돌아올 때마다 처음부터 다시 시작됩니다. 경기를 하려면 내 팀을 선택하거나 만드세요.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 예시 팀 Team Earth: 수정할 수 없으며 모든 통계가 열려 있습니다. 타이브레이크에서 진행 중인 경기는 연습용이며 저장되지 않습니다. “팀 관리”에서 삭제할 수 있습니다.",
+  "Équipe d’exemple : les matchs se consultent seulement": "예시 팀: 경기는 보기만 가능합니다"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -8402,7 +8495,13 @@ const I18N = {
   "Activer": "I-activate",
   "Code d’activation non valable": "Hindi wastong activation code",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ Na-activate ng code ang VolleyCoach Pro hanggang {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "Na-activate ang VolleyCoach Pro hanggang {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "Na-activate ang VolleyCoach Pro hanggang {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Puwesto kapag nagdedepensa ang koponan (at mga zone ng istatistika): ang libero at back-row middle ang nagdedepensa sa puwestong ito, ang back-row outside sa kabila.",
+  "Équipe actuelle": "Kasalukuyang koponan",
+  "Choisir l'équipe": "Pumili ng koponan",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Ang Team Earth ay para makilala ang app: hindi ito magagamit para magtala ng totoong laban. May practice match na nagaganap sa tie-break (ika-5 set, 0-0): hindi ito kailanman nase-save at nagsisimula ulit tuwing babalik ka sa koponan. Pumili o gumawa ng iyong koponan para maglaro.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Sample na koponang Team Earth: hindi mae-edit; bukas ang lahat ng istatistika nito. Ang kasalukuyang laban nito sa tie-break ay pang-practice: hindi ito kailanman nase-save. Maaari mo itong burahin sa “Pamahalaan ang mga koponan”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Sample na koponan: tingnan lang ang mga laban"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -8813,7 +8912,13 @@ const I18N = {
   "Activer": "Aktifkan",
   "Code d’activation non valable": "Kode aktivasi tidak valid",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro diaktifkan dengan kode hingga {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktif hingga {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro aktif hingga {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Penempatan saat tim bertahan (dan zona statistik): libero dan middle baris belakang bertahan di posisi ini, outside baris belakang di posisi lainnya.",
+  "Équipe actuelle": "Tim saat ini",
+  "Choisir l'équipe": "Pilih tim",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth untuk mengenal aplikasi: tidak dapat digunakan untuk mencatat pertandingan sungguhan. Ada pertandingan latihan yang sedang berlangsung di tie-break (set ke-5, 0-0): tidak pernah disimpan dan dimulai ulang setiap kali Anda kembali ke tim ini. Pilih atau buat tim Anda untuk bermain.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Tim contoh Team Earth: tidak dapat diubah; semua statistiknya terbuka. Pertandingannya yang sedang berlangsung di tie-break untuk latihan: tidak pernah disimpan. Anda dapat menghapusnya di “Kelola tim”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Tim contoh: pertandingan hanya dapat dilihat"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -9224,7 +9329,13 @@ const I18N = {
   "Activer": "Активировать",
   "Code d’activation non valable": "Недействительный код активации",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro активирован кодом до {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активирован до {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro активирован до {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Расстановка, когда команда защищается (и зоны статистики): либеро и центральный задней линии защищают на этой позиции, доигровщик задней линии — на другой.",
+  "Équipe actuelle": "Текущая команда",
+  "Choisir l'équipe": "Выбрать команду",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth нужна для знакомства с приложением: её нельзя использовать для записи настоящего матча. Идёт тренировочный матч на тай-брейке (5-я партия, 0-0): он никогда не сохраняется и начинается заново при каждом возвращении к команде. Выберите или создайте свою команду, чтобы играть.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Пример команды Team Earth: не редактируется; вся её статистика открыта. Её текущий матч на тай-брейке — для тренировки: он никогда не сохраняется. Удалить её можно в «Управление командами».",
+  "Équipe d’exemple : les matchs se consultent seulement": "Пример команды: матчи можно только просматривать"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -9635,7 +9746,13 @@ const I18N = {
   "Activer": "تفعيل",
   "Code d’activation non valable": "رمز التفعيل غير صالح",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ تم تفعيل VolleyCoach Pro بالرمز حتى {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "تم تفعيل VolleyCoach Pro حتى {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "تم تفعيل VolleyCoach Pro حتى {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "التمركز عندما يدافع الفريق (ومناطق الإحصاءات): يدافع الليبرو ولاعب الوسط في الخط الخلفي في هذا المركز، والضارب الخلفي في المركز الآخر.",
+  "Équipe actuelle": "الفريق الحالي",
+  "Choisir l'équipe": "اختر الفريق",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "فريق Team Earth مخصص لاكتشاف التطبيق: لا يمكن استخدامه لتسجيل مباراة حقيقية. هناك مباراة تدريبية جارية في الشوط الحاسم (الشوط الخامس، 0-0): لا تُحفظ أبدًا وتبدأ من جديد في كل مرة تعود فيها إلى الفريق. اختر فريقك أو أنشئه للعب.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 فريق المثال Team Earth: غير قابل للتعديل؛ جميع إحصاءاته متاحة. مباراته الجارية في الشوط الحاسم مخصصة للتدريب: لا تُحفظ أبدًا. يمكنك حذفه من «إدارة الفرق».",
+  "Équipe d’exemple : les matchs se consultent seulement": "فريق المثال: المباريات للعرض فقط"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -10046,7 +10163,13 @@ const I18N = {
   "Activer": "Kích hoạt",
   "Code d’activation non valable": "Mã kích hoạt không hợp lệ",
   "✓ VolleyCoach Pro activé par code jusqu’au {N}.": "✓ VolleyCoach Pro đã kích hoạt bằng mã đến {N}.",
-  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro đã kích hoạt đến {N}"
+  "VolleyCoach Pro activé jusqu’au {N}": "VolleyCoach Pro đã kích hoạt đến {N}",
+  "Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.": "Vị trí khi đội phòng thủ (và các khu vực thống kê): libero và chủ công giữa hàng sau phòng thủ ở vị trí này, chủ công biên hàng sau ở vị trí còn lại.",
+  "Équipe actuelle": "Đội hiện tại",
+  "Choisir l'équipe": "Chọn đội",
+  "Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.": "Team Earth dùng để làm quen với ứng dụng: không thể dùng để ghi một trận đấu thật. Đang có một trận tập ở séc quyết định (séc 5, 0-0): trận này không bao giờ được lưu và bắt đầu lại mỗi khi bạn quay lại đội. Hãy chọn hoặc tạo đội của bạn để thi đấu.",
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Đội mẫu Team Earth: không thể chỉnh sửa; mọi thống kê đều được mở. Trận đang diễn ra ở séc quyết định dùng để tập luyện: không bao giờ được lưu. Bạn có thể xóa đội trong “Quản lý đội”.",
+  "Équipe d’exemple : les matchs se consultent seulement": "Đội mẫu: chỉ có thể xem các trận đấu"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
