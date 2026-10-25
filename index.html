@@ -104,13 +104,18 @@ label.f select:disabled{opacity:.7}
 /* scoreboard */
 .dock{position:sticky;top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);z-index:12;background:var(--bg);margin:12px -14px;padding:10px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);box-shadow:0 0 16px -8px rgba(0,0,0,.35)}
 @media (max-height:900px) and (min-width:561px){.dock{bottom:auto}}
-/* Téléphone : bloc flottant en bas, partie stats repliable */
+/* Terrain : .dock.dtop (score + Positions | Saisie) sous l'en-tête, flottant en haut ; .dock.dbot (saisie, Annuler) sous le terrain */
+.dock.dtop{margin:4px -14px 10px;padding:8px 14px;bottom:auto}
+.dock.dbot{position:static;box-shadow:none;border-top:0;margin-top:0;padding-top:0}
+.dock.dtop .dtog{margin-bottom:0}
+/* Téléphone : partie stats repliable (sélecteur « Positions | Saisie ») */
 .dtog{display:none}
 @media (max-width:560px){
   .dtog{display:flex;width:100%;min-height:44px;margin-bottom:8px;border-radius:12px;border:2px solid var(--team);background:var(--surface);color:var(--ink);font-weight:700;font-size:16px;overflow:hidden}
   .dtog .cnt{background:var(--team);color:var(--teamInk);border-radius:10px;padding:1px 8px;font-size:13px}
   .dock.folded .stp,.dock.folded .stpick{display:none}
   body.phstats #app .courtwrap,body.phstats #app .libinfo,body.phstats #app .vtog{display:none}
+  body.phstats #app .viewrow{margin:0 0 6px}body.phstats #app .viewrow .viewseg button{min-height:32px;font-size:13px}body.phstats #app .viewrow .icon{width:34px;height:34px;min-width:34px;padding:0}body.phstats #app .viewrow .icon svg{width:18px;height:18px}
   body.phstats #app .dock{position:static;box-shadow:none}
   .pickc{gap:6px;padding:20px 6px 6px}
   .pickc .bchip.pk{flex-direction:column;justify-content:center;align-items:center;gap:2px;padding:4px 2px;min-height:64px}
@@ -395,16 +400,16 @@ body.easy .dtog{display:flex;width:100%;min-height:52px;margin-bottom:10px;borde
 .dtog button.on{background:var(--team);color:var(--teamInk)}.dtog button.on .cnt{background:var(--teamInk);color:var(--team)}
 body.easy .dtog .cnt{background:var(--team);color:var(--teamInk);border-radius:10px;padding:1px 8px;font-size:14px}
 body.easy .dock.folded .stp,body.easy .dock.folded .stpick{display:none}
-body.easy.phstats #app .vmain>*:not(.dock){display:none!important}
-body.easy.phstats #app .dock{position:static;box-shadow:none;border:0;padding:6px 0 12px;min-height:calc(100vh - 24px - env(safe-area-inset-top,0px))}
-body.easy.phstats .dock .score .big{font-size:60px}body.easy.phstats .dock .tside{min-height:96px}
+body.easy.phstats #app .vmain>*:not(.dock):not(.courtbar){display:none!important}
+body.easy.phstats #app .dock{position:static;box-shadow:none;border:0;padding:6px 0 12px}
+
 body.easy.phstats .stgrid{gap:12px}body.easy.phstats .stgrid .stb{min-height:clamp(64px,10vh,110px)!important;font-size:20px;border-width:2.5px}
 body.easy.phstats .stgrid .stb .lgl,body.easy.phstats .stgrid .stb .shl{font-size:20px}
 body.easy.phstats .stgrid .stc,body.easy.phstats .stgrid .stl{font-size:17px}
 body.easy.phstats .pickc{gap:12px}body.easy.phstats .pickc .bchip{min-height:76px;font-size:19px}body.easy.phstats .pickc .bchip .num{width:42px;height:42px;font-size:20px}
 body.easy.phstats .dock .undo .btn{min-height:58px}
-body.easy.phstats #app .dock{display:flex;flex-direction:column}body.easy.phstats .dock .dtog{order:-1;min-height:clamp(60px,7vh,90px);font-size:clamp(20px,2.6vh,30px)}
-@media (min-width:700px){body.easy.phstats .dock .score .tside{min-height:110px}body.easy.phstats .dock .score .big{font-size:72px}body.easy.phstats .dock .score .tn{font-size:24px}}body.easy.phstats .dock .score{order:-2}
+body.easy.phstats #app .dock{display:flex;flex-direction:column}
+@media (min-width:700px){}body.easy.phstats .dock .score{order:-2}
 body.easy.phstats .dock .stp .sth{display:none}
 .egrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 8px}
 .egrid .eh{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.8vh,34px);padding:6px 0;border-radius:10px;background:var(--surface)}
@@ -426,7 +431,11 @@ body.easy.phstats .pickc .bchip.pk.dim{opacity:.25}
 body.easy.phstats .stq{font-size:clamp(18px,2.4vh,28px);padding:10px 14px}
 body.easy.phstats .stp .strow .stb{min-height:clamp(60px,7vh,90px);font-size:clamp(16px,2vh,22px)}
 html:has(body.easy.phstats){overflow:hidden;overscroll-behavior:none}body.easy.phstats{overflow:hidden;overscroll-behavior:none}body.easy.phstats #app{padding-top:env(safe-area-inset-top,0px)!important;padding-bottom:calc(46px + env(safe-area-inset-bottom,0px))!important;min-height:0!important}
-body.easy.phstats #app .dock{height:calc(100dvh - 22px - 46px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0!important;overflow:hidden;padding:4px 0 6px}
+body.easy.phstats #app .vmain{display:flex;flex-direction:column;height:calc(100dvh - 22px - 46px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+body.easy.phstats #app .vmain>*{flex:none}
+body.easy.phstats #app .vmain{box-sizing:border-box;padding-top:12px}
+body.easy.phstats #app .dock.dtop{padding:8px 0 8px;margin:0}
+body.easy.phstats #app .dock.dbot{flex:1 1 auto;min-height:0!important;overflow:hidden;padding:0 0 6px;margin:0}
 body.easy.phstats .dock .stp{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;margin:0}
 body.easy.phstats .dock .stp .egrid{flex:1 1 auto;min-height:0;grid-template-rows:auto repeat(3,minmax(0,1fr)) minmax(0,.62fr);margin:4px 0}
 body.easy.phstats .dock .stp .egrid .ek,body.easy.phstats .dock .stp .egrid .eb{min-height:0!important}
@@ -436,16 +445,19 @@ body.easy.phstats .dock .stp .pickc{flex:1 1 auto;min-height:0;grid-auto-rows:mi
 body.easy.phstats .dock .stp .pickc .bchip.pk{min-height:0!important}
 body.easy.phstats .dock .stp .pickc .bchip.pk .num{font-size:clamp(30px,7vmin,92px)}
 body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{max-height:44px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;flex:none}
-body.easy.phstats .dock .dtog{flex:none;min-height:clamp(44px,6vh,80px)}body.easy.phstats .dock .score{flex:none}
+body.easy.phstats .dock .dtog{flex:none}body.easy.phstats .dock .score{flex:none}
 body.easy.phstats .dock .undo{flex:none}
-@media (orientation:landscape) and (max-height:520px){body.easy.phstats #app .dock{display:grid!important;grid-template-columns:minmax(0,34%) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);column-gap:10px}
+@media (orientation:landscape) and (max-height:520px){body.easy.phstats #app .vmain{display:grid!important;grid-template-columns:minmax(0,34%) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);column-gap:10px}
+  body.easy.phstats #app .vmain>.courtbar{grid-column:1;grid-row:1}body.easy.phstats #app .vmain>.dock.dtop{grid-column:1;grid-row:2}body.easy.phstats #app .dock.dbot{display:contents!important}
+  body.easy.phstats #app .vmain{height:calc(100dvh - 50px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));padding-top:4px}body.easy.phstats #app .vmain>.courtbar{margin:0 0 4px;min-height:0}body.easy.phstats #app .vmain>.courtbar .btn{min-height:34px;padding:0 10px}
+  body.easy.phstats #app .dock>.undo{flex-direction:row!important}body.easy.phstats .dock .undo .btn small{display:none}body.easy.phstats .dock .undo .btn{flex:1;min-height:36px!important}
   body.easy.phstats #app .dock>.dtog{grid-column:1;grid-row:2}body.easy.phstats #app .dock>.score{grid-column:1;grid-row:1}body.easy.phstats #app .dock>.undo{grid-column:1;grid-row:3;align-self:end;display:flex;flex-direction:column;gap:6px}
-  body.easy.phstats #app .dock>.stp{grid-column:2;grid-row:1/4;height:100%}body.easy.phstats #app .dock>*:not(.dtog):not(.score):not(.undo):not(.stp){grid-column:1}
+  body.easy.phstats #app .dock>.stp{grid-column:2;grid-row:1/4;height:100%;min-height:0;overflow:hidden}body.easy.phstats #app .dock>*:not(.dtog):not(.score):not(.undo):not(.stp){grid-column:1}
   body.easy.phstats .dock .dtog{min-height:34px!important;font-size:15px!important;margin-bottom:4px}
   body.easy.phstats #app .dock>.score{display:flex!important;flex-direction:column;gap:6px}body.easy.phstats #app .dock>.score>:not(.tside){display:none}body.easy.phstats .dock .score .tside{min-height:46px!important}body.easy.phstats .dock .score .big{font-size:30px!important}
   body.easy.phstats .dock .stp .stq{padding:4px 10px;font-size:15px}body.easy.phstats .dock .stp .pickc{min-height:150px;padding:14px 6px 6px}body.easy.phstats .dock .stp .strow .stb{min-height:36px!important}
   body.easy.phstats .dock .undo .btn{min-height:38px}body.easy.phstats .dock .stp .egrid .eh{font-size:15px;padding:2px 0}}
-@media (orientation:landscape){body.easy.phstats .dock .score .tside{min-height:0;padding-top:4px;padding-bottom:4px}body.easy.phstats .dock .score .big{font-size:clamp(32px,7vh,64px)}}
+
 .btn svg{width:20px;height:20px;flex:none;vertical-align:middle}.btn.icon svg{width:22px;height:22px}
 .librow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.librow h2{margin-right:auto}.lpseg{display:flex}.lpseg button{min-width:96px}
 .prw{flex-wrap:wrap}.prw .pmeta{flex:1 1 100%;grid-column:1/-1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted);margin:-2px 0 4px;padding-left:2px}.prw .pmeta .p{color:var(--pos);font-weight:700}.prw .pmeta .m{color:var(--neg);font-weight:700}
@@ -680,7 +692,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V164';
+const APP_VERSION='V165';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1488,8 +1500,8 @@ const legend=()=>`<div class="legend">${ROLE_ORDER.map(r=>`<span class="r-${r}">
 /* ============ ÉCRANS ============ */
 // Tablette : le terrain se réduit pour laisser la place au bloc de stats, puis un peu plus au défilement (minimum lisible)
 function fitCourt(){const cw=document.querySelector('#app .courtwrap');if(!cw)return;const court=cw.querySelector('.court');
-  if(innerWidth<=560||!document.querySelector('#app .dock')){cw.style.maxWidth='';if(court)court.style.transform='';return;}
-  const side=cw.classList.contains('side'),dock=document.querySelector('#app .dock'),ratio=side?4/3:0.75,padX=side?0.74:0.84;
+  if(innerWidth<=560||!document.querySelector('#app .dock.dbot')){cw.style.maxWidth='';if(court)court.style.transform='';return;}
+  const side=cw.classList.contains('side'),dock=document.querySelector('#app .dock.dbot'),ratio=side?4/3:0.75,padX=side?0.74:0.84;
   const top=Math.max(90,Math.min(170,cw.getBoundingClientRect().top+scrollY)),avail=innerHeight-dock.offsetHeight-top-(side?60:110);
   const full=side?640:700,minW=side?300:430,cwid=Math.max(minW,Math.min(full*padX,avail/ratio));
   cw.style.maxWidth=Math.round(cwid/padX)+'px';
@@ -1649,10 +1661,10 @@ function tPos(el,c,o){
   el.classList.remove('center');
   const rectOf=()=>{let L=1e9,T=1e9,R=-1e9,B=-1e9;els.forEach(x=>{const r=x.getBoundingClientRect();L=Math.min(L,r.left);T=Math.min(T,r.top);R=Math.max(R,r.right);B=Math.max(B,r.bottom);});return {left:L,top:T,right:R,bottom:B,width:R-L,height:B-T};};
   let r=rectOf();
-  // menus flottants en haut (sous-menu des stats) : la zone utile commence sous eux
-  const topInset=(()=>{const v=tVis('.vtw');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
+  // menus flottants en haut (sous-menu des stats, score du Terrain) : la zone utile commence sous eux
+  const topInset=(()=>{const v=tVis('.vtw,.dock.dtop');if(!v||els.some(e=>v.contains(e))||!els.some(e=>v.compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING))return 0;return v.getBoundingClientRect().height;})(),top0=topInset+M;
   if(o&&o.fit){ // une seule mise au point par étape : l'élément au-dessus de la bulle si possible, sinon l'élément en bas et la bulle au-dessus
-    const stick=[...document.querySelectorAll('.vtw')].filter(x=>x.offsetParent!==null&&getComputedStyle(x).position==='sticky'&&!els.includes(x)&&!els.some(e=>x.contains(e))).reduce((a,x)=>Math.max(a,x.getBoundingClientRect().bottom),0);
+    const stick=[...document.querySelectorAll('.vtw,.dock.dtop')].filter(x=>x.offsetParent!==null&&getComputedStyle(x).position==='sticky'&&!els.includes(x)&&!els.some(e=>x.contains(e))).reduce((a,x)=>Math.max(a,x.getBoundingClientRect().bottom),0);
     const topB=Math.max(M,stick+M);
     window.scrollBy({top:r.top-(topB+pad),left:0,behavior:'instant'});r=rectOf();
     if(r.bottom+pad+GAP+bh>Hv-M){ // pas de place sous l'élément : on cale l'élément en bas, la bulle passera au-dessus
@@ -1966,7 +1978,7 @@ function matchHTML(m,S){
     ...(e.libFor?[`<button class="bchip" data-act="bench" data-id="${e.libFor}"><span class="num ${rcls(S.roles[e.libFor])}">${pnum(m,e.libFor)}</span>${esc(dname(m,e.libFor))}<em>remplacement par libéro</em></button>`]:[]),
     ...bench.map(p=>`<button class="bchip" data-act="bench" data-id="${p.id}"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}${S.roles[p.id]==='L'?`<em>${p.id===S.lib?'libéro en jeu':'libéro'}</em>`:''}</button>`)
   ].join('');
-  // Bannière de score en bas : toucher une équipe = point pour elle
+  // Bannière de score (sous l'en-tête) : toucher une équipe = point pour elle
   const side=(w,pos)=>{const g=w==='G',nm=g?T:(m.opp||'Adversaire'),sc=g?set.g:set.a,sv=S.serving===w&&play;
     return `<button class="tside ${g?'g':'a'} ${pos}" data-act="pt" data-w="${w}" ${play?'':'disabled'} aria-label="Point ${esc(nm)}">
       <span class="who"><span class="tn">${pos==='R'&&sv?`<span class="srvdot">${IC.ball}</span>`:''}${esc(nm)}${pos==='L'&&sv?`<span class="srvdot">${IC.ball}</span>`:''}</span><span class="sw">Sets ${g?S.wins.G:S.wins.A}</span>${play&&np?`<span class="ptn">+ ${np} stat${np>1?'s':''}</span>`:''}</span>
@@ -1976,21 +1988,23 @@ function matchHTML(m,S){
     <div class="courtbar"><span class="rot" title="Position de la passe">${pz?'P'+pz:'P–'}</span><span class="sys" title="Système de jeu">${is42(S.zones,S.roles)?'4-2':setterOn(S)?'5-1':'–'}</span>
       <span class="srvinfo">${S.phase!=='play'?'':S.serving==='G'?'Service':'Réception'}</span>
       <button class="btn coachb" data-act="matchSheet" aria-label="Actions du match"><span>Match</span></button></div>
-    <div class="viewrow"><div class="seg viewseg"><button class="${regl?'':'on'}" data-act="view" data-v="jeu" title="Positions de jeu">Jeu</button><button class="${regl?'on':''}" data-act="view" data-v="regl" title="Ordre réglementaire">Réglementaire</button></div>
-      <span class="vicons"><button class="icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button><button class="icon" data-act="swapT" aria-label="Inverser les équipes dans le score" title="${esc(short(store.cur))} à gauche / à droite">${IC.swap}</button><button class="icon" data-act="sound" aria-label="Son">${store.prefs.sound?IC.snd:IC.mute}</button></span></div>
-    ${courtHTML(m,{mode:regl?'regl':'play',zones:S.zones,roles:S.roles,lib:S.lib,serving:S.serving,srvDone:play&&(m.pend||[]).some(x=>x[0]==='srv'),act:play?'tapCourt':'none',flash:ui.flashLib,main:true})}
+    <section class="dock dtop ${store.prefs.dockOpen?'':'folded'}">
+      <div id="tmr" hidden aria-live="polite"></div>
+      <div class="score">${side(sw2?'A':'G','L')}<div class="smid"><b>S${si+1}</b>${isTieBreak(m,si)?'tie-break':fmt(m).pts!==25?fmt(m).pts+' pts':'set'}</div>${side(sw2?'G':'A','R')}</div>
+      ${play?`<div class="dtog" role="group" aria-label="Affichage du terrain"><button data-act="dockSet" data-v="pos" class="${store.prefs.dockOpen?'':'on'}" aria-pressed="${!store.prefs.dockOpen}">Positions</button><button data-act="dockSet" data-v="stats" class="${store.prefs.dockOpen?'on':''}" aria-pressed="${!!store.prefs.dockOpen}">Saisie${(m.pend||[]).length?`<span class="cnt">${(m.pend||[]).length}</span>`:''}</button></div>`:''}
+    </section>
+        ${courtHTML(m,{mode:regl?'regl':'play',zones:S.zones,roles:S.roles,lib:S.lib,serving:S.serving,srvDone:play&&(m.pend||[]).some(x=>x[0]==='srv'),act:play?'tapCourt':'none',flash:ui.flashLib,main:true})}
     ${e.libFor?`<p class="libinfo">Libéro ${esc(tag(m,S.lib))} à la place de ${esc(tag(m,e.libFor))}</p>`:''}
     ${S.libNext?`<p class="libinfo">Changement de libéro : ${esc(tag(m,S.libNext))} entrera au point suivant</p>`:''}
+    <div class="viewrow"><div class="seg viewseg"><button class="${regl?'':'on'}" data-act="view" data-v="jeu" title="Positions de jeu">Jeu</button><button class="${regl?'on':''}" data-act="view" data-v="regl" title="Ordre réglementaire">Réglementaire</button></div>
+      <span class="vicons"><button class="icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button><button class="icon" data-act="swapT" aria-label="Inverser les équipes dans le score" title="${esc(short(store.cur))} à gauche / à droite">${IC.swap}</button><button class="icon" data-act="sound" aria-label="Son">${store.prefs.sound?IC.snd:IC.mute}</button></span></div>
     <div class="tools">
       <button class="btn" data-act="openSub" ${play?'':'disabled'}>Changement <small>${set.subs}/6</small></button>
       <button class="btn" data-act="to" data-s="G" ${play?'':'disabled'}>TM ${esc(T)} <small>${set.to.G}/2</small></button>
       <button class="btn" data-act="to" data-s="A" ${play?'':'disabled'}>TM adv. <small>${set.to.A}/2</small></button>
       <button class="btn" data-act="toSetup">Postes</button>
     </div>
-    <section class="dock ${store.prefs.dockOpen?'':'folded'}">
-      <div id="tmr" hidden aria-live="polite"></div>
-      <div class="score">${side(sw2?'A':'G','L')}<div class="smid"><b>S${si+1}</b>${isTieBreak(m,si)?'tie-break':fmt(m).pts!==25?fmt(m).pts+' pts':'set'}</div>${side(sw2?'G':'A','R')}</div>
-      ${play?`<div class="dtog" role="group" aria-label="Affichage du terrain"><button data-act="dockSet" data-v="pos" class="${store.prefs.dockOpen?'':'on'}" aria-pressed="${!store.prefs.dockOpen}">Positions</button><button data-act="dockSet" data-v="stats" class="${store.prefs.dockOpen?'on':''}" aria-pressed="${!!store.prefs.dockOpen}">Saisie${(m.pend||[]).length?`<span class="cnt">${(m.pend||[]).length}</span>`:''}</button></div>`:''}
+    <section class="dock dbot ${store.prefs.dockOpen?'':'folded'}">
       ${statPanel(m,S)}
       ${mid}
       <div class="undo">
@@ -2164,7 +2178,7 @@ function sheetHTML(m,S){
       <div style="margin-top:12px"><button class="btn big ${close2?'danger':'primary'}" data-act="seasonOk">${close2?'Clôturer et ouvrir la nouvelle saison':'Renommer'}</button></div>`;}
   if(ui.sheet==='teamName'){const t=ui.teamEdit==='new'?null:store.teams.find(x=>x.id===ui.teamEdit);
     return `<div class="sh"><h3>${t?'Renommer l\'équipe':'Nouvelle équipe'}</h3>${close}</div>
-      <label class="f">Nom de l'équipe<input id="teamNameIn" type="text" maxlength="40" value="${esc(t?t.name:'')}" placeholder="ex. Équipe M15F"></label>
+      <label class="f">Nom de l'équipe<input id="teamNameIn" type="text" maxlength="40" value="${esc(t?t.name:(ui.newName||''))}" placeholder="ex. Équipe M15F"></label>
       ${t?'':`<div class="seg gseg" style="margin-top:10px">${['M','F','X'].map(g=>`<button class="${(ui.newGender||'F')===g?'on':''}" data-act="newGender" data-v="${g}"><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
       ${t?'':ui.teamFrom==='setup'?'<p class="hint">L\'équipe sera choisie pour ce match ; vous pourrez ensuite compléter son effectif.</p>':'<p class="hint">L\'effectif est vide : choisissez ensuite l\'équipe puis complétez son effectif, ou importez un effectif.</p>'}
       <div style="margin-top:12px"><button class="btn big primary" data-act="teamNameOk">${t?'Renommer':'Créer l\'équipe'}</button></div>`;}
@@ -3191,7 +3205,7 @@ function teamSelect(v){if(v==='__new'){ui.afterCode='teamNewSetup';openLock();re
   if(switchTeam(v,true))toast(`Équipe : ${activeTeam().name}`,'ok');}
 const A={
   close(){ui.sheet=null;ui.afterCode=null;ui.teamFrom=null;},
-  teamNewSetup(){ui.ctab='team';ui.treeOpen=false;ui.teamEdit='new';ui.teamFrom='setup';ui.sheet='teamName';},
+  teamNewSetup(){ui.ctab='team';ui.treeOpen=false;ui.teamEdit='new';ui.newName='';ui.teamFrom='setup';ui.sheet='teamName';},
   stCat(d){const m=store.cur,S=replay(m),lp=rallyCtx(S),k=d.k,sg=+d.s;if(!lp)return;
     if(k==='srv'){if(!lp.srv){toast('Le service est adverse');return;}
       // Un seul service par point : même signe = rien, signe opposé = on inverse
@@ -3502,9 +3516,9 @@ const A={
   teamPick(){ui.treeOpen=false;ui.sheet='teamPick';},
   teamUse(d){if(d.id===store.teamId)return;const key='tuse:'+d.id;if(!d.force&&store.cur.ev.length&&ui.confirm!==key){ui.confirm=key;return 'keep';}ui.sheet=null;
     if(switchTeam(d.id))toast(`Équipe active : ${activeTeam().name}`,'ok');},
-  teamNew(){ui.teamEdit='new';ui.newGender=ui.newGender||'F';ui.sheet='teamName';},
+  teamNew(){ui.teamEdit='new';ui.newName='';ui.newGender=ui.newGender||'F';ui.sheet='teamName';},
   teamGender(d){const t=activeTeam();if(t&&!t.locked){t.gender=d.v;save();}},
-  newGender(d){ui.newGender=d.v;},
+  newGender(d){const i=$('#teamNameIn');if(i)ui.newName=i.value;ui.newGender=d.v;},
   teamRen(d){if(isDemoTeam(d.id)){toast('Équipe d’exemple : non modifiable','warn');return;}ui.teamEdit=d.id;ui.sheet='teamName';},
   teamNameOk(){const v=(($('#teamNameIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}
     if(store.teams.some(t=>t.name.toLowerCase()===v.toLowerCase()&&t.id!==ui.teamEdit)){toast('Une équipe porte déjà ce nom','warn');return 'keep';}
