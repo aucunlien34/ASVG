@@ -969,7 +969,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "New practice match: 0-0",
   "Exercice": "Practice",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "A practice match is in progress: one 15-point set, never saved, that resumes where you left it.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Team Earth sample team: cannot be edited; all its statistics are unlocked. Its current match, one 15-point set, is for practice: it is never saved. You can delete it in “Manage teams”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Team Earth sample team: cannot be edited; all its statistics are unlocked. Its current match, one 15-point set, is for practice: it is never saved. You can delete it in “Manage teams”.",
+  "Inversion R4 <-> Pointe en P1": "R4 <-> Opposite switch in P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "In P1 and only in reception (opponent serving). Without the option, the opposite plays in 4 and the R4 in 2 for the whole rally. With the option, they start that way, then switch as soon as the first attack, the first free ball or the first dig is recorded: R4 in 4, opposite in 2. The stat entry grid and the attack zones follow this choice. Set for each set separately."
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -1870,7 +1872,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nuevo partido de práctica: 0-0",
   "Exercice": "Práctica",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Hay un partido de práctica en curso: un set de 15 puntos, nunca guardado, que continúa donde lo dejaste.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipo de ejemplo Team Earth: no editable; todas sus estadísticas están abiertas. Su partido en curso, un set de 15 puntos, sirve de práctica: nunca se guarda. Puedes eliminarlo en «Gestionar equipos»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipo de ejemplo Team Earth: no editable; todas sus estadísticas están abiertas. Su partido en curso, un set de 15 puntos, sirve de práctica: nunca se guarda. Puedes eliminarlo en «Gestionar equipos».",
+  "Inversion R4 <-> Pointe en P1": "Inversión R4 <-> Opuesto en P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Solo en P1 y en recepción (saque rival). Sin la opción, el opuesto juega en 4 y el R4 en 2 durante todo el punto. Con la opción, empiezan así y se intercambian en cuanto se anota el primer ataque, el primer balón regalado o la primera defensa: R4 en 4, opuesto en 2. La cuadrícula de estadísticas y las zonas de ataque siguen esta elección. Se ajusta en cada set."
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -2771,7 +2775,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nuova partita di allenamento: 0-0",
   "Exercice": "Allenamento",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "È in corso una partita di allenamento: un set da 15 punti, mai salvato, che riprende da dove l'hai lasciato.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Squadra di esempio Team Earth: non modificabile; tutte le sue statistiche sono sbloccate. La sua partita in corso, un set da 15 punti, serve da allenamento: non viene mai salvata. Puoi eliminarla in «Gestisci squadre»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Squadra di esempio Team Earth: non modificabile; tutte le sue statistiche sono sbloccate. La sua partita in corso, un set da 15 punti, serve da allenamento: non viene mai salvata. Puoi eliminarla in «Gestisci squadre».",
+  "Inversion R4 <-> Pointe en P1": "Inversione R4 <-> Opposto in P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Solo in P1 e in ricezione (battuta avversaria). Senza l'opzione, l'opposto gioca in 4 e l'R4 in 2 per tutto lo scambio. Con l'opzione, iniziano così e poi si scambiano appena viene registrato il primo attacco, la prima palla free o la prima difesa: R4 in 4, opposto in 2. La griglia di inserimento e le zone d'attacco seguono questa scelta. Impostazione propria di ogni set."
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -3672,7 +3678,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Neues Übungsspiel: 0-0",
   "Exercice": "Übung",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Ein Übungsspiel läuft: ein Satz bis 15 Punkte, nie gespeichert, der dort weitergeht, wo du aufgehört hast.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Beispielteam Team Earth: nicht bearbeitbar; alle Statistiken sind freigeschaltet. Sein laufendes Spiel, ein Satz bis 15 Punkte, dient zur Übung: Es wird nie gespeichert. Du kannst es unter „Teams verwalten“ löschen."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Beispielteam Team Earth: nicht bearbeitbar; alle Statistiken sind freigeschaltet. Sein laufendes Spiel, ein Satz bis 15 Punkte, dient zur Übung: Es wird nie gespeichert. Du kannst es unter „Teams verwalten“ löschen.",
+  "Inversion R4 <-> Pointe en P1": "Tausch Außen <-> Diagonal in P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Nur in P1 und nur in der Annahme (gegnerischer Aufschlag). Ohne die Option spielt der Diagonalspieler auf 4 und der Außenangreifer auf 2, den ganzen Ballwechsel lang. Mit der Option beginnen sie so und tauschen, sobald der erste Angriff, der erste Freeball oder die erste Abwehr erfasst ist: Außen auf 4, Diagonal auf 2. Das Erfassungsraster und die Angriffszonen folgen dieser Wahl. Einstellung für jeden Satz einzeln."
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -4573,7 +4581,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nowy mecz treningowy: 0-0",
   "Exercice": "Trening",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Trwa mecz treningowy: jeden set do 15 punktów, nigdy niezapisywany, który wznawia się tam, gdzie go zostawiono.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Przykładowa drużyna Team Earth: nie można jej edytować; wszystkie jej statystyki są odblokowane. Jej bieżący mecz, jeden set do 15 punktów, służy do ćwiczeń: nigdy nie jest zapisywany. Możesz ją usunąć w „Zarządzaj drużynami”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Przykładowa drużyna Team Earth: nie można jej edytować; wszystkie jej statystyki są odblokowane. Jej bieżący mecz, jeden set do 15 punktów, służy do ćwiczeń: nigdy nie jest zapisywany. Możesz ją usunąć w „Zarządzaj drużynami”.",
+  "Inversion R4 <-> Pointe en P1": "Zamiana R4 <-> Atakujący w P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Tylko w P1 i tylko w przyjęciu (zagrywka rywala). Bez opcji atakujący gra na 4, a R4 na 2 przez całą akcję. Z opcją zaczynają tak, a potem zamieniają się po zapisaniu pierwszego ataku, pierwszej wolnej piłki lub pierwszej obrony: R4 na 4, atakujący na 2. Siatka wprowadzania statystyk i strefy ataku są zgodne z tym wyborem. Ustawienie osobne dla każdego seta."
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -5474,7 +5484,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Novo jogo de treino: 0-0",
   "Exercice": "Treino",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Há um jogo de treino em andamento: um set de 15 pontos, nunca salvo, que continua de onde você parou.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipe de exemplo Team Earth: não editável; todas as suas estatísticas estão liberadas. O seu jogo em andamento, um set de 15 pontos, serve de treino: nunca é salvo. Você pode excluí-la em «Gerir equipes»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Equipe de exemplo Team Earth: não editável; todas as suas estatísticas estão liberadas. O seu jogo em andamento, um set de 15 pontos, serve de treino: nunca é salvo. Você pode excluí-la em «Gerir equipes».",
+  "Inversion R4 <-> Pointe en P1": "Inversão R4 <-> Oposto em P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Só em P1 e só na recepção (saque adversário). Sem a opção, o oposto joga em 4 e o R4 em 2 durante toda a jogada. Com a opção, começam assim e trocam assim que o primeiro ataque, a primeira bola de graça ou a primeira defesa são registrados: R4 em 4, oposto em 2. A grade de estatísticas e as zonas de ataque seguem essa escolha. Ajuste próprio de cada set."
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -6375,7 +6387,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Yeni alıştırma maçı: 0-0",
   "Exercice": "Alıştırma",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Bir alıştırma maçı sürüyor: 15 sayılık tek set, hiç kaydedilmez, bıraktığın yerden devam eder.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Örnek takım Team Earth: düzenlenemez; tüm istatistikleri açıktır. Devam eden maçı, 15 sayılık tek set, alıştırma içindir: hiç kaydedilmez. Onu «Takımları yönet» bölümünden silebilirsin."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Örnek takım Team Earth: düzenlenemez; tüm istatistikleri açıktır. Devam eden maçı, 15 sayılık tek set, alıştırma içindir: hiç kaydedilmez. Onu «Takımları yönet» bölümünden silebilirsin.",
+  "Inversion R4 <-> Pointe en P1": "P1'de R4 <-> Pasör çaprazı değişimi",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Yalnızca P1'de ve yalnızca karşılamada (rakip servis). Seçenek kapalıyken pasör çaprazı 4'te, R4 2'de tüm sayı boyunca oynar. Seçenek açıkken böyle başlarlar, ardından ilk hücum, ilk serbest top veya ilk savunma kaydedilir kaydedilmez yer değiştirirler: R4 4'te, pasör çaprazı 2'de. İstatistik giriş ızgarası ve hücum bölgeleri bu seçimi izler. Her set için ayrı ayarlanır."
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -7276,7 +7290,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "新しい練習試合：0-0",
   "Exercice": "練習",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "練習試合が進行中です：15点1セット、保存されることはなく、中断したところから再開します。",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 サンプルチーム Team Earth：編集できません。すべての統計が利用できます。進行中の試合（15点1セット）は練習用で、保存されることはありません。「チームを管理」で削除できます。"
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 サンプルチーム Team Earth：編集できません。すべての統計が利用できます。進行中の試合（15点1セット）は練習用で、保存されることはありません。「チームを管理」で削除できます。",
+  "Inversion R4 <-> Pointe en P1": "P1でのR4 <-> オポジット入れ替え",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "P1かつレセプション時（相手サーブ）のみ。オプションなしでは、ラリー中ずっとオポジットが4、R4が2でプレーします。オプションありでは、この配置で始まり、最初のアタック、最初のフリーボール、または最初のディグが記録された時点で入れ替わります：R4が4、オポジットが2。スタッツ入力グリッドとアタックゾーンはこの選択に従います。セットごとの設定です。"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -8177,7 +8193,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "新的练习比赛：0-0",
   "Exercice": "练习",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "一场练习比赛正在进行：一局 15 分，从不保存，从你离开的地方继续。",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 示例球队 Team Earth：不可修改；其所有统计均已开放。它进行中的比赛（一局 15 分）用于练习：从不保存。你可以在“管理球队”中删除它。"
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 示例球队 Team Earth：不可修改；其所有统计均已开放。它进行中的比赛（一局 15 分）用于练习：从不保存。你可以在“管理球队”中删除它。",
+  "Inversion R4 <-> Pointe en P1": "P1 主攻 R4 <-> 接应二传对角互换",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "仅在 P1 且接发球时（对方发球）。不开启时，整个回合接应在 4 号位、主攻 R4 在 2 号位。开启后，开始时如此，一旦记录第一次进攻、第一次无攻击回球或第一次防守即互换：主攻 R4 在 4 号位，接应在 2 号位。统计录入网格和进攻区域均按此设置。每局单独设置。"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -9078,7 +9096,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nieuwe oefenwedstrijd: 0-0",
   "Exercice": "Oefening",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Er loopt een oefenwedstrijd: één set tot 15 punten, nooit opgeslagen, die verdergaat waar je was gebleven.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Voorbeeldteam Team Earth: niet te bewerken; al zijn statistieken zijn vrijgegeven. Zijn lopende wedstrijd, één set tot 15 punten, is om te oefenen: hij wordt nooit opgeslagen. Je kunt het verwijderen in „Teams beheren”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Voorbeeldteam Team Earth: niet te bewerken; al zijn statistieken zijn vrijgegeven. Zijn lopende wedstrijd, één set tot 15 punten, is om te oefenen: hij wordt nooit opgeslagen. Je kunt het verwijderen in „Teams beheren”.",
+  "Inversion R4 <-> Pointe en P1": "Wissel R4 <-> Diagonaal in P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Alleen in P1 en alleen bij pass (service van de tegenstander). Zonder de optie speelt de diagonaal op 4 en de R4 op 2, de hele rally. Met de optie beginnen ze zo en wisselen ze zodra de eerste aanval, de eerste vrije bal of de eerste verdediging is genoteerd: R4 op 4, diagonaal op 2. Het invoerraster en de aanvalszones volgen deze keuze. Per set in te stellen."
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -9979,7 +9999,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Novi meč za vežbu: 0-0",
   "Exercice": "Vežba",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Meč za vežbu je u toku: jedan set do 15 poena, nikad se ne čuva, nastavlja se tamo gde ste stali.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Primer tima Team Earth: ne može se menjati; sve njegove statistike su otključane. Njegov meč u toku, jedan set do 15 poena, služi za vežbu: nikad se ne čuva. Možete ga izbrisati u „Upravljaj timovima”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Primer tima Team Earth: ne može se menjati; sve njegove statistike su otključane. Njegov meč u toku, jedan set do 15 poena, služi za vežbu: nikad se ne čuva. Možete ga izbrisati u „Upravljaj timovima”.",
+  "Inversion R4 <-> Pointe en P1": "Zamena R4 <-> Korektor u P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Samo u P1 i samo na prijemu (servis protivnika). Bez opcije, korektor igra na 4, a R4 na 2 tokom celog poena. Sa opcijom počinju tako, pa se zamene čim se zabeleži prvi napad, prva slobodna lopta ili prva odbrana: R4 na 4, korektor na 2. Mreža za unos statistike i zone napada prate ovaj izbor. Podešava se za svaki set."
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -10880,7 +10902,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Нов тренировъчен мач: 0-0",
   "Exercice": "Тренировка",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Тече тренировъчен мач: един гейм до 15 точки, който никога не се записва и продължава оттам, откъдето сте спрели.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Примерен отбор Team Earth: не може да се редактира; цялата му статистика е отключена. Текущият му мач, един гейм до 15 точки, е за упражнение: никога не се записва. Можете да го изтриете в „Управление на отборите“."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Примерен отбор Team Earth: не може да се редактира; цялата му статистика е отключена. Текущият му мач, един гейм до 15 точки, е за упражнение: никога не се записва. Можете да го изтриете в „Управление на отборите“.",
+  "Inversion R4 <-> Pointe en P1": "Размяна R4 <-> Диагонал в P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Само в P1 и само при посрещане (сервис на противника). Без опцията диагоналът играе на 4, а R4 на 2 през цялото разиграване. С опцията започват така, после се разменят веднага щом се запише първата атака, първата свободна топка или първата защита: R4 на 4, диагонал на 2. Мрежата за въвеждане и зоните на атака следват този избор. Настройва се за всеки гейм."
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -11781,7 +11805,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nova vadbena tekma: 0-0",
   "Exercice": "Vadba",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Poteka vadbena tekma: en niz do 15 točk, ki se nikoli ne shrani in se nadaljuje tam, kjer ste ostali.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Vzorčna ekipa Team Earth: ni je mogoče urejati; vse njene statistike so odklenjene. Njena tekoča tekma, en niz do 15 točk, je za vadbo: nikoli se ne shrani. Izbrišete jo lahko v »Upravljaj ekipe«."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Vzorčna ekipa Team Earth: ni je mogoče urejati; vse njene statistike so odklenjene. Njena tekoča tekma, en niz do 15 točk, je za vadbo: nikoli se ne shrani. Izbrišete jo lahko v »Upravljaj ekipe«.",
+  "Inversion R4 <-> Pointe en P1": "Zamenjava R4 <-> Korektor v P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Samo v P1 in samo pri sprejemu (servis nasprotnika). Brez možnosti korektor igra na 4, R4 pa na 2 ves čas točke. Z možnostjo začneta tako, nato se zamenjata takoj, ko je zabeležen prvi napad, prva prosta žoga ali prva obramba: R4 na 4, korektor na 2. Mreža za vnos statistike in cone napada sledijo tej izbiri. Nastavi se za vsak niz."
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -12682,7 +12708,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Новий тренувальний матч: 0-0",
   "Exercice": "Тренування",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Триває тренувальний матч: одна партія до 15 очок, яка ніколи не зберігається і продовжується з того місця, де ви зупинилися.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Приклад команди Team Earth: не редагується; уся її статистика відкрита. Її поточний матч, одна партія до 15 очок, слугує для тренування: він ніколи не зберігається. Видалити її можна в «Керування командами»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Приклад команди Team Earth: не редагується; уся її статистика відкрита. Її поточний матч, одна партія до 15 очок, слугує для тренування: він ніколи не зберігається. Видалити її можна в «Керування командами».",
+  "Inversion R4 <-> Pointe en P1": "Обмін R4 <-> Діагональний у P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Лише в P1 і лише на прийомі (подача суперника). Без опції діагональний грає в 4, а R4 у 2 весь розіграш. З опцією вони починають так, а потім міняються, щойно записано першу атаку, перший вільний м'яч або перший захист: R4 у 4, діагональний у 2. Сітка введення статистики та зони атаки враховують цей вибір. Налаштовується для кожної партії."
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -13583,7 +13611,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Nový cvičný zápas: 0-0",
   "Exercice": "Cvičení",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Probíhá cvičný zápas: jeden set do 15 bodů, nikdy se neukládá a pokračuje tam, kde jste skončili.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Ukázkový tým Team Earth: nelze upravit; všechny jeho statistiky jsou odemčené. Jeho probíhající zápas, jeden set do 15 bodů, slouží ke cvičení: nikdy se neukládá. Smazat ho můžete ve „Spravovat týmy“."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Ukázkový tým Team Earth: nelze upravit; všechny jeho statistiky jsou odemčené. Jeho probíhající zápas, jeden set do 15 bodů, slouží ke cvičení: nikdy se neukládá. Smazat ho můžete ve „Spravovat týmy“.",
+  "Inversion R4 <-> Pointe en P1": "Výměna R4 <-> Univerzál v P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Jen v P1 a jen při příjmu (podání soupeře). Bez volby hraje univerzál na 4 a R4 na 2 po celou výměnu. S volbou začínají takto a vymění se, jakmile je zaznamenán první útok, první volný míč nebo první obrana: R4 na 4, univerzál na 2. Mřížka zadávání statistik a zóny útoku se řídí touto volbou. Nastavuje se pro každý set zvlášť."
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -14484,7 +14514,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "แมตช์ฝึกซ้อมใหม่: 0-0",
   "Exercice": "ฝึกซ้อม",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "มีแมตช์ฝึกซ้อมกำลังดำเนินอยู่: 1 เซต 15 คะแนน ไม่ถูกบันทึก และเล่นต่อจากจุดที่คุณหยุดไว้",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 ทีมตัวอย่าง Team Earth: แก้ไขไม่ได้ สถิติทั้งหมดของทีมเปิดให้ดู แมตช์ที่กำลังแข่งอยู่ (1 เซต 15 คะแนน) ใช้สำหรับฝึกซ้อม: ไม่ถูกบันทึก คุณลบทีมนี้ได้ใน «จัดการทีม»"
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 ทีมตัวอย่าง Team Earth: แก้ไขไม่ได้ สถิติทั้งหมดของทีมเปิดให้ดู แมตช์ที่กำลังแข่งอยู่ (1 เซต 15 คะแนน) ใช้สำหรับฝึกซ้อม: ไม่ถูกบันทึก คุณลบทีมนี้ได้ใน «จัดการทีม»",
+  "Inversion R4 <-> Pointe en P1": "สลับ R4 <-> บอลสอง (ตัวตรงข้าม) ใน P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "เฉพาะ P1 และเฉพาะตอนรับลูก (คู่แข่งเสิร์ฟ) ถ้าไม่เปิดตัวเลือก ตัวตรงข้ามเล่นที่ 4 และ R4 เล่นที่ 2 ตลอดทั้งแต้ม ถ้าเปิดตัวเลือก จะเริ่มแบบนี้แล้วสลับกันทันทีที่บันทึกการตบครั้งแรก ลูกฟรีบอลครั้งแรก หรือการรับครั้งแรก: R4 ที่ 4 ตัวตรงข้ามที่ 2 ตารางบันทึกสถิติและโซนการตบเป็นไปตามตัวเลือกนี้ ตั้งค่าแยกในแต่ละเซต"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -15385,7 +15417,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "새 연습 경기: 0-0",
   "Exercice": "연습",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "연습 경기가 진행 중입니다: 15점 1세트로, 저장되지 않으며 멈춘 곳에서 이어집니다.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 예시 팀 Team Earth: 수정할 수 없으며 모든 통계가 열려 있습니다. 진행 중인 경기(15점 1세트)는 연습용으로, 저장되지 않습니다. '팀 관리'에서 삭제할 수 있습니다."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 예시 팀 Team Earth: 수정할 수 없으며 모든 통계가 열려 있습니다. 진행 중인 경기(15점 1세트)는 연습용으로, 저장되지 않습니다. '팀 관리'에서 삭제할 수 있습니다.",
+  "Inversion R4 <-> Pointe en P1": "P1 R4 <-> 아포짓 교대",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "P1에서 리시브할 때(상대 서브)만 적용됩니다. 옵션을 끄면 랠리 내내 아포짓이 4번, R4가 2번에서 뜁니다. 옵션을 켜면 이렇게 시작한 뒤 첫 공격, 첫 프리볼 또는 첫 디그가 기록되는 즉시 교대합니다: R4가 4번, 아포짓이 2번. 기록 그리드와 공격 구역이 이 선택을 따릅니다. 세트마다 따로 설정합니다."
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -16286,7 +16320,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Bagong practice match: 0-0",
   "Exercice": "Practice",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "May practice match na nagaganap: isang set na 15 puntos, hindi kailanman sine-save, at nagpapatuloy kung saan mo ito iniwan.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Halimbawang koponan na Team Earth: hindi mae-edit; bukas ang lahat ng stats nito. Ang kasalukuyang laro nito, isang set na 15 puntos, ay pang-practice: hindi kailanman sine-save. Maaari mo itong burahin sa “Pamahalaan ang mga koponan”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Halimbawang koponan na Team Earth: hindi mae-edit; bukas ang lahat ng stats nito. Ang kasalukuyang laro nito, isang set na 15 puntos, ay pang-practice: hindi kailanman sine-save. Maaari mo itong burahin sa “Pamahalaan ang mga koponan”.",
+  "Inversion R4 <-> Pointe en P1": "Palitan ang R4 <-> Opposite sa P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Sa P1 lamang at sa pagtanggap lamang (serve ng kalaban). Kapag naka-off, ang opposite ay nasa 4 at ang R4 ay nasa 2 sa buong rally. Kapag naka-on, ganito sila magsisimula, saka magpapalit sa sandaling maitala ang unang atake, unang free ball o unang depensa: R4 sa 4, opposite sa 2. Sinusunod ng grid ng stats at ng mga attack zone ang pagpiling ito. Hiwalay na setting sa bawat set."
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -17187,7 +17223,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Pertandingan latihan baru: 0-0",
   "Exercice": "Latihan",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Pertandingan latihan sedang berlangsung: satu set 15 poin, tidak pernah disimpan, dan berlanjut dari tempat Anda berhenti.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Tim contoh Team Earth: tidak dapat diubah; semua statistiknya terbuka. Pertandingannya yang sedang berlangsung, satu set 15 poin, untuk latihan: tidak pernah disimpan. Anda dapat menghapusnya di “Kelola tim”."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Tim contoh Team Earth: tidak dapat diubah; semua statistiknya terbuka. Pertandingannya yang sedang berlangsung, satu set 15 poin, untuk latihan: tidak pernah disimpan. Anda dapat menghapusnya di “Kelola tim”.",
+  "Inversion R4 <-> Pointe en P1": "Tukar R4 <-> Opposite di P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Hanya di P1 dan hanya saat menerima (servis lawan). Tanpa opsi ini, opposite bermain di 4 dan R4 di 2 sepanjang reli. Dengan opsi ini, mereka mulai begitu lalu bertukar begitu serangan pertama, bola bebas pertama, atau bertahan pertama dicatat: R4 di 4, opposite di 2. Kisi input statistik dan zona serangan mengikuti pilihan ini. Diatur untuk setiap set."
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -18088,7 +18126,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Новый тренировочный матч: 0-0",
   "Exercice": "Тренировка",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Идёт тренировочный матч: одна партия до 15 очков, которая никогда не сохраняется и продолжается с того места, где вы остановились.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Пример команды Team Earth: не редактируется; вся её статистика открыта. Её текущий матч, одна партия до 15 очков, служит для тренировки: он никогда не сохраняется. Удалить её можно в «Управление командами»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Пример команды Team Earth: не редактируется; вся её статистика открыта. Её текущий матч, одна партия до 15 очков, служит для тренировки: он никогда не сохраняется. Удалить её можно в «Управление командами».",
+  "Inversion R4 <-> Pointe en P1": "Обмен R4 <-> Диагональный в P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Только в P1 и только на приёме (подача соперника). Без опции диагональный играет в 4, а R4 во 2 весь розыгрыш. С опцией они начинают так, а затем меняются, как только записана первая атака, первый свободный мяч или первая защита: R4 в 4, диагональный во 2. Сетка ввода статистики и зоны атаки следуют этому выбору. Настраивается для каждой партии."
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -18989,7 +19029,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "مباراة تدريبية جديدة: 0-0",
   "Exercice": "تدريب",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "مباراة تدريبية جارية: شوط واحد من 15 نقطة، لا يُحفظ أبدًا، ويُستأنف من حيث توقفت.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 فريق المثال Team Earth: غير قابل للتعديل؛ كل إحصاءاته مفتوحة. مباراته الجارية، شوط واحد من 15 نقطة، للتدريب: لا تُحفظ أبدًا. يمكنك حذفه من «إدارة الفرق»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 فريق المثال Team Earth: غير قابل للتعديل؛ كل إحصاءاته مفتوحة. مباراته الجارية، شوط واحد من 15 نقطة، للتدريب: لا تُحفظ أبدًا. يمكنك حذفه من «إدارة الفرق».",
+  "Inversion R4 <-> Pointe en P1": "تبديل R4 <-> الضارب المقابل في P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "في P1 فقط وعند الاستقبال فقط (إرسال المنافس). بدون الخيار، يلعب الضارب المقابل في 4 والـR4 في 2 طوال النقطة. مع الخيار، يبدآن هكذا ثم يتبادلان فور تسجيل أول هجوم أو أول كرة حرة أو أول دفاع: R4 في 4 والضارب المقابل في 2. تتبع شبكة إدخال الإحصاءات ومناطق الهجوم هذا الاختيار. يُضبط لكل شوط على حدة."
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -19890,7 +19932,9 @@ const I18N = {
   "Nouveau match d’exercice : 0-0": "Trận tập mới: 0-0",
   "Exercice": "Tập luyện",
   "Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé.": "Một trận tập đang diễn ra: một set 15 điểm, không bao giờ được lưu, và tiếp tục từ chỗ bạn dừng lại.",
-  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Đội mẫu Team Earth: không thể chỉnh sửa; mọi thống kê của đội đều mở. Trận đang diễn ra của đội, một set 15 điểm, dùng để tập: không bao giờ được lưu. Bạn có thể xóa đội trong «Quản lý đội»."
+  "🔒 Équipe d'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d'exercice : il n'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».": "🔒 Đội mẫu Team Earth: không thể chỉnh sửa; mọi thống kê của đội đều mở. Trận đang diễn ra của đội, một set 15 điểm, dùng để tập: không bao giờ được lưu. Bạn có thể xóa đội trong «Quản lý đội».",
+  "Inversion R4 <-> Pointe en P1": "Đổi R4 <-> Đối chuyền ở P1",
+  "En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set.": "Chỉ ở P1 và chỉ khi đỡ bước một (đối phương giao bóng). Khi tắt, đối chuyền chơi ở 4 và R4 ở 2 suốt pha bóng. Khi bật, họ bắt đầu như vậy rồi đổi chỗ ngay khi ghi nhận pha tấn công đầu tiên, bóng trả sang đầu tiên hoặc pha phòng thủ đầu tiên: R4 ở 4, đối chuyền ở 2. Lưới nhập thống kê và vùng tấn công theo lựa chọn này. Cài đặt riêng cho từng set."
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue

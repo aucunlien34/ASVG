@@ -36,7 +36,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 body.mmode{--bg:#E6EFE8}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body.mmode{--bg:#0B1915}}
 :root[data-theme="dark"] body.mmode{--bg:#0B1915}
-body.mmode::before{content:"";position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:5px;background:var(--pa);z-index:50;pointer-events:none}
+
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.4;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:3px solid var(--c);outline-offset:2px}
@@ -369,6 +369,7 @@ tr.tot td{font-weight:700;background:var(--surface2)}
 #tmr.tofloat{position:sticky;top:calc(6px + env(safe-area-inset-top,0px));z-index:12;margin:0 0 10px;box-shadow:0 6px 18px rgba(8,14,24,.18)}
 #tmr .tback{margin-left:auto;white-space:nowrap}
 .fmtg{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.fmtg .fl{min-width:150px;font-weight:700}.fmtg .seg{flex:1;max-width:340px;display:flex}.fmtg .seg button{flex:1}
+.fmtg.fori{max-width:500px}.fmtg.fori .icon{margin-left:auto}
 .upd{position:sticky;top:calc(4px + env(safe-area-inset-top,0px));z-index:14;display:flex;align-items:center;gap:10px;justify-content:space-between;background:#14243D;color:#fff;border-radius:12px;padding:8px 8px 8px 14px;margin:0 0 10px;font-weight:700}
 .gseg{display:flex}.gseg button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px}.gdot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none}
 .slist .sline{border-left:5px solid var(--gc,var(--line))}.slist .sline.on{border-left:5px solid var(--gc,var(--line))}.card.seasonc{border-left:5px solid var(--gc,var(--line))}
@@ -621,7 +622,8 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .chk.sw input:checked{background:var(--pos)}.chk.sw input:checked::before{transform:translateX(18px)}
 .chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
 /* service à noter : le reste de la grille est grisé (toujours touchable), un cadre jaune entoure le service */
-.srvfocus{position:relative}.srvfocus .ek:not([data-k=srv]),.srvfocus .eb:not([data-act=stUndo]),.srvfocus .eh:not(.srvh),.srvfocus .stb:not([data-k=srv]):not([data-act=stUndo]),.srvfocus .stc:not(.srvh),.srvfocus .stl{opacity:.32;filter:grayscale(.6)}
+.srvfocus{position:relative}
+.ek.dim,.stb.dim{opacity:.32;filter:grayscale(.6)}.srvfocus .ek:not([data-k=srv]),.srvfocus .eb:not([data-act=stUndo]),.srvfocus .eh:not(.srvh),.srvfocus .stb:not([data-k=srv]):not([data-act=stUndo]),.srvfocus .stc:not(.srvh),.srvfocus .stl{opacity:.32;filter:grayscale(.6)}
 .srvframe{position:absolute;border:4px solid var(--pa);border-radius:16px;pointer-events:none;box-shadow:0 0 14px 2px rgba(242,190,34,.55);z-index:2}
 .sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;align-items:center;column-gap:4px;row-gap:3px}.sact.sfull i{font-style:normal;color:var(--muted)}
 .sted{font-weight:800}.sch{font:inherit;font-size:14px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:3px 8px;min-height:30px;text-align:left;cursor:pointer}.sch.sted{border-color:var(--pa);border-width:2px;padding:2px 7px}
@@ -678,7 +680,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V163';
+const APP_VERSION='V164';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -795,12 +797,12 @@ function assign(ids,roles,prefs,slots){
 // LIBPOS : poste de défense de libéro (5 par défaut, ou 6) ; la centre arrière suit libéro, la R4 arrière prend l'autre poste
 let LIBPOS=5;
 // Grille de saisie des stats (5-1) : passeur toujours en base arrière (poste 1), pointue au filet ;
-// devant : R4 en 4, centre en 3, pointue en 2 — sauf en P1 : pointue en 4, R4 en 2. Aucun effet sur le terrain.
-function statGrid(S,eff){const R=S.roles,on=[1,2,3,4,5,6].map(z=>eff[z]).filter(Boolean);
+// devant : R4 en 4, centre en 3, pointue en 2 — sauf en réception P1 (inv, voir p1Inv) : pointue en 4, R4 en 2. Aucun effet sur le terrain.
+function statGrid(S,eff,inv){const R=S.roles,on=[1,2,3,4,5,6].map(z=>eff[z]).filter(Boolean);
   const pa=on.find(id=>R[id]==='Pa'),pu=on.find(id=>R[id]==='Pu');if(!pa||!pu||on.filter(id=>R[id]==='Pa').length>1)return null;
   let F=[eff[2],eff[3],eff[4]].filter(Boolean),B=[eff[5],eff[6],eff[1]].filter(Boolean);
   if(F.includes(pa)){F=F.filter(id=>id!==pa);if(B.includes(pu)){B=B.filter(id=>id!==pu);F.push(pu);}B.push(pa);}
-  const p1=setterZone(S.zones,R)===1,out={1:pa},take=(L,f)=>{const i=L.findIndex(f);return i<0?null:L.splice(i,1)[0];};
+  const p1=!!inv,out={1:pa},take=(L,f)=>{const i=L.findIndex(f);return i<0?null:L.splice(i,1)[0];};
   const fr=F.slice(),put=(z,id)=>{if(id)out[z]=id;};
   const fpu=take(fr,id=>id===pu),fc=take(fr,id=>R[id]==='C'),fr4=take(fr,id=>R[id]==='R4');
   if(p1){put(4,fpu);put(3,fc);put(2,fr4);}else{put(4,fr4);put(3,fc);put(2,fpu);}
@@ -813,6 +815,9 @@ function layoutPlay(eff,roles){const BP=LIBPOS===6?Object.assign({},BACK_P,{C:[6
   return Object.assign({},assign([eff[2],eff[3],eff[4]],roles,FRONT_P,[4,3,2]),assign([eff[1],eff[6],eff[5]],roles,BP,[5,6,1]));
 }
 function setterZone(zones,roles){for(let z=1;z<=6;z++)if(zones[z]&&roles[zones[z]]==='Pa')return z;return null;}
+// Réception en P1 : la pointe joue en 4 et la R4 en 2 ; avec l'option du set « Inversion R4 <-> Pointe en P1 » (S.p1x), elles s'échangent
+// (R4 en 4, pointe en 2) dès la première attaque, le premier renvoi sans attaque ou la première défense notés (prev : stats déjà notées)
+function p1Inv(S,srv,prev){return !srv&&!!S.zones&&!is42(S.zones,S.roles)&&setterZone(S.zones,S.roles)===1&&!(S.p1x&&(prev||[]).some(x=>x[0]==='att'||x[0]==='rel'||x[0]==='def'));}
 
 function checkSub(set,o,i){
   const w=[];
@@ -1057,7 +1062,7 @@ function replay0(m){
       if(S.phase==='play'||S.phase==='over')continue;
       const z=[null].concat(ev.z);
       S.sets.push({g:0,a:0,lineup:z.slice(),srv:ev.s,lib:ev.l||null,subs:0,pairs:{},subOf:{},to:{G:0,A:0},rallies:0,winner:null,oppFault:0});
-      S.zones=z;S.serving=ev.s;S.lib=ev.l||null;S.phase='play';
+      S.zones=z;S.serving=ev.s;S.lib=ev.l||null;S.p1x=!!ev.x;S.phase='play';
     } else if(ev.t==='role'){S.roles[ev.p]=ev.r;}
     else if(ev.t==='lib'){S.lib=ev.p||null;S.libNext=ev.next||null;S.libNextAt=set?set.rallies:0;}
     else if(!set||S.phase!=='play'){continue;}
@@ -1081,12 +1086,12 @@ function replay0(m){
       if((ev.st||[]).some(x=>x[0]==='def'&&x[2])){const dm=is42(S.zones,S.roles)?null:layoutPlay(eff,pr);
         ev.st.forEach(([k,sg,pid])=>{if(k!=='def'||!pid)return;const z=dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);if(S.defZ[z])S.defZ[z][sg>0?'P':'M']++;});}
       // Répartition par poste et par set : attaque (4, 3, 2 ; 1 = pointe arrière), réception et défense (5, 6, 1).
-      // Attaque : poste après permutation, sauf en réception P1 où la pointe attaque en 4 et la R4 en 2 (pas de permutation).
+      // Attaque : poste après permutation, sauf en réception P1 où la pointe attaque en 4 et la R4 en 2 (pas de permutation, voir p1Inv).
       if(ev.st&&ev.st.some(x=>x[2])){
         const q42=is42(S.zones,S.roles),dm=q42?null:layoutPlay(eff,pr),slot=pid=>dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);
-        const p1rec=!lp.srv&&!q42&&setterZone(S.zones,S.roles)===1,Zs=S.zst[si]||(S.zst[si]={att:{},rec:{},def:{}});
-        ev.st.forEach(([k,sg,pid])=>{if(!pid||!Zs[k])return;
-          const z=k==='att'?(p1rec?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
+        const Zs=S.zst[si]||(S.zst[si]={att:{},rec:{},def:{}});
+        ev.st.forEach(([k,sg,pid],j)=>{if(!pid||!Zs[k])return;
+          const z=k==='att'?(p1Inv(S,lp.srv,ev.st.slice(0,j))?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
           const key=[1,2,3,4,5,6].includes(z)?z:'x',c=Zs[k][key]||(Zs[k][key]={M:0,P:0,N:0});c[sg>0?'P':sg<0?'M':'N']++;
           if(k==='att'&&key!=='x'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),k2='az'+key+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}});
       }
@@ -1094,12 +1099,12 @@ function replay0(m){
       // attaque sans passe = passe neutre ; passe sans attaque = comptée sans poste. Note : − = 0, = = 1, + = 2.
       if(ev.st&&ev.st.some(x=>x[0]==='att'||x[0]==='pas')){
         const q42=is42(S.zones,S.roles),dm=q42?null:layoutPlay(eff,pr),slot=pid=>dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);
-        const p1rec=!lp.srv&&!q42&&setterZone(S.zones,S.roles)===1,sid0=setterOn(S)||'_eq';
+        const sid0=setterOn(S)||'_eq';
         let ft=0;const pas=[];ev.st.forEach(x=>{if(x[0]==='rec'||x[0]==='def')ft=x[1];else if(x[0]==='pas'){pas.push([x[0],x[1],x[2],ft]);ft=0;}});
         const atts=ev.st.filter(x=>x[0]==='att'&&x[2]);
         const add=(sid,z,q,f,ar)=>{const P=S.pst[si]||(S.pst[si]={}),o=P[sid]||(P[sid]={}),c=o[z]||(o[z]={n:0,s:0,M:0,N:0,P:0,w:0,as:0,an:0});c.n++;c.s+=q+1;if(q<0)c.M++;else if(q>0)c.P++;else c.N++;
           if(ar!=null){c.as=(c.as||0)+ar+1;c.an=(c.an||0)+1;}};
-        atts.forEach((a,i)=>{const pp=pas[i],z=p1rec?eff.indexOf(a[2]):slot(a[2]),sid=(pp&&pp[2])||sid0,isL=S.roles[a[2]]==='L';
+        atts.forEach((a,i)=>{const pp=pas[i],z=p1Inv(S,lp.srv,ev.st.slice(0,ev.st.indexOf(a)))?eff.indexOf(a[2]):slot(a[2]),sid=(pp&&pp[2])||sid0,isL=S.roles[a[2]]==='L';
           // libéro : la passe compte, mais ni la zone ni le circuit (zones et circuits favorables / défavorables)
           if(isL){add(sid,'x',pp?pp[1]:0,pp?pp[3]:0);return;}
           add(sid,[1,2,3,4,5,6].includes(z)?z:'x',pp?pp[1]:0,pp?pp[3]:0,a[1]);
@@ -1385,7 +1390,7 @@ function endSound(){
       g.gain.setValueAtTime(.0001,st);g.gain.exponentialRampToValueAtTime(.18,st+.02);g.gain.exponentialRampToValueAtTime(.0001,st+du);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+du+.02);});
   }catch(e){}
 }
-function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='to')stopTimer();if(ev.t==='pt')m.pend=[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null};}render();}
+function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='to')stopTimer();if(ev.t==='pt')m.pend=[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null,p1x:!!ev.x};}render();}
 function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m);const ev=m.redo.pop();m.ev.push(ev);if(ev.t==='pt')m.pend=[];const after=replay(m);save();toast('Rétabli : '+evLabel(m,ev));if(ev.t==='set'){ui.screen=null;}notify(m,before,after);render();}
 
 /* ============ ICÔNES ============ */
@@ -1851,7 +1856,7 @@ function lineupHTML(m,S){
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     ${(()=>{const F=fmt(m),lock=S.sets.length>0,b=(k,v,l)=>`<button class="${F[k]===v?'on':''}" data-act="fmtSet" data-k="${k}" data-v="${v}" ${lock?'disabled':''}>${l}</button>`;
       return `<h2>Orientation du terrain</h2>
-      <div class="fmtg"><span class="fl">${ORIENT_LAB[dispOrient()]}</span><button class="btn" data-act="flip" aria-label="Tourner le terrain d'un quart de tour">${IC.flip} Tourner le terrain</button></div>
+      <div class="fmtg fori"><span class="fl">${ORIENT_LAB[dispOrient()]}</span><button class="icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button></div>
       <p class="hint xp">Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas.</p>
       <h2>Format du match</h2>
       <div class="fmtg"><span class="fl">Sets gagnants</span><div class="seg">${b('win',1,'1')}${b('win',2,'2')}${b('win',3,'3')}</div></div>
@@ -1867,6 +1872,7 @@ function lineupHTML(m,S){
     ${libs.length?'':'<p class="hint">Personne au poste de libéro (L). Changez un poste pour en ajouter.</p>'}
     ${d.lib?`<h2>Libéro en défense</h2><div class="seg"><button class="${(m.libPos||5)===5?'on':''}" data-act="libPos" data-v="5">Poste 5</button><button class="${m.libPos===6?'on':''}" data-act="libPos" data-v="6">Poste 6</button></div>
       <p class="hint xp">Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.</p>`:''}
+    ${is42(d.zones,S.roles)?'':`<h2>Inversion R4 &lt;-> Pointe en P1 ${tipB('p1x')}</h2><div class="seg"><button class="${d.p1x?'':'on'}" data-act="draftP1x" data-v="0">Non</button><button class="${d.p1x?'on':''}" data-act="draftP1x" data-v="1">Oui</button></div>`}
     ${complete?(()=>{const w=draftIssues();return w.length?`<div class="warnbox">${w.map(esc).join('<br>')}</div>`:'';})():''}
     ${complete?`<h2>Positions ${d.srv==='G'?'au service':'en réception'} ${pz?'— P'+pz:''}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,lib:d.lib,serving:d.srv,small:true})}`:''}
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>Commencer le set ${n}</button></div>`;
@@ -1903,7 +1909,7 @@ function statPanel(m,S){
   // Bouton de stat : − / = / + ; dans la colonne Attaque, le « = » est remplacé par « Relance » (ballon renvoyé sans attaque)
   const op=openPass(st);
   const btn=(k,sg,i)=>{const kk=k,dis=kk==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===kk&&ui.stPick.s===sg)||((kk==='srv'||kk==='rec')&&st.some(x=>x[0]===kk&&x[1]===sg))||(kk==='pas'&&op>=0&&st[op][1]===sg);
-    return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
+    return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='pas'&&op>=0&&st[op][1]!==sg?'dim':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   return `<div class="stp"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
     ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
@@ -1913,9 +1919,9 @@ function statPanel(m,S){
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
       let recAbs=null;
       if(ui.stPick.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
-      if(dm&&ui.stPick.k!=='rec'){const g=statGrid(S,eff);if(g)dm=g;}
+      if(dm&&ui.stPick.k!=='rec'){const g=statGrid(S,eff,p1Inv(S,S.serving==='G',st));if(g)dm=g;}
       const blkPick=ui.stPick.k==='blk';
-      if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=setterZone(S.zones,S.roles)===1,bd={};
+      if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=p1Inv(S,S.serving==='G',st),bd={};
         const c=F.find(id=>R[id]==='C'),r4=F.find(id=>R[id]==='R4'),pp=F.find(id=>R[id]==='Pa'||R[id]==='Pu'),rest=F.filter(id=>![c,r4,pp].includes(id));
         if(c)bd[3]=c;if(p1){if(r4)bd[2]=r4;if(pp)bd[4]=pp;}else{if(r4)bd[4]=r4;if(pp)bd[2]=pp;}
         [4,3,2].forEach(z=>{if(!bd[z]&&rest.length)bd[z]=rest.shift();});dm=bd;}
@@ -1932,7 +1938,7 @@ function statPanel(m,S){
       // Mode stats faciles : grille fixe 3 × 3 ; la colonne passe / service est attribuée automatiquement (nom affiché)
       const auto=k=>k==='srv'?lp.srv:k==='pas'?sid:null;
       const on=(k,sg)=>((k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg))||(k==='pas'&&op>=0&&st[op][1]===sg)||(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg);
-      const eb=(k,sg)=>{const a=auto(k);return `<button class="ek ${stCls(sg)} ${a||k==='srv'||k==='pas'?'au':''} ${on(k,sg)?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}"><span class="es">${stSym(sg)}</span><span class="el">${stLab(k,sg)}</span>${(k==='srv'||k==='pas')&&a?`<span class="enm">${esc(pnum(m,a)+' '+dname(m,a))}</span>`:''}</button>`;};
+      const eb=(k,sg)=>{const a=auto(k);return `<button class="ek ${stCls(sg)} ${a||k==='srv'||k==='pas'?'au':''} ${on(k,sg)?'on':''} ${k==='pas'&&op>=0&&st[op][1]!==sg?'dim':''}" data-act="stCat" data-k="${k}" data-s="${sg}"><span class="es">${stSym(sg)}</span><span class="el">${stLab(k,sg)}</span>${(k==='srv'||k==='pas')&&a?`<span class="enm">${esc(pnum(m,a)+' '+dname(m,a))}</span>`:''}</button>`;};
       return `<div class="egrid ${c1==='srv'?'srvfocus':''}" style="grid-template-columns:repeat(${cats.length},minmax(0,1fr))">${cats.map(k=>`<span class="eh ${k==='srv'||k==='pas'?'au':''} ${k==='srv'?'srvh':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cats.map(k=>eb(k,sg)).join('')).join('')}
         <button class="eb" data-act="stUndo" ${st.length||lastPt?'':'disabled'}>↶ Annuler<br>dernière stat</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
     :(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
@@ -2573,6 +2579,7 @@ function cardProgHTML(m,S,id){if(!proFor(m))return '';if(m.season?teamArch().len
   return rows?`<div class="cprog"><div class="cpt">Progression ${P.per==='set'?'par set':'par match'}</div>${rows}</div>`:'';}
 // Info-bulles des statistiques : la logique, sans le détail des calculs
 const TIPS={
+ p1x:['Inversion R4 <-> Pointe en P1',"En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set."],
  eff:['Efficacité',"Chaque action est notée − (faute), = (neutre) ou + (réussie). L'efficacité dit à quel point les actions sont réussies : 100 % si tout est +, 50 % si tout est neutre, 0 % si tout est faute."],
  srv:['Service',"+ : service qui met l'adversaire en difficulté ou fait le point. = : service en jeu, facile à recevoir. − : service raté."],
  rec:['Réception',"+ : réception parfaite, la passe a toutes les options. = : jouable mais limitée. − : réception ratée ou injouable."],
@@ -3361,12 +3368,13 @@ const A={
   pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();placeCheck(z);},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
   draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
+  draftP1x(d){ui.draft.p1x=d.v==='1';},
   startGo(){ui.alert=null;ui.alertMode=null;ui.swapRC=null;return A.startSet({},true);},
   startSet(_d,force){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;
     if(!force){const w=draftIssues();if(w.length){const S0=replay(store.cur),sw=rcSwaps(d.zones,S0.roles);
       const swIds=sw.flat().map(z=>d.zones[z]),w2=w.filter(x=>!(String(x.key||'').startsWith('P:')&&swIds.includes(String(x.key).split(':')[1])));
       ui.alert=(sw.length?[`Ordre de rotation inversé : les R4 et les centres sont échangés par rapport au PDF de rotation (passe, R4, centre, pointe, R4, centre). Les oppositions sont bonnes, mais l’ordre de rotation n’est pas respecté.`]:[]).concat(w2.map(String));
-      ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib});if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}${(store.prefs.orient||0)%2?', filet '+(dispOrient()===1?'à droite':'à gauche'):''}`);return 1;},
+      ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib,x:d.p1x?1:undefined});if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}${(store.prefs.orient||0)%2?', filet '+(dispOrient()===1?'à droite':'à gauche'):''}`);return 1;},
   pres(d){const m=store.cur,S=replay(m);const on=!m.present[d.id];
     if(!on&&S.phase==='play'&&(S.zones.includes(d.id)||d.id===S.lib)){toast('Déjà sur le terrain ou libéro en jeu : faites d\'abord un changement','warn');return;}
     const before=Object.assign({},m.present);
