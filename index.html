@@ -402,8 +402,8 @@ body.easy.phstats .stgrid .stb .lgl,body.easy.phstats .stgrid .stb .shl{font-siz
 body.easy.phstats .stgrid .stc,body.easy.phstats .stgrid .stl{font-size:17px}
 body.easy.phstats .pickc{gap:12px}body.easy.phstats .pickc .bchip{min-height:76px;font-size:19px}body.easy.phstats .pickc .bchip .num{width:42px;height:42px;font-size:20px}
 body.easy.phstats .dock .undo .btn{min-height:58px}
-body.easy.phstats #app .dock{display:flex;flex-direction:column}body.easy.phstats .dock .dtog{order:-2;min-height:clamp(60px,7vh,90px);font-size:clamp(20px,2.6vh,30px)}
-@media (min-width:700px){body.easy.phstats .dock .score .tside{min-height:110px}body.easy.phstats .dock .score .big{font-size:72px}body.easy.phstats .dock .score .tn{font-size:24px}}body.easy.phstats .dock .score{order:-1}
+body.easy.phstats #app .dock{display:flex;flex-direction:column}body.easy.phstats .dock .dtog{order:-1;min-height:clamp(60px,7vh,90px);font-size:clamp(20px,2.6vh,30px)}
+@media (min-width:700px){body.easy.phstats .dock .score .tside{min-height:110px}body.easy.phstats .dock .score .big{font-size:72px}body.easy.phstats .dock .score .tn{font-size:24px}}body.easy.phstats .dock .score{order:-2}
 body.easy.phstats .dock .stp .sth{display:none}
 .egrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 8px}
 .egrid .eh{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.8vh,34px);padding:6px 0;border-radius:10px;background:var(--surface)}
@@ -438,7 +438,7 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{max-hei
 body.easy.phstats .dock .dtog{flex:none;min-height:clamp(44px,6vh,80px)}body.easy.phstats .dock .score{flex:none}
 body.easy.phstats .dock .undo{flex:none}
 @media (orientation:landscape) and (max-height:520px){body.easy.phstats #app .dock{display:grid!important;grid-template-columns:minmax(0,34%) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);column-gap:10px}
-  body.easy.phstats #app .dock>.dtog{grid-column:1;grid-row:1}body.easy.phstats #app .dock>.score{grid-column:1;grid-row:2}body.easy.phstats #app .dock>.undo{grid-column:1;grid-row:3;align-self:end;display:flex;flex-direction:column;gap:6px}
+  body.easy.phstats #app .dock>.dtog{grid-column:1;grid-row:2}body.easy.phstats #app .dock>.score{grid-column:1;grid-row:1}body.easy.phstats #app .dock>.undo{grid-column:1;grid-row:3;align-self:end;display:flex;flex-direction:column;gap:6px}
   body.easy.phstats #app .dock>.stp{grid-column:2;grid-row:1/4;height:100%}body.easy.phstats #app .dock>*:not(.dtog):not(.score):not(.undo):not(.stp){grid-column:1}
   body.easy.phstats .dock .dtog{min-height:34px!important;font-size:15px!important;margin-bottom:4px}
   body.easy.phstats #app .dock>.score{display:flex!important;flex-direction:column;gap:6px}body.easy.phstats #app .dock>.score>:not(.tside){display:none}body.easy.phstats .dock .score .tside{min-height:46px!important}body.easy.phstats .dock .score .big{font-size:30px!important}
@@ -526,7 +526,10 @@ body.easy.phstats .dock .undo{flex:none}
 .vad{margin:6px 0 10px}.vad summary b{font-size:14px;color:var(--muted)}
 .rkt tr.rkh th{font-size:11px;font-weight:600;color:var(--muted);text-align:left;padding:0 4px 4px;border-bottom:1px solid var(--line)}.rkt tr.rkh th:last-child{text-align:right;white-space:nowrap}
 /* sous-menu des stats (Joueurs, Zones, Classements, Résumé / Progression) : reste visible en haut pendant le défilement */
-.vtabs{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}
+.vtw{position:sticky;top:0;z-index:12;background:var(--bg);padding-top:env(safe-area-inset-top,0px);box-shadow:0 6px 8px -8px rgba(0,0,0,.35)}.vtw .vtabs{margin-top:0}
+.vtw .vtmore{position:absolute;bottom:2px;top:calc(env(safe-area-inset-top,0px) + 2px);right:0;width:26px;display:flex;align-items:center;justify-content:center;font:800 20px/1 Barlow,sans-serif;color:var(--muted);background:linear-gradient(90deg,transparent,var(--bg) 55%);pointer-events:none}.vtw .vtmore.l{left:0;right:auto;background:linear-gradient(270deg,transparent,var(--bg) 55%)}
+/* en-têtes flottants des onglets Équipe et Saisons : on sait toujours quelle équipe (et quelle saison) on regarde */
+.stk{position:sticky;top:env(safe-area-inset-top,0px);z-index:12;box-shadow:0 6px 10px -8px rgba(0,0,0,.35)}
 body.easy .ptn,body.easy .dtog .cnt{display:none!important}
 body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display:none!important}
 .vat tr.vah td{font-weight:700;color:var(--muted);font-size:12px;text-align:left;padding-top:8px;border-bottom:0}
@@ -617,6 +620,9 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .chk.sw input::before{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
 .chk.sw input:checked{background:var(--pos)}.chk.sw input:checked::before{transform:translateX(18px)}
 .chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
+/* service à noter : le reste de la grille est grisé (toujours touchable), un cadre jaune entoure le service */
+.srvfocus{position:relative}.srvfocus .ek:not([data-k=srv]),.srvfocus .eb:not([data-act=stUndo]),.srvfocus .eh:not(.srvh),.srvfocus .stb:not([data-k=srv]):not([data-act=stUndo]),.srvfocus .stc:not(.srvh),.srvfocus .stl{opacity:.32;filter:grayscale(.6)}
+.srvframe{position:absolute;border:4px solid var(--pa);border-radius:16px;pointer-events:none;box-shadow:0 0 14px 2px rgba(242,190,34,.55);z-index:2}
 .sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;align-items:center;column-gap:4px;row-gap:3px}.sact.sfull i{font-style:normal;color:var(--muted)}
 .sted{font-weight:800}.sch{font:inherit;font-size:14px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:3px 8px;min-height:30px;text-align:left;cursor:pointer}.sch.sted{border-color:var(--pa);border-width:2px;padding:2px 7px}
 .sch.sadd{min-width:30px;text-align:center;color:var(--muted);font-weight:800;border-style:dashed}
@@ -672,7 +678,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V162';
+const APP_VERSION='V163';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1175,12 +1181,13 @@ function rosterSim(A,B){const a=new Set(A.map(normName).filter(Boolean)),b=new S
 // Équipes et saisons intégrées à l'application
 const SEED_TEAMS=[{id:'t-earth',name:'Team Earth',gender:'X',locked:true,roster:[{"id":"e1","n":1,"nom":"S.","pre":"DARIA","postes":["Pa"]},{"id":"e2","n":2,"nom":"V.","pre":"MELISSA","postes":["Pu"]},{"id":"e3","n":3,"nom":"G.","pre":"BOJANA","postes":["R4"]},{"id":"e4","n":4,"nom":"A.","pre":"EKATERINA","postes":["R4"]},{"id":"e5","n":5,"nom":"K.","pre":"JÚLIA","postes":["C"]},{"id":"e6","n":6,"nom":"G.","pre":"ZEHRA","postes":["C"]},{"id":"e7","n":7,"nom":"G.","pre":"JULIETTE","postes":["L"]},{"id":"e8","n":8,"nom":"B.","pre":"ANTOINE","postes":["Pa"]},{"id":"e9","n":9,"nom":"N.","pre":"ALEKSANDAR","postes":["Pu"]},{"id":"e10","n":10,"nom":"F.","pre":"TOMASZ","postes":["R4"]},{"id":"e11","n":11,"nom":"H.","pre":"MATHIS","postes":["R4"]},{"id":"e12","n":12,"nom":"H.","pre":"JACKSON","postes":["C"]},{"id":"e13","n":13,"nom":"K.","pre":"JAKUB","postes":["C"]},{"id":"e14","n":14,"nom":"M.","pre":"FRANCO","postes":["L"]}]}];
 // Match d'exercice en cours de Team Earth (voir demoCur)
-const DEMO_CUR={base:'seed-sl-04',id:'demo-tb',opp:'Team Pluto',num:'J9',date:'2026-07-24'};
+const DEMO_CUR={base:'seed-sl-04',id:'demo-15',opp:'Team Pluto',num:'Exercice',date:'2026-07-24'};
 const SEED_SEASONS=[{team:'t-earth',id:'s-earth-wl',name:'Solar League',closed:true,level:'N',calib:true}];
 function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.seedTeams||[];s.seedSeasons=s.seedSeasons||[];
   (s.teams||[]).forEach(t=>{if(!t.gender)t.gender='F';});
   s.prefs=s.prefs||{};if(!s.prefs.trialStart){s.prefs.trialStart=today(); // essai Pro de 14 jours à la première ouverture
-    if(s.prefs.easy===undefined&&typeof matchMedia==='function')s.prefs.easy=matchMedia('(max-width:599px)').matches;} // première installation sur téléphone : mode stats faciles
+    if(s.prefs.easy===undefined&&typeof matchMedia==='function')s.prefs.easy=matchMedia('(max-width:599px)').matches;
+    if(s.prefs.autoMatch===undefined)s.prefs.autoMatch=true;if(s.prefs.autoSeason===undefined)s.prefs.autoSeason=true;} // sauvegardes automatiques par défaut // première installation sur téléphone : mode stats faciles
   // ancienne équipe d'exemple (V117) : remplacée par Team Earth
   if((s.teams||[]).some(t=>t.id==='t-vnl')){s.teams=s.teams.filter(t=>t.id!=='t-vnl');s.arch=(s.arch||[]).filter(a=>a.teamId!=='t-vnl');
     if(!s.teams.some(t=>t.id===s.teamId)){s.teamId=s.teams[0].id;s.roster=s.teams[0].roster;if(s.cur&&s.cur.teamId==='t-vnl'){s.cur=newMatch(null,s.roster);s.cur.team=s.teams[0].name;s.cur.teamId=s.teamId;}}}
@@ -1192,7 +1199,7 @@ function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.s
   SEED_MATCHES.forEach(mm=>{if(s.seeds.includes(mm.id))return;s.seeds.push(mm.id);if(mm.teamId==='t-earth'&&!(s.teams||[]).some(t=>t.id==='t-earth'))return;if(!s.arch.some(a=>a.id===mm.id||(a.opp===mm.opp&&a.date===mm.date&&a.num===mm.num))){const c=clone(mm);c.teamId=c.teamId||(s.teams&&s.teams[0].id)||'t1';s.arch.push(c);}});
   {const te=(s.teams||[]).find(t=>t.id==='t-earth');if(te&&te.seasons)te.seasons.forEach(x=>{x.level='N';if(x.id==='s-earth-wl'){x.name='Solar League';x.calib=true;}});} // Team Earth : niveau avancé, attentes calibrées sur la Solar League
   {const ids=new Set(SEED_MATCHES.filter(m=>m.teamId==='t-earth').map(m=>m.id)),seen=new Set();s.arch=s.arch.filter(a=>a.teamId!=='t-earth'||(ids.has(a.id)&&!seen.has(a.id)&&seen.add(a.id)));}
-  if(s.teamId==='t-earth'&&(!s.cur||s.cur.id!==DEMO_CUR.id)){const d=demoCur();if(d)s.cur=d;}
+  if(s.teamId==='t-earth'&&(!s.cur||s.cur.id!==DEMO_CUR.id)){const d=demoCur(s);if(d)s.cur=d;}
   s.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));return s;}
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cur&&Array.isArray(s.cur.ev)){s.arch=s.arch||[];s.prefs=Object.assign({flip:false,sound:true,view:'jeu',orient:0},s.prefs);if(s.prefs.flip&&s.prefs.orient===0){s.prefs.orient=2;s.prefs.flip=false;}s.cur.redo=s.cur.redo||[];s.roster=s.roster||clone(ROSTER);if(!s.cur.roster)s.cur.roster=clone(s.roster);return addSeeds(migrateTeams(s));}}catch(e){}
@@ -1467,7 +1474,7 @@ function courtHTML(m,o){
   } else {
     const {eff,libFor,out}=playCoords(o.zones,o.roles,o.lib,o.serving);
     for(let z=1;z<=6;z++){const id=eff[z];if(!id||!out[id])continue;const isLib=id===o.lib&&libFor;
-      const srv=o.serving==='G'&&z===1;t+=tokenHTML(m,id,o.roles[id],srv?SERVE:out[id],{act:o.act||'none',flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
+      const srv=o.serving==='G'&&z===1&&!o.srvDone;t+=tokenHTML(m,id,o.roles[id],srv?SERVE:out[id],{act:o.act||'none',flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
   }
   return `<div class="courtwrap o${or} ${or%2?'side':''}"><div class="court o${or} ${or%2?'side':''} ${o.small?'small':''}" ${o.main?'id="mainCourt"':''}><div class="net"></div><div class="attack"></div><span class="netlbl">FILET</span>${t}</div></div>`;
 }
@@ -1528,22 +1535,23 @@ const TUTO=[
  // Chapitre 1, lancé à la première ouverture : seulement la navigation entre les écrans. Les autres chapitres se lancent un par un depuis Réglages › Aide.
  {t:'Découverte de l’appli',s:[
   {txt:"VolleyCoach vous accompagne sur le banc : rotations, score et statistiques, point par point.\n\nPetit tour des écrans, avec l'équipe fictive Team Earth. Touchez « Suivant », ou les éléments entourés en jaune.",init:()=>tPlay(),go:()=>tPlay()},
+  {sel:'.vnav .cbar,.vnav .crail',txt:"La barre vous emmène partout, dans cet ordre : Équipe, Terrain, Stats, Saisons, Réglages. Elle est toujours là."},
+  {act:1,sel:TAB('team'),txt:"Équipe : l'effectif, les numéros et les postes de chaque joueur. Touchez « Équipe ».",until:()=>inCoach('team')},
+  {act:1,sel:TAB('terrain'),txt:"Terrain : le match en cours. Touchez « Terrain ».",until:()=>!inCoach()},
   {sel:'.courtwrap',txt:"Le Terrain, écran principal du match, en deux vues : « Positions » (composition, rotations) et « Saisie » (les stats de chaque échange). Le score reste toujours visible."},
-  {sel:'.vnav .cbar,.vnav .crail',txt:"La barre vous emmène partout : Terrain, Stats, Saisons, Équipe, Réglages. Elle est toujours là."},
+  {sel:'[data-act=matchSheet]',txt:"« Match » : feuille de match, postes, terminer le match ou en commencer un nouveau."},
   {act:1,sel:TAB('stats'),txt:"Stats : fiches des joueurs, zones, rotations, classements et résumé du match. Touchez « Stats ».",until:()=>inCoach('stats'),go:()=>{tStats('p');}},
   {sel:TAB('seasons'),txt:"Saisons : les matchs archivés, les stats cumulées et la progression.",go:()=>tCoachOpen('seasons')},
-  {sel:TAB('team'),txt:"Équipe : l'effectif, les numéros et les postes de chaque joueur.",go:()=>tCoachOpen('team')},
   {sel:TAB('settings'),txt:"Réglages : langue, options de saisie, sauvegarde, abonnement et aide.",go:()=>tCoachOpen('settings')},
-  {act:1,sel:TAB('terrain'),txt:"Touchez « Terrain » pour revenir au match.",until:()=>!inCoach()},
-  {sel:'[data-act=matchSheet]',txt:"« ⋯ Match » : feuille de match, postes, terminer le match ou en commencer un nouveau."},
-  {sel:'#set-aide .tchaps',txt:"Le tutoriel complet est ici, dans Réglages › Aide : un chapitre par sujet (équipe, match, statistiques, saisons…). Revenez-y quand vous voulez. Et quand vous serez à l'aise, masquez les explications dans Réglages › Général.",go:()=>{tCoachOpen('settings');ui.setPage='aide';}}]},
+  {sel:'#set-aide .tchaps',txt:"Le tutoriel complet est ici, dans Réglages › Aide : un chapitre par sujet (équipe, match, statistiques, saisons…). Revenez-y quand vous voulez. Et quand vous serez à l'aise, masquez les explications dans Réglages › Général.",go:()=>{tCoachOpen('settings');ui.setPage='aide';}},
+  {txt:"Pour finir, un match d'exercice vous attend sur le Terrain : un set de 15 points avec Team Earth. À vous de jouer !"}]},
  {t:'Mon équipe',s:[
   {act:1,sel:TAB('team'),txt:"Touchez « Équipe ».",until:()=>inCoach('team'),init:()=>tHome(),go:()=>tHome()},
   {sel:'.teamc select',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une."},
   {sel:'.gseg',txt:"Masculine, féminine ou mixte."},
   {sel:'[data-act=rEdit]',n:3,up:'.prow',txt:"Une fiche par joueur : nom, numéro, postes. Dans la fiche, un double appui sur un poste en fait le poste par défaut (★)."}]},
  {t:'Avant le match',s:[
-  {act:1,sel:'[data-act=matchSheet]',txt:"Sur le Terrain, « ⋯ Match » regroupe les actions sur le match. Touchez-le.",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
+  {act:1,sel:'[data-act=matchSheet]',txt:"Sur le Terrain, « Match » regroupe les actions sur le match. Touchez-le.",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
   {act:1,sel:'#sheet [data-act=newMatch]',txt:"Touchez « ＋ Nouveau match » (ici, votre match en cours n'est pas touché).",until:()=>ui.screen==='setup'},
   {sel:'.prow .tick',n:4,up:'.prow',txt:"Cochez les présents. Les boutons à droite changent le poste pour ce match."},
   {act:1,sel:'[data-act=compose]',txt:"Touchez « Composer le 6 de départ ».",until:()=>ui.screen==='lineup'},
@@ -1566,7 +1574,7 @@ const TUTO=[
   {act:1,sel:'[data-act=flip]',txt:"Touchez : le terrain tourne d'un quart de tour.",go:()=>{ui.tutoO=store.prefs.orient;},until:()=>store.prefs.orient!==ui.tutoO},
   {act:1,sel:'[data-act=swapT]',txt:"Touchez : les équipes changent de côté dans le score.",go:()=>{ui.tutoS=!!store.prefs.swapT;},until:()=>!!store.prefs.swapT!==ui.tutoS}]},
  {t:'Après le match',s:[
-  {act:1,sel:'[data-act=matchSheet]',txt:"Touchez « ⋯ Match ».",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
+  {act:1,sel:'[data-act=matchSheet]',txt:"Touchez « Match ».",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
   {sel:'#sheet [data-act=endMatch]',txt:"« Terminer » archive le match et ouvre ses stats. « ＋ Nouveau » archive puis ouvre une nouvelle feuille. Confirmation demandée."},
   {act:1,sel:TAB('stats'),txt:"Touchez « Stats ».",until:()=>inCoach('stats'),go:()=>{ui.sheet=null;}},
   {sel:'[data-act=statView][data-v=h]',txt:"Le résumé reprend chaque point. Noter la dernière touche de chaque échange et les changements suffit : les joueurs revivent le match.",go:()=>tStats('h')},
@@ -1599,8 +1607,10 @@ function tRun(dir){const F=tFlat(),i=ui.tuto.i;
 // Équipe d'exemple Team Earth : celle de l'application, ou une copie temporaire si elle a été supprimée
 function earthTeamObj(){const st=SEED_TEAMS.find(x=>x.id==='t-earth'),ss=SEED_SEASONS.find(x=>x.team==='t-earth');const t=clone({id:st.id,name:st.name,gender:st.gender,locked:true,roster:st.roster});ensureSeasons(t);t.seasons.unshift({id:ss.id,name:ss.name,closed:true,calib:true});t.seasons.forEach(x=>{x.level='N';});return t;}
 // Match en cours de Team Earth : 5e set (tie-break) à 0-0, pour s'exercer (fin du tutoriel). Jamais archivé, remis à zéro à chaque retour sur l'équipe.
-function demoCur(){const b=SEED_MATCHES.find(x=>x.id===DEMO_CUR.base);if(!b)return null;const c=clone(b),k=c.ev.map((e,i)=>e.t==='set'?i:-1).filter(i=>i>=0)[4];if(k==null)return null;
-  c.ev=c.ev.slice(0,k+1);return Object.assign(c,{id:DEMO_CUR.id,opp:DEMO_CUR.opp,num:DEMO_CUR.num,date:DEMO_CUR.date,team:'Team Earth',teamId:'t-earth',ended:false,redo:[],pend:[]});}
+// sv : magasin où retrouver l'exercice mémorisé (store au chargement, ou s dans addSeeds) ; reprise tant que le set n'est pas terminé
+function demoCur(sv){const k0=sv||(typeof store!=='undefined'?store:null),kept=k0&&k0.demo;let over=true;if(kept&&kept.id===DEMO_CUR.id){try{over=replay(kept).phase==='over';}catch(e){over=false;}}if(kept&&!over)return kept;
+  const b=SEED_MATCHES.find(x=>x.id===DEMO_CUR.base);if(!b)return null;const c=clone(b),e0=c.ev.find(e=>e.t==='set');if(!e0)return null;
+  c.ev=[Object.assign({},e0,{at:Date.now()})];return Object.assign(c,{id:DEMO_CUR.id,opp:DEMO_CUR.opp,num:DEMO_CUR.num,date:DEMO_CUR.date,team:'Team Earth',teamId:'t-earth',format:{win:1,pts:15,tb:false},ended:false,redo:[],pend:[]});}
 function tEarthEnsure(){if(store.teams.some(t=>t.id==='t-earth'))return;store.teams.push(earthTeamObj());SEED_MATCHES.filter(m=>m.teamId==='t-earth').forEach(m=>{if(!store.arch.some(a=>a.id===m.id))store.arch.push(clone(m));});ui.tutoTemp=true;}
 function tEarthDrop(){if(!ui.tutoTemp)return;store.teams=store.teams.filter(t=>t.id!=='t-earth');store.arch=store.arch.filter(a=>a.teamId!=='t-earth');ui.tutoTemp=false;}
 // Matchs d'exemple : copie d'un match archivé de l'équipe active (jamais enregistrée)
@@ -1725,6 +1735,12 @@ function footerHTML(){return `<footer class="legfoot"><span>VolleyCoach ${APP_VE
 function fitButtons(){document.querySelectorAll('.btn,.seg>button,.cbar button span,.crail button span,.stb .el,.ek .el').forEach(b=>{if(b.closest('#tuto'))return;b.style.fontSize='';if(b.scrollWidth<=b.clientWidth+1)return;
   let fs=parseFloat(getComputedStyle(b).fontSize);for(let i=0;i<6&&b.scrollWidth>b.clientWidth+1&&fs>13;i++){fs=Math.max(13,fs-1.5);b.style.fontSize=fs+'px';}});}
 // Onglets des stats : flèche quand d'autres onglets sont cachés à droite (ou à gauche), onglet actif visible
+// Cadre jaune autour du service à noter (colonne ou ligne entière), posé après le rendu
+function srvFrame(){document.querySelectorAll('#app .srvframe').forEach(e=>e.remove());const g=document.querySelector('#app .srvfocus');if(!g||!g.offsetParent)return;
+  const els=[...g.querySelectorAll('[data-k=srv],.srvh')].filter(e=>e.offsetParent);if(!els.length)return;const G=g.getBoundingClientRect();let L=1e9,T=1e9,R=-1e9,B=-1e9;
+  els.forEach(e=>{const r=e.getBoundingClientRect();L=Math.min(L,r.left);T=Math.min(T,r.top);R=Math.max(R,r.right);B=Math.max(B,r.bottom);});
+  const d=document.createElement('div');d.className='srvframe';d.style.cssText=`left:${L-G.left-6}px;top:${T-G.top-6}px;width:${R-L+12}px;height:${B-T+12}px`;g.appendChild(d);}
+addEventListener('resize',()=>requestAnimationFrame(srvFrame),{passive:true});
 function vtMore(){document.querySelectorAll('.vtabs').forEach(v=>{const w=v.parentElement;if(!w)return;
   if(!w.classList.contains('vtw')){const box=document.createElement('div');box.className='vtw';v.parentElement.insertBefore(box,v);box.appendChild(v);}
   const W=v.parentElement;let r=W.querySelector('.vtmore:not(.l)'),l=W.querySelector('.vtmore.l');
@@ -1756,7 +1772,7 @@ function render(){
   sh.classList.toggle('open',!!ui.sheet);
   const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!(ui.alert||ui.roleFor));
-  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
+  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();srvFrame();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -1770,14 +1786,14 @@ function render(){
   }
 }
 // Navigation unique : les mêmes cinq entrées en rail (tablette) et en barre (téléphone) ; le code entraîneur, s'il est activé, protège tout sauf le Terrain
-const NAV=[['terrain','🏐','Terrain'],['stats','📊','Stats'],['seasons','🗂','Saisons'],['team','👥','Équipe'],['settings','⚙️','Réglages']];
+const NAV=[['team','👥','Équipe'],['terrain','🏐','Terrain'],['stats','📊','Stats'],['seasons','🗂','Saisons'],['settings','⚙️','Réglages']];
 function navHTML(){const inC=ui.coach&&ui.screen==='coach',ct=inC?ui.ctab:'terrain',lk=store.prefs.codeOn&&!inC&&!ui.tuto;
   const b=NAV.map(([k,i,l])=>`<button class="${ct===k?'on':''} ${k==='terrain'?'terr':''}" data-act="ctab" data-v="${k}" aria-current="${ct===k?'page':'false'}"><i>${i}</i><span>${l}</span>${lk&&k!=='terrain'?'<em class="nlk" aria-hidden="true">🔒</em>':''}</button>`).join('');
   return `<nav class="vnav" aria-label="Navigation"><div class="crail">${b}</div><div class="cbar">${b}</div></nav>`;}
 function roleChips(m,S,id,usual){
   return `<div class="roles">${ROLE_ORDER.map(r=>`<button class="rc r-${r} ${S.roles[id]===r?'on':''} ${usual.includes(r)?'usual':''}" data-act="role" data-id="${id}" data-r="${r}">${RA(r)}<span class="vh"> ${ROLES[r]}</span></button>`).join('')}</div>`;
 }
-function setupWrap(m,S){return (isDemoTeam()&&!ui.tuto?`<div class="card warnc" style="margin-bottom:10px"><b>Équipe d'exemple</b><p class="hint" style="margin:4px 0 8px">Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours au tie-break (5e set, 0-0) : il n'est jamais enregistré et repart de zéro à chaque retour sur l'équipe. Choisissez ou créez votre équipe pour jouer.</p></div>`:'')+setupHTML(m,S);}
+function setupWrap(m,S){return (isDemoTeam()&&!ui.tuto?`<div class="card warnc" style="margin-bottom:10px"><b>Équipe d'exemple</b><p class="hint" style="margin:4px 0 8px">Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé. Choisissez ou créez votre équipe pour jouer.</p></div>`:'')+setupHTML(m,S);}
 function setupHTML(m,S){
   const started=S.sets.length>0,pres=present(m);
   const nonLib=pres.filter(p=>S.roles[p.id]!=='L').length;
@@ -1882,7 +1898,7 @@ function recepMap(S){if(!S||S.serving!=='A'||!S.zones)return null;const pc=playC
 function recepZone(S,pid){const dm=recepMap(S);if(!dm)return null;const z=Object.keys(dm).find(k=>dm[k]===pid);return z?+z:null;}
 function statPanel(m,S){
   const lp=rallyCtx(S);if(!lp)return '';
-  const st=m.pend||[],T=short(m);
+  const st=m.pend||[],T=short(m),lastPt=(m.ev[m.ev.length-1]||{}).t==='pt';
   const sid=setterOn(S);
   // Bouton de stat : − / = / + ; dans la colonne Attaque, le « = » est remplacé par « Relance » (ballon renvoyé sans attaque)
   const op=openPass(st);
@@ -1917,10 +1933,10 @@ function statPanel(m,S){
       const auto=k=>k==='srv'?lp.srv:k==='pas'?sid:null;
       const on=(k,sg)=>((k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg))||(k==='pas'&&op>=0&&st[op][1]===sg)||(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg);
       const eb=(k,sg)=>{const a=auto(k);return `<button class="ek ${stCls(sg)} ${a||k==='srv'||k==='pas'?'au':''} ${on(k,sg)?'on':''}" data-act="stCat" data-k="${k}" data-s="${sg}"><span class="es">${stSym(sg)}</span><span class="el">${stLab(k,sg)}</span>${(k==='srv'||k==='pas')&&a?`<span class="enm">${esc(pnum(m,a)+' '+dname(m,a))}</span>`:''}</button>`;};
-      return `<div class="egrid" style="grid-template-columns:repeat(${cats.length},minmax(0,1fr))">${cats.map(k=>`<span class="eh ${k==='srv'||k==='pas'?'au':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cats.map(k=>eb(k,sg)).join('')).join('')}
-        <button class="eb" data-act="stUndo" ${st.length?'':'disabled'}>↶ Annuler<br>dernière stat</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
+      return `<div class="egrid ${c1==='srv'?'srvfocus':''}" style="grid-template-columns:repeat(${cats.length},minmax(0,1fr))">${cats.map(k=>`<span class="eh ${k==='srv'||k==='pas'?'au':''} ${k==='srv'?'srvh':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cats.map(k=>eb(k,sg)).join('')).join('')}
+        <button class="eb" data-act="stUndo" ${st.length||lastPt?'':'disabled'}>↶ Annuler<br>dernière stat</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
     :(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
-      return `<div class="stgrid ${BLK()?'b4':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})()}
+      return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})()}
     ${st.length&&!store.prefs.easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
 }
@@ -1953,10 +1969,10 @@ function matchHTML(m,S){
   return `${hist}
     <div class="courtbar"><span class="rot" title="Position de la passe">${pz?'P'+pz:'P–'}</span><span class="sys" title="Système de jeu">${is42(S.zones,S.roles)?'4-2':setterOn(S)?'5-1':'–'}</span>
       <span class="srvinfo">${S.phase!=='play'?'':S.serving==='G'?'Service':'Réception'}</span>
-      <button class="btn coachb" data-act="matchSheet" aria-label="Actions du match"><span class="dots" aria-hidden="true">⋯</span><span>Match</span></button></div>
+      <button class="btn coachb" data-act="matchSheet" aria-label="Actions du match"><span>Match</span></button></div>
     <div class="viewrow"><div class="seg viewseg"><button class="${regl?'':'on'}" data-act="view" data-v="jeu" title="Positions de jeu">Jeu</button><button class="${regl?'on':''}" data-act="view" data-v="regl" title="Ordre réglementaire">Réglementaire</button></div>
       <span class="vicons"><button class="icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button><button class="icon" data-act="swapT" aria-label="Inverser les équipes dans le score" title="${esc(short(store.cur))} à gauche / à droite">${IC.swap}</button><button class="icon" data-act="sound" aria-label="Son">${store.prefs.sound?IC.snd:IC.mute}</button></span></div>
-    ${courtHTML(m,{mode:regl?'regl':'play',zones:S.zones,roles:S.roles,lib:S.lib,serving:S.serving,act:play?'tapCourt':'none',flash:ui.flashLib,main:true})}
+    ${courtHTML(m,{mode:regl?'regl':'play',zones:S.zones,roles:S.roles,lib:S.lib,serving:S.serving,srvDone:play&&(m.pend||[]).some(x=>x[0]==='srv'),act:play?'tapCourt':'none',flash:ui.flashLib,main:true})}
     ${e.libFor?`<p class="libinfo">Libéro ${esc(tag(m,S.lib))} à la place de ${esc(tag(m,e.libFor))}</p>`:''}
     ${S.libNext?`<p class="libinfo">Changement de libéro : ${esc(tag(m,S.libNext))} entrera au point suivant</p>`:''}
     <div class="tools">
@@ -2804,7 +2820,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
   else if(ct==='seasons'){const T=T0,so=seasonObj(),cur=so&&so.id===T.curSeason;
     const list=T.seasons.slice().reverse().map(x=>{const n=store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===x.id).length;
       return `<button class="sline ${x.id===so.id?'on':''}" style="--gc:${teamColor(T)}" data-act="seasonPick" data-id="${x.id}"><b>📁 ${esc(x.name)}</b><small>${n} match${n>1?'s':''} · ${x.id===T.curSeason?'en cours':'clôturée'}</small></button>`;}).join('');
-    body=`<div class="card steam" style="--gc:${teamColor(T)}"><span class="who"><small>Équipe actuelle</small><b>${esc(T.name)}</b></span><button class="btn" data-act="ctab" data-v="team">Choisir l'équipe</button></div>
+    body=`<div class="card steam stk" style="--gc:${teamColor(T)}"><span class="who"><small>Équipe actuelle · saison</small><b>${esc(T.name)}${so?' · '+esc(so.name):''}</b></span><button class="btn" data-act="ctab" data-v="team">Choisir l'équipe</button></div>
     <div class="slist">${list}</div>
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span></div>
       <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>${isDemoTeam()?'':'<button class="btn danger" data-act="seasonDel">Supprimer la saison…</button>'}
@@ -2817,9 +2833,10 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
   else if(ct==='team'){
-    body=`<div class="card teamc"><label class="f">Équipe actuelle<select data-teamsel2>${store.teams.map(t=>`<option value="${t.id}" ${t.id===store.teamId?'selected':''}>${esc(t.name)}</option>`).join('')}<option value="__new">＋ Nouvelle équipe…</option></select></label>
+    body=`<div class="card teamc stk"><label class="f">Équipe actuelle<select data-teamsel2>${store.teams.map(t=>`<option value="${t.id}" ${t.id===store.teamId?'selected':''}>${esc(t.name)}</option>`).join('')}<option value="__new">＋ Nouvelle équipe…</option></select></label></div>
+    <div class="card teamc">
       <small class="hint">${store.roster.length} joueur${store.roster.length>1?'s':''} · ${TA.length} match${TA.length>1?'s':''} archivé${TA.length>1?'s':''}</small>
-      ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, au tie-break, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:`<div class="seg gseg">${['M','F','X'].map(g=>`<button class="${(AT.gender||'F')===g?'on':''}" data-act="teamGender" data-v="${g}" ${AT.locked?'disabled':''}><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
+      ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:`<div class="seg gseg">${['M','F','X'].map(g=>`<button class="${(AT.gender||'F')===g?'on':''}" data-act="teamGender" data-v="${g}" ${AT.locked?'disabled':''}><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
       <div class="teamtools">${AT.locked?'':`<button class="btn" data-act="teamRen" data-id="${store.teamId}">Renommer</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
     <h2 id="rosterSec">Effectif — ${esc(AT.name)} (${store.roster.length} joueurs)</h2>
     ${twinBanner()}
@@ -3157,7 +3174,8 @@ function openLock(){if(ui.tuto){tCoachOpen();return;}if(ui.coach||!store.prefs.c
 function afterCode(){const a=ui.afterCode;ui.afterCode=null;if(a&&A[a])A[a]();}
 // Change l'équipe active : le match en cours est archivé s'il a commencé ; keep = garder adversaire, date et n° d'un match non commencé
 function switchTeam(id,keep){const t=store.teams.find(x=>x.id===id);if(!t||id===store.teamId)return false;
-  const old=store.cur;archiveCur();save();store.teamId=t.id;store.roster=t.roster;
+  const old=store.cur;if(old&&old.id===DEMO_CUR.id)store.demo=clone(old); // exercice de Team Earth mémorisé
+  archiveCur();save();store.teamId=t.id;store.roster=t.roster;
   store.cur=(t.locked&&demoCur())||newMatch(null,store.roster);store.cur.team=t.name;store.cur.teamId=t.id;
   if(keep&&!old.ev.length&&!t.locked){store.cur.opp=old.opp;store.cur.date=old.date;store.cur.num=old.num;}
   ui.coachView=null;ui.fxSet=null;save();return true;}
@@ -3264,7 +3282,9 @@ const A={
     ui.sheet=null;save();},
   seasonReopen(){if(ui.confirm!=='sreopen'){ui.confirm='sreopen';return 'keep';}const T=activeTeam(),so=seasonObj(),old=seasonObj(T.curSeason);
     store.arch.forEach(a=>{if(teamOf(a)===T.id&&!a.seasonId)a.seasonId=old.id;});old.closed=true;so.closed=false;T.curSeason=so.id;ui.confirm=null;save();toast(`« ${so.name} » rouverte`,'ok');},
-  stUndo(){const m=store.cur;ui.stPick=null;if(m.pend&&m.pend.length){m.pend.pop();save();}},
+  stUndo(){const m=store.cur;ui.stPick=null;if(m.pend&&m.pend.length){m.pend.pop();save();return;}
+    // aucune stat en cours : le dernier point est annulé et rouvert avec ses stats, sauf la dernière
+    const ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;m.ev.pop();m.redo=[];m.pend=(ev.st||[]).slice(0,-1);save();toast(ev.st&&ev.st.length?'Point rouvert : dernière stat retirée':'Point annulé','ok');},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
   pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});return 1;},
   undo(){undo();return 1;}, redo(){redo();return 1;},
@@ -3360,7 +3380,7 @@ const A={
     x.on=!x.on;save();},
   endMatch(d){
     if(ui.tuto){ui.coach=true;ui.screen='coach';ui.ctab='stats';const a=tDemo();ui.coachView=a?a.id:null;ui.fxSet=null;ui.statView='p';return;}
-    if(isDemoTeam()){toast('Team Earth est une équipe d’exemple : elle ne peut pas servir à saisir un match.','warn');return;}
+    if(isDemoTeam()){if(store.cur.id===DEMO_CUR.id&&replay(store.cur).phase==='over'){store.demo=null;store.cur=demoCur();save();ui.sheet=null;toast('Nouveau match d’exercice : 0-0','ok');return;}toast('Team Earth est une équipe d’exemple : elle ne peut pas servir à saisir un match.','warn');return;}
     if(!store.cur.ev.length)return;if(!d.force&&ui.confirm!=='end'){ui.confirm='end';return 'keep';}ui.confirm=null;
     const id=store.cur.id;store.cur.ended=true;archiveCur();store.cur=newMatch(store.cur,store.roster);save();
     ui.toStats=false;ui.coach=true;ui.screen='coach';ui.ctab='stats';ui.coachView=id;ui.fxSet=null;ui.statView='p';ui.sheet=null;window.scrollTo(0,0);toast('Match terminé et archivé : voici ses statistiques','ok');},
@@ -3418,9 +3438,10 @@ const A={
     if(ui.tuto.i>=tBounds()[1])return A.tutoEnd();ui.tuto.i++;tRun('next');window.scrollTo(0,0);},
   tutoSpot(){return A.tutoNext();},
   tutoPrev(){const F=tFlat(),b0=tBounds()[0];if(ui.tuto.i<=b0)return;let k=ui.tuto.i-1;while(k>b0&&F[k].st.act&&F[k].st.until&&F[k].st.until())k--;ui.tuto.i=k;tRun('prev');ui.tuto.hold=true;window.scrollTo(0,0);},
-  tutoEnd(){if(ui.tutoReal){store.cur=ui.tutoReal;ui.tutoReal=null;}if(ui.tutoTeam){store.teamId=ui.tutoTeam.id;store.roster=ui.tutoTeam.roster;ui.tutoTeam=null;}tEarthDrop();
+  tutoEnd(){const ci0=ui.tuto?tFlat()[ui.tuto.i].ci:-1;if(ui.tutoReal){store.cur=ui.tutoReal;ui.tutoReal=null;}if(ui.tutoTeam){store.teamId=ui.tutoTeam.id;store.roster=ui.tutoTeam.roster;ui.tutoTeam=null;}tEarthDrop();
     ui.coachView=null;ui.seasonSel=null;ui.tuto=null;store.prefs.tutoSeen=true;save();ui.draft=null;ui.sheet=null;
-    // retour à la liste des chapitres (Réglages › Aide › Tutoriel)
+    // fin du premier chapitre : le match d'exercice de Team Earth devient le match actif (si le match en cours de l'utilisateur est vide) ; sinon retour à la liste des chapitres
+    if(ci0===0&&store.teams.some(t=>t.id==='t-earth')&&!store.cur.ev.length){if(store.teamId!=='t-earth')switchTeam('t-earth');else if(store.cur.id!==DEMO_CUR.id){store.cur=demoCur();save();}tHome();window.scrollTo(0,0);toast('Match d’exercice : à vous de jouer !','ok');return;}
     tCoachOpen('settings');ui.setPage='aide';},
   pro(){ui.sheet='pro';ui.codeOpen=false;},
   codeOpen(){ui.codeOpen=true;render();setTimeout(()=>{const i=document.getElementById('actcode');if(i)i.focus();},0);},
