@@ -108,6 +108,19 @@ label.f select:disabled{opacity:.7}
 .dock.dtop{margin:4px -14px 10px;padding:8px 14px;bottom:auto}
 .dock.dbot{position:static;box-shadow:none;border-top:0;margin-top:0;padding-top:0}
 .dock.dtop .dtog{margin-bottom:0}
+/* Onglet Équipe : liste des équipes avec bandeau de couleur du genre */
+.tslab{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+.tselb,.tsopt{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:6px 12px 6px 0;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;overflow:hidden}
+.tselb b,.tsopt b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:16px}.tselb small,.tsopt small{color:var(--muted);font-size:12px}
+.gband{align-self:stretch;flex:none;width:8px;margin:-6px 0;background:var(--gc)}
+.tselb .chev{font-size:14px;color:var(--muted)}
+.tslist{display:flex;flex-direction:column;gap:6px;margin-top:6px;max-height:min(50vh,360px);overflow:auto}
+.tsopt.on{border-color:var(--team);border-width:2px}.tsopt.tsnew{padding-left:12px;justify-content:center;font-weight:700}
+.prow.tband{border-left:8px solid var(--gc)}
+.bchip.tbchip{border-left:6px solid var(--gc)}
+.card.imp{padding:4px 10px}.improw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.improw:last-child{border-bottom:0}
+.improw input{margin-top:3px}.improw small{display:block;font-size:12px;color:var(--muted)}.improw small.dupw{color:var(--neg);font-weight:700}
+.teamc .gseg{display:flex}.teamc .gseg button{flex:1 1 auto;min-width:0;padding:0 6px;font-size:14px;gap:5px}.teamc .gseg .gdot{width:9px;height:9px}
 /* Téléphone : partie stats repliable (sélecteur « Positions | Saisie ») */
 .dtog{display:none}
 @media (max-width:560px){
@@ -692,7 +705,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V165';
+const APP_VERSION='V166';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1064,7 +1077,9 @@ function fmt(m){const F=(m&&m.format)||{};return {win:[1,2,3].includes(F.win)?F.
 function isTieBreak(m,si){const F=fmt(m);return F.tb&&F.win>1&&si===2*F.win-2;}
 function setTarget(m,si){return isTieBreak(m,si)?15:fmt(m).pts;}
 function setPts(m,si){const f=(m&&m.format)||{};const win=f.win||3,pts=f.pts||25,tb=f.tb!==false;const last=2*win-1;return (tb&&si===last-1)?15:pts;}
-function replay(m){if(m.season)return m._S;const prev=LIBPOS;LIBPOS=+(m.libPos||5);try{return replay0(m);}finally{LIBPOS=prev;}}
+// Options tactiques : le poste de défense du libéro (LIBPOS) et l'inversion P1 (S.p1x) changent au fil du match
+// (évènement « set » : champs lp et x ; évènement « tac » : changement en cours de set) ; S.libPos = valeur en fin de relecture
+function replay(m){if(m.season)return m._S;const prev=LIBPOS;LIBPOS=+(m.libPos||5);try{const S=replay0(m);S.libPos=LIBPOS;return S;}finally{LIBPOS=prev;}}
 function replay0(m){
   const S={cov:{pts:0,withSt:0,pas:0,pasFt:0},covSet:[],rot:[],sets:[],phase:'setup',roles:Object.assign({},m.roles),zones:null,serving:null,lib:null,played:{},fx:{},recZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},defZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},zst:[],pst:[],psp:[],wins:{G:0,A:0},lastWarn:null,lastSetEnd:null,lastPt:null};
   for(let idx=0;idx<m.ev.length;idx++){const ev0=m.ev[idx],ev=(ev0.t==='pt'&&ev0.st&&ev0.st.some(x=>x[0]==='rel'))?Object.assign({},ev0,{st:relNorm(ev0.st)}):ev0; // renvoi sans attaque = attaque − (sauf sur passe −)
@@ -1074,9 +1089,10 @@ function replay0(m){
       if(S.phase==='play'||S.phase==='over')continue;
       const z=[null].concat(ev.z);
       S.sets.push({g:0,a:0,lineup:z.slice(),srv:ev.s,lib:ev.l||null,subs:0,pairs:{},subOf:{},to:{G:0,A:0},rallies:0,winner:null,oppFault:0});
-      S.zones=z;S.serving=ev.s;S.lib=ev.l||null;S.p1x=!!ev.x;S.phase='play';
+      S.zones=z;S.serving=ev.s;S.lib=ev.l||null;S.p1x=!!ev.x;if(ev.lp)LIBPOS=+ev.lp;S.phase='play';
     } else if(ev.t==='role'){S.roles[ev.p]=ev.r;}
-    else if(ev.t==='lib'){S.lib=ev.p||null;S.libNext=ev.next||null;S.libNextAt=set?set.rallies:0;}
+    else if(ev.t==='lib'){S.lib=ev.p||null;S.libNext=ev.next||null;S.libNextAt=set?set.rallies:0;S.libTouched=true;}
+    else if(ev.t==='tac'){if(ev.lp)LIBPOS=+ev.lp;if(ev.x!=null)S.p1x=!!ev.x;}
     else if(!set||S.phase!=='play'){continue;}
     else if(ev.t==='pt'){
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving);
@@ -1321,6 +1337,9 @@ function beep(kind){
 }
 function libState(S){if(S.phase!=='play'||!S.lib)return null;return {lib:S.lib,f:effective(S.zones,S.roles,S.lib,S.serving).libFor};}
 
+// Option tactique : appliquée à l'échange en cours s'il n'a aucune stat saisie, sinon mise en attente jusqu'au point (m.tacNext)
+function tacApply(ev){const m=store.cur;if((m.pend||[]).length){(m.tacNext||(m.tacNext=[])).push(ev);save();toast('Appliqué à partir du prochain échange','ok');render();return;}dispatch(ev);}
+function tacFlush(m){const q=m.tacNext;if(!q||!q.length)return;m.tacNext=null;q.forEach(e=>{e.at=Date.now();m.ev.push(e);});save();render();}
 function dispatch(ev){
   ui.stPick=null;
   const m=store.cur,before=replay(m);
@@ -1347,7 +1366,7 @@ function oppoIssues(m,zones,roles){
 }
 function autoBackup(){const P=store.prefs,c=store.cur;try{
   if(P.autoMatch)saveFile(`match_${slug(c.opp||'match')}_${c.date||today()}.vbcs`,JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),arch:[lean(c)]}));
-  if(P.autoSeason){const so=seasonObj();saveFile(`saison_${slug(so?so.name:'saison')}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:teamArch().filter(a=>a.id!==c.id).concat([lean(c)])}));}
+  if(P.autoSeason){const so=seasonObj();saveFile(`saison_${slug(so?so.name:'saison')}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:so?so.name:undefined,exported:new Date().toISOString(),arch:teamArch().filter(a=>a.id!==c.id).concat([lean(c)])}));}
   if(P.autoMatch||P.autoSeason)toast('Sauvegarde automatique effectuée','ok');}catch(e){}}
 function notify(m,before,after){
   const ib=before.phase==='play'?oppoIssues(m,before.zones,before.roles):[],ia=after.phase==='play'?oppoIssues(m,after.zones,after.roles):[];
@@ -1374,6 +1393,7 @@ function evLabel(m,ev){
     case 'sub':return `changement ${pnum(m,ev.o)} ⇄ ${pnum(m,ev.i)}`;
     case 'role':return 'poste de '+dname(m,ev.p);
     case 'lib':return 'choix de libéro';
+    case 'tac':return 'option tactique';
     case 'to':return 'temps mort '+(ev.s==='G'?short(m):'adversaire');
     case 'set':return 'début du set';
   }
@@ -1402,7 +1422,7 @@ function endSound(){
       g.gain.setValueAtTime(.0001,st);g.gain.exponentialRampToValueAtTime(.18,st+.02);g.gain.exponentialRampToValueAtTime(.0001,st+du);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+du+.02);});
   }catch(e){}
 }
-function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='to')stopTimer();if(ev.t==='pt')m.pend=[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null,p1x:!!ev.x};}render();}
+function undo(){ui.stPick=null;const m=store.cur;if(!m.ev.length)return;const ev=m.ev.pop();m.redo.push(ev);if(ev.t==='to')stopTimer();if(ev.t==='pt')m.pend=[];save();toast('Annulé : '+evLabel(m,ev));if(ev.t==='set'){ui.screen='lineup';ui.draft={set:replay(m).sets.length,zones:[null].concat(ev.z),srv:ev.s,lib:ev.l||null,p1x:!!ev.x,lp:ev.lp||+(m.libPos||5)};}render();}
 function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m);const ev=m.redo.pop();m.ev.push(ev);if(ev.t==='pt')m.pend=[];const after=replay(m);save();toast('Rétabli : '+evLabel(m,ev));if(ev.t==='set'){ui.screen=null;}notify(m,before,after);render();}
 
 /* ============ ICÔNES ============ */
@@ -1564,8 +1584,8 @@ const TUTO=[
   {txt:"Pour finir, un match d'exercice vous attend sur le Terrain : un set de 15 points avec Team Earth. À vous de jouer !"}]},
  {t:'Mon équipe',s:[
   {act:1,sel:TAB('team'),txt:"Touchez « Équipe ».",until:()=>inCoach('team'),init:()=>tHome(),go:()=>tHome()},
-  {sel:'.teamc select',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une."},
-  {sel:'.gseg',txt:"Masculine, féminine ou mixte."},
+  {sel:'.teamc .tselb',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une ; la couleur indique son genre."},
+  {sel:'.teamc .gseg',txt:"Filtre de la liste : toutes les équipes, ou seulement les masculines, féminines ou mixtes. Le genre d'une équipe se règle dans « Nom et genre »."},
   {sel:'[data-act=rEdit]',n:3,up:'.prow',txt:"Une fiche par joueur : nom, numéro, postes. Dans la fiche, un double appui sur un poste en fait le poste par défaut (★)."}]},
  {t:'Avant le match',s:[
   {act:1,sel:'[data-act=matchSheet]',txt:"Sur le Terrain, « Match » regroupe les actions sur le match. Touchez-le.",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
@@ -1770,8 +1790,7 @@ function render(){
   // Ouverture de la fiche Pro : case de renonciation décochée, prix du store rechargé
   if(ui.sheet==='pro'&&!IAP.open){IAP.open=true;ui.waiver=false;IAP.load();}else if(ui.sheet!=='pro')IAP.open=false;
   try{if(ui.coach&&ui.screen==='coach')sessionStorage.setItem('vc-coach',JSON.stringify({ctab:ui.ctab,coachView:ui.coachView,statView:ui.statView,seasonSel:ui.seasonSel,fxSet:ui.fxSet}));else sessionStorage.removeItem('vc-coach');}catch(e){}
-  LIBPOS=+(store.cur.libPos||5);
-  const m=store.cur,S=replay(m);let h;
+  const m=store.cur,S=replay(m);let h;LIBPOS=S.libPos||+(m.libPos||5);
   PAR=(ui.screen==='lineup'&&ui.draft)?(ui.draft.set||0):Math.max(0,S.sets.length-1)+(tbSwitched(m,S)?1:0);
   const old={};document.querySelectorAll('#mainCourt .tok').forEach(t=>{old[t.dataset.id]=t.getBoundingClientRect();});
   if(ui.screen==='coach'&&ui.coach)h=coachHTML();
@@ -1839,7 +1858,7 @@ function setupHTML(m,S){
       <label class="f">Date<input type="date" data-f="date" value="${esc(m.date)}"></label>
       <label class="f">N° de match<input data-f="num" value="${esc(m.num)}"></label>
     </div></div>
-    ${started?'':`<div class="card" style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>Avant le match</b><br><span class="hint xp">L'effectif est-il à jour ? Ajoutez, modifiez ou retirez des noms.</span></span><button class="btn" data-act="rosterGo">${IC.lock} Modifier l'effectif</button></div>`}
+    ${started?'':`<div class="card" style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>Avant le match</b></span><button class="btn" data-act="rosterGo">${IC.lock} Modifier l'effectif</button></div>`}
     <h2>Sélection (${selCount(m)}/${MAX_SEL})</h2>
     <p class="hint xp">14 au maximum, hors feuille compris. Une personne à deux maillots ne compte qu'une fois.</p>
     ${started?'':twinBanner()}
@@ -1864,26 +1883,25 @@ function lineupHTML(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L');
   const pz=setterZone(d.zones,S.roles);
   return `<div class="top"><button class="btn" data-act="cancelLineup">Retour</button><h1>Set ${n} : 6 de départ</h1><button class="btn" data-act="toSetup">Postes</button></div>
-    <p class="hint xp">Touchez un poste pour y placer un nom (ordre réglementaire de rotation, poste 1 = service). Touchez un nom placé pour le changer, double-touchez-le pour changer son poste.</p>
+    <p class="hint xp">Touchez un poste pour y placer un nom ; double-touchez un nom pour changer son poste.${tipB('lineup')}</p>
     ${courtHTML(m,{mode:'official',zones:d.zones,roles:S.roles})}
     ${(()=>{const F=fmt(m),lock=S.sets.length>0,b=(k,v,l)=>`<button class="${F[k]===v?'on':''}" data-act="fmtSet" data-k="${k}" data-v="${v}" ${lock?'disabled':''}>${l}</button>`;
-      return `<h2>Orientation du terrain</h2>
+      return `<h2>Orientation du terrain ${tipB('orient')}</h2>
       <div class="fmtg fori"><span class="fl">${ORIENT_LAB[dispOrient()]}</span><button class="icon" data-act="flip" aria-label="Tourner le terrain d'un quart de tour" title="Tourner le terrain">${IC.flip}</button></div>
-      <p class="hint xp">Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas.</p>
       <h2>Format du match</h2>
       <div class="fmtg"><span class="fl">Sets gagnants</span><div class="seg">${b('win',1,'1')}${b('win',2,'2')}${b('win',3,'3')}</div></div>
       <div class="fmtg"><span class="fl">Points par set</span><div class="seg">${b('pts',25,'25')}${b('pts',21,'21')}${b('pts',15,'15')}</div></div>
       ${F.win>1?`<div class="fmtg"><span class="fl">Tie-break (15 points)</span><div class="seg">${b('tb',true,'Oui')}${b('tb',false,'Non')}</div></div>`:''}
-      <p class="hint xp">${lock?'Le format est fixé pour ce match (modifiable avant le 1er set).':`Match en ${F.win} set${F.win>1?'s':''} gagnant${F.win>1?'s':''} de ${F.pts} points${F.win>1?(F.tb?`, set décisif (${2*F.win-1}e) en 15 points`:', set décisif au même nombre de points'):''}, 2 points d'écart.`}</p>`;})()}
+      <p class="hint xp">${lock?'Le format est fixé pour ce match (modifiable avant le 1er set).':[F.win>1?F.win+' sets gagnants':'1 set gagnant',F.pts+' points'].concat(F.win>1?['set décisif en '+(F.tb?15:F.pts)]:[],["2 points d'écart"]).map(x=>'<span>'+x+'</span>').join(' · ')}</p>`;})()}
     <h2>Premier service</h2>
     <div class="seg"><button class="${d.srv==='G'?'on':''}" data-act="draftSrv" data-s="G">${esc(short(m))} sert</button><button class="${d.srv==='A'?'on':''}" data-act="draftSrv" data-s="A">${esc(m.opp||'Adversaire')} sert</button></div>
-    ${n>1?'<p class="hint xp">Alterné automatiquement par rapport au set précédent, modifiable. Changement de côté appliqué : équipes inversées dans le score'+((store.prefs.orient||0)%2?' et terrain retourné':'')+'.</p>':''}
+    ${n>1?'<p class="hint xp">Alterné par rapport au set précédent. Changement de côté : équipes inversées dans le score'+((store.prefs.orient||0)%2?', terrain retourné':'')+'.</p>':''}
     <h2>Libéro</h2>
     <div class="bench"><button class="bchip ${!d.lib?'sel':''}" data-act="draftLib" data-id="">Sans libéro</button>
       ${libs.map(p=>`<button class="bchip ${d.lib===p.id?'sel':''}" data-act="draftLib" data-id="${p.id}"><span class="num r-L">${p.n}</span>${esc(dname(m,p.id))}</button>`).join('')}</div>
     ${libs.length?'':'<p class="hint">Personne au poste de libéro (L). Changez un poste pour en ajouter.</p>'}
-    ${d.lib?`<h2>Libéro en défense</h2><div class="seg"><button class="${(m.libPos||5)===5?'on':''}" data-act="libPos" data-v="5">Poste 5</button><button class="${m.libPos===6?'on':''}" data-act="libPos" data-v="6">Poste 6</button></div>
-      <p class="hint xp">Placement quand l'équipe défend (et zones des statistiques) : libéro et centre arrière défendent à ce poste, R4 arrière à l'autre.</p>`:''}
+    ${d.lib?`<h2>Libéro en défense ${tipB('libpos')}</h2><div class="seg"><button class="${(d.lp||m.libPos||5)===5?'on':''}" data-act="libPos" data-v="5">Poste 5</button><button class="${(d.lp||m.libPos||5)===6?'on':''}" data-act="libPos" data-v="6">Poste 6</button></div>
+`:''}
     ${is42(d.zones,S.roles)?'':`<h2>Inversion R4 &lt;-> Pointe en P1 ${tipB('p1x')}</h2><div class="seg"><button class="${d.p1x?'':'on'}" data-act="draftP1x" data-v="0">Non</button><button class="${d.p1x?'on':''}" data-act="draftP1x" data-v="1">Oui</button></div>`}
     ${complete?(()=>{const w=draftIssues();return w.length?`<div class="warnbox">${w.map(esc).join('<br>')}</div>`:'';})():''}
     ${complete?`<h2>Positions ${d.srv==='G'?'au service':'en réception'} ${pz?'— P'+pz:''}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,lib:d.lib,serving:d.srv,small:true})}`:''}
@@ -2040,12 +2058,11 @@ function sheetHTML(m,S){
       <h2>Entre</h2>${ui.sub.fixedI&&ui.sub.i?`<div class="bench">${chip(ui.sub.i,'subI',true,'')}</div>`:ins.length?groups.map(g=>`<div class="bench subgrp ${g.r===ro?'match':''}">${g.l.map(p=>chip(p.id,'subI',ui.sub.i===p.id,'')).join('')}</div>`).join(''):'<div class="bench"><span class="hint">Aucun remplaçant disponible.</span></div>'}
       ${w.length?`<div class="warnbox">Changement non réglementaire : ${esc(w.join(' ; '))}. Vous pouvez quand même le valider.</div>`:''}
       <div style="margin-top:14px"><button class="btn big primary" data-act="subOk" ${ui.sub.o&&ui.sub.i?'':'disabled'}>Valider le changement</button></div>
-      ${libs.length||S.lib?`<div class="librow"><h2>Libéro</h2><div class="seg lpseg">${[5,6].map(v=>`<button class="${(m.libPos||5)===v?'on':''}" data-act="libPos" data-v="${v}">Poste ${v}</button>`).join('')}</div></div><p class="hint xp">Le changement de libéro n'est pas compté comme un remplacement. Poste 5 / Poste 6 : place du libéro en défense quand ${esc(short(store.cur))} sert.</p>
-        <div class="bench"><button class="bchip ${!S.lib?'sel':''}" data-act="setLib" data-id="">Sans libéro</button>${libs.map(p=>chip(p.id,'setLib',S.lib===p.id,'')).join('')}</div>`:''}`;
+      ${libs.length||S.lib?`<div style="margin-top:14px"><button class="btn big" data-act="tacOpen">Libéro et options tactiques</button></div>`:''}`;
   }
   if(ui.sheet==='roles'){
     return `<div class="sh"><h3>Postes</h3>${close}</div>
-      <p class="hint xp">Le cadre coloré indique le poste habituel. Le changement de poste s'applique immédiatement au placement.</p>${legend()}
+      <p class="hint xp">Cadre coloré : poste habituel. Le changement s'applique tout de suite.</p>${legend()}
       <div class="card" style="padding:4px">${present(m).map(p=>`<div class="prow"><span class="num ${rcls(S.roles[p.id])}">${p.n}</span><span class="who"><b>${esc(dname(m,p.id))}</b><small>${esc(ROLES[S.roles[p.id]]||'')}</small></span>${roleChips(m,S,p.id,p.postes||[])}</div>`).join('')}</div>`;
   }
   if(ui.sheet==='stEdit'&&ui.se){const se=ui.se,m2=sumMatch();if(!m2)return '';
@@ -2060,6 +2077,16 @@ function sheetHTML(m,S){
       ${(se.k==='rec'||se.k==='def')?`<h2>${se.k==='rec'?'Service adverse':'Attaque adverse'}</h2><div class="seg">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile'],[null,'Non noté']].map(([v,l])=>`<button class="${se.dif===v?'on':''}" data-act="seD" data-v="${v===null?'':v}">${l}</button>`).join('')}</div>`:''}
       <div class="tools" style="margin-top:14px"><button class="btn big primary" data-act="stEditOk">Valider</button>${se.mode==='edit'?`<button class="btn big ${ui.confirm==='sedel'?'danger':''}" data-act="stEditDel">${ui.confirm==='sedel'?'Confirmer la suppression':'Supprimer'}</button>`:''}<button class="btn big" data-act="close">Annuler</button></div>
       ${se.mode==='edit'?`<p class="hint" style="margin-top:10px"><button class="linkbtn" data-act="seIns" data-v="0">Insérer une stat avant celle-ci</button> · <button class="linkbtn" data-act="seIns" data-v="1">après</button></p>`:''}`;}
+  if(ui.sheet==='tac'){const libs=present(m).filter(p=>S.roles[p.id]==='L'),q=m.tacNext||[],ql=q.filter(e=>e.t==='lib'),qp=q.filter(e=>e.lp),qx=q.filter(e=>e.x!=null);
+    const L=ql.length?ql[ql.length-1].p||null:S.lib,P=qp.length?qp[qp.length-1].lp:(S.libPos||5),X=qx.length?!!qx[qx.length-1].x:!!S.p1x;
+    const chip=(id,on)=>`<button class="bchip ${on?'sel':''}" data-act="tacLib" data-id="${id}"><span class="num r-L">${pnum(m,id)}</span>${esc(dname(m,id))}</button>`;
+    return `<div class="sh"><h3>Options tactiques</h3>${close}</div>
+      ${(m.pend||[]).length?'<p class="warnc">Des stats sont saisies sur cet échange : les changements s\'appliqueront à partir du prochain échange.</p>':''}
+      <h2>Libéro</h2><div class="bench"><button class="bchip ${!L?'sel':''}" data-act="tacLib" data-id="">Sans libéro</button>${libs.map(p=>chip(p.id,L===p.id)).join('')}</div>
+      <p class="hint xp">Les libéros peuvent s'échanger à chaque point, sans compter comme un remplacement.</p>
+      ${L?`<h2>Libéro en défense ${tipB('libpos')}</h2><div class="seg"><button class="${P===5?'on':''}" data-act="tacLp" data-v="5">Poste 5</button><button class="${P===6?'on':''}" data-act="tacLp" data-v="6">Poste 6</button></div>`:''}
+      ${is42(S.zones,S.roles)?'':`<h2>Inversion R4 &lt;-> Pointe en P1 ${tipB('p1x')}</h2><div class="seg"><button class="${X?'':'on'}" data-act="tacX" data-v="0">Non</button><button class="${X?'on':''}" data-act="tacX" data-v="1">Oui</button></div>`}
+      <p class="hint xp">Valable jusqu'à la fin du match, et noté dans le résumé.</p>`;}
   if(ui.sheet==='match'){const sc=S.sets.map(x=>`${x.g}-${x.a}`).join(', ');
     return `<div class="sh"><h3>Match</h3>${close}</div>
       <p class="hint"><b>${esc(matchTitle(m))}</b><br>${esc(fmtDate(m.date))}${m.num?' · match '+esc(m.num):''} — Sets ${S.wins.G}-${S.wins.A}${sc?' ('+sc+')':''}</p>
@@ -2067,10 +2094,11 @@ function sheetHTML(m,S){
       <button class="btn primary" data-act="matchStats">📊 Voir les stats du match</button>
       <button class="btn" data-act="toSetup">Feuille de match et présences</button>
       <button class="btn" data-act="roles">Postes</button>
+      ${S.sets.length?'<button class="btn" data-act="tacOpen">Options tactiques</button>':''}
       ${S.sets.length?'':'<button class="btn" data-act="matchFormat">Format du match</button>'}
       <button class="btn ${ui.confirm==='end'?'danger':''}" data-act="endMatch" ${(m.ev.length&&!isDemoTeam())||ui.tuto?'':'disabled'}>${ui.confirm==='end'?'⚠ Confirmer : terminer et archiver':'🏁 Terminer le match'}</button>
       <button class="btn ${ui.confirm==='new'?'danger':''}" data-act="newMatch">${ui.confirm==='new'?'⚠ Confirmer : archiver ce match et en commencer un nouveau':'＋ Nouveau match'}</button></div>
-      <p class="hint xp">Terminer archive le match et ouvre ses stats. Nouveau match archive le match en cours, puis ouvre une nouvelle feuille de match.</p>`;
+      <p class="hint xp">Terminer : archive et ouvre les stats. Nouveau match : archive puis ouvre une nouvelle feuille.</p>`;
   }
   if(ui.sheet==='redit'){
     const r=ui.redit;
@@ -2081,7 +2109,7 @@ function sheetHTML(m,S){
         <label class="f">Prénom<input id="rPre" value="${esc(title(r.pre))}"></label></div>
       <label class="f" style="margin-top:10px">N° de licence (facultatif)<input id="rLic" value="${esc(r.lic||'')}" maxlength="30" autocomplete="off"></label>
       <p class="hint xp privn">Ces informations restent sur cet appareil et ne sont transmises à personne. <button class="linkbtn" data-act="legal" data-k="privacy">Politique de confidentialité</button></p>
-      <h2>Postes${tipB('posdef')}</h2><p class="hint xp">Touchez pour ajouter ou retirer un poste ; double-touchez un poste pour en faire le poste par défaut (★).</p>
+      <h2>Postes${tipB('posdef')}</h2><p class="hint xp">Touchez pour ajouter ou retirer un poste ; double-touchez pour le poste par défaut (★).</p>
       <div class="roles" style="justify-content:flex-start">${ROLE_ORDER.map(k=>`<button class="rc r-${k} ${r.postes.includes(k)?'on':''}" data-act="rPoste" data-r="${k}" style="padding:0 12px">${r.postes[0]===k?'★ ':''}${ROLES[k]}</button>`).join('')}</div>
       ${r.err?`<div class="warnbox">${esc(r.err)}</div>`:''}
       <div style="margin-top:16px"><button class="btn big primary" data-act="rSave">Enregistrer</button></div>`;
@@ -2111,7 +2139,7 @@ function sheetHTML(m,S){
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
       <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + seul noté sur le point, point gagné)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
-      <p class="hint xp">Efficacité = points / maximum (+ = 2, = = 1, − = 0). Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum). Valeur ajoutée : pour chaque ballon dont la touche précédente est notée (1re touche pour la passe, passe pour l'attaque), écart entre la note obtenue et la note attendue à ce niveau pour un ballon de cette qualité, en points d'efficacité. 0 = conforme au niveau, + = améliore les ballons reçus, − = les dégrade.</p>
+      <p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>
       ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
   }
   if(ui.sheet==='method')return methodHTML(close);
@@ -2125,7 +2153,7 @@ function sheetHTML(m,S){
       <div class="card" style="padding:4px">${L.map((a,k)=>`<div class="prow orow"><span class="onum">${k+1}</span><span class="who"><b>${esc(a.opp||'Adversaire')}</b><small>${esc(fmtDate(a.date))}${a.num?' · '+esc(a.num):''}</small></span>
         <button class="btn icon" data-act="archMove" data-id="${a.id}" data-v="-1" ${k?'':'disabled'} aria-label="Monter">▲</button><button class="btn icon" data-act="archMove" data-id="${a.id}" data-v="1" ${k<L.length-1?'':'disabled'} aria-label="Descendre">▼</button>
         <button class="btn icon" data-act="archMoveOpen" data-id="${a.id}" aria-label="Déplacer dans une autre saison" title="Déplacer dans une autre saison">📂</button></div>`).join('')}</div>
-      <p class="hint xp" style="margin-top:8px">📂 Déplacer dans une autre saison : pour un match classé par erreur (un match de coupe rangé en championnat, par exemple).</p>
+      <p class="hint xp" style="margin-top:8px">📂 : déplacer un match rangé dans la mauvaise saison.</p>
       <div class="tools" style="margin-top:10px"><button class="btn" data-act="archSortDate">Reclasser par date</button></div>`;}
   if(ui.sheet==='archMove'){const T=activeTeam(),a=store.arch.find(x=>x.id===ui.moveId);if(!a)return '';const cur=seasonOf(a),others=T.seasons.filter(x=>x.id!==cur).slice().reverse();
     return `<div class="sh"><h3>Déplacer dans une autre saison</h3>${close}</div><p class="hint">${esc(a.opp||'Adversaire')} · ${esc(fmtDate(a.date))} — actuellement dans « ${esc((T.seasons.find(x=>x.id===cur)||{}).name||'')} ».</p>
@@ -2137,13 +2165,13 @@ function sheetHTML(m,S){
       <p>${esc(nm)} a le poste de libéro et ${side2.concat(side1).filter(x=>x!=='L').length>1?'d’autres postes':'un autre poste'}. Un même maillot ne peut pas servir de libéro et de joueur de champ : l’application crée <b>deux fiches liées</b> (même joueur).</p>
       <div class="card" style="margin-bottom:10px"><b>Fiche 1 · n° ${esc(r.n)}</b><p class="hint" style="margin:4px 0 0">${side1.map(x=>ROLES[x]).join(', ')} (poste ★)</p></div>
       <div class="card"><b>Fiche 2 · ${side2.map(x=>ROLES[x]).join(', ')}</b><label class="f" style="margin-top:6px">Numéro de maillot pour ${side2.length>1?'ces postes':'ce poste'}<input id="splitN" inputmode="numeric" maxlength="2" placeholder="ex. 18"></label></div>
-      <p class="hint xp">Les deux fiches sont liées : sur une feuille de match, une seule des deux est cochée à la fois.</p>
+      <p class="hint xp">Une seule des deux fiches est cochée par match.</p>
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="splitGo">Créer les deux fiches</button><button class="btn big" data-act="splitBack">Revenir à la fiche</button></div>`;}
   if(ui.sheet==='merge1'&&ui.mergeQ){const q=ui.mergeQ,loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id),pn=m=>(m.ev||[]).filter(e=>e.t==='pt').length,sn=m=>(m.ev||[]).filter(e=>e.t==='pt').reduce((a,e)=>a+(e.st?e.st.length:0),0);
     return `<div class="sh"><h3>Nouveau match ?</h3>${close}</div>
       <p>Le match importé, <b>${esc(q.imp.team||'')} – ${esc(q.imp.opp||'')}</b> du ${fmtDate(q.imp.date)}, porte le même intitulé qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil.</p>
       <div class="mgcmp"><div><small>Sur cet appareil</small><b>${pn(loc)} points · ${sn(loc)} actions</b></div><div><small>Importé</small><b>${pn(q.imp)} points · ${sn(q.imp)} actions</b></div></div>
-      <p class="hint xp">Deux personnes ont noté le même match ? La fusion recoupe les deux saisies point par point et complète les actions manquantes de part et d'autre.</p>
+      <p class="hint xp">Deux saisies du même match ? La fusion les recoupe point par point et complète l'une par l'autre.</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeYes">${isPro()?'':'🔒 '}Oui : fusionner les deux saisies</button><button class="btn big" data-act="mergeNo">Non : garder les deux matchs (doublon)</button></div>`;}
   // Suppression d'une saison : avertissement, export proposé avant de supprimer, confirmation en deux temps
   if(ui.sheet==='seasonDel'){const so=seasonObj(ui.seasonDelId),n=seasonMatches(ui.seasonDelId).length;if(!so){ui.sheet=null;return '';}
@@ -2162,26 +2190,40 @@ function sheetHTML(m,S){
   if(ui.sheet==='merge2'&&ui.mergeQ){return `<div class="sh"><h3>En cas de doute ?</h3>${close}</div>
       <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
-      <p class="hint xp" style="margin-top:8px">Les actions présentes d'un seul côté sont toujours ajoutées ; un joueur ou une difficulté manquants sont complétés.</p>`;}
+      <p class="hint xp" style="margin-top:8px">Une action présente d'un seul côté est toujours ajoutée.</p>`;}
+  if(ui.sheet==='impPick'&&ui.imp){const P=ui.imp,T=store.teams.filter(t=>!t.locked),dt=P.dest==='new'?null:ensureSeasons(store.teams.find(t=>t.id===P.dest));
+    const DR=dt?impRosterOf(dt.id):[],miss=P.R.filter(p=>!impFind(DR,p)).length,n=P.sel.length;
+    return `<div class="sh"><h3>Importer</h3>${close}</div>
+      <p class="hint">${esc(P.src)}${P.season?' · '+esc(P.season):''} · <span>${P.items.length} match${P.items.length>1?'s':''}</span></p>
+      <h2>Équipe de destination</h2>
+      <div class="bench">${T.map(t=>`<button class="bchip tbchip ${P.dest===t.id?'sel':''}" data-act="impDest" data-id="${t.id}" style="--gc:${teamColor(t)}">${esc(t.name)}</button>`).join('')}${P.R.length?`<button class="bchip ${P.dest==='new'?'sel':''}" data-act="impDest" data-id="new">＋ Nouvelle équipe « ${esc(P.src)} »</button>`:''}</div>
+      <h2>Saison</h2>
+      <div class="bench">${dt?dt.seasons.map(x=>`<button class="bchip ${P.seasonSel===x.id?'sel':''}" data-act="impSeason" data-id="${x.id}">${esc(x.name)}${x.closed?' 🔒':''}</button>`).join(''):''}<button class="bchip ${P.seasonSel==='new'?'sel':''}" data-act="impSeason" data-id="new">＋ Nouvelle saison${P.season?' « '+esc(P.season)+' »':''}</button></div>
+      <h2>À importer</h2>
+      <div class="card imp">${dt&&P.R.length?`<label class="chk improw"><input type="checkbox" data-act="impRost" ${P.rost&&miss?'checked':''} ${miss?'':'disabled'}><span><b>Effectif du fichier (${P.R.length} joueurs)</b>${miss?`<small>${miss>1?miss+' joueurs à ajouter':'1 joueur à ajouter'}</small>`:'<small class="dupw">Données déjà présentes</small>'}</span></label>`:''}
+        ${P.items.map((mm,i)=>{const dup=impDup(mm,P.dest);return `<label class="chk improw"><input type="checkbox" data-act="impTog" data-i="${i}" ${P.sel.includes(i)?'checked':''}><span><b>${esc(impLabel(mm))}</b>${dup?'<small class="dupw">Données déjà présentes</small>':''}</span></label>`;}).join('')}</div>
+      <div class="tools"><button class="btn" data-act="impAll" data-v="1">Tout cocher</button><button class="btn" data-act="impAll" data-v="0">Tout décocher</button></div>
+      <p class="hint xp">Les joueurs des matchs sont rattachés à l'effectif de l'équipe de destination (même nom) ; les autres y sont ajoutés.</p>
+      <div style="margin-top:12px"><button class="btn big primary" data-act="impGo" ${n?'':'disabled'}>Importer ${n} match${n>1?'s':''}</button></div>`;}
   if(ui.sheet==='teamPick'){
     return `<div class="sh"><h3>Changer d'équipe</h3>${close}</div>
       ${store.cur.ev.length?'<p class="hint">Le match en cours sera archivé avant de changer d\'équipe.</p>':''}
       <div class="card" style="padding:4px">${store.teams.map(t=>{const on=t.id===store.teamId,R=on?store.roster:t.roster;
-        return `<div class="prow ${on?'trow on':'pclick tpick'}" ${on?'':`data-act="teamUse" data-id="${t.id}" data-force="1" role="button" tabindex="0"`}><span class="who"><b>${esc(t.name)}</b><small>${R.length} joueur${R.length>1?'s':''}</small></span>${on?'<span class="tact">active</span>':'<span class="chev">›</span>'}
+        return `<div class="prow tband ${on?'trow on':'pclick tpick'}" style="--gc:${teamColor(t)}" ${on?'':`data-act="teamUse" data-id="${t.id}" data-force="1" role="button" tabindex="0"`}><span class="who"><b>${esc(t.name)}</b><small>${GLAB[t.gender||'F']} · ${R.length} joueur${R.length>1?'s':''}</small></span>${t.locked?'':`<button class="btn" data-act="teamRen" data-id="${t.id}">Nom et genre</button>`}${on?'<span class="tact">active</span>':'<span class="chev">›</span>'}
         ${(()=>{const nm=store.arch.filter(a=>teamOf(a)===t.id).length;return `<button class="btn danger" data-act="teamDel" data-id="${t.id}">${ui.confirm==='tdel:'+t.id?`Confirmer (supprime ${nm} match${nm>1?'s':''})`:'Supprimer'}</button>`;})()}</div>`;}).join('')}</div>
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn" data-act="teamNew">Nouvelle équipe</button><button class="btn" data-act="teamImport">📥 Importer un effectif</button></div>
-      <p class="hint xp">Importer un effectif : seules les équipes du fichier (.vbcs) sont ajoutées, sans les matchs. Si une équipe ressemble à une équipe existante, vous choisissez de la conserver, de la remplacer ou d’annuler.</p>`;}
+      <p class="hint xp">Importer un effectif : équipes seulement, sans les matchs.${tipB('impteam')}</p>`;}
   if(ui.sheet==='seasonName'){const close2=ui.seasonMode==='close',so=seasonObj();
     return `<div class="sh"><h3>${close2?'Clôturer la saison':'Renommer la saison'}</h3>${close}</div>
       ${close2?`<p>La saison <b>« ${esc(so.name)} »</b> sera clôturée (reste consultable et peut être rouverte). Une nouvelle saison s'ouvre pour les prochains matchs.</p>`:''}
       <label class="f">${close2?'Nom de la nouvelle saison':'Nom de la saison'}<input id="seasonIn" type="text" maxlength="50" value="${esc(close2?'':so.name)}" placeholder="ex. Championnat 2026-2027, Coupe de France 2026"></label>
       <div style="margin-top:12px"><button class="btn big ${close2?'danger':'primary'}" data-act="seasonOk">${close2?'Clôturer et ouvrir la nouvelle saison':'Renommer'}</button></div>`;}
   if(ui.sheet==='teamName'){const t=ui.teamEdit==='new'?null:store.teams.find(x=>x.id===ui.teamEdit);
-    return `<div class="sh"><h3>${t?'Renommer l\'équipe':'Nouvelle équipe'}</h3>${close}</div>
-      <label class="f">Nom de l'équipe<input id="teamNameIn" type="text" maxlength="40" value="${esc(t?t.name:(ui.newName||''))}" placeholder="ex. Équipe M15F"></label>
-      ${t?'':`<div class="seg gseg" style="margin-top:10px">${['M','F','X'].map(g=>`<button class="${(ui.newGender||'F')===g?'on':''}" data-act="newGender" data-v="${g}"><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
+    return `<div class="sh"><h3>${t?'Nom et genre de l\'équipe':'Nouvelle équipe'}</h3>${close}</div>
+      <label class="f">Nom de l'équipe<input id="teamNameIn" type="text" maxlength="40" value="${esc(ui.newName!=null?ui.newName:t?t.name:'')}" placeholder="ex. Équipe M15F"></label>
+      ${`<div class="seg gseg" style="margin-top:10px">${['M','F','X'].map(g=>`<button class="${(ui.newGender||'F')===g?'on':''}" data-act="newGender" data-v="${g}"><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
       ${t?'':ui.teamFrom==='setup'?'<p class="hint">L\'équipe sera choisie pour ce match ; vous pourrez ensuite compléter son effectif.</p>':'<p class="hint">L\'effectif est vide : choisissez ensuite l\'équipe puis complétez son effectif, ou importez un effectif.</p>'}
-      <div style="margin-top:12px"><button class="btn big primary" data-act="teamNameOk">${t?'Renommer':'Créer l\'équipe'}</button></div>`;}
+      <div style="margin-top:12px"><button class="btn big primary" data-act="teamNameOk">${t?'Enregistrer':'Créer l\'équipe'}</button></div>`;}
   if(ui.sheet==='teamImport'){const q=(ui.importQ||[])[0];if(!q){ui.sheet=null;return '';}const t=store.teams.find(x=>x.id===q.match);
     return `<div class="sh"><h3>Équipe déjà connue ?</h3>${close}</div>
       <p>L'effectif importé <b>« ${esc(q.name)} »</b> (${q.R.length} joueurs) ressemble à l'équipe <b>« ${esc(t?t.name:'?')} »</b> : ${q.k} joueur${q.k>1?'s':''} en commun.</p>
@@ -2189,17 +2231,11 @@ function sheetHTML(m,S){
         <button class="btn big primary" data-act="teamImpRep">Remplacer l'effectif de « ${esc(t?t.name:'')} »</button>
         <button class="btn" data-act="teamImpNew">Créer une nouvelle équipe « ${esc(q.name)} »</button>
         <button class="btn" data-act="teamImpSkip">Ne pas importer cet effectif</button></div>`;}
-  if(ui.sheet==='paste'){
-    return `<div class="sh"><h3>Coller des données</h3>${close}</div>
-      <p class="hint xp">Si le fichier ne s'ouvre pas sur ce téléphone : ouvre-le dans une autre appli, copie tout son contenu et colle-le ici.</p>
-      <textarea id="pasteBox" style="width:100%;min-height:180px;font:13px/1.35 ui-monospace,monospace;border:1.5px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink)" placeholder='{"app":"volleycoach", ...}'></textarea>
-      <div style="margin-top:12px"><button class="btn big primary" data-act="pasteGo">Importer</button></div>`;
-  }
   if(ui.sheet==='forgot'){
     return `<div class="sh"><h3>Code oublié</h3>${close}</div>
       <div class="card warnc"><b>⚠ Réinitialiser le code efface toutes les données de l'appli</b>
       <p>Équipes, effectifs, matchs, saisons et réglages seront supprimés de cet appareil, sans retour possible. Le code entraîneur sera ensuite désactivé.</p>
-      <p class="hint xp">Si une sauvegarde existe (fichier .vbcs exporté), elle pourra être réimportée ensuite dans Réglages › Import / Export.</p></div>
+      <p class="hint xp">Une sauvegarde .vbcs pourra ensuite être réimportée dans Réglages › Données.</p></div>
       <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big ${ui.confirm==='wipe'?'danger':''}" data-act="wipeAll">${ui.confirm==='wipe'?'⚠ Confirmer : tout effacer':'Effacer toutes les données et réinitialiser le code'}</button><button class="btn big" data-act="close">Annuler</button></div>`;
   }
   if(ui.sheet==='code'){
@@ -2361,7 +2397,7 @@ function twinCands(R){const T=activeTeam(),ign=(T&&T.twinIgnore)||[],out=[];
     if(!((a.postes||[]).includes('L')||(b.postes||[]).includes('L')))return;if(a.grp&&a.grp===b.grp)return;
     const k=[a.id,b.id].sort().join('|');if(!ign.includes(k))out.push([a,b,k]);}));return out;}
 function twinBanner(){return twinCands(store.roster).map(([a,b,k])=>`<div class="card twin"><b>${esc(title(a.pre))} ${esc(a.nom)}</b> a deux maillots : n°${a.n} (${esc((a.postes||[]).join(', '))}) et n°${b.n} (${esc((b.postes||[]).join(', '))}).
-  <div class="hint xp" style="margin:4px 0 8px">En les liant, on ne peut sélectionner qu'un seul des deux maillots par match : choisir l'un désélectionne l'autre.</div>
+  <div class="hint xp" style="margin:4px 0 8px">Liés : un seul des deux maillots par match.</div>
   <div class="tools"><button class="btn primary" data-act="twinLink" data-id="${k}">Lier les deux maillots</button><button class="btn" data-act="twinIgnore" data-id="${k}">Ce sont deux personnes</button></div></div>`).join('');}
 // ---- Progression sur la saison : une courbe par compétence et par joueur (3 actions minimum par match)
 function progressHTML(){if(!proFor({season:true}))return lockHTML('Progression','Les courbes de progression sur la saison font partie de VolleyCoach Pro.');
@@ -2451,13 +2487,13 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`)
       +card('Aides contextuelles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="hints" ${P.hints!==false?'checked':''}> Afficher les explications sous les écrans</label>`,'',`<p class="hint">Les explications et conseils affichés sous les titres et les boutons. Désactivées, les bulles « i » restent disponibles à la demande, et les avertissements importants restent visibles.</p>`))}
     ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label><p class="hint reco">Recommandé sur téléphone</p>
-      ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint xp">Saisie des stats facilitée, gestion d'équipe un peu plus lente : pendant le match, les stats occupent tout l'écran (le score reste visible et cliquable). Le sélecteur « Positions | Stats » passe de l'un à l'autre.</p>${canLock()?`<p class="hint xp">Bloquer la rotation : l’écran reste dans son orientation actuelle (portrait ou paysage) et l’appli passe en plein écran.</p>`:`<p class="hint xp">Blocage de la rotation : non disponible sur cet appareil. La grille des stats garde de toute façon la même disposition quand l’écran tourne.</p>`}`)
+      ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint xp">Pendant le match, la saisie occupe tout l'écran ; « Positions | Saisie » passe de l'un à l'autre.</p>${canLock()?`<p class="hint xp">L'écran garde son orientation et passe en plein écran.</p>`:`<p class="hint xp">Non disponible sur cet appareil ; la grille garde sa disposition quand l'écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
       +card('Statistiques supplémentaires',`<p class="hint xp">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="blk" ${P.blk?'checked':''}> Statistique Bloc</label>
       <hr class="sep">${D('Difficulté du ballon adverse',`<p class="hint">Après avoir choisi le joueur d'une réception ou d'une défense, une question de plus : service ou attaque adverse facile, moyen ou difficile. La valeur ajoutée de la première touche en tient compte (un ballon difficile est moins pénalisant, un ballon facile moins valorisé). Un appui de plus par première touche : à réserver aux saisies à deux ou aux statisticiens entraînés. « Passer » = ballon moyen.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>`)
-      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général pour toutes les saisons : les notes attendues de la valeur ajoutée sont mélangées aux moyennes réelles de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon ». Chaque saison peut garder son propre choix dans le menu Saisons.</p>`)
+      +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général ; chaque saison peut garder son propre choix (menu Saisons).${tipB('calib')}</p>`)
 )}
     ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk sw"><input type="checkbox" role="switch" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger le Menu par un code</label>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
@@ -2466,14 +2502,14 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <div style="margin-top:10px"><button class="btn primary" data-act="codeChange">Changer le code</button></div>`:''}`,'',`<p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture du Menu.':`Désactivé : le Menu s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>`))}
     ${sec('abo','Abonnement',card('VolleyCoach Pro',`<p class="hint">${proStatus()}</p>
       <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button>`))}
-    ${sec('data','Données',card('Sauvegarde',`<div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
+    ${sec('data','Données',card('Sauvegarde',`<p class="hint warnc">Tout est enregistré sur cet appareil : exportez régulièrement une copie.</p><div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
       <label class="chk sw" style="margin-top:10px"><input type="checkbox" role="switch" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .vbcs à la fin de chaque match)</label>
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
       <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.vbcs) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer. Sur Android, avec l'appli installée sur l'écran d'accueil, un fichier reçu (WhatsApp, e-mail, Fichiers) peut aussi être envoyé directement : Partager › VolleyCoach.</p>`)}
-      <div class="tools"><button class="btn" data-act="import">📄 Choisir un fichier</button><button class="btn" data-act="pasteOpen">📋 Coller des données</button></div>
+      <div class="tools"><button class="btn" data-act="import">📂 Ouvrir une sauvegarde</button></div>
       ${NATIVE?'':`<hr class="sep">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
       <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
-      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`}`,'id="importSec"',`<p class="hint xp">Tout est enregistré sur cet appareil. Exportez régulièrement les données pour en garder une copie sur un autre support (téléphone, e-mail, messagerie).</p>`))}
+      <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div>`}`,'id="importSec"'))}
     ${sec('aide','Aide',card('Méthode de calcul',`<p class="hint xp">Comment sont calculées les statistiques, avec les seuils et les poids en vigueur.</p><button class="btn" data-act="methodOpen">📐 Voir la méthode de calcul</button>`)+card('Tutoriel',`<p class="hint xp">Un chapitre par sujet ; chacun se termine ici.</p>
       <div class="tchaps">${TUTO.map((c,i)=>`<button class="btn ${i?'':'primary'}" data-act="tutoStart" data-c="${i}">${i+1}. ${esc(c.t)}</button>`).join('')}</div>`)
       +`<div class="card"><details class="tipsd"><summary><b class="cond" style="font-size:20px">Conseils pour la saisie des stats</b></summary><ol class="tipsl">
@@ -2488,9 +2524,12 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
   return `<section class="setsec" id="set-${pg}">${SEC[pg]}</section>`;}
 // Résumé du match : chaque point avec le score et la dernière action notée
 // Résumé du match : chaque point avec le score et la dernière action notée (changements, temps morts, libéro)
-function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
+function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null,lp0=+(m.libPos||5),x0=false;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
   m.ev.forEach((ev,idx)=>{
-    if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;return;}
+    if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;
+      if(ev.lp&&ev.lp!==lp0)cur.rows.push({k:'tac',a:tr('Libéro en défense')+' : '+tr('Poste')+' '+ev.lp});if(ev.lp)lp0=ev.lp;
+      if(si>0&&!!ev.x!==x0)cur.rows.push({k:'tac',a:tr('Inversion R4 <-> Pointe en P1')+' : '+tr(ev.x?'Oui':'Non')});x0=!!ev.x;return;}
+    if(ev.t==='tac'){if(ev.lp)lp0=ev.lp;if(ev.x!=null)x0=!!ev.x;}
     if(!cur||!play)return;
     if(ev.t==='pt'){const sv=SA[idx]||'@A';if(sv!==last){if(sv==='@A')cur.rows.push({k:'srvA',a:m.opp||'Adversaire',rot:RA[idx]});else cur.rows.push({k:'srv',a:`${pnum(m,sv)} ${dname(m,sv)}`,rot:RA[idx]});}last=sv;ev.w==='G'?cur.g++:cur.a++;const st=ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
       const all=(ev.st||[]).slice(0,-1).map((x,j)=>({lab:stLab(x[0],x[1]),who:x[2]?tag(m,x[2]):'',si:j,ed:x[6]===1}));
@@ -2498,7 +2537,8 @@ function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null;co
       const hi=Math.max(cur.g,cur.a);if(hi>=setTarget(m,si)&&Math.abs(cur.g-cur.a)>=2){play=false;cur.done=true;}}
     else if(ev.t==='sub')cur.rows.push({k:'sub',a:tag(m,ev.i),b:tag(m,ev.o)});
     else if(ev.t==='to')cur.rows.push({k:'to',a:ev.s==='G'?short(m):(m.opp||'Adversaire')});
-    else if(ev.t==='lib'&&ev.p)cur.rows.push({k:'lib',a:tag(m,ev.p)});});
+    else if(ev.t==='lib')cur.rows.push({k:'lib',a:ev.p?tag(m,ev.p):tr('Sans libéro')});
+    else if(ev.t==='tac'){if(ev.lp)cur.rows.push({k:'tac',a:tr('Libéro en défense')+' : '+tr('Poste')+' '+ev.lp});if(ev.x!=null)cur.rows.push({k:'tac',a:tr('Inversion R4 <-> Pointe en P1')+' : '+tr(ev.x?'Oui':'Non')});}});
   return sets;}
 // Action d'un point dans le résumé : la dernière action, ou toute la séquence de l'échange en résumé complet.
 // Résumé modifiable (onglet Stats, hors temps mort, saison et équipe d'exemple) : chaque action est un bouton, « + » ajoute une stat au point ; les actions modifiées après le match sont en gras.
@@ -2511,14 +2551,14 @@ function sumAct(r){const txt=x=>`${esc(x.lab)}${x.who?' · '+esc(x.who):''}`,chi
   return store.prefs.sumFull&&r.all&&r.all.length?`<span class="sact sfull">${r.all.map(x=>chip(x,x.si,x.ed)).concat([last]).join('<i aria-hidden="true">→</i>')}${add}</span>`:`<span class="sact ${SUM_EDIT?'sfull':''}">${last}${add}</span>`;}
 function summaryHTML(m){const sets=summaryData(m);SUM_EDIT=!ui.toStats&&!m.season&&sumMatch()===m&&!isDemoTeam(teamOf(m));
   if(!sets.length)return '<div class="card hint">Aucun point joué pour ce match.</div>';
-  const sw=`<label class="chk sw sumsw"><input type="checkbox" role="switch" data-pref="sumFull" ${store.prefs.sumFull?'checked':''}> Résumé complet</label>${SUM_EDIT?'<p class="hint xp">Touchez une stat pour la corriger, « + » pour en ajouter une à un point. Les stats modifiées après le match sont en gras.</p>':''}`;
+  const sw=`<label class="chk sw sumsw"><input type="checkbox" role="switch" data-pref="sumFull" ${store.prefs.sumFull?'checked':''}> Résumé complet</label>${SUM_EDIT?'<p class="hint xp">Touchez une stat pour la corriger, « + » pour en ajouter. Modifiées après le match : en gras.</p>':''}`;
   // temps mort : les 5 derniers points, du plus récent au plus ancien (avec leurs événements)
   if(ui.toStats&&ui.sumLast){const all=[];sets.forEach((x,i)=>x.rows.forEach(r=>all.push(Object.assign({set:i},r))));let n=0,k=all.length;while(k>0&&n<ui.sumLast){k--;if(all[k].k==='pt')n++;}
-    const last=all.slice(k).reverse(),evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
+    const last=all.slice(k).reverse(),evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:r.k==='tac'?`⚙ ${r.a}`:`Libéro : ${r.a}`;
     return sw+`<div class="card sumc"><div class="sumh"><b>${ui.sumLast} derniers points</b><span class="hint" style="margin:0">du plus récent au plus ancien</span></div>
       <div class="sumrows">${last.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div>
       <button class="btn" style="margin-top:10px" data-act="sumAll">Voir tout le résumé</button></div>`;}
-  const set=ui.fxSet,evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:`Libéro : ${r.a}`;
+  const set=ui.fxSet,evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:r.k==='tac'?`⚙ ${r.a}`:`Libéro : ${r.a}`;
   return sw+sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
     <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div></div>`).join('');}
 // Export du résumé en PDF (3 colonnes de points par set)
@@ -2552,7 +2592,7 @@ function exportSummaryPDF(m){
       if(cy>285)return;
       if(r.k==='pt'){T(r.sc,cx,cy,8.2,true,r.w==='G'?GREEN:RED);doc.setFillColor(...(r.w==='G'?GREEN:RED));doc.circle(cx+10.5,cy-1,0.9,'F');
         let t=trP(r.lab)+(r.who?' · '+pdfSafe(r.who):'')+(r.ed?' *':'');while(doc.getTextWidth(t)>CW-15&&t.length>4)t=t.slice(0,-2);T(t,cx+13,cy,7.6,false,[30,30,30]);}
-      else{const t=r.k==='sub'?`${trP('Changement')} : ${pdfSafe(r.a)} <> ${pdfSafe(r.b)}`:r.k==='to'?`${trP('Temps mort')} ${pdfSafe(r.a)}`:r.k==='srv'?`${trP('Au service')} : ${pdfSafe(r.a)}`:r.k==='srvA'?`${trP('Service')} ${pdfSafe(r.a)}`:`${trP('Libéro')} : ${pdfSafe(r.a)}`;
+      else{const t=r.k==='sub'?`${trP('Changement')} : ${pdfSafe(r.a)} <> ${pdfSafe(r.b)}`:r.k==='to'?`${trP('Temps mort')} ${pdfSafe(r.a)}`:r.k==='srv'?`${trP('Au service')} : ${pdfSafe(r.a)}`:r.k==='srvA'?`${trP('Service')} ${pdfSafe(r.a)}`:r.k==='tac'?pdfSafe(r.a):`${trP('Libéro')} : ${pdfSafe(r.a)}`;
         let tx=cx+4;if((r.k==='srv'||r.k==='srvA')&&r.rot){doc.setDrawColor(20,36,61);doc.setFillColor(242,190,34);doc.roundedRect(cx+3.5,cy-2.7,7,3.6,0.8,0.8,'FD');doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.setTextColor(20,36,61);doc.text('P'+r.rot,cx+7,cy,{align:'center'});tx=cx+12;}
         doc.setFont('helvetica',r.k==='srv'||r.k==='srvA'?'bolditalic':'italic');doc.setFontSize(7);doc.setTextColor(...(r.k==='srvA'?[168,29,48]:GREY));let tt=t;while(doc.getTextWidth(tt)>CW-(tx-cx)&&tt.length>4)tt=tt.slice(0,-2);doc.text(tt,tx,cy);}
       ymax=Math.max(ymax,cy);});
@@ -2593,6 +2633,14 @@ function cardProgHTML(m,S,id){if(!proFor(m))return '';if(m.season?teamArch().len
   return rows?`<div class="cprog"><div class="cpt">Progression ${P.per==='set'?'par set':'par match'}</div>${rows}</div>`:'';}
 // Info-bulles des statistiques : la logique, sans le détail des calculs
 const TIPS={
+ legst:["Lecture des stats","Efficacité = points / maximum (+ = 2, = = 1, − = 0). Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum). Valeur ajoutée : pour chaque ballon dont la touche précédente est notée (1re touche pour la passe, passe pour l'attaque), écart entre la note obtenue et la note attendue à ce niveau pour un ballon de cette qualité, en points d'efficacité. 0 = conforme au niveau, + = améliore les ballons reçus, − = les dégrade."],
+ legrot:["Lecture des rotations","Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation (au total, en side-out, en break), ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum)."],
+ impteam:["Importer un effectif","Seules les équipes du fichier (.vbcs) sont ajoutées, sans les matchs. Si une équipe ressemble à une équipe existante, vous choisissez de la conserver, de la remplacer ou d'annuler. Pour importer des matchs ou une saison, ouvrez le fichier depuis Réglages › Données."],
+ orient:["Orientation du terrain","Filet à gauche ou à droite : le terrain change de côté à chaque set, et à 8 points dans le set décisif. Filet en haut ou en bas : il ne bouge pas."],
+ level:["Niveau","Le niveau fixe la référence de la valeur ajoutée : la note attendue d'une passe ou d'une attaque selon la qualité du ballon reçu."],
+ lineup:["6 de départ","Les postes suivent l'ordre réglementaire de rotation ; le poste 1 est celui du service. Touchez un nom placé pour le changer, double-touchez-le pour changer son poste."],
+ roster:["Effectif","Les modifications s'appliquent au match en cours et aux suivants. Les matchs archivés gardent leur effectif d'origine. La limite de 14 porte sur les sélections pour un match, pas sur l'effectif."],
+ libpos:['Libéro en défense',"Placement quand l'équipe défend, et zones des statistiques : le libéro et le centre arrière défendent à ce poste, le R4 arrière à l'autre."],
  p1x:['Inversion R4 <-> Pointe en P1',"En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set."],
  eff:['Efficacité',"Chaque action est notée − (faute), = (neutre) ou + (réussie). L'efficacité dit à quel point les actions sont réussies : 100 % si tout est +, 50 % si tout est neutre, 0 % si tout est faute."],
  srv:['Service',"+ : service qui met l'adversaire en difficulté ou fait le point. = : service en jeu, facile à recevoir. − : service raté."],
@@ -2741,7 +2789,7 @@ function rotHTML(m,S,set){const R=rotAgg(S,set),zs=[1,2,3,4,5,6].filter(z=>R[z]&
     <table class="rkt rott"><colgroup><col class="c0"><col><col><col></colgroup><tr class="rkh"><th>Rotation</th><th>Side-out<small class="rn"> · points</small></th><th>Break<small class="rn"> · points</small></th><th>Total</th></tr>
     ${zs.map(z=>`<tr class="${z===best?'rbest':z===worst?'rworst':''}"><td><b>P${z}</b>${z===best?' ★':z===worst?' ▽':''}</td>${cell(so(z),R[z].soP,mso,z===bSo,z===wSo)}${cell(br(z),R[z].brP,mbr,z===bBr,z===wBr)}${cell(tot(z),R[z].soP+R[z].brP,mt)}</tr>`).join('')}
     <tr class="teamr"><td>Médiane</td><td class="rv">${mso!=null?Math.round(mso*100)+' %':'–'}</td><td class="rv">${mbr!=null?Math.round(mbr*100)+' %':'–'}</td><td class="rv">${mt!=null?Math.round(mt*100)+' %':'–'}</td></tr></table>
-    <p class="hint xp">Side-out : points gagnés quand l'adversaire sert. Break : points gagnés sur notre service. ★ meilleure rotation (au total, en side-out, en break), ▽ moins bonne. Vert / rouge : 10 points au-dessus / en dessous de la médiane (5 points minimum).</p></div>`;}
+    <p class="hint xp">★ meilleure rotation, ▽ moins bonne.${tipB('legrot')}</p></div>`;}
 // Indicateurs standards du volley
 function stdStats(r){const A=(r.attP||0)+(r.attN||0)+(r.attM||0),Rc=(r.recP||0)+(r.recN||0)+(r.recM||0),Sv=(r.srvP||0)+(r.srvN||0)+(r.srvM||0),B=(r.blkP||0)+(r.blkN||0)+(r.blkM||0);
   return {A,Rc,Sv,B,kill:A?(r.attP||0)/A:null,attErr:A?(r.attM||0)/A:null,attEff:A?((r.attP||0)-(r.attM||0))/A:null,recPos:Rc?(r.recP||0)/Rc:null,aces:r.aceN||0,srvErr:r.srvM||0,blkP:r.blkP||0};}
@@ -2811,7 +2859,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
   const table=S.sets.length?`<div class="tblwrap"><table><thead><tr><th>N°</th><th>Joueur</th><th>Poste</th>${S.sets.map((s,i)=>`<th class="n">S${i+1}</th>`).join('')}<th class="n">Points</th><th>Temps de jeu</th></tr></thead><tbody>
     ${rows.map(r=>`<tr><td><span class="num ${rcls(r.role)}" style="min-width:30px;height:30px;font-size:16px">${r.n}</span></td><td>${esc(r.full)}</td><td>${esc(r.role||'')}</td>${r.sets.map(v=>`<td class="n">${v}</td>`).join('')}<td class="n">${r.tot}</td><td><div class="barcell"><span class="track"><i style="width:${r.pct.toFixed(1)}%"></i></span><b>${r.pct.toFixed(0)} %</b></div></td></tr>`).join('')}
     <tr class="tot"><td></td><td>Équipe (points disputés)</td><td></td>${teamSets.map(v=>`<td class="n">${v}</td>`).join('')}<td class="n">${total}</td><td>100 %</td></tr></tbody></table></div>
-    <p class="hint xp">Temps de jeu = points joués ÷ points disputés par l'équipe sur le match. Les noms hors feuille ne sont pas comptés.</p>`
+    <p class="hint xp">Temps de jeu = points joués ÷ points de l'équipe ; hors feuille non comptés.</p>`
     :'<div class="card hint">Aucun point joué pour ce match.</div>';
   const demo=isDemoTeam(); // matchs d'exemple : consultation seule (ni reprise, ni suppression)
   const arch=TA.map(a=>{const s=replay(a);return `<div class="arch pclick" data-act="cv" data-id="${a.id}" role="button" tabindex="0"><span class="who"><b>${esc(matchTitle(a))}</b><small>${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A} (${s.sets.map(x=>x.g+'-'+x.a).join(', ')||'non joué'})</small></span>
@@ -2846,22 +2894,25 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span></div>
       <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>${isDemoTeam()?'':'<button class="btn danger" data-act="seasonDel">Supprimer la saison…</button>'}
       ${cur?`<button class="btn danger" data-act="seasonClose">Clôturer la saison…</button>`:`<button class="btn primary" data-act="seasonReopen">${ui.confirm==='sreopen'?`Confirmer : « ${esc(seasonObj(T.curSeason).name)} » sera clôturée`:'Rouvrir cette saison'}</button>`}</div>
-      <p class="hint xp">${cur?'Les matchs archivés vont dans cette saison. Clôturer la saison en ouvre une nouvelle (à nommer).':'Saison clôturée : consultation seule. La rouvrir la remet en cours (la saison actuelle est alors clôturée).'}</p>
-      <div class="librow" style="margin-top:6px"><b>Niveau</b><div class="seg lpseg">${LEVELS.map(([v,l])=>`<button class="${(so&&so.level||'R')===v?'on':''}" data-act="seasonLevel" data-v="${v}">${l}</button>`).join('')}</div></div>
-      <p class="hint xp">Le niveau fixe la référence de la valeur ajoutée (note attendue d'une passe ou d'une attaque selon la qualité du ballon reçu).</p>
+      <p class="hint xp">${cur?'Les matchs archivés vont dans cette saison. Clôturer en ouvre une nouvelle.':'Consultation seule. La rouvrir clôture la saison actuelle.'}</p>
+      <div class="librow" style="margin-top:6px"><b>Niveau ${tipB('level')}</b><div class="seg lpseg">${LEVELS.map(([v,l])=>`<button class="${(so&&so.level||'R')===v?'on':''}" data-act="seasonLevel" data-v="${v}">${l}</button>`).join('')}</div></div>
       <label class="chk sw"><input type="checkbox" role="switch" data-act="seasonCalib" ${calibOn(so)?'checked':''} ${isDemoTeam()?'disabled':''}> Calibrer les attentes sur les matchs de la saison${tipB('calib')}</label>${so&&so.calib==null?'<p class="hint" style="margin-top:2px">Selon le réglage général (Réglages › Saisie des statistiques).</p>':''}
       ${TA.length?`<div class="tools"><button class="btn primary" data-act="cv" data-id="season">📊 Stats de la saison</button><button class="btn icon" data-act="share" data-id="season" aria-label="Partager">${IC.share}</button></div>`:''}</div>
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
   else if(ct==='team'){
-    body=`<div class="card teamc stk"><label class="f">Équipe actuelle<select data-teamsel2>${store.teams.map(t=>`<option value="${t.id}" ${t.id===store.teamId?'selected':''}>${esc(t.name)}</option>`).join('')}<option value="__new">＋ Nouvelle équipe…</option></select></label></div>
+    // Liste des équipes maison (le <select> natif ne se colore pas) : bandeau de la couleur du genre, filtre Toutes / Masculin / Féminin / Mixte
+    const gf=store.prefs.gFilt||'',TL=store.teams.filter(t=>!gf||(t.gender||'F')===gf);
+    body=`<div class="card teamc stk"><div class="seg gseg">${[['','Toutes']].concat(['M','F','X'].map(g=>[g,GLAB[g]])).map(([g,l])=>`<button class="${gf===g?'on':''}" data-act="gFilt" data-v="${g}" aria-pressed="${gf===g}">${g?`<i class="gdot" style="background:${GCOL[g]}"></i>`:''}${l}</button>`).join('')}</div>
+      <span class="tslab">Équipe actuelle</span><button class="tselb" data-act="tsOpen" aria-haspopup="listbox" aria-expanded="${!!ui.tsOpen}" style="--gc:${teamColor(AT)}"><i class="gband"></i><b>${esc(AT.name)}</b><small>${GLAB[AT.gender||'F']}</small><span class="chev">${ui.tsOpen?'▴':'▾'}</span></button>
+      ${ui.tsOpen?`<div class="tslist" role="listbox" aria-label="Équipes">${TL.map(t=>`<button role="option" aria-selected="${t.id===store.teamId}" class="tsopt ${t.id===store.teamId?'on':''}" data-act="tsPick" data-id="${t.id}" style="--gc:${teamColor(t)}"><i class="gband"></i><b>${esc(t.name)}</b><small>${GLAB[t.gender||'F']}</small></button>`).join('')||'<p class="hint">Aucune équipe de ce genre.</p>'}<button class="tsopt tsnew" data-act="tsPick" data-id="__new">＋ Nouvelle équipe…</button></div>`:''}</div>
     <div class="card teamc">
       <small class="hint">${store.roster.length} joueur${store.roster.length>1?'s':''} · ${TA.length} match${TA.length>1?'s':''} archivé${TA.length>1?'s':''}</small>
-      ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:`<div class="seg gseg">${['M','F','X'].map(g=>`<button class="${(AT.gender||'F')===g?'on':''}" data-act="teamGender" data-v="${g}" ${AT.locked?'disabled':''}><i class="gdot" style="background:${GCOL[g]}"></i>${GLAB[g]}</button>`).join('')}</div>`}
-      <div class="teamtools">${AT.locked?'':`<button class="btn" data-act="teamRen" data-id="${store.teamId}">Renommer</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
+      ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:''}
+      <div class="teamtools">${AT.locked?'':`<button class="btn" data-act="teamRen" data-id="${store.teamId}">Nom et genre</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
     <h2 id="rosterSec">Effectif — ${esc(AT.name)} (${store.roster.length} joueurs)</h2>
     ${twinBanner()}
-    <p class="hint xp">Les modifications s'appliquent au match en cours et aux suivants. Les matchs archivés gardent leur effectif d'origine. La limite de 14 porte sur les sélections pour un match, pas sur l'effectif.</p>
+    <p class="hint xp">Les changements valent pour le match en cours et les suivants ; les matchs archivés gardent leur effectif.${tipB('roster')}</p>
     <div class="card" style="padding:4px">${store.roster.slice().sort((a,b)=>a.n-b.n).map(p=>`<div class="prow"><span class="num ${rcls(p.postes[0])}">${p.n}</span><span class="who"><b>${esc(title(p.pre))} ${esc(p.nom)}</b><small>${p.postes.map(r=>ROLES[r]).join(' ou ')||'aucun poste'}</small></span>
       <button class="btn" data-act="rEdit" data-id="${p.id}" ${AT.locked?'disabled':''}>Modifier</button><button class="btn danger" data-act="rDel" data-id="${p.id}" ${AT.locked?'disabled':''}>${ui.confirm==='rdel:'+p.id?'Confirmer':'Retirer'}</button></div>`).join('')}</div>
     <div style="margin-top:10px"><button class="btn primary" data-act="rEdit" data-id="" ${store.roster.length>=MAX_ROSTER||AT.locked?'disabled':''}>Nouvelle fiche</button>${store.roster.length>=MAX_ROSTER?` <span class="hint">Effectif complet (${MAX_ROSTER} maximum).</span>`:''}</div>`;}
@@ -3286,7 +3337,7 @@ const A={
   seasonRen(){ui.seasonMode='ren';ui.sheet='seasonName';},
   seasonDel(){if(isDemoTeam())return;ui.seasonDelId=selSeason();ui.confirm=null;ui.sheet='seasonDel';},
   // export proposé avant suppression : permis aussi en version gratuite (protection des données)
-  seasonDelExport(){const so=seasonObj(ui.seasonDelId);if(!so)return;saveFile(`saison_${slug(so.name)}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:seasonMatches(so.id)}));return 'keep';},
+  seasonDelExport(){const so=seasonObj(ui.seasonDelId);if(!so)return;saveFile(`saison_${slug(so.name)}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:so.name,exported:new Date().toISOString(),arch:seasonMatches(so.id)}));return 'keep';},
   seasonDelGo(){if(ui.confirm!=='sdel'){ui.confirm='sdel';return 'keep';}const T=activeTeam(),id=ui.seasonDelId,so=seasonObj(id);if(!T||!so)return;
     const n=seasonMatches(id).length,wasCur=id===T.curSeason;
     store.arch=store.arch.filter(a=>!(teamOf(a)===T.id&&seasonOf(a)===id));T.seasons=T.seasons.filter(x=>x.id!==id);
@@ -3307,7 +3358,7 @@ const A={
     // aucune stat en cours : le dernier point est annulé et rouvert avec ses stats, sauf la dernière
     const ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;m.ev.pop();m.redo=[];m.pend=(ev.st||[]).slice(0,-1);save();toast(ev.st&&ev.st.length?'Point rouvert : dernière stat retirée':'Point annulé','ok');},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
-  pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});return 1;},
+  pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});tacFlush(m);return 1;},
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
@@ -3388,7 +3439,7 @@ const A={
     if(!force){const w=draftIssues();if(w.length){const S0=replay(store.cur),sw=rcSwaps(d.zones,S0.roles);
       const swIds=sw.flat().map(z=>d.zones[z]),w2=w.filter(x=>!(String(x.key||'').startsWith('P:')&&swIds.includes(String(x.key).split(':')[1])));
       ui.alert=(sw.length?[`Ordre de rotation inversé : les R4 et les centres sont échangés par rapport au PDF de rotation (passe, R4, centre, pointe, R4, centre). Les oppositions sont bonnes, mais l’ordre de rotation n’est pas respecté.`]:[]).concat(w2.map(String));
-      ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib,x:d.p1x?1:undefined});if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}${(store.prefs.orient||0)%2?', filet '+(dispOrient()===1?'à droite':'à gauche'):''}`);return 1;},
+      ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib,x:d.p1x?1:undefined,lp:d.lp&&d.lp!==+(store.cur.libPos||5)?d.lp:undefined});if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}${(store.prefs.orient||0)%2?', filet '+(dispOrient()===1?'à droite':'à gauche'):''}`);return 1;},
   pres(d){const m=store.cur,S=replay(m);const on=!m.present[d.id];
     if(!on&&S.phase==='play'&&(S.zones.includes(d.id)||d.id===S.lib)){toast('Déjà sur le terrain ou libéro en jeu : faites d\'abord un changement','warn');return;}
     const before=Object.assign({},m.present);
@@ -3407,7 +3458,17 @@ const A={
     const id=store.cur.id;store.cur.ended=true;archiveCur();store.cur=newMatch(store.cur,store.roster);save();
     ui.toStats=false;ui.coach=true;ui.screen='coach';ui.ctab='stats';ui.coachView=id;ui.fxSet=null;ui.statView='p';ui.sheet=null;window.scrollTo(0,0);toast('Match terminé et archivé : voici ses statistiques','ok');},
   newMatch(){if(isDemoTeam()&&!ui.tuto){toast('Team Earth est une équipe d’exemple : elle ne peut pas servir à saisir un match.','warn');return;}if(ui.tuto){if(!tFresh())return;ui.confirm=null;ui.coach=false;ui.screen='setup';ui.sheet=null;return;}if(ui.confirm!=='new'){ui.confirm='new';return 'keep';}archiveCur();store.cur=newMatch(store.cur,store.roster);save();ui.screen='setup';ui.sheet=null;toast('Match archivé, nouvelle feuille prête','ok');},
-  libPos(d){store.cur.libPos=+d.v;LIBPOS=+d.v;save();},
+  // 6 de départ : réglage du set (avant le 1er set, c'est aussi le réglage de base du match) ; en cours de set : option tactique
+  libPos(d){const v=+d.v;if(ui.screen==='lineup'&&ui.draft){ui.draft.lp=v;if(!replay(store.cur).sets.length){store.cur.libPos=v;save();}return;}tacApply({t:'tac',lp:v});},
+  tacOpen(){ui.sheet='tac';},
+  tacLib(d){const m=store.cur,S=replay(m),v=d.id||null,q=m.tacNext||[],cur=q.filter(e=>e.t==='lib').length?q.filter(e=>e.t==='lib').pop().p||null:S.lib;if(v===cur)return 'keep';
+    // aucun joueur ne peut entrer et sortir dans le même point
+    let k=m.ev.length;while(k>0&&m.ev[k-1].t!=='pt'&&m.ev[k-1].t!=='set')k--;
+    const out=new Set();let l0=replay(Object.assign({},m,{ev:m.ev.slice(0,k)})).lib;m.ev.slice(k).concat(q).filter(e=>e.t==='lib').forEach(e=>{if(l0)out.add(l0);l0=e.p||null;});
+    if(v&&out.has(v)){toast('Un joueur ne peut pas entrer et sortir dans le même point','warn');return 'keep';}
+    tacApply({t:'lib',p:v});return 'keep';},
+  tacLp(d){tacApply({t:'tac',lp:+d.v});return 'keep';},
+  tacX(d){tacApply({t:'tac',x:d.v==='1'?1:0});return 'keep';},
   fmtSet(d){const m=store.cur;if(replay(m).sets.length)return;const F=fmt(m);F[d.k]=d.k==='tb'?d.v==='true':+d.v;m.format=F;save();},
   cv(d){ui.coachView=d.id||null;ui.fxSet=null;ui.ctab='stats';if(ui.statView==='g'&&d.id!=='season')ui.statView='p';window.scrollTo(0,0);},
   sscope(d){ui.ctab='stats';ui.fxSet=null;ui.confirm=null;if(d.v==='cur')ui.coachView=null;else if(d.v==='season')ui.coachView='season';
@@ -3438,8 +3499,7 @@ const A={
     if(d.v==='settings'&&ui.ctab!=='settings')ui.setPage=null;ui.ctab=d.v;
     if(ui.coach&&ui.screen==='coach')return;ui.toStats=false;ui.afterCode=null;openLock();},
   pdf(d){if(!isPro()&&!isDemoTeam()){ui.sheet='pro';return;}const m=d.id==='season'?(teamArch().length?seasonMatch():null):d.id?store.arch.find(a=>a.id===d.id):store.cur;if(m)exportPDF(m);return 1;},
-  seasonJson(){if(!isPro()){ui.sheet='pro';return;}saveFile(`saison_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',exported:new Date().toISOString(),arch:teamArch()}));return 1;},
-  pasteOpen(){ui.sheet='paste';},
+  seasonJson(){if(!isPro()){ui.sheet='pro';return;}saveFile(`saison_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:(seasonObj()||{}).name,exported:new Date().toISOString(),arch:teamArch()}));return 1;},
   mergeYes(){if(!isPro()){ui.sheet='pro';toast('La fusion des saisies fait partie de VolleyCoach Pro','warn');return;}ui.sheet='merge2';},
   mergeNo(){const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const c=JSON.parse(JSON.stringify(q.imp));c.id='m'+Date.now().toString(36);store.arch.push(c);store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));save();toast('Match importé en doublon dans l’archive','ok');},
   mergeGo(d){if(!isPro()){ui.sheet='pro';toast('La fusion des saisies fait partie de VolleyCoach Pro','warn');return;}const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id);if(!loc)return;
@@ -3517,15 +3577,41 @@ const A={
   teamUse(d){if(d.id===store.teamId)return;const key='tuse:'+d.id;if(!d.force&&store.cur.ev.length&&ui.confirm!==key){ui.confirm=key;return 'keep';}ui.sheet=null;
     if(switchTeam(d.id))toast(`Équipe active : ${activeTeam().name}`,'ok');},
   teamNew(){ui.teamEdit='new';ui.newName='';ui.newGender=ui.newGender||'F';ui.sheet='teamName';},
+  impDest(d){const P=ui.imp;if(!P)return;P.dest=d.id;impSeasonDefault(P);P.sel=P.items.map((mm,i)=>impDup(mm,P.dest)?-1:i).filter(i=>i>=0);},
+  impSeason(d){if(ui.imp)ui.imp.seasonSel=d.id;},
+  impTog(d){const P=ui.imp;if(!P)return;const i=+d.i,k=P.sel.indexOf(i);if(k<0)P.sel.push(i);else P.sel.splice(k,1);},
+  impRost(){if(ui.imp)ui.imp.rost=!ui.imp.rost;},
+  impAll(d){const P=ui.imp;if(P)P.sel=d.v==='1'?P.items.map((x,i)=>i):[];},
+  impGo(){const P=ui.imp;if(!P||!P.sel.length)return;let t;
+    if(P.dest==='new'){t=newTeamFrom(P.src,P.R.map(p=>Object.assign({},p)));t.gender='F';ensureSeasons(t);if(P.season)t.seasons[0].name=P.season;}
+    else t=store.teams.find(x=>x.id===P.dest);
+    if(!t)return;ensureSeasons(t);
+    let sid=P.seasonSel==='new'&&P.dest==='new'?t.curSeason:P.seasonSel;
+    if(sid==='new'){const so={id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:P.season||tr('Saison importée'),closed:true};t.seasons.push(so);sid=so.id;}
+    const R=t.id===store.teamId?store.roster:(t.roster||(t.roster=[]));let added=0,n=0,full=false;
+    const add=p=>{if(R.length>=MAX_ROSTER){full=true;return null;}let id=String(p.id);if(R.some(q=>q.id===id))id='r'+p.n+'_'+Math.random().toString(36).slice(2,6);
+      const np={id,n:p.n,nom:p.nom||'',pre:p.pre||'',postes:(p.postes||[]).filter(r=>ROLES[r])};R.push(np);added++;return np;};
+    if(P.dest!=='new'&&P.rost)P.R.forEach(p=>{if(!impFind(R,p))add(p);});
+    P.sel.slice().sort((a,b)=>a-b).forEach(i=>{const c=JSON.parse(JSON.stringify(P.items[i])),map={};
+      impRoster(c).forEach(p=>{const q=impFind(R,p)||add(p);if(q&&q.id!==p.id)map[p.id]=q.id;});
+      const o=Object.keys(map).length?remapIds(c,map):c;
+      if(store.cur.id===o.id||store.arch.some(a=>a.id===o.id))o.id=o.id+'-'+Date.now().toString(36)+n;
+      o.teamId=t.id;o.team=t.name;o.seasonId=sid;delete o.order;store.arch.push(o);n++;});
+    store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+    ui.imp=null;ui.sheet=null;save();
+    toast(tr(n>1?'{N} matchs importés':'1 match importé').replace('{N}',n)+' · '+t.name+(added?' · '+tr(added>1?'{N} joueurs ajoutés':'1 joueur ajouté').replace('{N}',added):''),'ok');if(full)toast("Effectif complet : certains joueurs n'ont pas été ajoutés",'warn');},
   teamGender(d){const t=activeTeam();if(t&&!t.locked){t.gender=d.v;save();}},
+  gFilt(d){store.prefs.gFilt=d.v||'';ui.tsOpen=true;save();},
+  tsOpen(){ui.tsOpen=!ui.tsOpen;},
+  tsPick(d){ui.tsOpen=false;if(d.id==='__new'){A.teamNew();return;}if(d.id!==store.teamId)A.teamUse({id:d.id,force:1});},
   newGender(d){const i=$('#teamNameIn');if(i)ui.newName=i.value;ui.newGender=d.v;},
-  teamRen(d){if(isDemoTeam(d.id)){toast('Équipe d’exemple : non modifiable','warn');return;}ui.teamEdit=d.id;ui.sheet='teamName';},
+  teamRen(d){if(isDemoTeam(d.id)){toast('Équipe d’exemple : non modifiable','warn');return;}const t=store.teams.find(x=>x.id===d.id);ui.teamEdit=d.id;ui.newName=null;ui.newGender=(t&&t.gender)||'F';ui.sheet='teamName';},
   teamNameOk(){const v=(($('#teamNameIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}
     if(store.teams.some(t=>t.name.toLowerCase()===v.toLowerCase()&&t.id!==ui.teamEdit)){toast('Une équipe porte déjà ce nom','warn');return 'keep';}
     if(ui.teamEdit==='new'){const nt={id:'t'+Date.now().toString(36),name:v,roster:[],gender:ui.newGender||'F'};store.teams.push(nt);
       if(ui.teamFrom==='setup'){switchTeam(nt.id,true);ui.ctab='team';ui.coachJump='roster';toast(`Équipe « ${v} » créée et choisie : complétez son effectif`,'ok');}
       else toast(`Équipe « ${v} » créée`,'ok');}
-    else{const t=store.teams.find(x=>x.id===ui.teamEdit);if(t){store.arch.forEach(a=>{if(teamOf(a)===t.id){a.teamId=t.id;a.team=v;}});t.name=v;if(t.id===store.teamId){store.cur.team=v;}}}
+    else{const t=store.teams.find(x=>x.id===ui.teamEdit);if(t){store.arch.forEach(a=>{if(teamOf(a)===t.id){a.teamId=t.id;a.team=v;}});t.name=v;t.gender=ui.newGender||t.gender||'F';if(t.id===store.teamId){store.cur.team=v;}}}
     ui.sheet=null;ui.teamFrom=null;save();},
   teamDel(d){const key='tdel:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}ui.confirm=null;
     if(d.id===store.teamId){ // équipe active : on bascule sur une autre (ou une nouvelle équipe vide), le match en cours est abandonné
@@ -3550,7 +3636,6 @@ const A={
     save();toast('Maillots liés : une seule sélection possible par match','ok');},
   twinIgnore(d){const T=activeTeam();if(T){T.twinIgnore=(T.twinIgnore||[]).concat([d.id]);}save();},
   statView(d){ui.statView=d.v;},
-  pasteGo(){const t=($('#pasteBox')||{}).value;if(importText(t))ui.sheet=null;},
   rosterJson(){saveFile(`effectif_${today()}.vbcs`,JSON.stringify({app:APPID,type:'effectif',v:1,exported:new Date().toISOString(),roster:store.roster},null,1));return 1;},
   json(){saveFile(`volleycoach_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),cur:lean(store.cur),arch:store.arch,roster:store.roster,teams:(save(),store.teams)}));return 1;},
   import(){ui.importTeamsOnly=false;$('#importFile').click();return 1;},
@@ -3592,8 +3677,8 @@ function initDraft(m,S){
   if(prev)for(let z=1;z<=6;z++){const id=prev.lineup[z];if(pres.has(id)&&S.roles[id]!=='L')zones[z]=id;}
   let srv='G';if(prev)srv=prev.srv==='G'?'A':'G';
   const libs=present(m).filter(p=>S.roles[p.id]==='L').map(p=>p.id);
-  const lib=prev&&prev.lib&&libs.includes(prev.lib)?prev.lib:(libs[0]||null);
-  return {set:i,zones,srv,lib};
+  const lib=S.libTouched?(S.lib&&libs.includes(S.lib)?S.lib:null):prev&&prev.lib&&libs.includes(prev.lib)?prev.lib:(libs[0]||null);
+  return {set:i,zones,srv,lib,lp:S.libPos||+(m.libPos||5),p1x:!!S.p1x};
 }
 // Double toucher sur un joueur (composition et changement uniquement) : choix du poste
 const DBL={subO:'now',subI:'now',pickZone:'delay',pickP:'delay'};
@@ -3718,6 +3803,26 @@ async function checkShared(){if(!/[?&]share=1/.test(location.search)||!('caches'
     const txt=await r.text();await c.delete('./shared-file');if(!txt.trim()){toast('Fichier partagé vide ou illisible','warn');return;}
     ui.tuto=null;ui.sheet=null;importText(txt);}catch(e){toast('Impossible de lire le fichier partagé','warn');}}
 setTimeout(checkShared,300);
+// Import à la carte (fichier de match ou de saison) : équipe de destination (ou nouvelle équipe), saison, matchs et effectif à cocher.
+// Les joueurs des matchs sont rattachés à l'effectif de destination (même nom ; même numéro si le nom manque), les autres y sont ajoutés.
+function impRoster(m){return Array.isArray(m&&m.roster)?m.roster:[];}
+function impDup(mm,dest){if(store.cur.id===mm.id||store.arch.some(a=>a.id===mm.id))return true;if(dest==='new')return false;
+  return [store.cur].concat(store.arch).some(a=>a&&a.id!==mm.id&&(a.ev||[]).length&&teamOf(a)===dest&&a.date===mm.date&&mgNorm(a.opp)!==''&&mgNorm(a.opp)===mgNorm(mm.opp));}
+function impRosterOf(id){const t=store.teams.find(x=>x.id===id);return !t?[]:t.id===store.teamId?store.roster:(t.roster||[]);}
+function impFind(R,p){const k=normName(p);return (k&&R.find(q=>normName(q)===k))||(!k&&R.find(q=>q.n===p.n))||null;}
+function impSeasonDefault(P){if(P.dest==='new'){P.seasonSel='new';return;}const t=ensureSeasons(store.teams.find(x=>x.id===P.dest));
+  const hit=P.season&&t.seasons.find(x=>x.name.toLowerCase()===P.season.toLowerCase());P.seasonSel=hit?hit.id:t.curSeason;}
+function impPlan(d,list){
+  const src=String(d.team||(list[0]&&list[0].team)||'Équipe importée'),by={};
+  list.slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).forEach(mm=>impRoster(mm).forEach(p=>{by[normName(p)||'#'+p.n]=p;}));
+  let R;try{R=parseRoster(Array.isArray(d.roster)?d.roster:Object.values(by));}catch(e){R=[];}
+  let dest=(store.teams.find(t=>!t.locked&&t.name.toLowerCase()===src.toLowerCase())||{}).id;
+  if(!dest){let best=null;store.teams.forEach(x=>{if(x.locked)return;const r=rosterSim(R,impRosterOf(x.id));if(r.v>=0.5&&(!best||r.v>best.v))best={id:x.id,v:r.v};});dest=best?best.id:R.length?'new':store.teamId;}
+  const P={src,season:String(d.season||''),R,items:list.map(lean),dest,rost:true};impSeasonDefault(P);
+  P.sel=P.items.map((mm,i)=>impDup(mm,P.dest)?-1:i).filter(i=>i>=0);return P;}
+function impLabel(mm){let sc='';try{const S=replay(mm);sc=' · '+S.wins.G+'-'+S.wins.A;}catch(e){}return `${fmtDate(mm.date)} · ${mm.opp||tr('Adversaire')}${sc}`;}
+// identifiants des joueurs remplacés partout dans le match (valeurs et clés : stats, compositions, présences, postes…)
+function remapIds(o,map){if(Array.isArray(o))return o.map(x=>remapIds(x,map));if(o&&typeof o==='object'){const r={};for(const k in o)r[map[k]||k]=remapIds(o[k],map);return r;}return typeof o==='string'&&map[o]?map[o]:o;}
 function importText(txt){
   let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;
   try{d=JSON.parse(raw);}catch(e){const i=raw.indexOf('{'),j=raw.lastIndexOf('}');
@@ -3729,6 +3834,8 @@ function importText(txt){
   try{
     const list=teamsOnly?[]:(d.arch||[]).concat(d.cur&&Array.isArray(d.cur.ev)&&d.cur.ev.length?[d.cur]:[]);
     if(list.length===1&&list[0]&&Array.isArray(list[0].ev)){const c=mergeCandidate(list[0]);if(c){ui.mergeQ={imp:lean(list[0]),where:c.where,id:c.m.id};ui.sheet='merge1';render();return true;}}
+    const ok=list.filter(mm=>mm&&mm.id&&Array.isArray(mm.ev));
+    if(!Array.isArray(d.teams)&&ok.length){ui.imp=impPlan(d,ok);ui.tuto=null;ui.sheet='impPick';render();return true;}
     list.forEach(mm=>{if(!mm||!mm.id||!Array.isArray(mm.ev))return;if(mm.id===store.cur.id||store.arch.some(a=>a.id===mm.id))return;store.arch.push(lean(mm));n++;});
     store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
     // effectifs : équipe ressemblante (≥ 50 % de joueurs en commun) → proposition de remplacement ; sinon nouvelle équipe
