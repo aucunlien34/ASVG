@@ -117,6 +117,11 @@ label.f select:disabled{opacity:.7}
 .tslist{display:flex;flex-direction:column;gap:6px;margin-top:6px;max-height:min(50vh,360px);overflow:auto}
 .tsopt.on{border-color:var(--team);border-width:2px}.tsopt.tsnew{padding-left:12px;justify-content:center;font-weight:700}
 .prow.tband{border-left:8px solid var(--gc)}
+.sc.pscard{border:2px solid var(--pa);border-left-width:8px;background:linear-gradient(180deg,rgba(242,191,30,.12),transparent 120px)}
+.sc.pscard .hd{flex-wrap:wrap;align-items:center}.pstag{flex:1 1 100%;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.75}
+.sc.pscard .psbig{margin-left:auto;min-height:36px}
+.vad{margin:10px 0}.vad>b{display:inline-block;margin-bottom:6px}
+.tools.aceq .btn{flex:1;min-height:64px;font-size:22px}
 .bchip.tbchip{border-left:6px solid var(--gc)}
 .card.imp{padding:4px 10px}.improw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.improw:last-child{border-bottom:0}
 .improw input{margin-top:3px}.improw small{display:block;font-size:12px;color:var(--muted)}.improw small.dupw{color:var(--neg);font-weight:700}
@@ -705,7 +710,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V166';
+const APP_VERSION='V167';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -966,7 +971,7 @@ function vaDetailRows(r){const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',rows=
   return {rows,grouped};}
 function vaDetailHTML(r){const {rows,grouped}=vaDetailRows(r);if(!rows.length)return '';
   const tr=x=>{if(x.hdr)return `<tr class="vah"><td colspan="5">${x.hdr}</td></tr>`;const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(g>0?'+':'')+g.toFixed(0)} pts</td></tr>`;};
-  return `<details class="tipsd vad"><summary><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}${store.prefs.oppDiff?tipB('oppd'):''}</summary><table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></details>`;}
+  return `<div class="vad"><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}${store.prefs.oppDiff?tipB('oppd'):''}<table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></div>`;}
 function vaAll(o){const a=vaOf(o,'ip'),b=vaOf(o,'ia'),f=vaOf(o,'ft');if(!a&&!b&&!f)return null;const wa=a?a.n:0,wb=b?b.n:0,wf=f?f.n*FT_W:0;return {v:Math.round(((a?a.v*wa:0)+(b?b.v*wb:0)+(f?f.v*wf:0))/(wa+wb+wf)),n:wa+wb+(f?f.n:0)};}
 const facTxt=f=>f&&f.n>=VA_MIN&&!f.cov?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+' pts':'–';
 // Renvoi sans attaque : compté comme une attaque −, sauf si la passe qui le précède est −
@@ -1148,10 +1153,10 @@ function replay0(m){
         const ftA=(pid,sg,k,dif)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),kk=k==='def'?'ftd':'ftr';a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;a[si][kk+'N']=(a[si][kk+'N']||0)+1;a[si][kk+'S']=(a[si][kk+'S']||0)+sg+1;
           if(dif===-1||dif===1){const d=dif===1?'_h':'_e';a[si][kk+d+'N']=(a[si][kk+d+'N']||0)+1;a[si][kk+d+'S']=(a[si][kk+d+'S']||0)+sg+1;}};
         ev.st.forEach(([k,sg,pid,rl,dif])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k,dif);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
-      // Ace : service + seul noté sur l'échange et point gagné (le service a fait le point).
+      // Ace : service + seul noté sur l'échange, point gagné, et « Ace ? » confirmé (ev.ace ; absent avant la V167).
       // Faute de réception : réception − seule notée sur l'échange et point perdu.
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
-        if(pid&&k==='srv'&&sg>0&&ev.w==='G')inc('aceN');
+        if(pid&&k==='srv'&&sg>0&&ev.w==='G'&&ev.ace!==0)inc('aceN'); // « Ace ? Non » : pas d'ace ; sans réponse (avant la V167) : ancienne règle
         if(pid&&k==='rec'&&sg<0&&ev.w==='A')inc('rfN');}
       // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
       if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
@@ -1195,6 +1200,12 @@ function seasonDefName(){const d=new Date(),y=d.getFullYear(),a=d.getMonth()>=7?
 function ensureSeasons(t){if(!t)return t;if(!Array.isArray(t.seasons)||!t.seasons.length){t.seasons=[{id:'s'+t.id,name:seasonDefName(),closed:false}];t.curSeason=t.seasons[0].id;}
   if(!t.seasons.some(x=>x.id===t.curSeason))t.curSeason=t.seasons[t.seasons.length-1].id;return t;}
 const GCOL={M:'#2E68BA',F:'#D9468F',X:'#E0B00F'},GLAB={M:'Masculin',F:'Féminin',X:'Mixte'};
+// Liste des équipes maison (le <select> natif ne se colore pas) : bandeau de la couleur du genre ; filtre par genre dans l'onglet Équipe seulement
+// Heure d'un match : celle du premier service (horodatage du premier set), la feuille de match n'ayant qu'une date
+function matchTime(a){const e=(a.ev||[]).find(x=>x.t==='set');if(!e||!e.at)return '';try{return new Date(e.at).toLocaleTimeString(lang()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit'});}catch(x){return '';}}
+function teamPickHTML(where,filt){const AT=activeTeam(),gf=filt?(store.prefs.gFilt||''):'',TL=store.teams.filter(t=>!gf||(t.gender||'F')===gf),open=ui.tsOpen===where;
+  return `<span class="tslab">Équipe actuelle</span><button class="tselb" data-act="tsOpen" data-v="${where}" aria-haspopup="listbox" aria-expanded="${open}" style="--gc:${teamColor(AT)}"><i class="gband"></i><b>${esc(AT.name)}</b><small>${GLAB[AT.gender||'F']}</small><span class="chev">${open?'▴':'▾'}</span></button>
+    ${open?`<div class="tslist" role="listbox" aria-label="Équipes">${TL.map(t=>`<button role="option" aria-selected="${t.id===store.teamId}" class="tsopt ${t.id===store.teamId?'on':''}" data-act="tsPick" data-id="${t.id}" style="--gc:${teamColor(t)}"><i class="gband"></i><b>${esc(t.name)}</b><small>${GLAB[t.gender||'F']}</small></button>`).join('')||'<p class="hint">Aucune équipe de ce genre.</p>'}<button class="tsopt tsnew" data-act="tsPick" data-id="__new">＋ Nouvelle équipe…</button></div>`:''}`;}
 function teamColor(t){return GCOL[(t&&t.gender)||'F'];}
 function isDemoTeam(id){const t=store.teams.find(x=>x.id===(id||store.teamId));return !!(t&&t.locked);}
 function proFor(m){return isPro()||isDemoTeam(m?teamOf(m):null)||(m&&m.season&&isDemoTeam());}
@@ -2077,6 +2088,9 @@ function sheetHTML(m,S){
       ${(se.k==='rec'||se.k==='def')?`<h2>${se.k==='rec'?'Service adverse':'Attaque adverse'}</h2><div class="seg">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile'],[null,'Non noté']].map(([v,l])=>`<button class="${se.dif===v?'on':''}" data-act="seD" data-v="${v===null?'':v}">${l}</button>`).join('')}</div>`:''}
       <div class="tools" style="margin-top:14px"><button class="btn big primary" data-act="stEditOk">Valider</button>${se.mode==='edit'?`<button class="btn big ${ui.confirm==='sedel'?'danger':''}" data-act="stEditDel">${ui.confirm==='sedel'?'Confirmer la suppression':'Supprimer'}</button>`:''}<button class="btn big" data-act="close">Annuler</button></div>
       ${se.mode==='edit'?`<p class="hint" style="margin-top:10px"><button class="linkbtn" data-act="seIns" data-v="0">Insérer une stat avant celle-ci</button> · <button class="linkbtn" data-act="seIns" data-v="1">après</button></p>`:''}`;}
+  if(ui.sheet==='aceQ'){const st=(m.pend||[])[0];
+    return `<div class="sh"><h3>Ace ?</h3>${close}</div><p>${esc(tag(m,st&&st[2]))} : le service a-t-il fait le point directement ?</p>
+      <div class="tools aceq"><button class="btn big primary" data-act="aceAns" data-v="1">Oui</button><button class="btn big" data-act="aceAns" data-v="0">Non</button></div>`;}
   if(ui.sheet==='tac'){const libs=present(m).filter(p=>S.roles[p.id]==='L'),q=m.tacNext||[],ql=q.filter(e=>e.t==='lib'),qp=q.filter(e=>e.lp),qx=q.filter(e=>e.x!=null);
     const L=ql.length?ql[ql.length-1].p||null:S.lib,P=qp.length?qp[qp.length-1].lp:(S.libPos||5),X=qx.length?!!qx[qx.length-1].x:!!S.p1x;
     const chip=(id,on)=>`<button class="bchip ${on?'sel':''}" data-act="tacLib" data-id="${id}"><span class="num r-L">${pnum(m,id)}</span>${esc(dname(m,id))}</button>`;
@@ -2119,6 +2133,7 @@ function sheetHTML(m,S){
     const LIST=ui.pfList||[],ix=Math.max(0,LIST.findIndex(x=>x.t===ui.pfT&&x.k===ui.pfK)),nav=LIST.length>1?`<div class="pfnav"><button class="btn" data-act="pfGo" data-d="-1" aria-label="Précédent">‹</button><span>${ix+1} / ${LIST.length}</span><button class="btn" data-act="pfGo" data-d="1" aria-label="Suivant">›</button></div>`:'';
     if(ui.pfT==='z'){const Z={att:{},rec:{},def:{}};(set==null?SS.zst:[SS.zst[set]]).forEach(Q=>{if(!Q)return;['att','rec','def'].forEach(k=>Object.entries(Q[k]).forEach(([z,c])=>{const t=Z[k][z]||(Z[k][z]={M:0,P:0,N:0});t.M+=c.M;t.P+=c.P;t.N+=c.N||0;}));});
       return `<div class="pfw"><div class="sh"><h3>Zones</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${dualSVG(Z[ui.pfK],{att:'Attaque',rec:'Réception',def:'Défense'}[ui.pfK])}<p class="hint xp">Balayez vers la gauche ou la droite pour changer.</p></div>`;}
+    if(ui.pfT==='a'){const P=passAgg(SS,set)[ui.pfK];return `<div class="pfw"><div class="sh"><h3>Fiche de poste · Passe</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${P?passCard(M,ui.pfK,P,pspAgg(SS,set,ui.pfK),impAgg(SS,set,ui.pfK,'ip'),true):'<p class="hint">Aucune passe notée.</p>'}</div>`;}
     if(ui.pfT==='k')return `<div class="pfw"><div class="sh"><h3>Classements</h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>${rankTableHTML(M,SS,set,ui.pfK,true)}<p class="hint xp">Balayez vers la gauche ou la droite pour changer.</p></div>`;
     ui.pfullId=ui.pfK||ui.pfullId;
     const f=fxStats(M,SS,set),r=f.rows.find(x=>x.id===ui.pfullId);if(!r){ui.sheet=null;return '';}
@@ -2128,7 +2143,7 @@ function sheetHTML(m,S){
     const line=(lab,k)=>{const v=me[k],tv=team[k],col=!v?'var(--muted)':(tv&&v.n>=3&&v.v-tv.v>=0.10)?'var(--r4)':(tv&&v.n>=3&&v.v-tv.v<=-0.10)?'var(--pu)':'var(--ink)';
       return `<tr><td><b>${lab}</b></td><td class="m">${r[k+'M']||0}</td><td class="n">${r[k+'N']||0}</td><td class="p">${r[k+'P']||0}</td><td>${v?v.n:0}</td><td style="font-weight:700;color:${col}">${v?Math.round(v.v*100)+' %':'–'}${v?`<small class="hint"> ${r[k+'P']||0}/${v.n}</small>`:''}</td><td class="hint">${tv?Math.round(tv.v*100)+' %':'–'}</td></tr>`;};
     const pp=pById(M,r.id),lic=pp.lic||((store.roster.find(x=>x.id===r.id)||{}).lic)||'';
-    const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'))).join(''):'';
+    const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'),true)).join(''):'';
     return `<div class="pfw ${rcls(r.role)}"><div class="sh"><h3 style="display:flex;align-items:center;gap:10px"><span class="num ${rcls(r.role)}">${r.n}</span>${esc(r.full)} <small class="hint">${esc(ROLES[r.role]||'')} · ${esc(scope)}${lic?' · Licence '+esc(lic):''}</small></h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>
       ${impHTML(SS,set,r)}${vaDetailHTML(r)}${stdHTML(r)}${hotHTML(r,teamTot(f))}
       ${isExtra(r.id)?'':`<div class="barcell" style="margin:6px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
@@ -2138,7 +2153,7 @@ function sheetHTML(m,S){
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
-      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + seul noté sur le point, point gagné)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
+      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
       <p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>
       ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
   }
@@ -2156,9 +2171,14 @@ function sheetHTML(m,S){
       <p class="hint xp" style="margin-top:8px">📂 : déplacer un match rangé dans la mauvaise saison.</p>
       <div class="tools" style="margin-top:10px"><button class="btn" data-act="archSortDate">Reclasser par date</button></div>`;}
   if(ui.sheet==='archMove'){const T=activeTeam(),a=store.arch.find(x=>x.id===ui.moveId);if(!a)return '';const cur=seasonOf(a),others=T.seasons.filter(x=>x.id!==cur).slice().reverse();
-    return `<div class="sh"><h3>Déplacer dans une autre saison</h3>${close}</div><p class="hint">${esc(a.opp||'Adversaire')} · ${esc(fmtDate(a.date))} — actuellement dans « ${esc((T.seasons.find(x=>x.id===cur)||{}).name||'')} ».</p>
-      <div class="card"><b>Déplacer dans</b><div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">${others.map(x=>`<button class="btn big" data-act="archMoveTo" data-id="${x.id}">📁 ${esc(x.name)}${x.closed?' (clôturée)':''}</button>`).join('')||'<p class="hint">Aucune autre saison pour l’instant : créez-en une ci-dessous.</p>'}</div></div>
+    return `<div class="sh"><h3>Déplacer le match</h3>${close}</div><p class="hint">${esc(a.opp||'Adversaire')} · ${esc(fmtDate(a.date))} — actuellement dans « ${esc((T.seasons.find(x=>x.id===cur)||{}).name||'')} ».</p>
+      <div class="card"><b>Vers une autre saison</b><div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">${others.map(x=>`<button class="btn big" data-act="archMoveTo" data-id="${x.id}">📁 ${esc(x.name)}${x.closed?' (clôturée)':''}</button>`).join('')||'<p class="hint">Aucune autre saison pour l’instant : créez-en une ci-dessous.</p>'}</div></div>
       <div class="card" style="margin-top:10px"><b>Nouvelle saison</b><div class="row" style="margin-top:6px"><input id="mvNew" type="text" placeholder="ex. Coupe de France 2026-2027" style="flex:1"><button class="btn" data-act="archMoveNew">Créer et déplacer</button></div></div>
+      <div class="card" style="margin-top:10px"><b>Vers une autre équipe</b>${(()=>{const OT=store.teams.filter(t=>!t.locked&&t.id!==T.id),dt=ui.mvTeam&&ensureSeasons(store.teams.find(t=>t.id===ui.mvTeam));
+        return `<div class="bench" style="margin-top:6px">${OT.map(t=>`<button class="bchip tbchip ${ui.mvTeam===t.id?'sel':''}" data-act="archMvTeam" data-id="${t.id}" style="--gc:${teamColor(t)}">${esc(t.name)}</button>`).join('')}</div>
+        ${dt?`<div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">${dt.seasons.slice().reverse().map(x=>`<button class="btn big" data-act="archMvGo" data-id="${x.id}">📁 ${esc(dt.name)} · ${esc(x.name)}${x.closed?' (clôturée)':''}</button>`).join('')}</div>`:''}
+        <div class="row" style="margin-top:8px"><input id="mvTeamNew" type="text" maxlength="40" placeholder="Nom de la nouvelle équipe" style="flex:1"><button class="btn" data-act="archMvNewTeam">＋ Créer et déplacer</button></div>
+        <p class="hint xp">Les joueurs du match sont rattachés à l'effectif de l'équipe choisie (même nom) ; les autres y sont ajoutés.</p>`;})()}</div>
       <div class="tools" style="margin-top:10px"><button class="btn" data-act="archOrg">‹ Retour</button></div>`;}
   if(ui.sheet==='splitL'){const r=ui.redit,star=r.postes[0],side1=star==='L'?['L']:r.postes.filter(x=>x!=='L'),side2=star==='L'?r.postes.filter(x=>x!=='L'):['L'],nm=`${title(r.pre||'')} ${String(r.nom||'').toUpperCase()}`.trim();
     return `<div class="sh"><h3>Libéro et autre poste</h3>${close}</div>
@@ -2333,7 +2353,8 @@ function impLines(S,set,r){const f=vaRole(r);
   return e||f?[{lab:r.role==='L'?'défense':'attaque',eff:e?Math.round(e.v*100):null,f,vl:vaLab(r)}]:[];}
 function impHTML(S,set,r){const L=impLines(S,set,r);if(!L.length)return '';
   return `<div class="impl">${L.map(x=>`<div><span>Efficacité ${x.lab}${tipB('eff')} <b>${x.eff==null?'–':x.eff+' %'}</b></span><span>Valeur ajoutée ${x.vl}${tipB('va')} <b class="${x.f&&x.f.n>=VA_MIN?(x.f.v>0?'p':x.f.v<0?'m':''):''}">${facTxt(x.f)}</b>${x.f?`<small> (${x.f.n}${x.f.n<VA_MIN?' / '+VA_MIN:''})</small>`:''}</span></div>`).join('')}</div>`;}
-function passCard(m,sid,P,PP,imp){
+// Fiche de poste « Passe » (distincte de la fiche joueur) : bandeau jaune, libellé « Fiche de poste », bouton Agrandir (sauf en plein écran)
+function passCard(m,sid,P,PP,imp,big){
   const tt=passTot(P),Tn=PPOSTS.reduce((a,[z])=>a+(P[z]?P[z].n:0),0),avg=zAttAvg(P);if(!tt.n)return '';
   const colOf=c=>{const e=zAtt(c);return e==null||avg==null?'var(--ink)':c.an>=3&&e-avg>=0.10?'var(--r4)':c.an>=3&&e-avg<=-0.10?'var(--pu)':'var(--ink)';};
   const R=86,W=340,cx=W/2,cy=R*1.3+46,H=cy+R*1.3+40,mx=Math.max(1e-9,...PPOSTS.map(([z])=>P[z]&&Tn?P[z].n/Tn:0)),pt=(a,v)=>[cx+R*v*Math.cos(a*Math.PI/180),cy+R*v*Math.sin(a*Math.PI/180)],f=x=>x.toFixed(1);
@@ -2350,7 +2371,7 @@ function passCard(m,sid,P,PP,imp){
   const rows=PPOSTS.filter(([z])=>P[z]).map(([z,lab])=>{const c=P[z];return `<tr><td><b>${lab}</b></td><td class="r">${c.n}</td><td class="r">${Math.round(c.n/Tn*100)} %</td><td style="width:38%">${qb(c)}</td><td class="r" style="color:${colOf(c)};font-weight:700">${c.an?Math.round(zAtt(c)*100)+' %':'–'}</td></tr>`;}).join('')
     +(P.x?`<tr><td colspan="5" class="hint">+ ${P.x.n} passe${P.x.n>1?'s':''} sans attaque notée</td></tr>`:'');
   const nm=sid==='_eq'?'passe non identifiée':`${pnum(m,sid)} ${dname(m,sid)}`;
-  return `<div class="sc"><div class="hd"><span class="num">${sid==='_eq'?'?':pnum(m,sid)}</span><b style="font-size:19px">Passe — ${esc(nm)}</b></div>
+  return `<div class="sc pscard"><div class="hd"><span class="pstag">🎯 Fiche de poste</span><span class="num">${sid==='_eq'?'?':pnum(m,sid)}</span><b style="font-size:19px">Passe — ${esc(nm)}</b>${big?'':`<button class="btn psbig" data-act="pafull" data-id="${sid}" aria-label="Agrandir la fiche Passe">⤢ Agrandir</button>`}</div>
     <div class="sum"><div><div class="big">${passPct(tt)} %</div><small class="hint">réussite de passe${tipB('pas')}</small></div><div><div class="big" style="color:${imp&&imp.v<0?'var(--pu)':'var(--r4)'}">${facTxt(imp)}</div><small class="hint">valeur ajoutée${imp?' ('+imp.n+')':''}${tipB('va')}</small></div>
     <div style="flex:1;min-width:200px"><div class="qbar" style="height:16px">${qb(tt).slice(18,-6)}</div>
     <div class="qlg"><span><i style="background:#D7263D"></i>− ${tt.M} (0 pt)</span><span><i style="background:#B8C2CF"></i>= ${tt.N} (1 pt)</span><span><i style="background:#23924A"></i>+ ${tt.P} (2 pts)</span><span>${tt.n} passes</span></div></div></div>
@@ -2661,7 +2682,7 @@ const TIPS={
  hot:['Fin de set',"Actions jouées quand les deux équipes sont à 5 points ou moins de la fin du set, ou sur balle de set. Comparée à l'efficacité d'ensemble du joueur : vert si nettement meilleure, rouge si nettement moins bonne."],
  calib:['Calibration sur la saison',"Les notes attendues de la valeur ajoutée ne sont plus seulement celles du niveau : elles sont mélangées aux moyennes observées dans les matchs de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon »."],
  va:['Valeur ajoutée',"Le joueur améliore-t-il ou dégrade-t-il les ballons qu'il reçoit ? Chaque ballon reçu a une qualité (réception avant la passe, passe avant l'attaque) ; on compare ce que le joueur en fait à ce qu'on attend, à ce niveau de jeu, d'un ballon de cette qualité.\n\n+ : mieux que prévu. 0 : conforme au niveau. − : moins bien. Un joueur qui reçoit de bons ballons n'est donc pas avantagé.\n\nUne seule valeur ajoutée par poste : passe pour le passeur, défense et réception pour le libéro, attaque et premières touches pour les R4, attaque pour les pointus et les centres. Affichée à partir de 10 ballons. Les ballons dont la touche précédente n'est pas notée ne comptent pas : avec une saisie partielle, le passeur en a peu. Le niveau se règle dans la saison ; le détail − / = / + est dans la fiche agrandie."],
- aces:['Aces',"Services qui font directement le point (aucune autre action notée sur l'échange)."],
+ aces:['Aces',"Services + qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné."],
  rf:['Fautes de réception',"Réceptions ratées qui donnent directement le point à l'adversaire."],
  sheet:['Feuille de match',"Cochez les joueurs présents (14 au maximum). Les boutons à droite changent le poste pour ce match ; le changement s'applique tout de suite au terrain."],
  extra:['Hors feuille',"Jusqu'à deux noms saisis à la main, hors effectif. Ils jouent normalement mais n'ont pas de temps de jeu dans les statistiques."],
@@ -2862,7 +2883,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <p class="hint xp">Temps de jeu = points joués ÷ points de l'équipe ; hors feuille non comptés.</p>`
     :'<div class="card hint">Aucun point joué pour ce match.</div>';
   const demo=isDemoTeam(); // matchs d'exemple : consultation seule (ni reprise, ni suppression)
-  const arch=TA.map(a=>{const s=replay(a);return `<div class="arch pclick" data-act="cv" data-id="${a.id}" role="button" tabindex="0"><span class="who"><b>${esc(matchTitle(a))}</b><small>${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A} (${s.sets.map(x=>x.g+'-'+x.a).join(', ')||'non joué'})</small></span>
+  const arch=TA.map(a=>{const s=replay(a);return `<div class="arch pclick" data-act="cv" data-id="${a.id}" role="button" tabindex="0"><span class="who"><b>${esc(matchTitle(a))}</b><small>${esc(fmtDate(a.date))}${matchTime(a)?' · '+matchTime(a):''}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A} (${s.sets.map(x=>x.g+'-'+x.a).join(', ')||'non joué'})</small></span>
      <button class="btn icon" data-act="share" data-id="${a.id}" aria-label="Partager">${IC.share}</button>
      ${demo?'':`<button class="btn" data-act="resume" data-id="${a.id}">${ui.confirm==='res:'+a.id?'Confirmer':'Reprendre'}</button>
      <button class="btn danger" data-act="del" data-id="${a.id}">${ui.confirm==='del:'+a.id?'Confirmer':'Supprimer'}</button>`}</div>`;}).join('');
@@ -2885,11 +2906,11 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     const tabBar=`<div class="vtabs" role="tablist">${tabs.map(([k,l])=>`<button class="${sv===k?'on':''}" role="tab" data-act="statView" data-v="${k}">${l}</button>`).join('')}</div>`;
     const head=`<div class="card" style="margin:10px 0"><b class="cond" style="font-size:22px">${esc(m.season?`${m.team||'Équipe'} – ${m.seasonName||'Saison'}`:matchTitle(m))}</b>${m.season?' <span class="hint">(cumul des matchs archivés)</span>':view?' <span class="hint">(archive)</span>':' <span class="hint">(match en cours)</span>'}
       <div class="hint" style="margin:2px 0 0">${m.season?`${m.n} match${m.n>1?'s':''} du ${esc(fmtDate(m.date))} au ${esc(fmtDate(m.date2))} — ${S.wins.G} victoire${S.wins.G>1?'s':''}, ${S.wins.A} défaite${S.wins.A>1?'s':''}`:`${esc(fmtDate(m.date))}${m.num?' · match '+esc(m.num):''} — Sets ${S.wins.G}-${S.wins.A}${sc?' ('+sc+')':''}`}</div></div>`;
-    body=`${scopeBar}${tabBar}${sv==='g'?progressHTML():head+statCols(m,S)}`;}
+    body=`<div class="card teamc">${teamPickHTML('stats')}</div>${scopeBar}${tabBar}${sv==='g'?progressHTML():head+statCols(m,S)}`;}
   else if(ct==='seasons'){const T=T0,so=seasonObj(),cur=so&&so.id===T.curSeason;
     const list=T.seasons.slice().reverse().map(x=>{const n=store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===x.id).length;
       return `<button class="sline ${x.id===so.id?'on':''}" style="--gc:${teamColor(T)}" data-act="seasonPick" data-id="${x.id}"><b>📁 ${esc(x.name)}</b><small>${n} match${n>1?'s':''} · ${x.id===T.curSeason?'en cours':'clôturée'}</small></button>`;}).join('');
-    body=`<div class="card steam stk" style="--gc:${teamColor(T)}"><span class="who"><small>Équipe actuelle · saison</small><b>${esc(T.name)}${so?' · '+esc(so.name):''}</b></span><button class="btn" data-act="ctab" data-v="team">Choisir l'équipe</button></div>
+    body=`<div class="card teamc">${teamPickHTML('seasons')}</div>
     <div class="slist">${list}</div>
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span></div>
       <div class="tools" style="margin-top:8px"><button class="btn" data-act="seasonRen">Renommer</button>${isDemoTeam()?'':'<button class="btn danger" data-act="seasonDel">Supprimer la saison…</button>'}
@@ -2901,11 +2922,9 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
   else if(ct==='team'){
-    // Liste des équipes maison (le <select> natif ne se colore pas) : bandeau de la couleur du genre, filtre Toutes / Masculin / Féminin / Mixte
-    const gf=store.prefs.gFilt||'',TL=store.teams.filter(t=>!gf||(t.gender||'F')===gf);
+    const gf=store.prefs.gFilt||'';
     body=`<div class="card teamc stk"><div class="seg gseg">${[['','Toutes']].concat(['M','F','X'].map(g=>[g,GLAB[g]])).map(([g,l])=>`<button class="${gf===g?'on':''}" data-act="gFilt" data-v="${g}" aria-pressed="${gf===g}">${g?`<i class="gdot" style="background:${GCOL[g]}"></i>`:''}${l}</button>`).join('')}</div>
-      <span class="tslab">Équipe actuelle</span><button class="tselb" data-act="tsOpen" aria-haspopup="listbox" aria-expanded="${!!ui.tsOpen}" style="--gc:${teamColor(AT)}"><i class="gband"></i><b>${esc(AT.name)}</b><small>${GLAB[AT.gender||'F']}</small><span class="chev">${ui.tsOpen?'▴':'▾'}</span></button>
-      ${ui.tsOpen?`<div class="tslist" role="listbox" aria-label="Équipes">${TL.map(t=>`<button role="option" aria-selected="${t.id===store.teamId}" class="tsopt ${t.id===store.teamId?'on':''}" data-act="tsPick" data-id="${t.id}" style="--gc:${teamColor(t)}"><i class="gband"></i><b>${esc(t.name)}</b><small>${GLAB[t.gender||'F']}</small></button>`).join('')||'<p class="hint">Aucune équipe de ce genre.</p>'}<button class="tsopt tsnew" data-act="tsPick" data-id="__new">＋ Nouvelle équipe…</button></div>`:''}</div>
+      ${teamPickHTML('team',true)}</div>
     <div class="card teamc">
       <small class="hint">${store.roster.length} joueur${store.roster.length>1?'s':''} · ${TA.length} match${TA.length>1?'s':''} archivé${TA.length>1?'s':''}</small>
       ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:''}
@@ -3358,7 +3377,10 @@ const A={
     // aucune stat en cours : le dernier point est annulé et rouvert avec ses stats, sauf la dernière
     const ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;m.ev.pop();m.redo=[];m.pend=(ev.st||[]).slice(0,-1);save();toast(ev.st&&ev.st.length?'Point rouvert : dernière stat retirée':'Point annulé','ok');},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
-  pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();m.pend=[];dispatch(st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w});tacFlush(m);return 1;},
+  pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();
+    if(d.w==='G'&&d.ace==null&&st.length===1&&st[0][0]==='srv'&&st[0][1]>0&&st[0][2]){ui.aceQ=true;ui.sheet='aceQ';return 1;}
+    m.pend=[];const ev=st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w};if(d.ace!=null)ev.ace=+d.ace;dispatch(ev);tacFlush(m);return 1;},
+  aceAns(d){ui.sheet=null;ui.aceQ=false;return A.pt({w:'G',ace:d.v==='1'?1:0});},
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
@@ -3556,7 +3578,12 @@ const A={
   seasonLevel(d){if(isDemoTeam()){toast('Équipe d’exemple : non modifiable','warn');return;}const so=seasonObj();if(so){so.level=d.v;save();}},
   archOrg(){ui.sheet='archOrg';},
   archMove(d){if(isDemoTeam()){toast('Équipe d’exemple : non modifiable','warn');return;}const L=teamArch();L.forEach((a,k)=>{a.order=k;});const k=L.findIndex(a=>a.id===d.id),t=k+(+d.v);if(k<0||t<0||t>=L.length)return;[L[k].order,L[t].order]=[L[t].order,L[k].order];save();},
-  archMoveOpen(d){ui.moveId=d.id;ui.sheet='archMove';},
+  archMoveOpen(d){ui.moveId=d.id;ui.mvTeam=null;ui.sheet='archMove';},
+  archMvTeam(d){ui.mvTeam=ui.mvTeam===d.id?null:d.id;},
+  archMvGo(d){const a=store.arch.find(x=>x.id===ui.moveId),t=store.teams.find(x=>x.id===ui.mvTeam);if(!a||!t||isDemoTeam())return;moveToTeam(a,t,d.id);},
+  archMvNewTeam(){const a=store.arch.find(x=>x.id===ui.moveId);if(!a||isDemoTeam())return;const v=(($('#mvTeamNew')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}
+    if(store.teams.some(t=>t.name.toLowerCase()===v.toLowerCase())){toast('Une équipe porte déjà ce nom','warn');return 'keep';}
+    let R;try{R=parseRoster(impRoster(a));}catch(e){R=[];}const t=newTeamFrom(v,R);t.gender=(activeTeam()||{}).gender||'F';ensureSeasons(t);moveToTeam(a,t,t.curSeason);},
   archMoveTo(d){if(isDemoTeam()){return;}const a=store.arch.find(x=>x.id===ui.moveId);if(!a)return;a.seasonId=d.id;delete a.order;save();ui.sheet='archOrg';toast('Match déplacé','ok');},
   archMoveNew(){const v=(($('#mvNew')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}const T=activeTeam(),id='s'+Date.now().toString(36);T.seasons.push({id,name:v,closed:false});
     if(T.curSeason)T.seasons.find(x=>x.id===id).closed=T.curSeason!==id;A.archMoveTo({id});},
@@ -3601,9 +3628,9 @@ const A={
     ui.imp=null;ui.sheet=null;save();
     toast(tr(n>1?'{N} matchs importés':'1 match importé').replace('{N}',n)+' · '+t.name+(added?' · '+tr(added>1?'{N} joueurs ajoutés':'1 joueur ajouté').replace('{N}',added):''),'ok');if(full)toast("Effectif complet : certains joueurs n'ont pas été ajoutés",'warn');},
   teamGender(d){const t=activeTeam();if(t&&!t.locked){t.gender=d.v;save();}},
-  gFilt(d){store.prefs.gFilt=d.v||'';ui.tsOpen=true;save();},
-  tsOpen(){ui.tsOpen=!ui.tsOpen;},
-  tsPick(d){ui.tsOpen=false;if(d.id==='__new'){A.teamNew();return;}if(d.id!==store.teamId)A.teamUse({id:d.id,force:1});},
+  gFilt(d){store.prefs.gFilt=d.v||'';ui.tsOpen='team';save();},
+  tsOpen(d){ui.tsOpen=ui.tsOpen===d.v?null:d.v;},
+  tsPick(d){ui.tsOpen=null;if(d.id==='__new'){A.teamNew();return;}if(d.id!==store.teamId)A.teamUse({id:d.id,force:1});},
   newGender(d){const i=$('#teamNameIn');if(i)ui.newName=i.value;ui.newGender=d.v;},
   teamRen(d){if(isDemoTeam(d.id)){toast('Équipe d’exemple : non modifiable','warn');return;}const t=store.teams.find(x=>x.id===d.id);ui.teamEdit=d.id;ui.newName=null;ui.newGender=(t&&t.gender)||'F';ui.sheet='teamName';},
   teamNameOk(){const v=(($('#teamNameIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}
@@ -3624,6 +3651,7 @@ const A={
   teamImpNew(){const q=ui.importQ.shift();newTeamFrom(q.name,q.R);save();toast(`Équipe « ${q.name} » créée`,'ok');if(!ui.importQ.length)ui.sheet=null;},
   teamImpSkip(){ui.importQ.shift();if(!ui.importQ.length)ui.sheet=null;},
   pfull(d){const m0=ui.toStats?store.cur:(ui.coachView==='season'?seasonMatch():ui.coachView?store.arch.find(a=>a.id===ui.coachView):store.cur);if(!proFor(m0)){if(m0&&!freeIds(m0,replay(m0)).has(d.id)){ui.sheet='pro';return;}}ui.pfullId=d.id;ui.pfT='p';ui.pfK=d.id;ui.pfList=(ui.pfOrder||[d.id]).map(id=>({t:'p',k:id}));ui.sheet='pfull';},
+  pafull(d){const m0=ui.coachView==='season'?seasonMatch():ui.coachView?store.arch.find(a=>a.id===ui.coachView):store.cur;const ids=Object.keys(passAgg(replay(m0),ui.fxSet));ui.pfT='a';ui.pfK=d.id;ui.pfList=ids.map(k=>({t:'a',k}));ui.sheet='pfull';},
   zfull(d){ui.pfT='z';ui.pfK=d.k;ui.pfList=(isPro()||isDemoTeam()?['att','rec','def']:['att']).map(k=>({t:'z',k}));ui.sheet='pfull';},
   kfull(d){ui.pfT='k';ui.pfK=d.k;ui.pfList=RKS().map(([k])=>({t:'k',k}));ui.sheet='pfull';},
   pfGo(d){const L=ui.pfList||[];if(L.length<2)return;const i=L.findIndex(x=>x.t===ui.pfT&&x.k===ui.pfK),n=L[(i+(+d.d)+L.length)%L.length];ui.pfT=n.t;ui.pfK=n.k;const sh=document.querySelector('#sheet .sheet');if(sh)sh.scrollTop=0;},
@@ -3822,6 +3850,11 @@ function impPlan(d,list){
   P.sel=P.items.map((mm,i)=>impDup(mm,P.dest)?-1:i).filter(i=>i>=0);return P;}
 function impLabel(mm){let sc='';try{const S=replay(mm);sc=' · '+S.wins.G+'-'+S.wins.A;}catch(e){}return `${fmtDate(mm.date)} · ${mm.opp||tr('Adversaire')}${sc}`;}
 // identifiants des joueurs remplacés partout dans le match (valeurs et clés : stats, compositions, présences, postes…)
+// Déplacement d'un match archivé vers une autre équipe : joueurs rattachés à son effectif (même nom), les autres ajoutés
+function moveToTeam(a,t,sid){const R=t.id===store.teamId?store.roster:(t.roster||(t.roster=[])),map={};let added=0;
+  impRoster(a).forEach(p=>{let q=impFind(R,p);if(!q&&R.length<MAX_ROSTER){let id=String(p.id);if(R.some(x=>x.id===id))id='r'+p.n+'_'+Math.random().toString(36).slice(2,6);q={id,n:p.n,nom:p.nom||'',pre:p.pre||'',postes:(p.postes||[]).filter(r=>ROLES[r])};R.push(q);added++;}if(q&&q.id!==p.id)map[p.id]=q.id;});
+  if(Object.keys(map).length){const o=remapIds(a,map);Object.keys(a).forEach(k=>delete a[k]);Object.assign(a,o);}Object.assign(a,{teamId:t.id,team:t.name,seasonId:sid});delete a.order;
+  ui.mvTeam=null;ui.sheet='archOrg';save();toast(tr('Match déplacé vers « {N} »').replace('{N}',t.name)+(added?' · '+tr(added>1?'{N} joueurs ajoutés':'1 joueur ajouté').replace('{N}',added):''),'ok');}
 function remapIds(o,map){if(Array.isArray(o))return o.map(x=>remapIds(x,map));if(o&&typeof o==='object'){const r={};for(const k in o)r[map[k]||k]=remapIds(o[k],map);return r;}return typeof o==='string'&&map[o]?map[o]:o;}
 function importText(txt){
   let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;
