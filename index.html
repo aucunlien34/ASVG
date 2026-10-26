@@ -710,7 +710,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V168';
+const APP_VERSION='V169';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1153,10 +1153,10 @@ function replay0(m){
         const ftA=(pid,sg,k,dif)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),kk=k==='def'?'ftd':'ftr';a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;a[si][kk+'N']=(a[si][kk+'N']||0)+1;a[si][kk+'S']=(a[si][kk+'S']||0)+sg+1;
           if(dif===-1||dif===1){const d=dif===1?'_h':'_e';a[si][kk+d+'N']=(a[si][kk+d+'N']||0)+1;a[si][kk+d+'S']=(a[si][kk+d+'S']||0)+sg+1;}};
         ev.st.forEach(([k,sg,pid,rl,dif])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k,dif);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
-      // Ace : service + seul noté sur l'échange, point gagné, et « Ace ? » confirmé (ev.ace ; absent avant la V167).
+      // Ace : service + ou = seul noté sur l'échange, point gagné, et « Ace ? » confirmé (ev.ace ; absent avant la V167 : service + seul).
       // Faute de réception : réception − seule notée sur l'échange et point perdu.
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
-        if(pid&&k==='srv'&&sg>0&&ev.w==='G'&&ev.ace!==0)inc('aceN'); // « Ace ? Non » : pas d'ace ; sans réponse (avant la V167) : ancienne règle
+        if(pid&&k==='srv'&&ev.w==='G'&&(ev.ace===1||(ev.ace==null&&sg>0)))inc('aceN'); // « Ace ? » : service + ou = seul noté ; sans réponse (avant la V167) : service + seul
         if(pid&&k==='rec'&&sg<0&&ev.w==='A')inc('rfN');}
       // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
       if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
@@ -2148,7 +2148,7 @@ function sheetHTML(m,S){
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
-      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
+      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
       <p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>
       ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
   }
@@ -2686,7 +2686,7 @@ const TIPS={
  hot:['Fin de set',"Actions jouées quand les deux équipes sont à 5 points ou moins de la fin du set, ou sur balle de set. Comparée à l'efficacité d'ensemble du joueur : vert si nettement meilleure, rouge si nettement moins bonne."],
  calib:['Calibration sur la saison',"Les notes attendues de la valeur ajoutée ne sont plus seulement celles du niveau : elles sont mélangées aux moyennes observées dans les matchs de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon »."],
  va:['Valeur ajoutée',"Le joueur améliore-t-il ou dégrade-t-il les ballons qu'il reçoit ? Chaque ballon reçu a une qualité (réception avant la passe, passe avant l'attaque) ; on compare ce que le joueur en fait à ce qu'on attend, à ce niveau de jeu, d'un ballon de cette qualité.\n\n+ : mieux que prévu. 0 : conforme au niveau. − : moins bien. Un joueur qui reçoit de bons ballons n'est donc pas avantagé.\n\nUne seule valeur ajoutée par poste : passe pour le passeur, défense et réception pour le libéro, attaque et premières touches pour les R4, attaque pour les pointus et les centres. Affichée à partir de 10 ballons. Les ballons dont la touche précédente n'est pas notée ne comptent pas : avec une saisie partielle, le passeur en a peu. Le niveau se règle dans la saison ; le détail − / = / + est dans la fiche agrandie."],
- aces:['Aces',"Services + qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné."],
+ aces:['Aces',"Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné."],
  rf:['Fautes de réception',"Réceptions ratées qui donnent directement le point à l'adversaire."],
  sheet:['Feuille de match',"Cochez les joueurs présents (14 au maximum). Les boutons à droite changent le poste pour ce match ; le changement s'applique tout de suite au terrain."],
  extra:['Hors feuille',"Jusqu'à deux noms saisis à la main, hors effectif. Ils jouent normalement mais n'ont pas de temps de jeu dans les statistiques."],
@@ -3382,7 +3382,7 @@ const A={
     const ev=m.ev[m.ev.length-1];if(!ev||ev.t!=='pt')return;m.ev.pop();m.redo=[];m.pend=(ev.st||[]).slice(0,-1);save();toast(ev.st&&ev.st.length?'Point rouvert : dernière stat retirée':'Point annulé','ok');},
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
   pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();
-    if(d.w==='G'&&d.ace==null&&st.length===1&&st[0][0]==='srv'&&st[0][1]>0&&st[0][2]){ui.aceQ=true;ui.sheet='aceQ';return 1;}
+    if(d.w==='G'&&d.ace==null&&st.length===1&&st[0][0]==='srv'&&st[0][1]>=0&&st[0][2]){ui.aceQ=true;ui.sheet='aceQ';render();return 1;}
     m.pend=[];const ev=st.length?{t:'pt',w:d.w,st}:{t:'pt',w:d.w};if(d.ace!=null)ev.ace=+d.ace;dispatch(ev);tacFlush(m);return 1;},
   aceAns(d){ui.sheet=null;ui.aceQ=false;return A.pt({w:'G',ace:d.v==='1'?1:0});},
   undo(){undo();return 1;}, redo(){redo();return 1;},
