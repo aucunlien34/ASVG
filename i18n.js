@@ -1079,7 +1079,11 @@ const I18N = {
   "Cochez au moins une équipe": "Tick at least one team",
   "Cochez au moins une saison": "Tick at least one season",
   "(service + ou = confirmé « Ace ? Oui »)": "(serve + or = confirmed “Ace? Yes”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Serves (+ or =) that win the point directly, confirmed with “Ace? Yes” (the only action recorded in the rally). Before V167: serve + recorded alone and point won."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Serves (+ or =) that win the point directly, confirmed with “Ace? Yes” (the only action recorded in the rally). Before V167: serve + recorded alone and point won.",
+  "Avec {N}": "With {N}",
+  "en {N}": "in {N}",
+  "le joueur en {N} doit être": "the player in {N} must be",
+  "ou": "or"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -2090,7 +2094,11 @@ const I18N = {
   "Cochez au moins une équipe": "Marca al menos un equipo",
   "Cochez au moins une saison": "Marca al menos una temporada",
   "(service + ou = confirmé « Ace ? Oui »)": "(saque + o = confirmado «¿Ace? Sí»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Saques (+ o =) que ganan el punto directamente, confirmados con «¿Ace? Sí» (única acción anotada en la jugada). Antes de la V167: saque + anotado solo y punto ganado."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Saques (+ o =) que ganan el punto directamente, confirmados con «¿Ace? Sí» (única acción anotada en la jugada). Antes de la V167: saque + anotado solo y punto ganado.",
+  "Avec {N}": "Con {N}",
+  "en {N}": "en {N}",
+  "le joueur en {N} doit être": "el jugador en {N} debe ser",
+  "ou": "o"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -3101,7 +3109,11 @@ const I18N = {
   "Cochez au moins une équipe": "Spunta almeno una squadra",
   "Cochez au moins une saison": "Spunta almeno una stagione",
   "(service + ou = confirmé « Ace ? Oui »)": "(battuta + o = confermata «Ace? Sì»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Battute (+ o =) che fanno direttamente il punto, confermate con «Ace? Sì» (unica azione registrata nello scambio). Prima della V167: battuta + registrata da sola e punto vinto."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Battute (+ o =) che fanno direttamente il punto, confermate con «Ace? Sì» (unica azione registrata nello scambio). Prima della V167: battuta + registrata da sola e punto vinto.",
+  "Avec {N}": "Con {N}",
+  "en {N}": "in {N}",
+  "le joueur en {N} doit être": "il giocatore in {N} deve essere",
+  "ou": "o"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -4112,7 +4124,11 @@ const I18N = {
   "Cochez au moins une équipe": "Kreuzen Sie mindestens ein Team an",
   "Cochez au moins une saison": "Kreuzen Sie mindestens eine Saison an",
   "(service + ou = confirmé « Ace ? Oui »)": "(Aufschlag + oder = bestätigt mit „Ass? Ja“)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Aufschläge (+ oder =), die direkt punkten, bestätigt mit „Ass? Ja“ (einzige erfasste Aktion im Ballwechsel). Vor V167: Aufschlag + allein erfasst und Punkt gewonnen."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Aufschläge (+ oder =), die direkt punkten, bestätigt mit „Ass? Ja“ (einzige erfasste Aktion im Ballwechsel). Vor V167: Aufschlag + allein erfasst und Punkt gewonnen.",
+  "Avec {N}": "Mit {N}",
+  "en {N}": "auf {N}",
+  "le joueur en {N} doit être": "muss auf {N} spielen:",
+  "ou": "oder"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -5123,7 +5139,11 @@ const I18N = {
   "Cochez au moins une équipe": "Zaznacz co najmniej jedną drużynę",
   "Cochez au moins une saison": "Zaznacz co najmniej jeden sezon",
   "(service + ou = confirmé « Ace ? Oui »)": "(zagrywka + lub = potwierdzona „As? Tak”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Zagrywki (+ lub =), które bezpośrednio dają punkt, potwierdzone „As? Tak” (jedyna akcja zapisana w akcji). Przed V167: sama zagrywka + i zdobyty punkt."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Zagrywki (+ lub =), które bezpośrednio dają punkt, potwierdzone „As? Tak” (jedyna akcja zapisana w akcji). Przed V167: sama zagrywka + i zdobyty punkt.",
+  "Avec {N}": "Gdy {N}",
+  "en {N}": "jest w {N}",
+  "le joueur en {N} doit être": "zawodnik w {N} musi być:",
+  "ou": "lub"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -6134,7 +6154,11 @@ const I18N = {
   "Cochez au moins une équipe": "Marque pelo menos uma equipe",
   "Cochez au moins une saison": "Marque pelo menos uma temporada",
   "(service + ou = confirmé « Ace ? Oui »)": "(saque + ou = confirmado «Ace? Sim»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Saques (+ ou =) que fazem o ponto diretamente, confirmados com «Ace? Sim» (única ação anotada na jogada). Antes da V167: saque + anotado sozinho e ponto ganho."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Saques (+ ou =) que fazem o ponto diretamente, confirmados com «Ace? Sim» (única ação anotada na jogada). Antes da V167: saque + anotado sozinho e ponto ganho.",
+  "Avec {N}": "Com {N}",
+  "en {N}": "em {N}",
+  "le joueur en {N} doit être": "o jogador em {N} deve ser",
+  "ou": "ou"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -7145,7 +7169,11 @@ const I18N = {
   "Cochez au moins une équipe": "En az bir takım işaretleyin",
   "Cochez au moins une saison": "En az bir sezon işaretleyin",
   "(service + ou = confirmé « Ace ? Oui »)": "(servis + veya =, «As? Evet» ile onaylandı)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Doğrudan sayı getiren servisler (+ veya =), «As? Evet» ile onaylanır (sayıda kaydedilen tek eylem). V167 öncesi: tek başına kaydedilen servis + ve kazanılan sayı."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Doğrudan sayı getiren servisler (+ veya =), «As? Evet» ile onaylanır (sayıda kaydedilen tek eylem). V167 öncesi: tek başına kaydedilen servis + ve kazanılan sayı.",
+  "Avec {N}": "{N}",
+  "en {N}": "{N} bölgesindeyken",
+  "le joueur en {N} doit être": "{N} bölgesindeki oyuncu şu olmalı:",
+  "ou": "veya"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -8156,7 +8184,11 @@ const I18N = {
   "Cochez au moins une équipe": "チームを1つ以上選択してください",
   "Cochez au moins une saison": "シーズンを1つ以上選択してください",
   "(service + ou = confirmé « Ace ? Oui »)": "（サーブ＋または＝、「サービスエース？ はい」で確定）",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "直接得点したサーブ（＋または＝）で、「サービスエース？ はい」で確定したもの（ラリーで記録された唯一のプレー）。V167以前：サーブ＋のみ記録され得点した場合。"
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "直接得点したサーブ（＋または＝）で、「サービスエース？ はい」で確定したもの（ラリーで記録された唯一のプレー）。V167以前：サーブ＋のみ記録され得点した場合。",
+  "Avec {N}": "{N}が",
+  "en {N}": "{N}にいるとき",
+  "le joueur en {N} doit être": "{N}の選手は：",
+  "ou": "または"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -9167,7 +9199,11 @@ const I18N = {
   "Cochez au moins une équipe": "请至少勾选一支球队",
   "Cochez au moins une saison": "请至少勾选一个赛季",
   "(service + ou = confirmé « Ace ? Oui »)": "（发球 + 或 =，经“发球得分？是”确认）",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "直接得分的发球（+ 或 =），经“发球得分？是”确认（该回合唯一记录的动作）。V167 之前：仅记录发球 + 且得分。"
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "直接得分的发球（+ 或 =），经“发球得分？是”确认（该回合唯一记录的动作）。V167 之前：仅记录发球 + 且得分。",
+  "Avec {N}": "{N}",
+  "en {N}": "在{N}号位时",
+  "le joueur en {N} doit être": "{N}号位的球员应为",
+  "ou": "或"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -10178,7 +10214,11 @@ const I18N = {
   "Cochez au moins une équipe": "Vink minstens één team aan",
   "Cochez au moins une saison": "Vink minstens één seizoen aan",
   "(service + ou = confirmé « Ace ? Oui »)": "(service + of = bevestigd met „Ace? Ja”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Services (+ of =) die direct het punt maken, bevestigd met „Ace? Ja” (enige actie genoteerd in de rally). Vóór V167: service + alleen genoteerd en punt gewonnen."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Services (+ of =) die direct het punt maken, bevestigd met „Ace? Ja” (enige actie genoteerd in de rally). Vóór V167: service + alleen genoteerd en punt gewonnen.",
+  "Avec {N}": "Met {N}",
+  "en {N}": "op {N}",
+  "le joueur en {N} doit être": "moet de speler op {N} zijn:",
+  "ou": "of"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -11189,7 +11229,11 @@ const I18N = {
   "Cochez au moins une équipe": "Označite bar jedan tim",
   "Cochez au moins une saison": "Označite bar jednu sezonu",
   "(service + ou = confirmé « Ace ? Oui »)": "(servis + ili = potvrđen sa „As? Da”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servisi (+ ili =) koji direktno donose poen, potvrđeni sa „As? Da” (jedina zabeležena akcija u poenu). Pre V167: samo servis + zabeležen i osvojen poen."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servisi (+ ili =) koji direktno donose poen, potvrđeni sa „As? Da” (jedina zabeležena akcija u poenu). Pre V167: samo servis + zabeležen i osvojen poen.",
+  "Avec {N}": "Sa {N}",
+  "en {N}": "na {N}",
+  "le joueur en {N} doit être": "igrač na {N} mora biti",
+  "ou": "ili"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -12200,7 +12244,11 @@ const I18N = {
   "Cochez au moins une équipe": "Отметнете поне един отбор",
   "Cochez au moins une saison": "Отметнете поне един сезон",
   "(service + ou = confirmé « Ace ? Oui »)": "(сервис + или = потвърден с „Ас? Да“)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Сервиси (+ или =), които директно печелят точката, потвърдени с „Ас? Да“ (единственото записано действие в разиграването). Преди V167: само сервис + записан и спечелена точка."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Сервиси (+ или =), които директно печелят точката, потвърдени с „Ас? Да“ (единственото записано действие в разиграването). Преди V167: само сервис + записан и спечелена точка.",
+  "Avec {N}": "С {N}",
+  "en {N}": "в {N}",
+  "le joueur en {N} doit être": "играчът в {N} трябва да е",
+  "ou": "или"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -13211,7 +13259,11 @@ const I18N = {
   "Cochez au moins une équipe": "Označite vsaj eno ekipo",
   "Cochez au moins une saison": "Označite vsaj eno sezono",
   "(service + ou = confirmé « Ace ? Oui »)": "(servis + ali = potrjen z »As? Da«)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servisi (+ ali =), ki neposredno prinesejo točko, potrjeni z »As? Da« (edino zabeleženo dejanje v izmenjavi). Pred V167: samo servis + zabeležen in dobljena točka."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servisi (+ ali =), ki neposredno prinesejo točko, potrjeni z »As? Da« (edino zabeleženo dejanje v izmenjavi). Pred V167: samo servis + zabeležen in dobljena točka.",
+  "Avec {N}": "Z {N}",
+  "en {N}": "na {N}",
+  "le joueur en {N} doit être": "igralec na {N} mora biti",
+  "ou": "ali"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -14222,7 +14274,11 @@ const I18N = {
   "Cochez au moins une équipe": "Позначте принаймні одну команду",
   "Cochez au moins une saison": "Позначте принаймні один сезон",
   "(service + ou = confirmé « Ace ? Oui »)": "(подача + або = підтверджена «Ейс? Так»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Подачі (+ або =), що одразу приносять очко, підтверджені «Ейс? Так» (єдина записана дія в розіграші). До V167: лише подача + записана й очко виграно."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Подачі (+ або =), що одразу приносять очко, підтверджені «Ейс? Так» (єдина записана дія в розіграші). До V167: лише подача + записана й очко виграно.",
+  "Avec {N}": "Коли {N}",
+  "en {N}": "у зоні {N}",
+  "le joueur en {N} doit être": "гравець у зоні {N} має бути:",
+  "ou": "або"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -15233,7 +15289,11 @@ const I18N = {
   "Cochez au moins une équipe": "Zaškrtněte alespoň jeden tým",
   "Cochez au moins une saison": "Zaškrtněte alespoň jednu sezónu",
   "(service + ou = confirmé « Ace ? Oui »)": "(podání + nebo = potvrzené „Eso? Ano“)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Podání (+ nebo =), která přímo získají bod, potvrzená „Eso? Ano“ (jediná zaznamenaná akce ve výměně). Před V167: pouze podání + zaznamenané a vyhraný bod."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Podání (+ nebo =), která přímo získají bod, potvrzená „Eso? Ano“ (jediná zaznamenaná akce ve výměně). Před V167: pouze podání + zaznamenané a vyhraný bod.",
+  "Avec {N}": "S {N}",
+  "en {N}": "na {N}",
+  "le joueur en {N} doit être": "hráč na {N} musí být",
+  "ou": "nebo"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -16244,7 +16304,11 @@ const I18N = {
   "Cochez au moins une équipe": "ติ๊กอย่างน้อยหนึ่งทีม",
   "Cochez au moins une saison": "ติ๊กอย่างน้อยหนึ่งฤดูกาล",
   "(service + ou = confirmé « Ace ? Oui »)": "(เสิร์ฟ + หรือ = ยืนยันด้วย «เอซ? ใช่»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "ลูกเสิร์ฟ (+ หรือ =) ที่ได้แต้มโดยตรง ยืนยันด้วย «เอซ? ใช่» (เป็นการกระทำเดียวที่บันทึกในแต้มนั้น) ก่อน V167: บันทึกเสิร์ฟ + อย่างเดียวและได้แต้ม"
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "ลูกเสิร์ฟ (+ หรือ =) ที่ได้แต้มโดยตรง ยืนยันด้วย «เอซ? ใช่» (เป็นการกระทำเดียวที่บันทึกในแต้มนั้น) ก่อน V167: บันทึกเสิร์ฟ + อย่างเดียวและได้แต้ม",
+  "Avec {N}": "เมื่อ {N}",
+  "en {N}": "อยู่ที่ {N}",
+  "le joueur en {N} doit être": "ผู้เล่นที่ {N} ต้องเป็น",
+  "ou": "หรือ"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -17255,7 +17319,11 @@ const I18N = {
   "Cochez au moins une équipe": "팀을 하나 이상 체크하세요",
   "Cochez au moins une saison": "시즌을 하나 이상 체크하세요",
   "(service + ou = confirmé « Ace ? Oui »)": "(서브 + 또는 =, '서브 에이스? 예'로 확인)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "바로 득점한 서브(+ 또는 =)로, '서브 에이스? 예'로 확인된 것 (랠리에서 기록된 유일한 동작). V167 이전: 서브 +만 기록되고 득점한 경우."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "바로 득점한 서브(+ 또는 =)로, '서브 에이스? 예'로 확인된 것 (랠리에서 기록된 유일한 동작). V167 이전: 서브 +만 기록되고 득점한 경우.",
+  "Avec {N}": "{N}이(가)",
+  "en {N}": "{N}번에 있으면",
+  "le joueur en {N} doit être": "{N}번 선수는 다음이어야 함:",
+  "ou": "또는"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -18266,7 +18334,11 @@ const I18N = {
   "Cochez au moins une équipe": "Mag-check ng kahit isang koponan",
   "Cochez au moins une saison": "Mag-check ng kahit isang season",
   "(service + ou = confirmé « Ace ? Oui »)": "(serve + o = na kinumpirma ng “Ace? Oo”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Mga serve (+ o =) na direktang nakapuntos, kinumpirma ng “Ace? Oo” (tanging aksyong naitala sa rally). Bago ang V167: serve + lang ang naitala at nanalo ng puntos."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Mga serve (+ o =) na direktang nakapuntos, kinumpirma ng “Ace? Oo” (tanging aksyong naitala sa rally). Bago ang V167: serve + lang ang naitala at nanalo ng puntos.",
+  "Avec {N}": "Kapag si {N}",
+  "en {N}": "ay nasa {N}",
+  "le joueur en {N} doit être": "ang manlalaro sa {N} ay dapat",
+  "ou": "o"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -19277,7 +19349,11 @@ const I18N = {
   "Cochez au moins une équipe": "Centang minimal satu tim",
   "Cochez au moins une saison": "Centang minimal satu musim",
   "(service + ou = confirmé « Ace ? Oui »)": "(servis + atau = dikonfirmasi « Ace? Ya »)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servis (+ atau =) yang langsung menghasilkan poin, dikonfirmasi dengan « Ace? Ya » (satu-satunya aksi yang dicatat dalam reli). Sebelum V167: hanya servis + yang dicatat dan poin dimenangkan."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Servis (+ atau =) yang langsung menghasilkan poin, dikonfirmasi dengan « Ace? Ya » (satu-satunya aksi yang dicatat dalam reli). Sebelum V167: hanya servis + yang dicatat dan poin dimenangkan.",
+  "Avec {N}": "Dengan {N}",
+  "en {N}": "di {N}",
+  "le joueur en {N} doit être": "pemain di {N} harus",
+  "ou": "atau"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -20288,7 +20364,11 @@ const I18N = {
   "Cochez au moins une équipe": "Отметьте хотя бы одну команду",
   "Cochez au moins une saison": "Отметьте хотя бы один сезон",
   "(service + ou = confirmé « Ace ? Oui »)": "(подача + или = подтверждена «Эйс? Да»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Подачи (+ или =), сразу приносящие очко, подтверждённые «Эйс? Да» (единственное записанное действие в розыгрыше). До V167: только подача + записана и очко выиграно."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Подачи (+ или =), сразу приносящие очко, подтверждённые «Эйс? Да» (единственное записанное действие в розыгрыше). До V167: только подача + записана и очко выиграно.",
+  "Avec {N}": "Когда {N}",
+  "en {N}": "в зоне {N}",
+  "le joueur en {N} doit être": "игрок в зоне {N} должен быть:",
+  "ou": "или"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -21299,7 +21379,11 @@ const I18N = {
   "Cochez au moins une équipe": "حدّد فريقًا واحدًا على الأقل",
   "Cochez au moins une saison": "حدّد موسمًا واحدًا على الأقل",
   "(service + ou = confirmé « Ace ? Oui »)": "(إرسال + أو = مؤكَّد بـ «إرسال ساحق؟ نعم»)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "إرسالات (+ أو =) تحرز النقطة مباشرة، مؤكَّدة بـ «إرسال ساحق؟ نعم» (الإجراء الوحيد المسجَّل في الجولة). قبل V167: إرسال + مسجَّل وحده ونقطة مكسوبة."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "إرسالات (+ أو =) تحرز النقطة مباشرة، مؤكَّدة بـ «إرسال ساحق؟ نعم» (الإجراء الوحيد المسجَّل في الجولة). قبل V167: إرسال + مسجَّل وحده ونقطة مكسوبة.",
+  "Avec {N}": "مع {N}",
+  "en {N}": "في {N}",
+  "le joueur en {N} doit être": "يجب أن يكون اللاعب في {N}",
+  "ou": "أو"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -22310,7 +22394,11 @@ const I18N = {
   "Cochez au moins une équipe": "Đánh dấu ít nhất một đội",
   "Cochez au moins une saison": "Đánh dấu ít nhất một mùa giải",
   "(service + ou = confirmé « Ace ? Oui »)": "(giao bóng + hoặc = được xác nhận “Ace? Có”)",
-  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Những quả giao bóng (+ hoặc =) ghi điểm trực tiếp, được xác nhận “Ace? Có” (hành động duy nhất được ghi trong pha bóng). Trước V167: chỉ ghi giao bóng + và thắng điểm."
+  "Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné.": "Những quả giao bóng (+ hoặc =) ghi điểm trực tiếp, được xác nhận “Ace? Có” (hành động duy nhất được ghi trong pha bóng). Trước V167: chỉ ghi giao bóng + và thắng điểm.",
+  "Avec {N}": "Với {N}",
+  "en {N}": "ở {N}",
+  "le joueur en {N} doit être": "cầu thủ ở {N} phải là",
+  "ou": "hoặc"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue

@@ -1312,12 +1312,12 @@ function relCheck(d,R){const on=id=>d.zones.indexOf(id)>0,placed=(d.order||[]).f
   placed.forEach(id=>{const r=R[id],z=d.zones.indexOf(id);if(!SL.includes(r))return;const ok=Sh.filter(s=>SL[(z-s+6)%6]===r);
     if(ok.length){Sh=ok;if(!ref)ref=id;}else bad.push({id,z,r,exp:[...new Set(Sh.map(s=>SL[(z-s+6)%6]))]});});
   return {ref,bad};}
-function relMsg(m,d,R,b,ref){const tg=id=>`${dname(m,id)} (${pnum(m,id)}, ${tr(ROLES[R[id]]||'sans poste')})`;
-  const t=new String(`${tr('Au poste {N}').replace('{N}',b.z)} : ${tg(b.id)}. ${tr('Attendu')} : ${b.exp.map(r=>tr(ROLES[r])).join(' / ')}.${ref?' '+tr('Référence : {N}').replace('{N}',tg(ref)+', '+tr('poste')+' '+d.zones.indexOf(ref)):''}`);
-  t.key='R:'+b.id+':'+b.exp.join('');if(b.exp.length===1)t.fix={p:b.id,r:b.exp[0],lab:`${tr('Changer le poste')} : ${dname(m,b.id)} → ${tr(ROLES[b.exp[0]])}`};return t;}
+function relMsg(m,d,R,b,ref){const rl=r=>tr(ROLES[r]||'sans poste');
+  const t=new String(ref?`${tr('Avec {N}').replace('{N}',dname(m,ref)+' ('+rl(R[ref])+')')} ${tr('en {N}').replace('{N}',d.zones.indexOf(ref))}, ${tr('le joueur en {N} doit être').replace('{N}',b.z)} ${b.exp.map(rl).join(' '+tr('ou')+' ')}.`:`${tr('le joueur en {N} doit être').replace('{N}',b.z)} ${b.exp.map(rl).join(' '+tr('ou')+' ')}.`);
+  t.key='R:'+b.id+':'+b.exp.join('');return t;}
 function placeCheck(z){const d=ui.draft,m=store.cur,R=replay(m).roles,x=d.zones[z];if(!x)return;
   const {ref,bad}=relCheck(d,R),b=bad.find(q=>q.id===x);if(!b)return;const t=relMsg(m,d,R,b,ref);
-  ui.alert=[String(t)];ui.alertFixes=t.fix?[t.fix]:[];ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=z;beep('warn');}
+  ui.alert=[String(t)];ui.alertFixes=[];ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=z;beep('warn');}
 function draftCheck(){
   const d=ui.draft;if(!d)return;
   const w=draftIssues(),k=w.map(x=>x.key).join('|');
