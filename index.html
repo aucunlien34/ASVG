@@ -123,9 +123,9 @@ label.f select:disabled{opacity:.7}
 .vad{margin:10px 0}.vad>b{display:inline-block;margin-bottom:6px}
 .tools.aceq .btn{flex:1;min-height:64px;font-size:22px}
 .bchip.tbchip{border-left:6px solid var(--gc)}
-.card.imp{padding:4px 10px}.improw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.improw:last-child{border-bottom:0}
+.card.imp{padding:4px 10px}.btn.expm{margin:0 0 6px 30px;min-height:34px}.expml{margin:0 0 8px 30px;border-left:3px solid var(--line);padding-left:10px}.improw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.improw:last-child{border-bottom:0}
 .improw input{margin-top:3px}.improw small{display:block;font-size:12px;color:var(--muted)}.improw small.dupw{color:var(--neg);font-weight:700}
-.teamc .gseg{display:flex}.teamc .gseg button{flex:1 1 auto;min-width:0;padding:0 6px;font-size:14px;gap:5px}.teamc .gseg .gdot{width:9px;height:9px}
+.gfilt{margin:0 0 10px}.gfilt .gseg,.teamc .gseg{display:flex}.gfilt .gseg button,.teamc .gseg button{flex:1 1 auto;min-width:0;padding:0 6px;font-size:14px;gap:5px}.gfilt .gseg .gdot,.teamc .gseg .gdot{width:9px;height:9px}
 /* Téléphone : partie stats repliable (sélecteur « Positions | Saisie ») */
 .dtog{display:none}
 @media (max-width:560px){
@@ -710,7 +710,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V167';
+const APP_VERSION='V168';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1261,7 +1261,7 @@ function posteIssues(m,zones,roles){
     if(id&&r!==e){const t=new String(`${dname(m,id)} (${pnum(m,id)}) est ${ROLES[r]||'sans poste'}, mais sa place dans la rotation (poste ${z}) correspond à ${lab[e]}.`);t.key='P:'+id+':'+e;t.fix={p:id,r:e};out.push(t);}}
   return out;
 }
-function draftIssues(){const d=ui.draft;if(!d||!d.zones.slice(1).every(Boolean))return [];const m=store.cur,S=replay(m);return posteIssues(m,d.zones,S.roles).concat(oppoIssues(m,d.zones,S.roles));}
+function draftIssues(){const d=ui.draft;if(!d||!d.zones.slice(1).every(Boolean))return [];const m=store.cur,S=replay(m),{ref,bad}=relCheck(d,S.roles);return bad.map(b=>relMsg(m,d,S.roles,b,ref));}
 // Fenêtre d'alerte : messages + boutons de correction (un choix exclusif désactive « Tout corriger »)
 function setAlert(list){
   ui.alert=list.map(String);
@@ -1304,25 +1304,20 @@ function placeIssue(m,zones,R,z){const x=zones[z];if(!x)return null;
   if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Faire jouer ${dname(m,x)} en ${ROLES[t1]}`});
   else if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Faire jouer ${dname(m,y)} en ${ROLES[t2]}`});}
   return {msgs,fixes};}
-function placeCheck(z){
-  const d=ui.draft,m=store.cur,S=replay(m),R=S.roles,x=d.zones[z];if(!x)return;
-  const rx=R[x],oz=OPP[z],y=d.zones[oz],ry=y?R[y]:null,sz=setterZone(d.zones,R);
-  const SL=SLOTS[sysOf(d.zones,R)],ex=sz?SL[(z-sz+6)%6]:null,ey=sz&&y?SL[(oz-sz+6)%6]:null;
-  const lab={C:'un centre',Pu:'la pointe',R4:'un R4',Pa:'la passe'};
-  const tagR=id=>`${dname(m,id)} (${pnum(m,id)}, ${ROLES[R[id]]||'sans poste'})`;
-  const q42=is42(d.zones,R),slotBad=!!(sz&&!q42&&sz!==z&&rx!==ex),oppBad=!!(y&&COMP[rx]!==ry&&!(rx==='Pa'&&ry==='Pa'));
-  const pa2=rx==='Pa'?[1,2,3,4,5,6].find(k=>k!==z&&d.zones[k]&&R[d.zones[k]]==='Pa'):null,paBad=!!(pa2&&pa2!==oz);
-  if(!slotBad&&!oppBad&&!paBad)return;
-  const msgs=[],fixes=[];
-  if(paBad)msgs.push(`${tagR(x)} est au poste ${z} et l'autre passe, ${tagR(d.zones[pa2])}, au poste ${pa2} : en 4-2, les deux passes doivent être en opposition (postes ${z} et ${oz}).`);
-  if(slotBad)msgs.push(`${tagR(x)} est au poste ${z} : par rapport à la passe, cette place correspond à ${lab[ex]}.`);
-  if(oppBad)msgs.push(`${tagR(x)} est en opposition avec ${tagR(y)} (poste ${oz}) : l'opposition doit être R4 / R4, centre / centre ou passe / pointe.`);
-  const t1=slotBad?ex:(sz?null:(y?COMP[ry]:null));
-  // 3 options : changer le poste du joueur placé, forcer le placement, annuler (retour à la sélection du joueur)
-  if(t1&&t1!==rx&&!(rx==='Pa'&&sz===z))fixes.push({p:x,r:t1,lab:`Faire jouer ${dname(m,x)} en ${ROLES[t1]}`});
-  else if(y){const t2=sz?(ry!==ey?ey:null):COMP[rx];if(t2&&t2!==ry)fixes.push({p:y,r:t2,lab:`Faire jouer ${dname(m,y)} en ${ROLES[t2]}`});}
-  ui.alert=msgs;ui.alertFixes=fixes;ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=z;beep('warn');
-}
+// 6 de départ : contrôle relatif des places. Modèle de rotation 5-1 (passe, R4, centre, pointe, R4, centre) ou 4-2 (deux passes opposées) ;
+// la première joueuse placée sert de référence, chaque joueuse conforme précise le modèle, les autres sont signalées avec le poste attendu.
+const SL51=['Pa','R4','C','Pu','R4','C'],SL42=['Pa','R4','C','Pa','R4','C'];
+function relCheck(d,R){const on=id=>d.zones.indexOf(id)>0,placed=(d.order||[]).filter(on);[1,2,3,4,5,6].forEach(z=>{const id=d.zones[z];if(id&&!placed.includes(id))placed.push(id);});
+  const SL=placed.filter(id=>R[id]==='Pa').length>=2?SL42:SL51;let Sh=[1,2,3,4,5,6],ref=null;const bad=[];
+  placed.forEach(id=>{const r=R[id],z=d.zones.indexOf(id);if(!SL.includes(r))return;const ok=Sh.filter(s=>SL[(z-s+6)%6]===r);
+    if(ok.length){Sh=ok;if(!ref)ref=id;}else bad.push({id,z,r,exp:[...new Set(Sh.map(s=>SL[(z-s+6)%6]))]});});
+  return {ref,bad};}
+function relMsg(m,d,R,b,ref){const tg=id=>`${dname(m,id)} (${pnum(m,id)}, ${tr(ROLES[R[id]]||'sans poste')})`;
+  const t=new String(`${tr('Au poste {N}').replace('{N}',b.z)} : ${tg(b.id)}. ${tr('Attendu')} : ${b.exp.map(r=>tr(ROLES[r])).join(' / ')}.${ref?' '+tr('Référence : {N}').replace('{N}',tg(ref)+', '+tr('poste')+' '+d.zones.indexOf(ref)):''}`);
+  t.key='R:'+b.id+':'+b.exp.join('');if(b.exp.length===1)t.fix={p:b.id,r:b.exp[0],lab:`${tr('Changer le poste')} : ${dname(m,b.id)} → ${tr(ROLES[b.exp[0]])}`};return t;}
+function placeCheck(z){const d=ui.draft,m=store.cur,R=replay(m).roles,x=d.zones[z];if(!x)return;
+  const {ref,bad}=relCheck(d,R),b=bad.find(q=>q.id===x);if(!b)return;const t=relMsg(m,d,R,b,ref);
+  ui.alert=[String(t)];ui.alertFixes=t.fix?[t.fix]:[];ui.alertChoice=true;ui.alertClose=false;ui.alertMode='place';ui.placeZ=z;beep('warn');}
 function draftCheck(){
   const d=ui.draft;if(!d)return;
   const w=draftIssues(),k=w.map(x=>x.key).join('|');
@@ -1596,7 +1591,7 @@ const TUTO=[
  {t:'Mon équipe',s:[
   {act:1,sel:TAB('team'),txt:"Touchez « Équipe ».",until:()=>inCoach('team'),init:()=>tHome(),go:()=>tHome()},
   {sel:'.teamc .tselb',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une ; la couleur indique son genre."},
-  {sel:'.teamc .gseg',txt:"Filtre de la liste : toutes les équipes, ou seulement les masculines, féminines ou mixtes. Le genre d'une équipe se règle dans « Nom et genre »."},
+  {sel:'.gfilt .gseg',txt:"Filtre de la liste : toutes les équipes, ou seulement les masculines, féminines ou mixtes. Le genre d'une équipe se règle dans « Nom et genre »."},
   {sel:'[data-act=rEdit]',n:3,up:'.prow',txt:"Une fiche par joueur : nom, numéro, postes. Dans la fiche, un double appui sur un poste en fait le poste par défaut (★)."}]},
  {t:'Avant le match',s:[
   {act:1,sel:'[data-act=matchSheet]',txt:"Sur le Terrain, « Match » regroupe les actions sur le match. Touchez-le.",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
@@ -2211,6 +2206,15 @@ function sheetHTML(m,S){
       <p>Quand les deux saisies ne disent pas la même chose (note différente, autre joueur, points en plus ou en moins), quelle source l'emporte ?</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeGo" data-v="imp">Faire confiance aux données importées</button><button class="btn big" data-act="mergeGo" data-v="loc">Faire confiance aux données sur cet appareil</button></div>
       <p class="hint xp" style="margin-top:8px">Une action présente d'un seul côté est toujours ajoutée.</p>`;}
+  if(ui.sheet==='expPick'&&ui.exp){const E=ui.exp,T=store.teams.filter(t=>!t.locked),ar=t=>store.arch.filter(a=>teamOf(a)===t.id);
+    const mode=(v,l)=>`<button class="${E.mode===v?'on':''}" data-act="expMode" data-v="${v}">${l}</button>`;
+    const body=E.mode==='all'?'<p class="hint">Toutes les équipes, saisons et matchs, avec le match en cours et les réglages d\'équipe.</p>'
+      :E.mode==='teams'?`<div class="card imp">${T.map(t=>`<label class="chk improw"><input type="checkbox" data-act="expTeam" data-id="${t.id}" ${E.teams[t.id]?'checked':''}><span><b>${esc(t.name)}</b><small><span>${ensureSeasons(t).seasons.length} saison${t.seasons.length>1?'s':''}</span> · <span>${ar(t).length} match${ar(t).length>1?'s':''}</span></small></span></label>`).join('')}</div><p class="hint xp">Chaque équipe cochée : effectif, saisons et tous ses matchs.</p>`
+      :T.map(t=>`<h2>${esc(t.name)}</h2><div class="card imp">${ensureSeasons(t).seasons.slice().reverse().map(so=>{const ms=ar(t).filter(a=>seasonOf(a)===so.id),n=ms.filter(a=>!E.off[a.id]).length;
+        return `<label class="chk improw"><input type="checkbox" data-act="expSeason" data-id="${so.id}" ${E.seasons[so.id]?'checked':''} ${ms.length?'':'disabled'}><span><b>📁 ${esc(so.name)}</b><small>${n} / ${ms.length}</small></span></label>
+        ${E.seasons[so.id]&&ms.length?`<button class="btn expm" data-act="expOpenS" data-id="${so.id}" aria-expanded="${!!E.open[so.id]}"><span aria-hidden="true">${E.open[so.id]?'▴':'▾'}</span> Matchs</button>${E.open[so.id]?`<div class="expml">${ms.map(a=>`<label class="chk improw"><input type="checkbox" data-act="expMatch" data-id="${a.id}" ${E.off[a.id]?'':'checked'}><span>${esc(fmtDate(a.date))} · ${esc(a.opp||'Adversaire')}</span></label>`).join('')}</div>`:''}`:''}`;}).join('')}</div>`).join('');
+    return `<div class="sh"><h3>Exporter</h3>${close}</div><div class="seg">${mode('all','Tout')}${mode('teams','Équipes')}${mode('seasons','Saisons')}</div>${body}
+      <div style="margin-top:12px"><button class="btn big primary" data-act="expGo">${IC.share} Exporter</button></div>`;}
   if(ui.sheet==='impPick'&&ui.imp){const P=ui.imp,T=store.teams.filter(t=>!t.locked),dt=P.dest==='new'?null:ensureSeasons(store.teams.find(t=>t.id===P.dest));
     const DR=dt?impRosterOf(dt.id):[],miss=P.R.filter(p=>!impFind(DR,p)).length,n=P.sel.length;
     return `<div class="sh"><h3>Importer</h3>${close}</div>
@@ -2523,7 +2527,7 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <div style="margin-top:10px"><button class="btn primary" data-act="codeChange">Changer le code</button></div>`:''}`,'',`<p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture du Menu.':`Désactivé : le Menu s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>`))}
     ${sec('abo','Abonnement',card('VolleyCoach Pro',`<p class="hint">${proStatus()}</p>
       <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button>`))}
-    ${sec('data','Données',card('Sauvegarde',`<p class="hint warnc">Tout est enregistré sur cet appareil : exportez régulièrement une copie.</p><div class="tools"><button class="btn primary" data-act="shareAll">${IC.share} Exporter toutes les données</button></div>
+    ${sec('data','Données',card('Sauvegarde',`<p class="hint warnc">Tout est enregistré sur cet appareil : exportez régulièrement une copie.</p><div class="tools"><button class="btn primary" data-act="expOpen">${IC.share} Exporter…</button></div>
       <label class="chk sw" style="margin-top:10px"><input type="checkbox" role="switch" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .vbcs à la fin de chaque match)</label>
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label>
       <hr class="sep">${D('Importer',`<p class="hint">Matchs, saisons ou effectifs (.vbcs) exportés depuis VolleyCoach. Un effectif qui ressemble à une équipe existante peut la remplacer. Sur Android, avec l'appli installée sur l'écran d'accueil, un fichier reçu (WhatsApp, e-mail, Fichiers) peut aussi être envoyé directement : Partager › VolleyCoach.</p>`)}
@@ -2923,8 +2927,8 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
   else if(ct==='team'){
     const gf=store.prefs.gFilt||'';
-    body=`<div class="card teamc stk"><div class="seg gseg">${[['','Toutes']].concat(['M','F','X'].map(g=>[g,GLAB[g]])).map(([g,l])=>`<button class="${gf===g?'on':''}" data-act="gFilt" data-v="${g}" aria-pressed="${gf===g}">${g?`<i class="gdot" style="background:${GCOL[g]}"></i>`:''}${l}</button>`).join('')}</div>
-      ${teamPickHTML('team',true)}</div>
+    body=`<div class="card teamc stk">${teamPickHTML('team',true)}</div>
+    <div class="gfilt"><div class="seg gseg">${[['','Toutes']].concat(['M','F','X'].map(g=>[g,GLAB[g]])).map(([g,l])=>`<button class="${gf===g?'on':''}" data-act="gFilt" data-v="${g}" aria-pressed="${gf===g}">${g?`<i class="gdot" style="background:${GCOL[g]}"></i>`:''}${l}</button>`).join('')}</div></div>
     <div class="card teamc">
       <small class="hint">${store.roster.length} joueur${store.roster.length>1?'s':''} · ${TA.length} match${TA.length>1?'s':''} archivé${TA.length>1?'s':''}</small>
       ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:''}
@@ -3452,13 +3456,13 @@ const A={
     ui.screen='lineup';ui.sheet=null;ui.draftKey='';draftCheck();},
   cancelLineup(){ui.screen=null;ui.draft=null;},
   pickZone(d){ui.pick=+d.z;ui.sheet='pick';},
-  pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;ui.sheet=null;draftCheck();placeCheck(z);},
+  pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;const o=(ui.draft.order||[]).filter(id=>id!==d.id);o.push(d.id);ui.draft.order=o;ui.sheet=null;draftCheck();placeCheck(z);},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
   draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
   draftP1x(d){ui.draft.p1x=d.v==='1';},
   startGo(){ui.alert=null;ui.alertMode=null;ui.swapRC=null;return A.startSet({},true);},
   startSet(_d,force){const d=ui.draft;if(!d.zones.slice(1).every(Boolean))return;
-    if(!force){const w=draftIssues();if(w.length){const S0=replay(store.cur),sw=rcSwaps(d.zones,S0.roles);
+    if(!force){const w=draftIssues();if(w.length){const sw=[];
       const swIds=sw.flat().map(z=>d.zones[z]),w2=w.filter(x=>!(String(x.key||'').startsWith('P:')&&swIds.includes(String(x.key).split(':')[1])));
       ui.alert=(sw.length?[`Ordre de rotation inversé : les R4 et les centres sont échangés par rapport au PDF de rotation (passe, R4, centre, pointe, R4, centre). Les oppositions sont bonnes, mais l’ordre de rotation n’est pas respecté.`]:[]).concat(w2.map(String));
       ui.alertFixes=null;ui.swapRC=sw.length?sw:null;ui.alertMode='start';beep('warn');return;}}{const S0=replay(store.cur);ui.skipOppo=oppoIssues(store.cur,d.zones,S0.roles).map(x=>x.key).join('|')||null;}ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:d.lib,x:d.p1x?1:undefined,lp:d.lp&&d.lp!==+(store.cur.libPos||5)?d.lp:undefined});if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}${(store.prefs.orient||0)%2?', filet '+(dispOrient()===1?'à droite':'à gauche'):''}`);return 1;},
@@ -3598,6 +3602,23 @@ const A={
     else if(w==='season'){A.seasonJson();}
     else{const m=w?store.arch.find(a=>a.id===w):store.cur;if(m)saveFile(`match_${slug(m.opp||'match')}_${m.date||today()}.vbcs`,JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),arch:[lean(m)]}));}
     setTimeout(()=>{SHARE=false;},4000);},
+  expOpen(){ui.exp={mode:'all',teams:{},seasons:{},off:{},open:{}};store.teams.filter(t=>!t.locked).forEach(t=>{ui.exp.teams[t.id]=t.id===store.teamId;});ui.sheet='expPick';},
+  expMode(d){if(ui.exp)ui.exp.mode=d.v;},
+  expTeam(d){const E=ui.exp;if(E)E.teams[d.id]=!E.teams[d.id];},
+  expSeason(d){const E=ui.exp;if(E)E.seasons[d.id]=!E.seasons[d.id];},
+  expOpenS(d){const E=ui.exp;if(E)E.open[d.id]=!E.open[d.id];},
+  expMatch(d){const E=ui.exp;if(E)E.off[d.id]=!E.off[d.id];},
+  expGo(){const E=ui.exp;if(!E)return;const T=store.teams.filter(t=>!t.locked),ar=t=>store.arch.filter(a=>teamOf(a)===t.id),rost=t=>t.id===store.teamId?store.roster:(t.roster||[]);
+    const pack=(list,ms)=>({app:APPID,v:1,exported:new Date().toISOString(),teams:list.map(t=>({name:t.name,gender:t.gender,roster:rost(t),seasons:t.seasons,curSeason:t.curSeason})),arch:ms});save();
+    if(E.mode==='all'){ui.sheet=null;ui.exp=null;return A.shareAll();}
+    if(E.mode==='teams'){const L=T.filter(t=>E.teams[t.id]);if(!L.length){toast('Cochez au moins une équipe','warn');return;}
+      SHARE=true;saveFile(`equipes_${today()}.vbcs`,JSON.stringify(pack(L,L.flatMap(ar))));setTimeout(()=>{SHARE=false;},4000);ui.sheet=null;ui.exp=null;return 1;}
+    const sel=[];T.forEach(t=>ensureSeasons(t).seasons.forEach(so=>{if(E.seasons[so.id])sel.push({t,so,ms:ar(t).filter(a=>seasonOf(a)===so.id&&!E.off[a.id])});}));
+    if(!sel.length){toast('Cochez au moins une saison','warn');return;}
+    SHARE=true;
+    if(sel.length===1){const {t,so,ms}=sel[0];saveFile(`saison_${slug(so.name)}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:t.name,season:so.name,roster:rost(t),exported:new Date().toISOString(),arch:ms}));}
+    else{const L=[...new Set(sel.map(x=>x.t))];saveFile(`saisons_${today()}.vbcs`,JSON.stringify(Object.assign(pack(L,sel.flatMap(x=>x.ms)),{teams:L.map(t=>({name:t.name,gender:t.gender,roster:rost(t),seasons:sel.filter(x=>x.t===t).map(x=>x.so)}))})));}
+    setTimeout(()=>{SHARE=false;},4000);ui.sheet=null;ui.exp=null;return 1;},
   shareAll(){SHARE=true;A.json();setTimeout(()=>{SHARE=false;},4000);},
   teamShare(){if(!isPro()){ui.sheet='pro';return;}SHARE=true;A.teamJson({id:store.teamId});setTimeout(()=>{SHARE=false;},4000);},
   teamPick(){ui.treeOpen=false;ui.sheet='teamPick';},
@@ -3872,14 +3893,15 @@ function importText(txt){
     list.forEach(mm=>{if(!mm||!mm.id||!Array.isArray(mm.ev))return;if(mm.id===store.cur.id||store.arch.some(a=>a.id===mm.id))return;store.arch.push(lean(mm));n++;});
     store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
     // effectifs : équipe ressemblante (≥ 50 % de joueurs en commun) → proposition de remplacement ; sinon nouvelle équipe
-    const inc=Array.isArray(d.teams)?d.teams.filter(t=>!t.locked&&t.id!=='t-earth').map(t=>({name:t.name,roster:t.roster})):Array.isArray(d.roster)?[{name:d.team||(d.cur&&d.cur.team)||'Équipe importée',roster:d.roster}]:[];
+    const inc=Array.isArray(d.teams)?d.teams.filter(t=>!t.locked&&t.id!=='t-earth').map(t=>({name:t.name,roster:t.roster,gender:t.gender,seasons:t.seasons,curSeason:t.curSeason})):Array.isArray(d.roster)?[{name:d.team||(d.cur&&d.cur.team)||'Équipe importée',roster:d.roster}]:[];
     ui.importQ=ui.importQ||[];
     inc.forEach(t=>{let R;try{R=parseRoster(t.roster||[]);}catch(e){return;}
       const rosterOfT=x=>x.id===store.teamId?store.roster:x.roster;
       let best=null;store.teams.forEach(x=>{const r=rosterSim(R,rosterOfT(x));if(r.v>=0.5&&(!best||r.v>best.v))best={id:x.id,...r};});
       if(best){const cr=rosterOfT(store.teams.find(x=>x.id===best.id));if(JSON.stringify(R)===JSON.stringify(cr))return; // identique : rien à faire
         ui.importQ.push({name:t.name||'Équipe importée',R,match:best.id,k:best.k});}
-      else{newTeamFrom(t.name,R);rn=(rn<0?0:rn)+1;}});
+      else{const nt=newTeamFrom(t.name,R);if(t.gender)nt.gender=t.gender;if(Array.isArray(t.seasons)&&t.seasons.length){nt.seasons=t.seasons.map(x=>({id:x.id,name:x.name,closed:!!x.closed}));nt.curSeason=nt.seasons.some(x=>x.id===t.curSeason)?t.curSeason:nt.seasons[nt.seasons.length-1].id;}rn=(rn<0?0:rn)+1;}});
+    inc.forEach(t=>{const x=store.teams.find(y=>y.name===t.name);if(!x||!Array.isArray(t.seasons))return;ensureSeasons(x);t.seasons.forEach(so=>{if(so&&so.id&&!x.seasons.some(y=>y.id===so.id))x.seasons.push({id:so.id,name:so.name,closed:true});});});
     store.arch.forEach(a=>{if(!a.teamId||!store.teams.some(t=>t.id===a.teamId)){const t=store.teams.find(t=>t.name===a.team);a.teamId=t?t.id:store.teamId;}});
     if(ui.importQ.length)ui.sheet='teamImport';
     save();
