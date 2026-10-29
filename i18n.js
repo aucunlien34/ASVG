@@ -1181,7 +1181,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Playing position (after the serve)",
   "Après le service": "After the serve",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Everyone moves to their playing position: setter and opposite to the right, outside hitter to the left, middle in the center.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 to P6: setter's position. Drag a player to move them; tap to change player."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 to P6: setter's position. Drag a player to move them; tap to change player.",
+  "Personne": "Nobody",
+  "Au bloc à {N} :": "Blocking {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Tap a zone to change the blocker.",
+  "Échange de places au service du passeur": "Swap places when the setter serves",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "When the setter serves, they serve from behind their setting replacement's position. Yes: they swap places until the end of the rally (the setter defends in the replacement's position, who moves up to the net). No: everyone keeps their place on the diagram. Either way, the replacement sets and takes the setter's place at the block.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "One player per net zone (the same player can cover several zones); the blocker choice suggests these players. If the setter is not blocking and plays defence, the middle blocker sets until the attack or the free ball. Default: setter in the middle and on the right, R4 on the left."
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -2294,7 +2300,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Puesto de juego (tras el saque)",
   "Après le service": "Tras el saque",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Cada uno va a su puesto de juego: colocador y opuesto a la derecha, R4 a la izquierda, central en el medio.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posición del colocador. Arrastra un jugador para moverlo; tócalo para cambiar de jugador."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posición del colocador. Arrastra un jugador para moverlo; tócalo para cambiar de jugador.",
+  "Personne": "Nadie",
+  "Au bloc à {N} :": "Al bloqueo en {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Toca una zona para cambiar el bloqueador.",
+  "Échange de places au service du passeur": "Intercambio de puestos en el saque del colocador",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Cuando el colocador saca, lo hace detrás del puesto de su sustituto en la colocación. Sí: intercambian sus puestos hasta el final de la jugada (el colocador defiende en el puesto del sustituto, que sube a la red). No: cada uno mantiene su puesto en el esquema. En ambos casos, el sustituto coloca y ocupa el lugar del colocador en el bloqueo.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Una persona por zona de la red (una misma persona puede cubrir varias zonas); al elegir quién bloquea se proponen estas personas. Si el colocador no está en el bloqueo y defiende, quien bloquea en el centro hace la colocación hasta el ataque o la devolución sin ataque. Por defecto: colocador en el centro y a la derecha, R4 a la izquierda."
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -3407,7 +3419,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Ruolo in gioco (dopo la battuta)",
   "Après le service": "Dopo la battuta",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Ognuno raggiunge il proprio ruolo: palleggiatore e opposto a destra, banda a sinistra, centrale al centro.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posizione del palleggiatore. Trascina un giocatore per spostarlo; toccalo per cambiare giocatore."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posizione del palleggiatore. Trascina un giocatore per spostarlo; toccalo per cambiare giocatore.",
+  "Personne": "Nessuno",
+  "Au bloc à {N} :": "A muro a {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Tocca una zona per cambiare il giocatore a muro.",
+  "Échange de places au service du passeur": "Scambio di posto al servizio del palleggiatore",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Quando il palleggiatore serve, serve dietro la posizione del suo sostituto in palleggio. Sì: si scambiano di posto fino alla fine dello scambio (il palleggiatore difende nella posizione del sostituto, che sale a rete). No: ognuno resta al suo posto nello schema. In entrambi i casi, il sostituto palleggia e prende il posto del palleggiatore a muro.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Un atleta per zona di rete (lo stesso atleta può coprire più zone); la scelta di chi mura propone questi atleti. Se il palleggiatore non è a muro e difende, il centrale a muro fa l'alzata fino all'attacco o alla free ball. Predefinito: palleggiatore al centro e a destra, R4 a sinistra."
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -4520,7 +4538,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Spielposition (nach dem Aufschlag)",
   "Après le service": "Nach dem Aufschlag",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Jeder geht auf seine Spielposition: Zuspieler und Diagonal nach rechts, Außen nach links, Mitte in die Mitte.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 bis P6: Position des Zuspielers. Ziehe einen Spieler, um ihn zu verschieben; tippe ihn an, um den Spieler zu wechseln."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 bis P6: Position des Zuspielers. Ziehe einen Spieler, um ihn zu verschieben; tippe ihn an, um den Spieler zu wechseln.",
+  "Personne": "Niemand",
+  "Au bloc à {N} :": "Block {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Tippe auf eine Zone, um den Blockspieler zu ändern.",
+  "Échange de places au service du passeur": "Platztausch beim Aufschlag des Zuspielers",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Wenn der Zuspieler aufschlägt, schlägt er hinter der Position seines Zuspiel-Ersatzes auf. Ja: Sie tauschen bis zum Ende des Ballwechsels die Plätze (der Zuspieler verteidigt auf der Position des Ersatzes, der ans Netz geht). Nein: Jeder behält seinen Platz im Schema. In beiden Fällen spielt der Ersatz zu und übernimmt den Platz des Zuspielers im Block.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Eine Person pro Netzzone (eine Person kann mehrere Zonen abdecken); bei der Blockauswahl werden diese Personen vorgeschlagen. Ist das Zuspiel nicht im Block und verteidigt, spielt der Mittelblock zu, bis zum Angriff oder zur Rückgabe ohne Angriff. Standard: Zuspieler in der Mitte und rechts, R4 links."
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -5633,7 +5657,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Pozycja w grze (po zagrywce)",
   "Après le service": "Po zagrywce",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Każdy przechodzi na swoją pozycję: rozgrywający i atakujący na prawo, przyjmujący na lewo, środkowy na środek.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: pozycja rozgrywającego. Przeciągnij zawodnika, aby go przesunąć; dotknij, aby zmienić zawodnika."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: pozycja rozgrywającego. Przeciągnij zawodnika, aby go przesunąć; dotknij, aby zmienić zawodnika.",
+  "Personne": "Nikt",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Dotknij strefy, aby zmienić blokującego.",
+  "Échange de places au service du passeur": "Zamiana miejsc przy zagrywce rozgrywającego",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Gdy rozgrywający zagrywa, robi to zza pozycji swojego zastępcy na rozegraniu. Tak: zamieniają się miejscami do końca akcji (rozgrywający broni na pozycji zastępcy, który idzie do siatki). Nie: każdy zostaje na swoim miejscu na schemacie. W obu przypadkach zastępca rozgrywa i zajmuje miejsce rozgrywającego w bloku.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Jedna osoba na strefę siatki (ta sama osoba może zajmować kilka stref); przy wyborze blokującego proponowane są te osoby. Jeśli rozgrywający nie blokuje i broni, środkowy blokujący rozgrywa do ataku lub odbicia bez ataku. Domyślnie: rozgrywający w środku i po prawej, R4 po lewej."
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -6746,7 +6776,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Posição de jogo (após o saque)",
   "Après le service": "Após o saque",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Cada um vai para a sua posição de jogo: levantador e oposto à direita, ponta à esquerda, central no meio.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posição do levantador. Arraste um jogador para movê-lo; toque nele para trocar de jogador."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 a P6: posição do levantador. Arraste um jogador para movê-lo; toque nele para trocar de jogador.",
+  "Personne": "Ninguém",
+  "Au bloc à {N} :": "No bloqueio à {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Toque numa zona para mudar o bloqueador.",
+  "Échange de places au service du passeur": "Troca de lugares no saque do levantador",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Quando o levantador saca, saca atrás da posição do seu substituto no levantamento. Sim: trocam de lugar até ao fim do rali (o levantador defende na posição do substituto, que sobe à rede). Não: cada um mantém o seu lugar no esquema. Em ambos os casos, o substituto levanta e ocupa o lugar do levantador no bloqueio.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Um atleta por zona da rede (o mesmo atleta pode cobrir várias zonas); a escolha de quem bloqueia propõe esses atletas. Se o levantador não está no bloqueio e defende, o central do bloqueio faz o levantamento até o ataque ou a devolução sem ataque. Por defeito: levantador no centro e à direita, R4 à esquerda."
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -7859,7 +7895,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Oyun mevkii (servisten sonra)",
   "Après le service": "Servisten sonra",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Herkes oyun mevkiine geçer: pasör ve pasör çaprazı sağa, smaçör sola, orta oyuncu ortaya.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: pasörün yeri. Bir oyuncuyu taşımak için sürükleyin; oyuncu değiştirmek için dokunun."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: pasörün yeri. Bir oyuncuyu taşımak için sürükleyin; oyuncu değiştirmek için dokunun.",
+  "Personne": "Kimse",
+  "Au bloc à {N} :": "Blok ({N}):",
+  "Touchez une zone pour changer le joueur au bloc.": "Blokçuyu değiştirmek için bir bölgeye dokunun.",
+  "Échange de places au service du passeur": "Pasörün servisinde yer değiştirme",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Pasör servis atarken, pasördeki yedeğinin pozisyonunun arkasından atar. Evet: ralli bitene kadar yer değiştirirler (pasör yedeğin pozisyonunda savunma yapar, yedek fileye çıkar). Hayır: herkes şemada yerinde kalır. Her iki durumda da yedek pas verir ve blokta pasörün yerini alır.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "File bölgesi başına bir oyuncu (aynı oyuncu birden fazla bölge tutabilir); blokçu seçimi bu oyuncuları önerir. Pasör blokta değilse ve savunma yapıyorsa, orta blokçu hücuma ya da hücumsuz göndermeye kadar pas verir. Varsayılan: pasör ortada ve sağda, R4 solda."
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -8972,7 +9014,13 @@ const I18N = {
   "Poste de jeu (après le service)": "プレーポジション（サーブ後）",
   "Après le service": "サーブ後",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "各選手がプレーポジションへ：セッターとオポジットは右、OHは左、ミドルは中央。",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1〜P6：セッターの位置。選手をドラッグして移動、タップで選手を変更。"
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1〜P6：セッターの位置。選手をドラッグして移動、タップで選手を変更。",
+  "Personne": "なし",
+  "Au bloc à {N} :": "{N}のブロック：",
+  "Touchez une zone pour changer le joueur au bloc.": "ゾーンをタップしてブロッカーを変更します。",
+  "Échange de places au service du passeur": "セッターのサーブ時に位置を交代",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "セッターがサーブするときは、トスの代わりの選手のポジションの後ろからサーブします。はい：ラリー終了まで位置を交代します（セッターは代わりの選手の位置で守り、代わりの選手はネットへ）。いいえ：図上では各自の位置のままです。どちらの場合も、代わりの選手がトスを上げ、ブロックでもセッターの位置に入ります。",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "ネットのゾーンごとに1人（同じ選手が複数ゾーンも可）。ブロッカーの選択にはこれらの選手が表示されます。セッターがブロックに入らずディフェンスをする場合、ミドルのブロッカーがアタックまたはアタックなしの返球までトスを上げます。 初期設定：セッターは中央と右、R4は左。"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -10085,7 +10133,13 @@ const I18N = {
   "Poste de jeu (après le service)": "比赛位置（发球后）",
   "Après le service": "发球后",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "每人换到自己的比赛位置：二传和接应到右侧，主攻到左侧，副攻到中间。",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 至 P6：二传所在位置。拖动队员可移动；点击可更换队员。"
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 至 P6：二传所在位置。拖动队员可移动；点击可更换队员。",
+  "Personne": "无",
+  "Au bloc à {N} :": "{N}拦网：",
+  "Touchez une zone pour changer le joueur au bloc.": "点击一个区域以更换拦网队员。",
+  "Échange de places au service du passeur": "二传发球时交换位置",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "二传发球时，在其传球替补队员的位置后方发球。是：两人交换位置直到本回合结束（二传在替补的位置防守，替补上网）。否：图中各自位置不变。两种情况下，替补都负责传球，并在拦网时顶替二传的位置。",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "网前每个区域一名球员（同一球员可负责多个区域）；拦网队员选择将列出这些球员。若二传未参与拦网而在防守，则由中间拦网队员传球，直到进攻或无进攻回球。 默认：二传在中间和右侧，R4 在左侧。"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -11198,7 +11252,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Speelpositie (na de service)",
   "Après le service": "Na de service",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Iedereen gaat naar zijn speelpositie: spelverdeler en diagonaal naar rechts, buitenaanvaller naar links, midden in het midden.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 tot P6: plaats van de spelverdeler. Sleep een speler om hem te verplaatsen; tik erop om van speler te wisselen."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 tot P6: plaats van de spelverdeler. Sleep een speler om hem te verplaatsen; tik erop om van speler te wisselen.",
+  "Personne": "Niemand",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Tik op een zone om de blokkeerder te wijzigen.",
+  "Échange de places au service du passeur": "Plaatsen wisselen bij de opslag van de spelverdeler",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Als de spelverdeler opslaat, slaat hij op achter de positie van zijn vervanger bij het spelverdelen. Ja: ze wisselen van plaats tot het einde van de rally (de spelverdeler verdedigt op de positie van de vervanger, die naar het net gaat). Nee: iedereen houdt zijn plaats op het schema. In beide gevallen speelt de vervanger de bal toe en neemt hij de plaats van de spelverdeler aan het blok in.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Eén speler per netzone (dezelfde speler kan meerdere zones dekken); bij de blokkeerderskeuze worden deze spelers voorgesteld. Staat de spelverdeler niet aan het blok en verdedigt hij, dan speelt de middenblokkeerder de set-up tot de aanval of de vrije bal. Standaard: spelverdeler in het midden en rechts, R4 links."
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -12311,7 +12371,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Pozicija u igri (posle servisa)",
   "Après le service": "Posle servisa",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Svako prelazi na svoju poziciju u igri: tehničar i korektor desno, primač levo, srednji bloker u sredinu.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: mesto tehničara. Prevucite igrača da ga pomerite; dodirnite ga da promenite igrača."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: mesto tehničara. Prevucite igrača da ga pomerite; dodirnite ga da promenite igrača.",
+  "Personne": "Niko",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Dodirnite zonu da promenite blokera.",
+  "Échange de places au service du passeur": "Zamena mesta pri servisu tehničara",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Kada tehničar servira, servira iza pozicije svog zamenika na dizanju. Da: menjaju mesta do kraja poena (tehničar brani na poziciji zamenika, koji ide na mrežu). Ne: svako ostaje na svom mestu na šemi. U oba slučaja zamenik diže i zauzima mesto tehničara u bloku.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Jedan igrač po zoni mreže (isti igrač može pokrivati više zona); pri izboru blokera nude se ovi igrači. Ako tehničar nije u bloku i igra odbranu, srednji bloker diže do napada ili prebacivanja bez napada. Podrazumevano: tehničar u sredini i desno, R4 levo."
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -13424,7 +13490,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Игрова позиция (след сервиса)",
   "Après le service": "След сервиса",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Всеки заема игровата си позиция: разпределител и диагонал вдясно, посрещач вляво, централен в средата.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 до P6: място на разпределителя. Плъзнете играч, за да го преместите; докоснете го, за да смените играча."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 до P6: място на разпределителя. Плъзнете играч, за да го преместите; докоснете го, за да смените играча.",
+  "Personne": "Никой",
+  "Au bloc à {N} :": "Блокада {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Докоснете зона, за да смените блокиращия.",
+  "Échange de places au service du passeur": "Размяна на местата при сервис на разпределителя",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Когато разпределителят сервира, той сервира зад позицията на заместника си при разпределението. Да: разменят местата си до края на разиграването (разпределителят защитава на позицията на заместника, който отива на мрежата). Не: всеки остава на мястото си в схемата. И в двата случая заместникът разпределя и заема мястото на разпределителя на блокадата.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "По един състезател на зона от мрежата (един състезател може да покрива няколко зони); при избора на блокиращия се предлагат тези състезатели. Ако разпределителят не е на блок и играе в защита, централният разпределя до атаката или връщането без атака. По подразбиране: разпределител в центъра и вдясно, R4 вляво."
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -14537,7 +14609,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Igralni položaj (po servisu)",
   "Après le service": "Po servisu",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Vsak zasede svoj igralni položaj: podajalec in korektor desno, sprejemalec levo, bloker na sredino.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: mesto podajalca. Povlecite igralca, da ga premaknete; tapnite ga, da zamenjate igralca."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 do P6: mesto podajalca. Povlecite igralca, da ga premaknete; tapnite ga, da zamenjate igralca.",
+  "Personne": "Nihče",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Dotaknite se cone, da zamenjate blokerja.",
+  "Échange de places au service du passeur": "Menjava mest pri servisu podajalca",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Ko podajalec servira, servira za položajem svojega nadomestnega podajalca. Da: zamenjata mesti do konca izmenjave (podajalec brani na položaju nadomestnega, ki gre na mrežo). Ne: vsak ostane na svojem mestu na shemi. V obeh primerih nadomestni podaja in v bloku prevzame mesto podajalca.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "En igralec na cono mreže (isti igralec lahko pokriva več con); pri izbiri blokerja so ponujeni ti igralci. Če podajalec ni v bloku in igra obrambo, bloker podaja do napada ali vračanja brez napada. Privzeto: podajalec v sredini in desno, R4 levo."
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -15650,7 +15728,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Ігрова позиція (після подачі)",
   "Après le service": "Після подачі",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Кожен переходить на свою ігрову позицію: зв’язуючий і діагональний праворуч, догравальник ліворуч, центральний посередині.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: місце зв’язуючого. Перетягніть гравця, щоб перемістити; торкніться, щоб змінити гравця."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: місце зв’язуючого. Перетягніть гравця, щоб перемістити; торкніться, щоб змінити гравця.",
+  "Personne": "Ніхто",
+  "Au bloc à {N} :": "Блок {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Торкніться зони, щоб змінити блокувальника.",
+  "Échange de places au service du passeur": "Обмін місцями під час подачі зв’язуючого",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Коли зв’язуючий подає, він подає з-за позиції свого замінника на передачі. Так: вони міняються місцями до кінця розіграшу (зв’язуючий захищається на позиції замінника, який виходить до сітки). Ні: кожен залишається на своєму місці на схемі. В обох випадках замінник робить передачу й займає місце зв’язуючого на блоці.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Один гравець на зону сітки (один гравець може закривати кілька зон); під час вибору блокуючого пропонуються ці гравці. Якщо зв'язуючий не на блоці й грає в захисті, центральний виконує передачу до атаки або повернення м'яча без атаки. За замовчуванням: зв’язуючий у центрі та справа, R4 зліва."
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -16763,7 +16847,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Herní post (po podání)",
   "Après le service": "Po podání",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Každý přejde na svůj herní post: nahrávač a univerzál doprava, smečař doleva, blokař doprostřed.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 až P6: místo nahrávače. Přetažením hráče přesunete; klepnutím hráče změníte."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 až P6: místo nahrávače. Přetažením hráče přesunete; klepnutím hráče změníte.",
+  "Personne": "Nikdo",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Klepněte na zónu a změňte blokaře.",
+  "Échange de places au service du passeur": "Výměna míst při podání nahrávače",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Když nahrávač podává, podává za pozicí svého zástupce na nahrávce. Ano: vymění si místa do konce výměny (nahrávač brání na pozici zástupce, který jde k síti). Ne: každý zůstane na svém místě ve schématu. V obou případech zástupce nahrává a zaujme místo nahrávače na bloku.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Jeden hráč na zónu sítě (stejný hráč může krýt více zón); při výběru blokujícího se nabízejí tito hráči. Pokud nahrávač neblokuje a hraje v poli, blokař nahrává až do útoku nebo vrácení míče bez útoku. Výchozí: nahrávač uprostřed a vpravo, R4 vlevo."
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -17876,7 +17966,13 @@ const I18N = {
   "Poste de jeu (après le service)": "ตำแหน่งเล่น (หลังเสิร์ฟ)",
   "Après le service": "หลังเสิร์ฟ",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "ทุกคนย้ายไปตำแหน่งเล่นของตน: ตัวเซตและบีหลังไปทางขวา ตัวตีหัวเสาไปทางซ้าย บอลเร็วอยู่ตรงกลาง",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 ถึง P6: ตำแหน่งของตัวเซต ลากผู้เล่นเพื่อย้าย แตะเพื่อเปลี่ยนผู้เล่น"
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 ถึง P6: ตำแหน่งของตัวเซต ลากผู้เล่นเพื่อย้าย แตะเพื่อเปลี่ยนผู้เล่น",
+  "Personne": "ไม่มี",
+  "Au bloc à {N} :": "บล็อก{N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "แตะโซนเพื่อเปลี่ยนผู้บล็อก",
+  "Échange de places au service du passeur": "สลับตำแหน่งเมื่อตัวเซตเสิร์ฟ",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "เมื่อตัวเซตเสิร์ฟ จะเสิร์ฟจากด้านหลังตำแหน่งของผู้เล่นที่เซตแทน ใช่: สลับตำแหน่งกันจนจบแรลลี่ (ตัวเซตรับในตำแหน่งของผู้เล่นแทน ซึ่งขึ้นไปที่ตาข่าย) ไม่: ทุกคนอยู่ตำแหน่งเดิมในแผนภาพ ทั้งสองกรณี ผู้เล่นแทนจะเซตและเข้าบล็อกแทนตัวเซต",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "หนึ่งคนต่อโซนหน้าตาข่าย (ผู้เล่นคนเดียวกันดูแลได้หลายโซน) การเลือกผู้บล็อกจะเสนอผู้เล่นเหล่านี้ หากตัวเซตไม่ได้บล็อกและรับลูก ผู้บล็อกตรงกลางจะเซตบอลจนถึงการบุกหรือการส่งกลับโดยไม่บุก ค่าเริ่มต้น: ตัวเซตอยู่ตรงกลางและขวา R4 อยู่ซ้าย"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -18989,7 +19085,13 @@ const I18N = {
   "Poste de jeu (après le service)": "경기 포지션(서브 후)",
   "Après le service": "서브 후",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "각자 경기 포지션으로 이동합니다: 세터와 아포짓은 오른쪽, 아웃사이드 히터는 왼쪽, 미들은 가운데.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1~P6: 세터의 위치. 선수를 드래그해 이동하고, 눌러서 선수를 바꾸세요."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1~P6: 세터의 위치. 선수를 드래그해 이동하고, 눌러서 선수를 바꾸세요.",
+  "Personne": "없음",
+  "Au bloc à {N} :": "{N} 블로킹:",
+  "Touchez une zone pour changer le joueur au bloc.": "구역을 눌러 블로커를 바꾸세요.",
+  "Échange de places au service du passeur": "세터 서브 시 자리 바꾸기",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "세터가 서브할 때는 토스 대체 선수의 포지션 뒤에서 서브합니다. 예: 랠리가 끝날 때까지 자리를 바꿉니다(세터는 대체 선수의 위치에서 수비하고, 대체 선수는 네트로 갑니다). 아니요: 그림에서 각자 자리를 유지합니다. 두 경우 모두 대체 선수가 토스하고 블로킹에서도 세터의 자리를 맡습니다.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "네트 구역마다 한 명(같은 선수가 여러 구역 가능); 블로커 선택 시 이 선수들이 제안됩니다. 세터가 블로킹하지 않고 수비하면, 미들 블로커가 공격 또는 공격 없는 리턴까지 토스합니다. 기본값: 세터는 가운데와 오른쪽, R4는 왼쪽."
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -20102,7 +20204,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Posisyon sa laro (pagkatapos ng serve)",
   "Après le service": "Pagkatapos ng serve",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Lilipat ang bawat isa sa posisyon nila sa laro: setter at opposite sa kanan, outside hitter sa kaliwa, middle sa gitna.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 hanggang P6: puwesto ng setter. I-drag ang player para ilipat; i-tap para palitan ang player."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 hanggang P6: puwesto ng setter. I-drag ang player para ilipat; i-tap para palitan ang player.",
+  "Personne": "Wala",
+  "Au bloc à {N} :": "Sa block sa {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "I-tap ang isang zone para palitan ang blocker.",
+  "Échange de places au service du passeur": "Pagpapalit ng puwesto sa serve ng setter",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Kapag nagse-serve ang setter, nagse-serve siya mula sa likod ng puwesto ng kanyang kapalit sa pag-set. Oo: nagpapalit sila ng puwesto hanggang matapos ang rally (dumedepensa ang setter sa puwesto ng kapalit, na umaakyat sa net). Hindi: nananatili ang bawat isa sa kanyang puwesto sa diagram. Sa parehong kaso, ang kapalit ang nagse-set at pumapalit sa setter sa block.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Isang manlalaro bawat zone ng net (puwedeng humawak ng ilang zone ang iisang manlalaro); ang pagpili ng blocker ay magmumungkahi ng mga manlalarong ito. Kung hindi nagbo-block ang setter at nagdedepensa, ang middle blocker ang magse-set hanggang sa atake o free ball. Default: setter sa gitna at sa kanan, R4 sa kaliwa."
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -21215,7 +21323,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Posisi main (setelah servis)",
   "Après le service": "Setelah servis",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Semua pindah ke posisi main: tosser dan opposite ke kanan, open spiker ke kiri, middle blocker di tengah.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 sampai P6: posisi tosser. Seret pemain untuk memindahkannya; ketuk untuk mengganti pemain."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 sampai P6: posisi tosser. Seret pemain untuk memindahkannya; ketuk untuk mengganti pemain.",
+  "Personne": "Tidak ada",
+  "Au bloc à {N} :": "Blok {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Ketuk zona untuk mengganti pemblok.",
+  "Échange de places au service du passeur": "Tukar posisi saat tosser melakukan servis",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Saat tosser melakukan servis, ia servis dari belakang posisi penggantinya dalam mengumpan. Ya: mereka bertukar posisi sampai reli selesai (tosser bertahan di posisi pengganti, yang naik ke net). Tidak: setiap pemain tetap di tempatnya pada diagram. Dalam kedua kasus, pengganti mengumpan dan menggantikan tosser saat blok.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Satu pemain per zona net (satu pemain bisa memegang beberapa zona); pilihan pemblok menampilkan pemain-pemain ini. Jika tosser tidak memblok dan bertahan, middle blocker yang mengumpan sampai serangan atau bola kembali tanpa serangan. Bawaan: tosser di tengah dan kanan, R4 di kiri."
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -22328,7 +22442,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Игровая позиция (после подачи)",
   "Après le service": "После подачи",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Каждый переходит на свою игровую позицию: связующий и диагональный направо, доигровщик налево, центральный в центр.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: место связующего. Перетащите игрока, чтобы переместить; нажмите, чтобы сменить игрока."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1–P6: место связующего. Перетащите игрока, чтобы переместить; нажмите, чтобы сменить игрока.",
+  "Personne": "Никто",
+  "Au bloc à {N} :": "Блок {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Коснитесь зоны, чтобы сменить блокирующего.",
+  "Échange de places au service du passeur": "Обмен местами при подаче связующего",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Когда связующий подаёт, он подаёт из-за позиции своего заменяющего на передаче. Да: они меняются местами до конца розыгрыша (связующий защищается на позиции заменяющего, который выходит к сетке). Нет: каждый остаётся на своём месте на схеме. В обоих случаях заменяющий делает передачу и занимает место связующего на блоке.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Один игрок на зону сетки (один игрок может закрывать несколько зон); при выборе блокирующего предлагаются эти игроки. Если связующий не на блоке и играет в защите, центральный выполняет передачу до атаки или возврата мяча без атаки. По умолчанию: связующий в центре и справа, R4 слева."
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -23441,7 +23561,13 @@ const I18N = {
   "Poste de jeu (après le service)": "مركز اللعب (بعد الإرسال)",
   "Après le service": "بعد الإرسال",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "ينتقل كل لاعب إلى مركز لعبه: المعدّ والضارب المقابل إلى اليمين، والضارب الطرفي إلى اليسار، والحائط الأوسط في الوسط.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "من P1 إلى P6: مكان المعدّ. اسحب لاعبًا لنقله؛ والمسه لتغيير اللاعب."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "من P1 إلى P6: مكان المعدّ. اسحب لاعبًا لنقله؛ والمسه لتغيير اللاعب.",
+  "Personne": "لا أحد",
+  "Au bloc à {N} :": "الصد في {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "المس منطقة لتغيير لاعب الصد.",
+  "Échange de places au service du passeur": "تبادل المراكز عند إرسال المُعِدّ",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "عندما يرسل المُعِدّ، يرسل من خلف مركز بديله في الإعداد. نعم: يتبادلان المراكز حتى نهاية التبادل (يدافع المُعِدّ في مركز البديل الذي يتقدم إلى الشبكة). لا: يبقى كل لاعب في مكانه على المخطط. في الحالتين، يُعِدّ البديل ويأخذ مكان المُعِدّ في الصد.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "لاعب واحد لكل منطقة من الشبكة (يمكن للاعب نفسه تغطية عدة مناطق)؛ ويقترح اختيار الصادّ هؤلاء اللاعبين. إذا لم يشارك المُعِدّ في الصد وقام بالدفاع، يتولى الحائط الأوسط الإعداد حتى الهجوم أو الإرجاع دون هجوم. افتراضيًا: المُعِدّ في الوسط واليمين، وR4 في اليسار."
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -24554,7 +24680,13 @@ const I18N = {
   "Poste de jeu (après le service)": "Vị trí thi đấu (sau phát bóng)",
   "Après le service": "Sau phát bóng",
   "Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.": "Mỗi người về vị trí thi đấu: chuyền hai và đối chuyền sang phải, chủ công sang trái, phụ công ở giữa.",
-  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 đến P6: vị trí của chuyền hai. Kéo cầu thủ để di chuyển; chạm để đổi cầu thủ."
+  "P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.": "P1 đến P6: vị trí của chuyền hai. Kéo cầu thủ để di chuyển; chạm để đổi cầu thủ.",
+  "Personne": "Không ai",
+  "Au bloc à {N} :": "Chắn bóng {N}:",
+  "Touchez une zone pour changer le joueur au bloc.": "Chạm vào một vùng để đổi người chắn.",
+  "Échange de places au service du passeur": "Đổi chỗ khi chuyền hai phát bóng",
+  "Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc.": "Khi chuyền hai phát bóng, người đó phát từ phía sau vị trí của người chuyền thay. Có: hai người đổi chỗ đến hết pha bóng (chuyền hai phòng thủ ở vị trí của người thay, người này lên lưới). Không: mỗi người giữ nguyên vị trí trên sơ đồ. Trong cả hai trường hợp, người thay chuyền bóng và thế chỗ chuyền hai khi chắn.",
+  "Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche.": "Mỗi vùng lưới một cầu thủ (một người có thể giữ nhiều vùng); phần chọn người chắn sẽ gợi ý các cầu thủ này. Nếu chuyền hai không chắn mà phòng thủ, phụ công chuyền bóng đến khi tấn công hoặc trả bóng không tấn công. Mặc định: chuyền hai ở giữa và bên phải, R4 bên trái."
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue

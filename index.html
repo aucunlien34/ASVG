@@ -459,7 +459,24 @@ body.easy.phstats .dock .stp{flex:1 1 auto;min-height:0;display:flex;flex-direct
 body.easy.phstats .dock .stp .egrid{flex:1 1 auto;min-height:0;grid-template-rows:auto repeat(3,minmax(0,1fr)) minmax(0,.62fr);margin:4px 0}
 body.easy.phstats .dock .stp .egrid .ek,body.easy.phstats .dock .stp .egrid .eb{min-height:0!important}
 body.easy.phstats .dock .stp .egrid .ek .es{font-size:clamp(34px,7.5vmin,110px)}body.easy.phstats .dock .stp .egrid .ek .el{font-size:clamp(12px,2.1vmin,28px)}
-body.easy.phstats .dock .stp.both .egrid{flex:1.8 1 0}body.easy.phstats .dock .stp.both>.pickc{flex:1 1 0}body.easy.phstats .dock .stp.both .egrid .ek .el{display:none}body.easy.phstats .dock .stp.both .egrid .ek .es{font-size:clamp(30px,7vmin,90px)}body.easy.phstats .dock .stp.both .stq{padding:2px 8px;font-size:15px}
+/* Affichage permanent (stats faciles) : actions au-dessus des joueurs, côte à côte sur tablette en paysage ; tailles fixes, rien ne déborde */
+body.easy.phstats .dock .stp.both{gap:8px}
+body.easy.phstats .dock .stp.both>.bact{flex:1.2 1 0;min-height:0;display:flex;flex-direction:column}
+body.easy.phstats .dock .stp.both>.bpk{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+body.easy.phstats .dock .stp.both .bact .egrid{flex:1 1 auto;min-height:0;grid-template-rows:auto repeat(3,minmax(0,1fr)) minmax(38px,.5fr);gap:6px;margin:0}
+body.easy.phstats .dock .stp.both .egrid .eh{font-size:clamp(14px,2vmin,22px)}
+body.easy.phstats .dock .stp.both .egrid .ek{flex-direction:row;gap:6px;padding:0 4px;overflow:hidden;border-radius:12px}
+body.easy.phstats .dock .stp.both .egrid .ek .el{display:none}body.easy.phstats .dock .stp.both .egrid .ek .es{font-size:clamp(24px,4.5vmin,60px);line-height:1}
+body.easy.phstats .dock .stp.both .egrid .ek .enm{margin:0;padding:1px 8px;font-size:clamp(11px,1.6vmin,16px);max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.easy.phstats .dock .stp.both .egrid .eb{overflow:hidden;border-radius:12px;padding:2px 4px;font-size:clamp(11px,1.5vmin,15px);line-height:1.15;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+body.easy.phstats .dock .stp.both .bpk .stq{padding:2px 8px;font-size:clamp(14px,1.9vmin,18px);min-height:32px;display:flex;align-items:center;gap:8px}
+body.easy.phstats .dock .stp.both .bpk>.pickc{flex:1 1 auto;min-height:0;gap:6px;padding:14px 6px 6px}
+body.easy.phstats .dock .stp.both .bpk>.pickc.o1{padding:6px 14px 6px 6px}body.easy.phstats .dock .stp.both .bpk>.pickc.o2{padding:6px 6px 14px}body.easy.phstats .dock .stp.both .bpk>.pickc.o3{padding:6px 6px 6px 14px}
+body.easy.phstats .dock .stp.both .bpk .pickc .bchip.pk{min-height:0;border-radius:12px;overflow:hidden;gap:0}body.easy.phstats .dock .stp.both .bpk .pickc .bchip.pk.s4{flex-direction:row;gap:10px}
+body.easy.phstats .dock .stp.both .bpk .pickc .bchip.pk .num{font-size:clamp(26px,4.5vmin,56px);line-height:1}
+body.easy.phstats .dock .stp.both .bpk .pickc .bchip.pk .pkn{font-size:clamp(13px,1.8vmin,20px);line-height:1.1}
+body.easy.phstats .dock .stp.both .bpk .strow{margin-top:6px!important}body.easy.phstats .dock .stp.both .bpk .strow .stb{min-height:44px;font-size:15px}
+@media (orientation:landscape) and (min-width:900px){body.easy.phstats .dock .stp.both{flex-direction:row;gap:14px}body.easy.phstats .dock .stp.both>.bact{flex:1.15 1 0}}
 body.easy.phstats .dock .stp .egrid .ek .enm{font-size:clamp(11px,1.8vmin,22px)}body.easy.phstats .dock .stp .egrid .eb{font-size:clamp(12px,2.1vmin,26px)}
 body.easy.phstats .dock .stp .pickc{flex:1 1 auto;min-height:0;grid-auto-rows:minmax(0,1fr)}
 body.easy.phstats .dock .stp .pickc .bchip.pk{min-height:0!important}
@@ -655,7 +672,9 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
 /* service à noter : le reste de la grille est grisé (toujours touchable), un cadre jaune entoure le service */
 .srvfocus{position:relative}
-.ek.dim,.stb.dim{opacity:.32;filter:grayscale(.6)}.srvfocus .ek:not([data-k=srv]),.srvfocus .eb:not([data-act=stUndo]),.srvfocus .eh:not(.srvh),.srvfocus .stb:not([data-k=srv]):not([data-act=stUndo]),.srvfocus .stc:not(.srvh),.srvfocus .stl{opacity:.32;filter:grayscale(.6)}
+.ek.dim,.stb.dim{opacity:.32;filter:grayscale(.6)}.pickc .bchip.pk.dim{opacity:.4}
+.stp.both.pk .egrid>:not(.cho):not(.eh),.stp.both.pk .stgrid>.stb:not(.cho),.stp.both.pk .egrid>.eh,.stp.both.pk .stgrid>.stc,.stp.both.pk .stgrid>.stl{opacity:.3;filter:grayscale(.7)}
+.stp.both .cho{outline:3px solid var(--ink);outline-offset:-3px}.stp.both .pickc .bchip.pk:disabled{opacity:.35;filter:grayscale(.7)}.srvfocus .ek:not([data-k=srv]),.srvfocus .eb:not([data-act=stUndo]),.srvfocus .eh:not(.srvh),.srvfocus .stb:not([data-k=srv]):not([data-act=stUndo]),.srvfocus .stc:not(.srvh),.srvfocus .stl{opacity:.32;filter:grayscale(.6)}
 .srvframe{position:absolute;border:4px solid var(--pa);border-radius:16px;pointer-events:none;box-shadow:0 0 14px 2px rgba(242,190,34,.55);z-index:2}
 .sumsw{margin-bottom:6px}.sact.sfull{display:flex;flex-wrap:wrap;align-items:center;column-gap:4px;row-gap:3px}.sact.sfull i{font-style:normal;color:var(--muted)}
 .sted{font-weight:800}.sch{font:inherit;font-size:14px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:3px 8px;min-height:30px;text-align:left;cursor:pointer}.sch.sted{border-color:var(--pa);border-width:2px;padding:2px 7px}
@@ -711,7 +730,11 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 .lres ul,.lrules{margin:6px 0 4px;padding-left:20px}.lres li,.lrules li{margin:4px 0}.lok{color:var(--pos)}.lres .tools{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .srv4b{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:4px 10px;font:inherit;font-weight:700;min-height:36px;cursor:pointer}
 .pickc.p4.o1,.pickc.p4.o3{height:clamp(280px,46vh,560px)}.pickc.p4.o1 .bchip.pk,.pickc.p4.o3 .bchip.pk{min-height:0!important;margin:0}
-.fmtg.bz4{align-items:flex-start}.fmtg.bz4 .fl{min-width:70px;padding-top:10px}.fmtg.bz4 .bench{flex:1}
+.bzc{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:16px 8px 8px;border-radius:4px;background:var(--court);border:3px solid var(--courtLine);margin:6px 0}
+.bzc .pnet{position:absolute;left:-2px;right:-2px;top:-2px;height:8px;background:var(--courtLine);border-radius:3px;color:transparent;font-size:0}
+.bzz{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:72px;padding:6px 4px;border-radius:10px;border:2px solid transparent;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;min-width:0}
+.bzz.sel{border-color:var(--pa)}.bzz small{color:var(--muted)}.bzz .bzp{display:flex;align-items:center;gap:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.bzz.bz0 .bzp{font-weight:400;color:var(--muted)}
 .linkbtn.pdet{display:block;margin:4px auto 0}
 .tsgrp{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.06em;padding:8px 4px 2px}
 .eb .eun{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
@@ -732,7 +755,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V173';
+const APP_VERSION='V174';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -824,7 +847,13 @@ function sync4(S){if(!F4||!S.zones)return;Z4.forEach(z=>{const id=S.zones[z];if(
 // 4x4, 3x3, 2x2 : l'attaque compte toujours au filet (place 5 → poste 4, 6 → 3, 1 → 2) ; les places du fond ne servent qu'à l'affichage
 function azOf(z){return F4?({5:4,6:3,1:2}[z]||z):z;}
 function srvOf(zones,eff){return F4?zones[F4.sz]:eff[1];}
-function srvXY(){return F4?[SRVX4[F4.sz]||83,98]:SERVE;}
+// Sans rotation, passeur au service avec un remplaçant (F4.rp) : le remplaçant passe et bloque à sa place ; le passeur sert derrière le poste du remplaçant
+// et, avec l'option « Échange de places » (F4.sx, par défaut), prend sa place jusqu'à la fin de l'échange
+function rpOn(S){if(!F4||F4.rot||S.serving!=='G'||!F4.rp||F4.sz!==3||!S.zones)return null;const p=S.zones[3];return p&&p!==F4.rp&&S.zones.includes(F4.rp)?F4.rp:null;}
+function bz4(S){const B=Object.assign({},F4&&F4.bz),r=rpOn(S),p=r&&S.zones[3];if(r)['g','c','d'].forEach(q=>{if(B[q]===p)B[q]=r;});return B;}
+// Bloc par défaut : passeur au centre et à droite, R4 à gauche
+function bzDef(zones){const o={};if(zones[3]){o.c=zones[3];o.d=zones[3];}if(zones[5])o.g=zones[5];return o;}
+function srvXY(zones){if(!F4)return SERVE;const r=zones&&rpOn({zones,serving:'G'}),k=r?zones.indexOf(r):F4.sz;return [SRVX4[k]||83,98];}
 // Libéro remplace la centre arrière, sauf quand cette centre sert.
 // Poste de chaque place dans l'ordre 5-1, à partir de la passe (sens de la rotation)
 const SLOT=['Pa','R4','C','Pu','R4','C'];
@@ -853,7 +882,7 @@ function posRoles(zones,roles){
 }
 function effective(zones,roles,lib,serving){
   if(F4){const eff=zones.slice();
-    if(!F4.rot&&serving==='G'&&F4.rp&&F4.sz===3&&eff[3]!==F4.rp){const k=eff.indexOf(F4.rp);if(k>0){eff[k]=eff[3];eff[3]=F4.rp;}}
+    if(F4.sx!==false&&rpOn({zones,serving})){const k=eff.indexOf(F4.rp);if(k>0){eff[k]=eff[3];eff[3]=F4.rp;}}
     return {eff,libFor:null,libZone:null,pr:posRoles(eff,roles)};}
   const pr=posRoles(zones,roles);
   const eff=zones.slice();let libFor=null,libZone=null;
@@ -1144,7 +1173,7 @@ function setTarget(m,si){return isTieBreak(m,si)?15:fmt(m).pts;}
 function setPts(m,si){const f=(m&&m.format)||{};const win=f.win||3,pts=f.pts||25,tb=f.tb!==false;const last=2*win-1;return (tb&&si===last-1)?15:pts;}
 // Options tactiques : le poste de défense du libéro (LIBPOS) et l'inversion P1 (S.p1x) changent au fil du match
 // (évènement « set » : champs lp et x ; évènement « tac » : changement en cours de set) ; S.libPos = valeur en fin de relecture
-function replay(m){if(m.season)return m._S;const prev=LIBPOS,pf=F4;LIBPOS=+(m.libPos||5);const n=n4(f4c(m));setF4(n<6?{n,rot:n===4,sz:n===4?1:FMT4[n].SRV[0],srvd:false,rp:null,bz:{}}:null);
+function replay(m){if(m.season)return m._S;const prev=LIBPOS,pf=F4;LIBPOS=+(m.libPos||5);const n=n4(f4c(m));setF4(n<6?{n,rot:n===4,sz:n===4?1:FMT4[n].SRV[0],srvd:false,rp:null,sx:true,bz:{}}:null);
   try{const S=replay0(m);S.libPos=LIBPOS;S.f4=F4;return S;}finally{LIBPOS=prev;setF4(pf);}}
 function replay0(m){
   const S={cov:{pts:0,withSt:0,pas:0,pasFt:0},covSet:[],rot:[],sets:[],phase:'setup',roles:Object.assign({},m.roles),zones:null,serving:null,lib:null,played:{},fx:{},recZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},defZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},zst:[],pst:[],psp:[],wins:{G:0,A:0},lastWarn:null,lastSetEnd:null,lastPt:null};
@@ -1156,10 +1185,10 @@ function replay0(m){
       const z=[null].concat(ev.z);
       S.sets.push({g:0,a:0,lineup:z.slice(),srv:ev.s,lib:ev.l||null,sz4:ev.sz||null,subs:0,pairs:{},subOf:{},to:{G:0,A:0},rallies:0,winner:null,oppFault:0});
       S.zones=z;S.serving=ev.s;S.lib=ev.l||null;S.p1x=!!ev.x;if(ev.lp)LIBPOS=+ev.lp;S.phase='play';
-      if(F4){F4.rot=F4.n===4&&ev.r4!==0;F4.sz=F4.rot?1:(SRV4.includes(ev.sz)?ev.sz:SRV4[0]);F4.srvd=ev.s==='G';F4.rp=ev.rp||null;F4.bz=Object.assign({},ev.bz||{});S.lib=null;S.r4n=0;sync4(S);}
+      if(F4){F4.rot=F4.n===4&&ev.r4!==0;F4.sz=F4.rot?1:(SRV4.includes(ev.sz)?ev.sz:SRV4[0]);F4.srvd=ev.s==='G';F4.rp=ev.rp||null;F4.sx=ev.sx!==0;F4.bz=Object.assign({},ev.bz||{});S.lib=null;S.r4n=0;sync4(S);}
     } else if(ev.t==='role'){S.roles[ev.p]=ev.r;}
     else if(ev.t==='lib'){S.lib=ev.p||null;S.libNext=ev.next||null;S.libNextAt=set?set.rallies:0;S.libTouched=true;}
-    else if(ev.t==='tac'){if(ev.lp)LIBPOS=+ev.lp;if(ev.x!=null)S.p1x=!!ev.x;if(F4){if(ev.rp!==undefined)F4.rp=ev.rp||null;if(ev.bz)F4.bz=Object.assign({},ev.bz);if(!F4.rot&&SRV4.includes(ev.sz)){F4.sz=ev.sz;F4.srvd=S.serving==='G';}}}
+    else if(ev.t==='tac'){if(ev.lp)LIBPOS=+ev.lp;if(ev.x!=null)S.p1x=!!ev.x;if(F4){if(ev.rp!==undefined)F4.rp=ev.rp||null;if(ev.sx!=null)F4.sx=!!ev.sx;if(ev.bz)F4.bz=Object.assign({},ev.bz);if(!F4.rot&&SRV4.includes(ev.sz)){F4.sz=ev.sz;F4.srvd=S.serving==='G';}}}
     else if(!set||S.phase!=='play'){continue;}
     else if(ev.t==='pt'){
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving);
@@ -1594,11 +1623,11 @@ function courtHTML(m,o){
   } else if(o.mode==='regl'){
     const {eff,libFor,pr}=effective(o.zones,o.roles,o.lib,o.serving),sv=o.serving==='G'?srvOf(o.zones,eff):null;
     for(const z of ZS){const id=eff[z];if(!id)continue;const isLib=id===o.lib&&libFor;
-      const srv=!!sv&&id===sv;t+=tokenHTML(m,id,F4?pr[id]:o.roles[id],srv?srvXY():PZ[z],{act:o.act||'none',zone:z,flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
+      const srv=!!sv&&id===sv;t+=tokenHTML(m,id,F4?pr[id]:o.roles[id],srv?srvXY(o.zones):PZ[z],{act:o.act||'none',zone:z,flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
   } else {
     const {eff,libFor,out}=playCoords(o.zones,o.roles,o.lib,o.serving),sv=o.serving==='G'?srvOf(o.zones,eff):null,pr4=F4?posRoles(eff,o.roles):null;
     for(const z of ZS){const id=eff[z];if(!id||!out[id])continue;const isLib=id===o.lib&&libFor;
-      const srv=!!sv&&id===sv&&!o.srvDone;t+=tokenHTML(m,id,F4?pr4[id]:o.roles[id],srv?srvXY():out[id],{act:o.act||'none',flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
+      const srv=!!sv&&id===sv&&!o.srvDone;t+=tokenHTML(m,id,F4?pr4[id]:o.roles[id],srv?srvXY(o.zones):out[id],{act:o.act||'none',flip,libFor:isLib?libFor:null,srv,flash:isLib&&o.flash});}
   }
   return `<div class="courtwrap o${or} ${or%2?'side':''}"><div class="court o${or} ${or%2?'side':''} ${o.small?'small':''}" ${o.main?'id="mainCourt"':''}><div class="net"></div><div class="attack"></div><span class="netlbl">FILET</span>${t}</div></div>`;
 }
@@ -2034,10 +2063,15 @@ function opt4HTML(m,o,ids,act,lineup){const nm=id=>`<span class="num ${rcls(P4[i
   const n=F4?F4.n:4;
   return (lineup?(n===4?`<h2>Rotations ${tipB('rot4')}</h2><div class="seg"><button class="${o.r4!==false?'on':''}" data-act="${act}" data-k="r4" data-v="1">Avec rotations</button><button class="${o.r4===false?'on':''}" data-act="${act}" data-k="r4" data-v="0">Sans rotation</button></div>`:'')+`
     ${o.r4===false?`<h2>Premier serveur</h2><div class="bench">${SRV4.map(z=>{const id=ids.at(z);return id?chip('sz',z,o.sz===z,nm(id)):'';}).join('')}</div><p class="hint xp">${n===2?'Service alterné entre les deux joueurs.':n===3?'Ordre de service : passe, pointe, R4 ; chacun sert derrière son poste.':'Ordre de service : R4, passe, pointe, centre ; chacun sert derrière son poste.'}</p>`:'<p class="hint xp">Le joueur au poste 1 sert ; au gain du service, rotation 5 → 3 → 1 → 6.</p>'}`:'')
-    +(o.r4===false&&pa?`<h2>Remplacement du passeur ${tipB('rp4')}</h2><div class="bench">${chip('rp','',!o.rp,'Non')}${on.filter(id=>id!==pa).map(id=>chip('rp',id,o.rp===id,nm(id))).join('')}</div>`:'')
-    +(n===2?'':`<h2>Bloc ${tipB('bz4')}</h2>${[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>`<div class="fmtg bz4"><span class="fl">${l}</span><div class="bench">${chip('bz'+q,'',!(o.bz||{})[q],'—')}${on.map(id=>chip('bz'+q,id,(o.bz||{})[q]===id,nm(id))).join('')}</div></div>`).join('')}`);}
+    +(o.r4===false&&pa?`<h2>Remplacement du passeur ${tipB('rp4')}</h2><div class="bench">${chip('rp','',!o.rp,'Non')}${on.filter(id=>id!==pa).map(id=>chip('rp',id,o.rp===id,nm(id))).join('')}</div>`
+      +(o.rp&&on.includes(o.rp)?`<h2>Échange de places au service du passeur ${tipB('sx4')}</h2><div class="seg"><button class="${o.sx===false?'on':''}" data-act="${act}" data-k="sx" data-v="0">Non</button><button class="${o.sx!==false?'on':''}" data-act="${act}" data-k="sx" data-v="1">Oui</button></div>`:''):'')
+    +(n===2?'':`<h2>Bloc ${tipB('bz4')}</h2>${bzCourt(o.bz||{},on,act,nm)}`);}
+// Bloc sur un terrain : zones de contre 4, 3, 2 (filet en haut) ; on touche une zone pour choisir son bloqueur (❌ : personne)
+function bzCourt(B,on,act,nm){const sel=ui.bzSel,Q=[['g','Gauche',4],['c','Centre',3],['d','Droite',2]],no=`<span aria-hidden="true">❌</span> ${tr('Personne')}`;
+  return `<div class="bzc"><div class="pnet">filet</div>${Q.map(([q,l,z])=>{const id=B[q]&&on.includes(B[q])?B[q]:null;return `<button class="bzz ${sel===q?'sel':''} ${id?'':'bz0'}" data-act="bzSel" data-q="${q}" aria-expanded="${sel===q}"><small>${tr(l)} (${z})</small><span class="bzp">${id?nm(id):no}</span></button>`;}).join('')}</div>
+    ${sel?`<p class="hint">${tr('Au bloc à {N} :').replace('{N}',tr(Q.find(x=>x[0]===sel)[1]).toLowerCase())}</p><div class="bench"><button class="bchip ${!B[sel]?'sel':''}" data-act="${act}" data-k="bz${sel}" data-v="">${no}</button>${on.map(id=>`<button class="bchip ${B[sel]===id?'sel':''}" data-act="${act}" data-k="bz${sel}" data-v="${id}">${nm(id)}</button>`).join('')}</div>`:`<p class="hint xp">${tr('Touchez une zone pour changer le joueur au bloc.')}</p>`}`;}
 function lineupHTML(m,S){
-  if(is4(m)){const f0=F4,d=ui.draft,n=n4(f4c(m));if(n<4)d.r4=false;setF4({n,rot:d.r4!==false,sz:d.r4===false?d.sz:1,srvd:true,rp:d.rp||null,bz:d.bz||{}});try{return lineup4HTML(m,S);}finally{setF4(f0);}}
+  if(is4(m)){const f0=F4,d=ui.draft,n=n4(f4c(m));if(n<4)d.r4=false;setF4({n,rot:d.r4!==false,sz:d.r4===false?d.sz:1,srvd:true,rp:d.rp||null,sx:d.sx!==false,bz:d.bz||bzDef(d.zones)});try{return lineup4HTML(m,S);}finally{setF4(f0);}}
   const d=ui.draft,n=S.sets.length+1,complete=d.zones.slice(1).every(Boolean);
   const libs=present(m).filter(p=>S.roles[p.id]==='L');
   const pz=setterZone(d.zones,S.roles);
@@ -2080,8 +2114,8 @@ function lineup4HTML(m,S){
       ${F.win>1?`<div class="fmtg"><span class="fl">Tie-break (15 points)</span><div class="seg">${b('tb',true,'Oui')}${b('tb',false,'Non')}</div></div>`:''}`;})()}
     <h2>Premier service</h2>
     <div class="seg"><button class="${d.srv==='G'?'on':''}" data-act="draftSrv" data-s="G">${esc(short(m))} sert</button><button class="${d.srv==='A'?'on':''}" data-act="draftSrv" data-s="A">${esc(m.opp||'Adversaire')} sert</button></div>
-    ${complete?opt4HTML(m,d,ids,'draft4',true):''}
-    ${complete?`<h2>Positions ${d.srv==='G'?'au service':'en réception'}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,serving:d.srv,small:true})}`:''}
+    ${complete?opt4HTML(m,Object.assign({},d,{bz:d.bz||bzDef(d.zones)}),ids,'draft4',true):''}
+    ${complete&&F4.n===2?`<h2>Positions ${d.srv==='G'?'au service':'en réception'}</h2>${courtHTML(m,{mode:'play',zones:d.zones,roles:S.roles,serving:d.srv,small:true})}`:''}
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>Commencer le set ${n}</button></div>`;
 }
 const SK={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque',blk:'Bloc',pas:'Passe',rel:'Renvoi sans attaque',relay:'Relais de passe',rly:'Relais de passe'};
@@ -2090,7 +2124,7 @@ const stSym=s=>s>0?'+':s<0?'−':'=',stCls=s=>s>0?'p':s<0?'m':'n',stLab=(k,s)=>k
 // 4x4 : si le passeur n'est pas désigné au bloc et fait la défense, le bloqueur du centre passe jusqu'à l'attaque ou au renvoi sans attaque
 function setterOn(S,st){if(!S.zones)return null;
   if(F4&&F4.n===2){const L=st?last2(st,store.cur):null;return L?[S.zones[5],S.zones[1]].find(id=>id&&id!==L)||null:null;} // 2x2 : l'autre joueur que le dernier à avoir touché
-  if(F4){const {eff,pr}=effective(S.zones,S.roles,null,S.serving),pa=eff.slice(1).find(id=>id&&pr[id]==='Pa')||null,B=F4.bz||{};
+  if(F4){const {eff,pr}=effective(S.zones,S.roles,null,S.serving),pa=rpOn(S)||eff.slice(1).find(id=>id&&pr[id]==='Pa')||null,B=bz4(S);
     if(pa&&st&&B.c&&B.c!==pa&&eff.includes(B.c)&&![B.g,B.c,B.d].includes(pa)){let i=st.length-1;while(i>=0&&st[i][0]!=='att'&&st[i][0]!=='rel')i--;if(st.slice(i+1).some(x=>x[0]==='def'&&x[2]===pa))return B.c;}
     return pa;}
   if(is42(S.zones,S.roles))return [2,3,4].map(z=>S.zones[z]).find(id=>S.roles[id]==='Pa')||null;
@@ -2117,7 +2151,7 @@ function recepMap(S){if(F4&&S&&S.zones&&S.serving==='A')return layoutPlay(effect
   [5,6,1].forEach((z,k)=>{if(back[k])dm[z]=back[k];});[4,3,2].forEach((z,k)=>{if(front[k])dm[z]=front[k];});return dm;}
 function recepZone(S,pid){const dm=recepMap(S);if(!dm)return null;const z=Object.keys(dm).find(k=>dm[k]===pid);return z?+z:null;}
 // Choix du joueur de la stat pk ({k, s}) ; pk.none : affichage permanent (Réglages › Saisie) avant le choix de l'action, joueurs inactifs
-function pickHTML(m,S,st,lp,sid,pk){const h=(()=>{
+function pickHTML(m,S,st,lp,sid,pk){const lk=pk.lay||pk.k,h=(()=>{
       // Joueurs placés comme sur le terrain (filet en haut) : en 5-1 selon leur poste de jeu, sinon dans l'ordre réglementaire
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving),q42=is42(S.zones,S.roles);let dm=(!q42&&setterOn(S))?layoutPlay(eff,pr):null;
       // 4x4 : réception / défense, le passeur sur le tiers près du filet, les trois autres sur les deux tiers du fond (gauche → droite) ;
@@ -2134,25 +2168,25 @@ function pickHTML(m,S,st,lp,sid,pk){const h=(()=>{
         return `<div class="stq ${stCls(pk.s)}">${stLab(pk.k,pk.s)} : qui ?</div><div class="pickc p2 o${o}" style="padding:8px;${G[0]}">${G.slice(1).join('')}</div>
           <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;}
       if(F4){const k=pk.k,X={5:0,3:1,6:1,1:2},on4=Z4.filter(z=>eff[z]).map(z=>({id:eff[z],z})),srt=L=>L.slice().sort((a,b)=>X[a.z]-X[b.z]);
-        let last=null;for(let i=st.length-1;i>=0;i--){if(st[i][2]){last=st[i][2];break;}}
-        const ch=(id,cls,sty)=>`<button class="bchip pk ${cls||''} ${rcls(pr[id])} ${k==='relay'&&id===sid?'dim':''}" style="${sty}" data-act="stP" data-id="${id}"><span class="num ${rcls(pr[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`;
+        const last=(k==='att'||k==='rel')?last2(st,m):null,ps=rpOn(S);
+        const ch=(id,cls,sty)=>`<button class="bchip pk ${cls||''} ${rcls(pr[id])} ${(k==='relay'&&id===sid)||id===last?'dim':''}" style="${sty}" data-act="stP" data-id="${id}"><span class="num ${rcls(pr[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`;
         // Grille logique (rangée 0 = filet, colonnes de gauche à droite) tournée comme le terrain
         const o=dispOrient(),grid=(C,nc,fr,cls)=>{const R=fr.length,rf=fr.slice().reverse(),rep=`repeat(${nc},minmax(0,1fr))`;
           const T=o===0?`grid-template-columns:${rep};grid-template-rows:${fr.join(' ')}`:o===2?`grid-template-columns:${rep};grid-template-rows:${rf.join(' ')}`:o===1?`grid-template-columns:${rf.join(' ')};grid-template-rows:${rep}`:`grid-template-columns:${fr.join(' ')};grid-template-rows:${rep}`;
           const at=c=>{const a=c.c0+1,b=c.c1+1,ma=nc-c.c1+1,mb=nc-c.c0+1;return o===0?`grid-column:${a} / ${b};grid-row:${c.r+1}`:o===2?`grid-column:${ma} / ${mb};grid-row:${R-c.r}`:o===1?`grid-column:${R-c.r};grid-row:${a} / ${b}`:`grid-column:${c.r+1};grid-row:${ma} / ${mb}`;};
           return `<div class="pickc o${o} p4 ${cls||''}" style="${T}"><div class="pnet">filet</div>${C.map(c=>c.id?ch(c.id,c.cls,at(c)):`<span style="${at(c)}"></span>`).join('')}</div>`;};
-        const B=F4.bz||{};let g;
-        if(k==='blk'&&(B.g||B.c||B.d))g=grid(['g','c','d'].map((q,i)=>{const id=B[q];return {id:id&&eff.includes(id)?id:null,r:0,c0:i,c1:i+1};}),3,['minmax(0,1fr)'],'blkp');
-        else{const L=(k==='att'||k==='rel')&&last?on4.filter(o=>o.id!==last):on4,pa=L.find(o=>pr[o.id]==='Pa');
+        const B=bz4(S);let g;
+        if(lk==='blk'&&(B.g||B.c||B.d))g=grid(['g','c','d'].map((q,i)=>{const id=B[q];return {id:id&&eff.includes(id)?id:null,r:0,c0:i,c1:i+1};}),3,['minmax(0,1fr)'],'blkp');
+        else{const L=on4,pa=L.find(o=>ps?o.id===ps:pr[o.id]==='Pa');
           g=L.length<=(F4.n===3?2:3)||!pa?grid(srt(L).map((x,i)=>({id:x.id,r:0,c0:i,c1:i+1})),L.length,['minmax(0,1fr)'])
             :(()=>{const bk=srt(L.filter(x=>x!==pa)),nc=bk.length;return grid([{id:pa.id,cls:'s4',r:0,c0:0,c1:nc}].concat(bk.map((x,i)=>({id:x.id,r:1,c0:i,c1:i+1}))),nc,['minmax(0,1fr)','minmax(0,2fr)'],'p4s');})();}
         return `<div class="stq ${stCls(pk.s)}">${stLab(pk.k,pk.s)} : qui ?<button class="pkrot" data-act="flip" aria-label="Tourner le terrain et le choix d'un quart de tour" title="Tourner">${IC.flip}</button></div>${g}
           <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;}
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
       let recAbs=null;
-      if(pk.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
-      if(dm&&pk.k!=='rec'){const g=statGrid(S,eff,p1Inv(S,S.serving==='G',st));if(g)dm=g;}
-      const blkPick=pk.k==='blk';
+      if(lk==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
+      if(dm&&lk!=='rec'){const g=statGrid(S,eff,p1Inv(S,S.serving==='G',st));if(g)dm=g;}
+      const blkPick=lk==='blk';
       if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=p1Inv(S,S.serving==='G',st),bd={};
         const c=F.find(id=>R[id]==='C'),r4=F.find(id=>R[id]==='R4'),pp=F.find(id=>R[id]==='Pa'||R[id]==='Pu'),rest=F.filter(id=>![c,r4,pp].includes(id));
         if(c)bd[3]=c;if(p1){if(r4)bd[2]=r4;if(pp)bd[4]=pp;}else{if(r4)bd[4]=r4;if(pp)bd[2]=pp;}
@@ -2176,20 +2210,23 @@ function statPanel(m,S){
   const btn=(k,sg,i)=>{const kk=k,dis=kk==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===kk&&ui.stPick.s===sg)||((kk==='srv'||kk==='rec')&&st.some(x=>x[0]===kk&&x[1]===sg))||(kk==='pas'&&op>=0&&st[op][1]===sg);
     return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='pas'&&op>=0&&st[op][1]!==sg?'dim':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
-  return `<div class="stp ${store.prefs.stBoth?'both':''}"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
+  const both=store.prefs.stBoth,pk=both&&ui.stPick;
+  let h=`<div class="stp ${both?'both':''} ${pk?'pk':''}"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
     ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
       <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><button class="btn big dfskip" data-act="diffSkip">Passer</button></div>`;})():ui.stPick&&!store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick)
-    :(store.prefs.easy?(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
+    :(both?'<div class="bact">':'')+(store.prefs.easy?(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       // Mode stats faciles : grille fixe 3 × 3 ; la colonne passe / service est attribuée automatiquement (nom affiché)
       const auto=k=>k==='srv'?lp.srv:k==='pas'?sid:null;
       const on=(k,sg)=>((k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg))||(k==='pas'&&op>=0&&st[op][1]===sg)||(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg);
       const eb=(k,sg)=>{const a=auto(k);return `<button class="ek ${stCls(sg)} ${a||k==='srv'||k==='pas'?'au':''} ${on(k,sg)?'on':''} ${k==='pas'&&op>=0&&st[op][1]!==sg?'dim':''}" data-act="stCat" data-k="${k}" data-s="${sg}"><span class="es">${stSym(sg)}</span><span class="el">${stLab(k,sg)}</span>${(k==='srv'||k==='pas')&&a?`<span class="enm">${esc(pnum(m,a)+' '+dname(m,a))}</span>`:''}</button>`;};
       return `<div class="egrid ${c1==='srv'?'srvfocus':''}" style="grid-template-columns:repeat(${cats.length},minmax(0,1fr))">${cats.map(k=>`<span class="eh ${k==='srv'||k==='pas'?'au':''} ${k==='srv'?'srvh':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cats.map(k=>eb(k,sg)).join('')).join('')}
-        <button class="eb" data-act="stUndo" ${st.length||lastPt?'':'disabled'}>↶ Annuler<br>${undoLab(m,S,st,lastPt)}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
+        <button class="eb" data-act="stUndo" ${st.length||lastPt?'':'disabled'}>${both?(st.length||lastPt?'↶ '+undoLab(m,S,st,lastPt):'↶ Annuler'):'↶ Annuler<br>'+undoLab(m,S,st,lastPt)}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
     :(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
-      return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})())+(store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick||{k:'def',s:0,none:1}):'')}
+      return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})())+(both?'</div><div class="bpk">'+pickHTML(m,S,st,lp,sid,Object.assign({lay:'def'},ui.stPick||{k:'def',s:0,none:1}))+'</div>':'')}
     ${st.length&&!store.prefs.easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
+  if(pk)h=h.replace(new RegExp('class="([^"]*)"( data-act="stCat" data-k="'+pk.k+'" data-s="'+pk.s+'")'),'class="$1 cho"$2');
+  return h;
 }
 function matchHTML(m,S){
   const si=S.sets.length-1,set=S.sets[si],T=short(m);
@@ -2304,7 +2341,7 @@ function sheetHTML(m,S){
     return `<div class="sh"><h3>${g?'Serveur':'Prochain serveur'}</h3>${close}</div><p class="hint xp">L'ordre de service est conservé et repart du joueur choisi.</p>
       <div style="display:flex;flex-direction:column;gap:6px">${SRV4.filter(z=>S.zones[z]).map(z=>{const id=S.zones[z];return `<button class="prow pclick ${z===F4.sz?'on':''}" data-act="srv4Set" data-z="${z}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="who"><b>${esc(dname(m,id))}</b><small>${tr(lab4(z))}</small></span>${z===F4.sz?'<span aria-hidden="true">🏐</span>':''}</button>`;}).join('')}</div>`;}
   if(ui.sheet==='tac'&&F4){const q=(m.tacNext||[]).filter(e=>e.t==='tac'),last=k=>{const x=q.filter(e=>e[k]!==undefined);return x.length?x[x.length-1][k]:undefined;};
-    const rp=last('rp'),bz=last('bz'),o={r4:F4.rot?undefined:false,rp:rp!==undefined?rp:F4.rp,bz:bz!==undefined?bz:F4.bz},ids={list:Z4.map(z=>S.zones[z]).filter(Boolean),z:id=>S.zones.indexOf(id),at:z=>S.zones[z]};
+    const rp=last('rp'),bz=last('bz'),sx=last('sx'),o={r4:F4.rot?undefined:false,rp:rp!==undefined?rp:F4.rp,sx:sx!==undefined?!!sx:F4.sx,bz:bz!==undefined?bz:F4.bz},ids={list:Z4.map(z=>S.zones[z]).filter(Boolean),z:id=>S.zones.indexOf(id),at:z=>S.zones[z]};
     return `<div class="sh"><h3>Options tactiques</h3>${close}</div>
       ${(m.pend||[]).length?'<p class="warnc">Des stats sont saisies sur cet échange : les changements s\'appliqueront à partir du prochain échange.</p>':''}
       ${opt4HTML(m,o,ids,'tac4',false)}<p class="hint xp">Valable jusqu'à la fin du match, et noté dans le résumé.</p>`;}
@@ -2796,8 +2833,8 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
 // Résumé du match : chaque point avec le score et la dernière action notée
 // Résumé du match : chaque point avec le score et la dernière action notée (changements, temps morts, libéro)
 // 4x4 : remplaçant du passeur et bloc, notés dans le résumé (composition du set et options tactiques)
-function tac4Rows(m,ev,cur){if(ev.sz&&ev.sp)cur.rows.push({k:'tac',a:tr('Au service')+' : '+dname(m,ev.sp)});if(ev.rp!==undefined)cur.rows.push({k:'tac',a:tr('Remplacement du passeur')+' : '+(ev.rp?dname(m,ev.rp):tr('Non'))});
-  if(ev.bz)cur.rows.push({k:'tac',a:tr('Bloc')+' : '+[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>tr(l)+' '+(ev.bz[q]?dname(m,ev.bz[q]):'—')).join(' · ')});}
+function tac4Rows(m,ev,cur){if(ev.sz&&ev.sp)cur.rows.push({k:'tac',a:tr('Au service')+' : '+dname(m,ev.sp)});if(ev.rp!==undefined)cur.rows.push({k:'tac',a:tr('Remplacement du passeur')+' : '+(ev.rp?dname(m,ev.rp):tr('Non'))});if(ev.sx!=null)cur.rows.push({k:'tac',a:tr('Échange de places au service du passeur')+' : '+tr(ev.sx?'Oui':'Non')});
+  if(ev.bz)cur.rows.push({k:'tac',a:tr('Bloc')+' : '+[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>tr(l)+' '+(ev.bz[q]?dname(m,ev.bz[q]):'❌')).join(' · ')});}
 function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null,lp0=+(m.libPos||5),x0=false;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
   m.ev.forEach((ev,idx)=>{
     if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;
@@ -2918,7 +2955,8 @@ const TIPS={
  libpos:['Libéro en défense',"Placement quand l'équipe défend, et zones des statistiques : le libéro et le centre arrière défendent à ce poste, le R4 arrière à l'autre."],
  rot4:['Rotations (4x4)',"Avec rotations : au gain du service, l'équipe tourne (5 → 3 → 1 → 6) et chacun prend le poste de sa nouvelle place ; le joueur au poste 1 sert. Sans rotation : chacun garde son poste et sert à son tour (R4, passe, pointe, centre), derrière son poste."],
  rp4:['Remplacement du passeur',"Sans rotation : quand le passeur sert, le joueur choisi passe à sa place au filet et le passeur prend la sienne, jusqu'à la fin de l'échange."],
- bz4:['Bloc (4x4)',"Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque."],
+ sx4:['Échange de places au service du passeur',"Quand le passeur sert, il sert derrière le poste de son remplaçant à la passe. Oui : ils échangent leurs places jusqu'à la fin de l'échange (le passeur défend au poste du remplaçant, qui monte au filet). Non : chacun garde sa place sur le schéma. Dans les deux cas, le remplaçant fait la passe et prend la place du passeur au bloc."],
+ bz4:['Bloc (4x4)',"Un joueur par zone du filet (un même joueur peut tenir plusieurs zones) ; le choix du contreur propose ces joueurs. Si le passeur n'est pas au bloc et fait la défense, le bloqueur du centre fait la passe jusqu'à l'attaque ou au renvoi sans attaque. Par défaut : passeur au centre et à droite, R4 à gauche."],
  p1x:['Inversion R4 <-> Pointe en P1',"En P1 et en réception seulement (service adverse). Sans l'option, la pointe joue en 4 et la R4 en 2 pendant tout l'échange. Avec l'option, elles commencent ainsi puis s'échangent dès la première attaque, le premier renvoi sans attaque ou la première défense notés : R4 en 4, pointe en 2. La grille de saisie des stats et les zones d'attaque suivent ce choix. Réglage propre à chaque set."],
  eff:['Efficacité',"Chaque action est notée − (faute), = (neutre) ou + (réussie). L'efficacité dit à quel point les actions sont réussies : 100 % si tout est +, 50 % si tout est neutre, 0 % si tout est faute."],
  srv:['Service',"+ : service qui met l'adversaire en difficulté ou fait le point. = : service en jeu, facile à recevoir. − : service raté."],
@@ -3718,12 +3756,12 @@ const A={
   draftSrv(d){const D=ui.draft;if(D.set>0&&d.s!==D.srv&&!is4(store.cur)){D.zones=shift6(D.zones,d.s==='A'?1:-1);draftCheck();}D.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
   draftP1x(d){ui.draft.p1x=d.v==='1';},
   // 4x4 : rotations, premier serveur, remplaçant du passeur, bloc (gauche, centre, droite) du set à composer
-  draft4(d){const D=ui.draft;if(!D)return;if(d.k==='r4'){D.r4=d.v==='1';if(!D.r4&&!SRV4.includes(D.sz))D.sz=SRV4[0];if(D.r4)D.rp=null;}
-    else if(d.k==='sz')D.sz=+d.v;else if(d.k==='rp')D.rp=d.v||null;else if(d.k.startsWith('bz')){D.bz=Object.assign({},D.bz);D.bz[d.k[2]]=d.v||undefined;if(!d.v)delete D.bz[d.k[2]];}},
+  draft4(d){const D=ui.draft;if(!D)return;if(d.k==='r4'){D.r4=d.v==='1';if(!D.r4&&!SRV4.includes(D.sz))D.sz=sz4Def();if(D.r4)D.rp=null;}
+    else if(d.k==='sz')D.sz=+d.v;else if(d.k==='rp')D.rp=d.v||null;else if(d.k==='sx')D.sx=d.v==='1';else if(d.k.startsWith('bz')){ui.bzSel=null;D.bz=Object.assign({},D.bz||bzDef(D.zones));D.bz[d.k[2]]=d.v||undefined;if(!d.v)delete D.bz[d.k[2]];}},
   startGo(){ui.alert=null;ui.alertMode=null;ui.swapRC=null;return A.startSet({},true);},
   startSet(_d,force){const d=ui.draft;
-    if(is4(store.cur)){if(!Z4.every(z=>d.zones[z]))return;const on=Z4.map(z=>d.zones[z]),bz={};['g','c','d'].forEach(q=>{if(d.bz&&on.includes(d.bz[q]))bz[q]=d.bz[q];});
-      ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:null,r4:d.r4===false?0:undefined,sz:d.r4===false?d.sz:undefined,rp:d.r4===false&&on.includes(d.rp)?d.rp:undefined,bz:Object.keys(bz).length?bz:undefined});
+    if(is4(store.cur)){if(!Z4.every(z=>d.zones[z]))return;const on=Z4.map(z=>d.zones[z]),bz={},B=d.bz||bzDef(d.zones);['g','c','d'].forEach(q=>{if(on.includes(B[q]))bz[q]=B[q];});ui.bzSel=null;
+      ui.screen=null;ui.draft=null;dispatch({t:'set',z:d.zones.slice(1),s:d.srv,l:null,r4:d.r4===false?0:undefined,sz:d.r4===false?d.sz:undefined,rp:d.r4===false&&on.includes(d.rp)?d.rp:undefined,sx:d.r4===false&&on.includes(d.rp)&&d.sx===false?0:undefined,bz:Object.keys(bz).length?bz:undefined});
       if((d.set||0)>0)toast(`Changement de côté : ${short(store.cur)} ${dispSwap()?'à droite':'à gauche'}`);return 1;}
     if(!d.zones.slice(1).every(Boolean))return;
     if(!force){const w=draftIssues();if(w.length){const sw=[];
@@ -3764,10 +3802,11 @@ const A={
   lrnReset(){ui.lrnPos={};},
   lrnStart(){const t=lrnTeam();store.learn={t:t.id,base:lrnStart()};ui.lrnPos={};save();toast('6 de départ de l’équipe repris','ok');},
   lrnSet(d){const r=ui.lrnRot||1,z=ui.lrnPick,b=lrnBase().slice(),k=((z-r+6)%6)+1,j=b.indexOf(d.id);ui.sheet=null;if(!z||!d.id)return;if(j>0)b[j]=b[k];b[k]=d.id;store.learn.base=b;ui.lrnPos={};save();},
+  bzSel(d){ui.bzSel=ui.bzSel===d.q?null:d.q;return ui.sheet==='tac'?'keep':undefined;},
   srv4(){if((store.cur.pend||[]).length){toast('Possible avant la première stat de l’échange','warn');return 1;}ui.sheet='srv4';},
   srv4Set(d){const m=store.cur,S=replay(m),z=+d.z;ui.sheet=null;if(!S.f4||S.f4.rot||(m.pend||[]).length||z===S.f4.sz)return;dispatch({t:'tac',sz:z,sp:S.zones[z]});},
   tac4(d){const S=replay(store.cur),F=S.f4;if(!F)return 'keep';const q=(store.cur.tacNext||[]).filter(e=>e.t==='tac'&&e.bz),bz=Object.assign({},q.length?q[q.length-1].bz:F.bz);
-    if(d.k==='rp')tacApply({t:'tac',rp:d.v||null});else if(d.k.startsWith('bz')){if(d.v)bz[d.k[2]]=d.v;else delete bz[d.k[2]];tacApply({t:'tac',bz});}return 'keep';},
+    if(d.k==='rp')tacApply({t:'tac',rp:d.v||null});else if(d.k==='sx')tacApply({t:'tac',sx:d.v==='1'?1:0});else if(d.k.startsWith('bz')){ui.bzSel=null;if(d.v)bz[d.k[2]]=d.v;else delete bz[d.k[2]];tacApply({t:'tac',bz});}return 'keep';},
   fmtSet(d){const m=store.cur;if(replay(m).sets.length)return;const F=fmt(m);F[d.k]=d.k==='tb'?d.v==='true':+d.v;m.format=F;save();},
   cv(d){ui.coachView=d.id||null;ui.fxSet=null;ui.ctab='stats';if(ui.statView==='g'&&d.id!=='season')ui.statView='p';window.scrollTo(0,0);},
   sscope(d){ui.ctab='stats';ui.fxSet=null;ui.confirm=null;if(d.v==='cur')ui.coachView=null;else if(d.v==='season')ui.coachView='season';
@@ -4003,6 +4042,8 @@ function rKeep(){const r=ui.redit;if(!r)return;const g=id=>{const e=document.get
 function tStamp(x){while(x.length<5)x.push(null);if(x[5]==null)x[5]=Date.now();return x;}
 function reSign(x,sg){const y=x.slice();y[1]=sg;return y;} // note inversée : même action, même heure
 function addStat(x){const m=store.cur;(m.pend||(m.pend=[])).push(tStamp(x));save();render();}
+// Premier serveur par défaut sans rotation : le joueur au poste 1 (4x4, 3x3), le joueur de gauche en 2x2
+function sz4Def(G){const S=(G||FMT4[(F4&&F4.n)||4]).SRV;return S.length>2&&S.includes(1)?1:S[0];}
 function initDraft(m,S){
   const i=S.sets.length,prev=S.sets[i-1],pres=new Set(present(m).map(p=>p.id));
   const zones=[null,null,null,null,null,null,null];
@@ -4011,7 +4052,7 @@ function initDraft(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L').map(p=>p.id);
   const lib=S.libTouched?(S.lib&&libs.includes(S.lib)?S.lib:null):prev&&prev.lib&&libs.includes(prev.lib)?prev.lib:(libs[0]||null);
   if(is4(m)){const F=S.f4||{},G=FMT4[n4(f4c(m))],ok=id=>id&&pres.has(id);for(let z=1;z<=6;z++)if(!G.Z.includes(z))zones[z]=null;const bz={};['g','c','d'].forEach(q=>{if(ok((F.bz||{})[q]))bz[q]=F.bz[q];});
-    return {set:i,zones,srv,lib:null,f4:1,r4:prev?F.rot!==false:false,sz:F.rot===false&&prev&&G.SRV.includes(prev.sz4)?prev.sz4:G.SRV[0],rp:ok(F.rp)?F.rp:null,bz};}
+    return {set:i,zones,srv,lib:null,f4:1,r4:prev?F.rot!==false:false,sz:F.rot===false&&prev&&G.SRV.includes(prev.sz4)?prev.sz4:sz4Def(G),rp:ok(F.rp)?F.rp:null,sx:F.sx!==false,bz:prev?bz:undefined};}
   // 6x6 : le premier serveur du set précédent passe en P2 si l'équipe reçoit (il servira au premier gain du service), et revient en P1 si elle sert
   if(prev&&prev.srv!==srv)return {set:i,zones:shift6(zones,srv==='A'?1:-1),srv,lib,lp:S.libPos||+(m.libPos||5),p1x:!!S.p1x};
   return {set:i,zones,srv,lib,lp:S.libPos||+(m.libPos||5),p1x:!!S.p1x};
