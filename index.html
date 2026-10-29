@@ -60,10 +60,11 @@ body.nohints .xp{display:none!important}
 .btn.danger{border-color:var(--pu);color:var(--neg)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.grid2>*{min-width:0}
 label.f{display:block;font-size:13px;color:var(--muted);font-weight:600}
-label.f input{margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
-label.f select{display:block;margin-top:4px;width:100%;min-height:46px;font:inherit;font-size:16px;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+label.f input{min-width:0;max-width:100%;margin-top:4px;font-size:16px;font-weight:500;color:var(--ink)}
+label.f input[type=date]{display:block;-webkit-appearance:none;appearance:none;text-align:start}
+label.f select{display:block;margin-top:4px;width:100%;min-width:0;max-width:100%;text-overflow:ellipsis;min-height:46px;font:inherit;font-size:16px;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
 label.f select:disabled{opacity:.7}
 .impl{display:flex;flex-direction:column;gap:2px;margin:6px 0 2px;font-size:14px;color:var(--muted)}.impl>div{display:flex;flex-wrap:wrap;gap:0 12px}.impl b{color:var(--ink)}.impl b.p{color:var(--pos)}.impl b.m{color:var(--neg)}.impl small{font-size:12px}
 
@@ -458,6 +459,7 @@ body.easy.phstats .dock .stp{flex:1 1 auto;min-height:0;display:flex;flex-direct
 body.easy.phstats .dock .stp .egrid{flex:1 1 auto;min-height:0;grid-template-rows:auto repeat(3,minmax(0,1fr)) minmax(0,.62fr);margin:4px 0}
 body.easy.phstats .dock .stp .egrid .ek,body.easy.phstats .dock .stp .egrid .eb{min-height:0!important}
 body.easy.phstats .dock .stp .egrid .ek .es{font-size:clamp(34px,7.5vmin,110px)}body.easy.phstats .dock .stp .egrid .ek .el{font-size:clamp(12px,2.1vmin,28px)}
+body.easy.phstats .dock .stp.both .egrid{flex:1.8 1 0}body.easy.phstats .dock .stp.both>.pickc{flex:1 1 0}body.easy.phstats .dock .stp.both .egrid .ek .el{display:none}body.easy.phstats .dock .stp.both .egrid .ek .es{font-size:clamp(30px,7vmin,90px)}body.easy.phstats .dock .stp.both .stq{padding:2px 8px;font-size:15px}
 body.easy.phstats .dock .stp .egrid .ek .enm{font-size:clamp(11px,1.8vmin,22px)}body.easy.phstats .dock .stp .egrid .eb{font-size:clamp(12px,2.1vmin,26px)}
 body.easy.phstats .dock .stp .pickc{flex:1 1 auto;min-height:0;grid-auto-rows:minmax(0,1fr)}
 body.easy.phstats .dock .stp .pickc .bchip.pk{min-height:0!important}
@@ -599,7 +601,7 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
   #app{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   .dock{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
   .cbar{display:flex;gap:4px;position:fixed;left:0;right:0;bottom:0;z-index:15;background:#14243D;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
-  .cbar button{flex:1;min-width:0;font-size:11px;min-height:56px;border-radius:14px}
+  .cbar button{flex:1 1 auto;min-width:0;font-size:11px;min-height:56px;border-radius:14px}.cbar button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* mode stats faciles : barre réduite à ses icônes pour laisser la place à la grille */
   body.easy.phstats .cbar{padding:3px 6px calc(3px + env(safe-area-inset-bottom,0px))}body.easy.phstats .cbar button{min-height:40px}body.easy.phstats .cbar button span{display:none}body.easy.phstats .cbar .nlk{top:1px}
   .vtabs button{padding:10px 10px;font-size:15px}}
@@ -647,7 +649,7 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .codegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}.chk input{width:22px;height:22px;min-height:0}
 /* interrupteur à bascule (réglages) */
-.chk.sw input{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:46px;height:28px;margin:0;border-radius:14px;background:var(--line);cursor:pointer;transition:background .15s}
+.chk.sw input{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:46px;height:28px;min-width:46px;margin:0;padding:0;border:0;border-radius:14px;background:var(--line);cursor:pointer;transition:background .15s}
 .chk.sw input::before{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
 .chk.sw input:checked{background:var(--pos)}.chk.sw input:checked::before{transform:translateX(18px)}
 .chk.sw input:focus-visible{outline:3px solid var(--c);outline-offset:2px}.chk.sw input:disabled{opacity:.5;cursor:default}
@@ -701,8 +703,14 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 .pickc.p2 .p2t{font-size:12px;font-weight:700;opacity:.85}
 .fr2b{border:0;border-radius:10px;background:#F2BE22;color:#14243D;font-weight:800;font-size:15px;padding:10px 8px;min-height:44px}
 .pickc.p2.o1 .fr2b,.pickc.p2.o3 .fr2b{writing-mode:vertical-rl;min-height:0;min-width:44px;padding:8px 6px}.fr2b:disabled{opacity:.45}
-.pickc.p4s .bchip.pk.s4{min-height:clamp(55px,8.5vh,110px)}
-.pickc.p4s .bchip.pk:not(.s4){min-height:clamp(110px,17vh,220px)}
+.pickc.p4s.o0 .bchip.pk.s4,.pickc.p4s.o2 .bchip.pk.s4{min-height:clamp(55px,8.5vh,110px)}
+.pickc.p4s.o0 .bchip.pk:not(.s4),.pickc.p4s.o2 .bchip.pk:not(.s4){min-height:clamp(110px,17vh,220px)}
+.axes{margin:10px 0;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px}.axes ul{margin:6px 0 0;padding-left:20px}.axes li{margin:3px 0}.axes .neg{color:var(--neg);font-weight:800}
+.lbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 6px}.lbar .lrot{flex:1 1 auto}.lbar .lrot button{flex:1;min-width:0}
+.lwrap{max-width:900px;padding:30px 5% 54px}.lcourt .ltok{touch-action:none;cursor:grab;z-index:2}.lcourt .ltok.lplay{cursor:pointer}.lcourt .ltok.drag{cursor:grabbing;z-index:3;transition:none}.lcourt .ltok.drag .disc{box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.lres ul,.lrules{margin:6px 0 4px;padding-left:20px}.lres li,.lrules li{margin:4px 0}.lok{color:var(--pos)}.lres .tools{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.srv4b{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:4px 10px;font:inherit;font-weight:700;min-height:36px;cursor:pointer}
+.pickc.p4.o1,.pickc.p4.o3{height:clamp(280px,46vh,560px)}.pickc.p4.o1 .bchip.pk,.pickc.p4.o3 .bchip.pk{min-height:0!important;margin:0}
 .fmtg.bz4{align-items:flex-start}.fmtg.bz4 .fl{min-width:70px;padding-top:10px}.fmtg.bz4 .bench{flex:1}
 .linkbtn.pdet{display:block;margin:4px auto 0}
 .tsgrp{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.06em;padding:8px 4px 2px}
@@ -724,10 +732,12 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V172';
+const APP_VERSION='V173';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
+// Postes proposés : sans libéro en 4x4, 3x3 et 2x2 (match en cours ou équipe active)
+function roleOrd(m){const t=typeof store!=='undefined'&&store?(store.teams||[]).find(x=>x.id===store.teamId):null;return (m?is4(m):!!fc4(t&&t.f4))?ROLE_ORDER.filter(r=>r!=='L'):ROLE_ORDER;}
 // Abréviations usuelles des postes par langue (anglais par défaut : OH, OP, S, MB, L)
 const ROLE_AB={fr:{R4:'R4',Pu:'Pu',Pa:'Pa',C:'C',L:'L'},en:{R4:'OH',Pu:'OP',Pa:'S',C:'MB',L:'L'},it:{R4:'S',Pu:'O',Pa:'P',C:'C',L:'L'},
   de:{R4:'AA',Pu:'DI',Pa:'ZU',C:'MB',L:'L'},pl:{R4:'P',Pu:'A',Pa:'R',C:'Ś',L:'L'},es:{R4:'Re',Pu:'Op',Pa:'Co',C:'Ce',L:'L'},
@@ -811,6 +821,8 @@ function is4(m){return !!f4c(m);}
 function lab4(z){return F4&&F4.n===2?(z===5?'Gauche':'Droite'):ROLES[P4[z]];}
 function sync4(S){if(!F4||!S.zones)return;Z4.forEach(z=>{const id=S.zones[z];if(id)S.roles[id]=P4[z];});}
 // Serveur de l'équipe : poste 1 en 6x6 et en 4x4 avec rotations, sinon le joueur dont c'est le tour
+// 4x4, 3x3, 2x2 : l'attaque compte toujours au filet (place 5 → poste 4, 6 → 3, 1 → 2) ; les places du fond ne servent qu'à l'affichage
+function azOf(z){return F4?({5:4,6:3,1:2}[z]||z):z;}
 function srvOf(zones,eff){return F4?zones[F4.sz]:eff[1];}
 function srvXY(){return F4?[SRVX4[F4.sz]||83,98]:SERVE;}
 // Libéro remplace la centre arrière, sauf quand cette centre sert.
@@ -946,7 +958,8 @@ const STAT_CFG={
   FT_W:0.25,      // (ancien) part des premières touches, gardé pour compatibilité
   HOT:5,          // « fin de set » : les deux équipes à (points du set − 5) ou plus, ou balle de set
   CALIB_K:30,     // calibration : poids de la table de niveau (en ballons) face aux données de la saison
-  AZ_MIN:5,       // attaques minimum pour détailler l'attaque d'un joueur dans un poste
+  AZ_MIN:5,
+  AX_MIN:5,       // actions minimum pour qu'un domaine compte dans les axes d'amélioration (fiche joueur)       // attaques minimum pour détailler l'attaque d'un joueur dans un poste
   ZONE_MIN_M:6,ZONE_MIN_S:12, // ballons minimum pour une zone ou un circuit favorable (match / saison)
   COV_MIN:0.5,    // complétude minimale (passes avec 1re touche notée) pour afficher la VA du passeur
   DIFF:{e:0.30,h:-0.35}, // option « difficulté du ballon adverse » : écart d'attente d'une 1re touche sur ballon facile / difficile (note sur 2)
@@ -1119,6 +1132,8 @@ function tr(t,LL){if(t==null)return t;const L=LL||lang();if(L==='fr')return t;co
   if(D[k]!=null)return str.replace(k,D[k]);{const T=tplOf(L);for(const [re,v] of T){const mm=k.match(re);if(mm)return str.replace(k,v.split('{N}').join(mm[1]));}}if(L!=='en'&&I18N.en[k]!=null)return str.replace(k,I18N.en[k]);const P=I18P[L]||(I18P[L]=i18nPatterns(L));let o=k,hit=false;
   for(const [re,rp] of P){if(re.global)o=o.replace(re,rp);else if(!hit&&re.test(o)){o=o.replace(re,rp);hit=true;}}
   return o===k?str:str.replace(k,o);}
+// Thème : automatique (suit le système, CSS prefers-color-scheme), ou clair / sombre forcé par data-theme
+function applyTheme(){const t=store&&store.prefs&&store.prefs.theme,r=document.documentElement;if(t==='light'||t==='dark'){if(r.dataset.theme!==t)r.dataset.theme=t;}else if(r.dataset.theme)delete r.dataset.theme;}
 function translateDOM(root){if(!root||lang()==='fr')return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
   while((n=w.nextNode())){const v=n.nodeValue;if(!/[A-Za-zÀ-ÿ]/.test(v))continue;const t=tr(v);if(t!==v){n.nodeValue=t;const pe=n.parentElement;if(pe&&(pe.tagName==='text'||pe.tagName==='tspan')&&t.length>8){const fs=parseFloat(pe.getAttribute('font-size')||'14');pe.setAttribute('font-size',Math.max(8,fs*Math.min(1,8/t.length*1.15)).toFixed(1));}}}
   root.querySelectorAll('[placeholder],[aria-label],[title]').forEach(e=>['placeholder','aria-label','title'].forEach(at=>{const v=e.getAttribute(at);if(v){const t=tr(v);if(t!==v)e.setAttribute(at,t);}}));}
@@ -1144,7 +1159,7 @@ function replay0(m){
       if(F4){F4.rot=F4.n===4&&ev.r4!==0;F4.sz=F4.rot?1:(SRV4.includes(ev.sz)?ev.sz:SRV4[0]);F4.srvd=ev.s==='G';F4.rp=ev.rp||null;F4.bz=Object.assign({},ev.bz||{});S.lib=null;S.r4n=0;sync4(S);}
     } else if(ev.t==='role'){S.roles[ev.p]=ev.r;}
     else if(ev.t==='lib'){S.lib=ev.p||null;S.libNext=ev.next||null;S.libNextAt=set?set.rallies:0;S.libTouched=true;}
-    else if(ev.t==='tac'){if(ev.lp)LIBPOS=+ev.lp;if(ev.x!=null)S.p1x=!!ev.x;if(F4){if(ev.rp!==undefined)F4.rp=ev.rp||null;if(ev.bz)F4.bz=Object.assign({},ev.bz);}}
+    else if(ev.t==='tac'){if(ev.lp)LIBPOS=+ev.lp;if(ev.x!=null)S.p1x=!!ev.x;if(F4){if(ev.rp!==undefined)F4.rp=ev.rp||null;if(ev.bz)F4.bz=Object.assign({},ev.bz);if(!F4.rot&&SRV4.includes(ev.sz)){F4.sz=ev.sz;F4.srvd=S.serving==='G';}}}
     else if(!set||S.phase!=='play'){continue;}
     else if(ev.t==='pt'){
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving);
@@ -1171,7 +1186,7 @@ function replay0(m){
         const q42=is42(S.zones,S.roles),dm=q42?null:layoutPlay(eff,pr),slot=pid=>dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);
         const Zs=S.zst[si]||(S.zst[si]={att:{},rec:{},def:{}});
         ev.st.forEach(([k,sg,pid],j)=>{if(!pid||!Zs[k])return;
-          const z=k==='att'?(p1Inv(S,lp.srv,ev.st.slice(0,j))?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
+          const z=k==='att'?azOf(p1Inv(S,lp.srv,ev.st.slice(0,j))?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
           const key=[1,2,3,4,5,6].includes(z)?z:'x',c=Zs[k][key]||(Zs[k][key]={M:0,P:0,N:0});c[sg>0?'P':sg<0?'M':'N']++;
           if(key!=='x'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),k2={att:'az',rec:'rz',def:'dz'}[k]+key+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}});
       }
@@ -1184,7 +1199,7 @@ function replay0(m){
         const atts=ev.st.filter(x=>x[0]==='att'&&x[2]);
         const add=(sid,z,q,f,ar)=>{const P=S.pst[si]||(S.pst[si]={}),o=P[sid]||(P[sid]={}),c=o[z]||(o[z]={n:0,s:0,M:0,N:0,P:0,w:0,as:0,an:0});c.n++;c.s+=q+1;if(q<0)c.M++;else if(q>0)c.P++;else c.N++;
           if(ar!=null){c.as=(c.as||0)+ar+1;c.an=(c.an||0)+1;}};
-        atts.forEach((a,i)=>{const pp=pas[i],z=p1Inv(S,lp.srv,ev.st.slice(0,ev.st.indexOf(a)))?eff.indexOf(a[2]):slot(a[2]),sid=(pp&&pp[2])||sid0,isL=S.roles[a[2]]==='L';
+        atts.forEach((a,i)=>{const pp=pas[i],z=azOf(p1Inv(S,lp.srv,ev.st.slice(0,ev.st.indexOf(a)))?eff.indexOf(a[2]):slot(a[2])),sid=(pp&&pp[2])||sid0,isL=S.roles[a[2]]==='L';
           // libéro : la passe compte, mais ni la zone ni le circuit (zones et circuits favorables / défavorables)
           if(isL){add(sid,'x',pp?pp[1]:0,pp?pp[3]:0);return;}
           add(sid,[1,2,3,4,5,6].includes(z)?z:'x',pp?pp[1]:0,pp?pp[3]:0,a[1]);
@@ -1333,7 +1348,7 @@ function roleBoxHTML(m,S){
   const id=ui.roleFor,cur=S.roles[id];
   return `<div class="ascrim" data-act="roleClose"></div><div class="abox" role="dialog" aria-modal="true" style="border-color:var(--line)"><h3 style="color:var(--ink)">Poste de ${esc(dname(m,id))} (${pnum(m,id)})</h3>
     <p class="hint">Poste actuel : ${esc(ROLES[cur]||'aucun')}</p>
-    <div class="rolegrid">${ROLE_ORDER.map(r=>`<button class="rc r-${r} ${r===cur?'on':''}" data-act="roleSet" data-r="${r}" ${r===cur?'disabled':''}>${ROLES[r]}</button>`).join('')}</div>
+    <div class="rolegrid">${roleOrd(m).map(r=>`<button class="rc r-${r} ${r===cur?'on':''}" data-act="roleSet" data-r="${r}" ${r===cur?'disabled':''}>${ROLES[r]}</button>`).join('')}</div>
     <button class="btn big" data-act="roleClose">Ne rien changer</button></div>`;
 }
 function alertHTML(m){
@@ -1496,6 +1511,7 @@ function redo(){const m=store.cur;if(!m.redo.length)return;const before=replay(m
 
 /* ============ ICÔNES ============ */
 const IC={
+  gear:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>`,
   share:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7.5 7.5 12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>`,
   ball:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10" fill="var(--pa)" stroke="#241B00"/><path d="M12 2c2 3 2.5 7 0 10M12 12c-3.5 1-7 0-9.5-3M12 12c1.5 3.3 4.5 5.8 8.6 5.6" stroke="#241B00"/></svg>`,
   undo:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>`,
@@ -1586,7 +1602,7 @@ function courtHTML(m,o){
   }
   return `<div class="courtwrap o${or} ${or%2?'side':''}"><div class="court o${or} ${or%2?'side':''} ${o.small?'small':''}" ${o.main?'id="mainCourt"':''}><div class="net"></div><div class="attack"></div><span class="netlbl">FILET</span>${t}</div></div>`;
 }
-const legend=()=>`<div class="legend">${ROLE_ORDER.map(r=>`<span class="r-${r}"><i></i>${ROLES[r]}</span>`).join('')}</div>`;
+const legend=()=>`<div class="legend">${roleOrd(store.cur).map(r=>`<span class="r-${r}"><i></i>${ROLES[r]}</span>`).join('')}</div>`;
 
 /* ============ ÉCRANS ============ */
 // Tablette : le terrain se réduit pour laisser la place au bloc de stats, puis un peu plus au défilement (minimum lisible)
@@ -1646,7 +1662,7 @@ const TUTO=[
  // Chapitre 1, lancé à la première ouverture : seulement la navigation entre les écrans. Les autres chapitres se lancent un par un depuis Réglages › Aide.
  {t:'Découverte de l’appli',s:[
   {txt:"VolleyCoach vous accompagne sur le banc : rotations, score et statistiques, point par point.\n\nPetit tour des écrans, avec l'équipe fictive Team Earth. Touchez « Suivant », ou les éléments entourés en jaune.",init:()=>tPlay(),go:()=>tPlay()},
-  {sel:'.vnav .cbar,.vnav .crail',txt:"La barre vous emmène partout, dans cet ordre : Équipe, Terrain, Stats, Saisons, Réglages. Elle est toujours là."},
+  {sel:'.vnav .cbar,.vnav .crail',txt:"La barre vous emmène partout, dans cet ordre : Équipe, Terrain, Stats, Saisons, Apprentissage, Réglages. Elle est toujours là."},
   {act:1,sel:TAB('team'),txt:"Équipe : l'effectif, les numéros et les postes de chaque joueur. Touchez « Équipe ».",until:()=>inCoach('team')},
   {act:1,sel:TAB('terrain'),txt:"Terrain : le match en cours. Touchez « Terrain ».",until:()=>!inCoach()},
   {sel:'.courtwrap',txt:"Le Terrain, écran principal du match, en deux vues : « Positions » (composition, rotations) et « Saisie » (les stats de chaque échange). Le score reste toujours visible."},
@@ -1659,7 +1675,7 @@ const TUTO=[
  {t:'Mon équipe',s:[
   {act:1,sel:TAB('team'),txt:"Touchez « Équipe ».",until:()=>inCoach('team'),init:()=>tHome(),go:()=>tHome()},
   {sel:'.teamc .tselb',txt:"L'équipe active. Cette liste permet d'en choisir une autre ou d'en créer une ; la couleur indique son genre."},
-  {sel:'.gfilt .gseg',txt:"Filtre de la liste : toutes les équipes, ou seulement les masculines, féminines ou mixtes. Le genre d'une équipe se règle dans « Nom et genre »."},
+  {sel:'.gfilt .gseg',txt:"Filtre de la liste : toutes les équipes, ou seulement les masculines, féminines ou mixtes. Le genre d'une équipe se règle avec la roue dentée ⚙."},
   {sel:'[data-act=rEdit]',n:3,up:'.prow',txt:"Une fiche par joueur : nom, numéro, postes. Dans la fiche, un double appui sur un poste en fait le poste par défaut (★)."}]},
  {t:'Avant le match',s:[
   {act:1,sel:'[data-act=matchSheet]',txt:"Sur le Terrain, « Match » regroupe les actions sur le match. Touchez-le.",until:()=>ui.sheet==='match',init:()=>tHome(),go:()=>tHome()},
@@ -1868,6 +1884,7 @@ function render(){
   PAR=(ui.screen==='lineup'&&ui.draft)?(ui.draft.set||0):Math.max(0,S.sets.length-1)+(tbSwitched(m,S)?1:0);
   const old={};document.querySelectorAll('#mainCourt .tok').forEach(t=>{old[t.dataset.id]=t.getBoundingClientRect();});
   if(ui.screen==='coach'&&ui.coach)h=coachHTML();
+  else if(ui.screen==='learn')h=learnHTML();
   else if(ui.screen==='lineup'&&ui.draft)h=lineupHTML(m,S);
   else if(ui.screen==='setup'||S.sets.length===0)h=setupWrap(m,S);
   else if(ui.toStats)h=toStatsHTML(m,S);
@@ -1876,13 +1893,13 @@ function render(){
   const SPL=store.prefs.splashDay!==today()&&!ui.noSplash&&!ui.tuto&&store.prefs.tutoSeen;
   $('#app').innerHTML=(ui.tip?tipHTML():'')+(SPL?splashHTML():'')+(ui.newVersion!=null?`<div class="upd">Nouvelle version ${esc(ui.newVersion)} disponible <button class="btn primary" data-act="forceUpd">Mettre à jour</button></div>`:'')+navHTML()+`<div class="vmain">${h}</div>`;if(tmr)tmrTick();
   // mode match (tout sauf le Menu) : teinte et liseré propres, pour ne pas le confondre avec le Menu
-  document.body.classList.toggle('mmode',!(ui.coach&&ui.screen==='coach'));document.body.classList.toggle('nohints',store.prefs.hints===false);
+  document.body.classList.toggle('mmode',!(ui.coach&&ui.screen==='coach'));document.body.classList.toggle('nohints',store.prefs.hints===false);applyTheme();
   document.body.classList.toggle('phstats',!!(store.prefs.dockOpen&&document.querySelector('#app .dock .stp')));document.body.classList.toggle('easy',!!store.prefs.easy);fitCourt();
   const sh=$('#sheet');sh.innerHTML=ui.sheet?`<div class="scrim" data-act="close"></div><div class="sheet ${ui.sheet==='pfull'?'full':''}" role="dialog">${sheetHTML(m,S)}</div>`:'';
   sh.classList.toggle('open',!!ui.sheet);
   const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!(ui.alert||ui.roleFor));
-  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();srvFrame();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
+  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();srvFrame();bindLearn();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -1896,12 +1913,71 @@ function render(){
   }
 }
 // Navigation unique : les mêmes cinq entrées en rail (tablette) et en barre (téléphone) ; le code entraîneur, s'il est activé, protège tout sauf le Terrain
-const NAV=[['team','👥','Équipe'],['terrain','🏐','Terrain'],['stats','📊','Stats'],['seasons','🗂','Saisons'],['settings','⚙️','Réglages']];
-function navHTML(){const inC=ui.coach&&ui.screen==='coach',ct=inC?ui.ctab:'terrain',lk=store.prefs.codeOn&&!inC&&!ui.tuto;
-  const b=NAV.map(([k,i,l])=>`<button class="${ct===k?'on':''} ${k==='terrain'?'terr':''}" data-act="ctab" data-v="${k}" aria-current="${ct===k?'page':'false'}"><i>${i}</i><span>${l}</span>${lk&&k!=='terrain'?'<em class="nlk" aria-hidden="true">🔒</em>':''}</button>`).join('');
+/* ============ APPRENTISSAGE (V173) ============ */
+// Module indépendant (6x6 en 5-1) : placement de chaque joueur en Service / Réception pour chaque rotation (P = place de la passe).
+// store.learn = {t: équipe, base: [null, 6 ids]} : composition de référence en P1 (passe au poste 1), jamais liée au match ni à l'effectif.
+// Postes déduits de la place par rapport à la passe (SLOT) ; positions déplaçables au doigt (ui.lrnPos, effacées au changement de vue).
+function lrnTeam(){return activeTeam()||{roster:[]};}
+function lrnP(id){return (lrnTeam().roster||[]).find(p=>p.id===id)||null;}
+function lrnName(p){return p?(title(p.pre||'')||String(p.nom||'')).trim()||('N° '+p.n):'?';}
+// 6 de départ de l'équipe : premier set du match en cours ou du dernier match joué, sinon d'après les postes de l'effectif
+function lrnStart(){const t=lrnTeam(),R=t.roster||[],ok=id=>R.some(p=>p.id===id);let z=null;
+  const L=[store.cur].concat(store.arch.filter(a=>teamOf(a)===t.id).sort((x,y)=>String(y.date).localeCompare(String(x.date))));
+  for(const m of L){if(!m||f4c(m)||(m===store.cur&&m.teamId&&m.teamId!==t.id))continue;let S;try{S=replay(m);}catch(e){continue;}const l=S.sets[0]&&S.sets[0].lineup;if(l&&[1,2,3,4,5,6].every(k=>ok(l[k]))){z=l.slice(0,7);break;}}
+  if(!z){z=[null];const used=new Set(),pick=r=>{const p=R.find(x=>!used.has(x.id)&&(x.postes||[])[0]===r)||R.find(x=>!used.has(x.id)&&(x.postes||[]).includes(r))||R.find(x=>!used.has(x.id)&&!(x.postes||[]).includes('L'))||R.find(x=>!used.has(x.id));if(p)used.add(p.id);return p?p.id:null;};
+    SLOT.forEach(r=>z.push(pick(r)));}
+  // rotation jusqu'à la passe en P1
+  const pa=[1,2,3,4,5,6].find(k=>{const p=lrnP(z[k]);return p&&(p.postes||[])[0]==='Pa';})||1;return [null].concat([0,1,2,3,4,5].map(k=>z[((pa-1+k)%6)+1]));}
+function lrnBase(){const t=lrnTeam(),L=store.learn;if(!L||L.t!==t.id||!Array.isArray(L.base)||L.base.length!==7||L.base.slice(1).some(id=>id&&!lrnP(id))){store.learn={t:t.id,base:lrnStart()};save();}return store.learn.base;}
+// Places de la rotation r (passe au poste r) et postes de jeu
+function lrnZones(r){const b=lrnBase();return [null].concat([1,2,3,4,5,6].map(z=>b[((z-r+6)%6)+1]));}
+function lrnRoles(zs,r){const o={};for(let z=1;z<=6;z++)if(zs[z])o[zs[z]]=SLOT[(z-r+6)%6];return o;}
+// Positions au service (ou à la réception) et après le service (poste de jeu)
+function lrnCoords(r,srv){const f0=F4;setF4(null);try{const zs=lrnZones(r),R=lrnRoles(zs,r),{eff,pr}=effective(zs,R,null,srv),at={},to={},map=layoutPlay(eff,pr);
+    for(let z=1;z<=6;z++){const id=zs[z];if(!id)continue;at[id]=srv==='G'?(z===1?SERVE:POS[z]):RECEP[r][z];}
+    for(const k in map)if(map[k])to[map[k]]=POS[k];return {zs,R,at,to};}finally{setF4(f0);}}
+// Fautes de position au moment du service : avant devant l'arrière correspondant, ordre gauche-droite dans chaque ligne (serveur exempté)
+function lrnFaults(zs,P,srv){const out=[],nm=z=>lrnName(lrnP(zs[z]))+' (P'+z+')',ex=z=>srv==='G'&&z===1,c=z=>P[zs[z]];
+  [[4,5],[3,6],[2,1]].forEach(([a,b])=>{if(ex(b)||!c(a)||!c(b))return;if(!(c(a)[1]<c(b)[1]))out.push(tr('{A} doit être plus près du filet que {B}').replace('{A}',nm(a)).replace('{B}',nm(b)));});
+  [[4,3],[3,2],[5,6],[6,1]].forEach(([a,b])=>{if(ex(a)||ex(b)||!c(a)||!c(b))return;if(!(c(a)[0]<c(b)[0]))out.push(tr('{A} doit être à gauche de {B}').replace('{A}',nm(a)).replace('{B}',nm(b)));});
+  return out;}
+const LRN_ROT=[1,6,5,4,3,2];
+function learnHTML(){const T=lrnTeam(),R=T.roster||[];
+  if(R.length<6)return `<div class="cmain"><div class="top"><h1>Apprentissage</h1></div><div class="card hint">Il faut au moins 6 joueurs dans l'effectif de l'équipe active pour afficher les placements.</div></div>`;
+  const r=ui.lrnRot||1,srv=ui.lrnSrv||'G',{zs,R:RL,at,to}=lrnCoords(r,srv),key=srv+r;if(ui.lrnKey!==key){ui.lrnKey=key;ui.lrnPos={};}
+  const pl=!!ui.lrnPlay,P={};for(let z=1;z<=6;z++){const id=zs[z];if(id)P[id]=pl?to[id]||at[id]:(ui.lrnPos||{})[id]||at[id];}
+  const F=pl?[]:lrnFaults(zs,P,srv),moved=Object.keys(ui.lrnPos||{}).length,sv=srv==='G'?zs[1]:null;
+  let t='';
+  for(let z=1;z<=6;z++){const id=zs[z];if(!id)continue;const p=lrnP(id),rl=RL[id],c=P[id],d=to[id];
+    t+=`<button class="tok ltok ${pl?'lplay':''} ${rcls(rl)}" style="left:${c[0]}%;top:${c[1]}%" data-lid="${id}" data-z="${z}" aria-label="${esc(lrnName(p))}, ${esc(tr(ROLES[rl]))}, P${z}"><span class="disc">${esc(p.n)}<span class="rl">${esc(RA(rl))}</span><span class="zn">P${z}</span>${id===sv&&!pl?`<span class="ballb">${IC.ball}</span>`:''}</span><span class="nm">${esc(lrnName(p))}</span></button>`;}
+  return `<div class="cmain lrn"><div class="top"><h1>Apprentissage</h1><span class="hint ctm">${esc(T.name||'')} · 5-1</span></div>
+    <div class="lbar"><div class="seg">${[['G','Service'],['A','Réception']].map(([v,l])=>`<button class="${srv===v?'on':''}" data-act="lrnSrv" data-v="${v}">${l}</button>`).join('')}</div>
+      <div class="seg lrot">${LRN_ROT.map(k=>`<button class="${r===k?'on':''}" data-act="lrnRot" data-v="${k}" aria-label="Rotation P${k}">P${k}</button>`).join('')}</div></div>
+    <p class="hint xp">P1 à P6 : place de la passe. Glissez un joueur pour le déplacer ; touchez-le pour changer de joueur.</p>
+    <div class="courtwrap o0 lwrap"><div class="court o0 lcourt" id="lrnCourt"><div class="net"></div><div class="attack"></div><span class="netlbl">FILET</span>${t}</div></div>
+    <div class="card ${F.length?'warnc':''} lres">${pl?`<b>Après le service</b><p class="hint">Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.</p>`:F.length?`<b>Faute de position</b><ul>${F.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<b class="lok">✓ Placement réglementaire</b>`}
+      <div class="tools"><label class="chk sw" style="margin-right:auto"><input type="checkbox" role="switch" data-lrnarr ${pl?'checked':''}> Poste de jeu (après le service)</label>${moved&&!pl?'<button class="btn" data-act="lrnReset">Replacer les joueurs</button>':''}<button class="btn" data-act="lrnStart">Reprendre le 6 de départ</button></div></div>
+    <div class="card"><b class="cond" style="font-size:20px">Règles de placement</b><ul class="lrules">
+      <li>Au moment du service, les deux équipes doivent respecter l'ordre de rotation : trois avants (postes 4, 3, 2) et trois arrières (postes 5, 6, 1).</li>
+      <li>Chaque avant doit être plus près du filet que l'arrière correspondant : 4 devant 5, 3 devant 6, 2 devant 1.</li>
+      <li>Dans chaque ligne, l'ordre gauche-droite est respecté : 4 à gauche de 3, 3 à gauche de 2 ; 5 à gauche de 6, 6 à gauche de 1.</li>
+      <li>Le serveur n'est pas concerné : il sert derrière la ligne de fond.</li>
+      <li>C'est la position des pieds qui compte. Une faute de position donne le point et le service à l'adversaire.</li>
+      <li>Dès que le service est frappé, chacun peut rejoindre son poste de jeu (permutation) : passe et pointe à droite, R4 à gauche, centre au milieu.</li></ul></div></div>`;}
+// Glisser un joueur (pointeur) : déplacement sans re-rendu, position gardée au relâchement ; un simple toucher ouvre le choix du joueur
+function bindLearn(){const C=document.getElementById('lrnCourt');if(!C)return;
+  C.querySelectorAll('.ltok').forEach(b=>{b.addEventListener('pointerdown',e=>{if(e.button>0)return;if(ui.lrnPlay){ui.lrnPick=+b.dataset.z;ui.sheet='lrnPick';render();return;}e.preventDefault();const r0=C.getBoundingClientRect(),x0=e.clientX,y0=e.clientY;let mv=false;try{b.setPointerCapture(e.pointerId);}catch(_){}
+    const pos=ev=>[Math.max(0,Math.min(100,(ev.clientX-r0.left)/r0.width*100)),Math.max(0,Math.min(112,(ev.clientY-r0.top)/r0.height*100))];
+    const move=ev=>{if(!mv&&Math.hypot(ev.clientX-x0,ev.clientY-y0)<6)return;mv=true;b.classList.add('drag');const [x,y]=pos(ev);b.style.left=x+'%';b.style.top=y+'%';};
+    const up=ev=>{b.removeEventListener('pointermove',move);b.removeEventListener('pointerup',up);b.removeEventListener('pointercancel',up);
+      if(mv){const [x,y]=pos(ev);(ui.lrnPos||(ui.lrnPos={}))[b.dataset.lid]=[+x.toFixed(1),+y.toFixed(1)];}else if(ev.type==='pointerup'){ui.lrnPick=+b.dataset.z;ui.sheet='lrnPick';}render();};
+    b.addEventListener('pointermove',move);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);});});}
+const NAV=[['team','👥','Équipe'],['terrain','🏐','Terrain'],['stats','📊','Stats'],['seasons','🗂','Saisons'],['learn','🎓','Apprentissage'],['settings','⚙️','Réglages']];
+function navHTML(){const inC=ui.coach&&ui.screen==='coach',ct=ui.screen==='learn'?'learn':inC?ui.ctab:'terrain',lk=store.prefs.codeOn&&!inC&&!ui.tuto;
+  const b=NAV.map(([k,i,l])=>`<button class="${ct===k?'on':''} ${k==='terrain'?'terr':''}" data-act="ctab" data-v="${k}" aria-current="${ct===k?'page':'false'}"><i>${i}</i><span>${l}</span>${lk&&k!=='terrain'&&k!=='learn'?'<em class="nlk" aria-hidden="true">🔒</em>':''}</button>`).join('');
   return `<nav class="vnav" aria-label="Navigation"><div class="crail">${b}</div><div class="cbar">${b}</div></nav>`;}
 function roleChips(m,S,id,usual){
-  return `<div class="roles">${ROLE_ORDER.map(r=>`<button class="rc r-${r} ${S.roles[id]===r?'on':''} ${usual.includes(r)?'usual':''}" data-act="role" data-id="${id}" data-r="${r}">${RA(r)}<span class="vh"> ${ROLES[r]}</span></button>`).join('')}</div>`;
+  return `<div class="roles">${roleOrd(m).map(r=>`<button class="rc r-${r} ${S.roles[id]===r?'on':''} ${usual.includes(r)?'usual':''}" data-act="role" data-id="${id}" data-r="${r}">${RA(r)}<span class="vh"> ${ROLES[r]}</span></button>`).join('')}</div>`;
 }
 function setupWrap(m,S){return (isDemoTeam()&&!ui.tuto?`<div class="card warnc" style="margin-bottom:10px"><b>Équipe d'exemple</b><p class="hint" style="margin:4px 0 8px">Team Earth sert à découvrir l'application : elle ne peut pas servir à saisir un vrai match. Un match d'exercice est en cours : un set de 15 points, jamais enregistré, qui reprend là où vous l'avez laissé. Choisissez ou créez votre équipe pour jouer.</p></div>`:'')+setupHTML(m,S);}
 function setupHTML(m,S){
@@ -2040,18 +2116,8 @@ function recepMap(S){if(F4&&S&&S.zones&&S.serving==='A')return layoutPlay(effect
   const back=rc.slice().sort((a,b)=>X(a)-X(b)),front=ids.filter(id=>!rc.includes(id)).sort((a,b)=>X(a)-X(b)),dm={};
   [5,6,1].forEach((z,k)=>{if(back[k])dm[z]=back[k];});[4,3,2].forEach((z,k)=>{if(front[k])dm[z]=front[k];});return dm;}
 function recepZone(S,pid){const dm=recepMap(S);if(!dm)return null;const z=Object.keys(dm).find(k=>dm[k]===pid);return z?+z:null;}
-function statPanel(m,S){
-  const lp=rallyCtx(S);if(!lp)return '';
-  const st=m.pend||[],T=short(m),lastPt=(m.ev[m.ev.length-1]||{}).t==='pt';
-  const sid=setterOn(S,st);
-  // Bouton de stat : − / = / + ; dans la colonne Attaque, le « = » est remplacé par « Relance » (ballon renvoyé sans attaque)
-  const op=openPass(st);
-  const btn=(k,sg,i)=>{const kk=k,dis=kk==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===kk&&ui.stPick.s===sg)||((kk==='srv'||kk==='rec')&&st.some(x=>x[0]===kk&&x[1]===sg))||(kk==='pas'&&op>=0&&st[op][1]===sg);
-    return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='pas'&&op>=0&&st[op][1]!==sg?'dim':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
-  const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
-  return `<div class="stp"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
-    ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
-      <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><button class="btn big dfskip" data-act="diffSkip">Passer</button></div>`;})():ui.stPick?(()=>{
+// Choix du joueur de la stat pk ({k, s}) ; pk.none : affichage permanent (Réglages › Saisie) avant le choix de l'action, joueurs inactifs
+function pickHTML(m,S,st,lp,sid,pk){const h=(()=>{
       // Joueurs placés comme sur le terrain (filet en haut) : en 5-1 selon leur poste de jeu, sinon dans l'ordre réglementaire
       const {eff,pr}=effective(S.zones,S.roles,S.lib,S.serving),q42=is42(S.zones,S.roles);let dm=(!q42&&setterOn(S))?layoutPlay(eff,pr):null;
       // 4x4 : réception / défense, le passeur sur le tiers près du filet, les trois autres sur les deux tiers du fond (gauche → droite) ;
@@ -2065,38 +2131,55 @@ function statPanel(m,S){
           :o===2?[`grid-template-columns:${w(b)}fr ${w(a)}fr;grid-template-rows:minmax(0,1fr) auto`,fr('grid-column:1 / 3;grid-row:2'),ch(b,'grid-column:1;grid-row:1'),ch(a,'grid-column:2;grid-row:1')]
           :o===1?[`grid-template-columns:minmax(0,1fr) auto;grid-template-rows:${w(a)}fr ${w(b)}fr`,fr('grid-column:2;grid-row:1 / 3'),ch(a,'grid-column:1;grid-row:1'),ch(b,'grid-column:1;grid-row:2')]
           :[`grid-template-columns:auto minmax(0,1fr);grid-template-rows:${w(b)}fr ${w(a)}fr`,fr('grid-column:1;grid-row:1 / 3'),ch(b,'grid-column:2;grid-row:1'),ch(a,'grid-column:2;grid-row:2')];
-        return `<div class="stq ${stCls(ui.stPick.s)}">${stLab(ui.stPick.k,ui.stPick.s)} : qui ?</div><div class="pickc p2 o${o}" style="padding:8px;${G[0]}">${G.slice(1).join('')}</div>
+        return `<div class="stq ${stCls(pk.s)}">${stLab(pk.k,pk.s)} : qui ?</div><div class="pickc p2 o${o}" style="padding:8px;${G[0]}">${G.slice(1).join('')}</div>
           <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;}
-      if(F4){const k=ui.stPick.k,X={5:0,3:1,6:1,1:2},on4=Z4.filter(z=>eff[z]).map(z=>({id:eff[z],z})),srt=L=>L.slice().sort((a,b)=>X[a.z]-X[b.z]);
+      if(F4){const k=pk.k,X={5:0,3:1,6:1,1:2},on4=Z4.filter(z=>eff[z]).map(z=>({id:eff[z],z})),srt=L=>L.slice().sort((a,b)=>X[a.z]-X[b.z]);
         let last=null;for(let i=st.length-1;i>=0;i--){if(st[i][2]){last=st[i][2];break;}}
         const ch=(id,cls,sty)=>`<button class="bchip pk ${cls||''} ${rcls(pr[id])} ${k==='relay'&&id===sid?'dim':''}" style="${sty}" data-act="stP" data-id="${id}"><span class="num ${rcls(pr[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`;
+        // Grille logique (rangée 0 = filet, colonnes de gauche à droite) tournée comme le terrain
+        const o=dispOrient(),grid=(C,nc,fr,cls)=>{const R=fr.length,rf=fr.slice().reverse(),rep=`repeat(${nc},minmax(0,1fr))`;
+          const T=o===0?`grid-template-columns:${rep};grid-template-rows:${fr.join(' ')}`:o===2?`grid-template-columns:${rep};grid-template-rows:${rf.join(' ')}`:o===1?`grid-template-columns:${rf.join(' ')};grid-template-rows:${rep}`:`grid-template-columns:${fr.join(' ')};grid-template-rows:${rep}`;
+          const at=c=>{const a=c.c0+1,b=c.c1+1,ma=nc-c.c1+1,mb=nc-c.c0+1;return o===0?`grid-column:${a} / ${b};grid-row:${c.r+1}`:o===2?`grid-column:${ma} / ${mb};grid-row:${R-c.r}`:o===1?`grid-column:${R-c.r};grid-row:${a} / ${b}`:`grid-column:${c.r+1};grid-row:${ma} / ${mb}`;};
+          return `<div class="pickc o${o} p4 ${cls||''}" style="${T}"><div class="pnet">filet</div>${C.map(c=>c.id?ch(c.id,c.cls,at(c)):`<span style="${at(c)}"></span>`).join('')}</div>`;};
         const B=F4.bz||{};let g;
-        if(k==='blk'&&(B.g||B.c||B.d))g=`<div class="pickc o0 blkp p4">${['g','c','d'].map((q,i)=>{const id=B[q];return id&&eff.includes(id)?ch(id,'',`grid-column:${i+1};grid-row:1`):`<span style="grid-column:${i+1};grid-row:1"></span>`;}).join('')}</div>`;
+        if(k==='blk'&&(B.g||B.c||B.d))g=grid(['g','c','d'].map((q,i)=>{const id=B[q];return {id:id&&eff.includes(id)?id:null,r:0,c0:i,c1:i+1};}),3,['minmax(0,1fr)'],'blkp');
         else{const L=(k==='att'||k==='rel')&&last?on4.filter(o=>o.id!==last):on4,pa=L.find(o=>pr[o.id]==='Pa');
-          const c3=F4.n===3?' style="grid-template-columns:repeat(2,minmax(0,1fr))"':''; // 3x3 : deux colonnes
-          g=L.length<=(F4.n===3?2:3)||!pa?`<div class="pickc o0 p4"${L.length===2?c3:''}>${srt(L).map((o,i)=>ch(o.id,'',`grid-column:${i+1};grid-row:1`)).join('')}</div>`
-            :`<div class="pickc o0 p4 p4s"${c3}>${ch(pa.id,'s4','grid-column:1 / -1;grid-row:1')}${srt(L.filter(o=>o!==pa)).map((o,i)=>ch(o.id,'',`grid-column:${i+1};grid-row:2`)).join('')}</div>`;}
-        return `<div class="stq ${stCls(ui.stPick.s)}">${stLab(ui.stPick.k,ui.stPick.s)} : qui ?</div>${g.replace('<div class="pickc','<div class="pickc').replace(/(<div class="pickc[^"]*">)/,'$1<div class="pnet">filet</div>')}
+          g=L.length<=(F4.n===3?2:3)||!pa?grid(srt(L).map((x,i)=>({id:x.id,r:0,c0:i,c1:i+1})),L.length,['minmax(0,1fr)'])
+            :(()=>{const bk=srt(L.filter(x=>x!==pa)),nc=bk.length;return grid([{id:pa.id,cls:'s4',r:0,c0:0,c1:nc}].concat(bk.map((x,i)=>({id:x.id,r:1,c0:i,c1:i+1}))),nc,['minmax(0,1fr)','minmax(0,2fr)'],'p4s');})();}
+        return `<div class="stq ${stCls(pk.s)}">${stLab(pk.k,pk.s)} : qui ?<button class="pkrot" data-act="flip" aria-label="Tourner le terrain et le choix d'un quart de tour" title="Tourner">${IC.flip}</button></div>${g}
           <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;}
       // Réception (et seulement à ce moment-là) : chaque joueur à sa place de réception (R4 et libéro comprises), orientée comme le terrain
       let recAbs=null;
-      if(ui.stPick.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
-      if(dm&&ui.stPick.k!=='rec'){const g=statGrid(S,eff,p1Inv(S,S.serving==='G',st));if(g)dm=g;}
-      const blkPick=ui.stPick.k==='blk';
+      if(pk.k==='rec'&&S.serving==='A'){const RM=recepMap(S);if(RM)dm=RM;}
+      if(dm&&pk.k!=='rec'){const g=statGrid(S,eff,p1Inv(S,S.serving==='G',st));if(g)dm=g;}
+      const blkPick=pk.k==='blk';
       if(blkPick){const F=[eff[2],eff[3],eff[4]].filter(Boolean),R=S.roles,p1=p1Inv(S,S.serving==='G',st),bd={};
         const c=F.find(id=>R[id]==='C'),r4=F.find(id=>R[id]==='R4'),pp=F.find(id=>R[id]==='Pa'||R[id]==='Pu'),rest=F.filter(id=>![c,r4,pp].includes(id));
         if(c)bd[3]=c;if(p1){if(r4)bd[2]=r4;if(pp)bd[4]=pp;}else{if(r4)bd[4]=r4;if(pp)bd[2]=pp;}
         [4,3,2].forEach(z=>{if(!bd[z]&&rest.length)bd[z]=rest.shift();});dm=bd;}
-      const at=z=>dm?dm[z]:eff[z],cell=z=>{const id=at(z);return id?`<button class="bchip pk ${rcls(S.roles[id])} ${ui.stPick.k==='relay'&&id===sid?'dim':''}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`:'<span></span>';};
+      const at=z=>dm?dm[z]:eff[z],cell=z=>{const id=at(z);return id?`<button class="bchip pk ${rcls(S.roles[id])} ${pk.k==='relay'&&id===sid?'dim':''}" data-act="stP" data-id="${id}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="pkn">${esc(dname(m,id))}</span></button>`:'<span></span>';};
       // Orientation : toujours la même que le terrain (filet en haut, à droite, en bas ou à gauche)
       const o=dispOrient(),side=o%2===1;
       const BASE={4:[0,0],3:[1,0],2:[2,0],5:[0,1],6:[1,1],1:[2,1]};
       const place=z=>{const [c,r]=BASE[z];return o===1?[1-r,c]:o===2?[2-c,1-r]:o===3?[r,2-c]:[c,r];};
       const cellAt=z=>{const [col,row]=place(z),h=cell(z);return h.replace(/^<(button|span)/,`<$1 style="grid-column:${col+1};grid-row:${row+1}"`);};
-      return `<div class="stq ${stCls(ui.stPick.s)}">${stLab(ui.stPick.k,ui.stPick.s)} : qui ?<button class="pkrot" data-act="flip" aria-label="Tourner le terrain et le choix d'un quart de tour" title="Tourner">${IC.flip}</button></div>
+      return `<div class="stq ${stCls(pk.s)}">${stLab(pk.k,pk.s)} : qui ?<button class="pkrot" data-act="flip" aria-label="Tourner le terrain et le choix d'un quart de tour" title="Tourner">${IC.flip}</button></div>
       ${recAbs?`<div class="pickc pickabs o${o} ${side?'side':''}"><div class="pnet">filet</div>${recAbs}</div>`:blkPick?`<div class="pickc o0 blkp" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="pnet">filet</div>${[4,3,2].map(cellAt).join('')}</div>`:`<div class="pickc o${o}" style="grid-template-columns:repeat(${side?2:3},minmax(0,1fr))"><div class="pnet">filet</div>${[4,3,2,5,6,1].map(cellAt).join('')}</div>`}
-      <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;})()
-    :store.prefs.easy?(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
+      <div class="strow" style="margin-top:8px"><button class="stb" data-act="stP" data-id="">Non attribuée</button><button class="stb" data-act="stCancel">Annuler</button></div>`;})();
+  return pk.none?h.replace(/<div class="stq [^"]*">[\s\S]*?: qui \?/,'<div class="stq">Touchez une action, puis le joueur').replace(/data-act="(stP|fr2)"/g,'disabled data-act="$1"').replace(/<div class="strow" style="margin-top:8px">[\s\S]*?<\/div>\s*$/,''):h;}
+function statPanel(m,S){
+  const lp=rallyCtx(S);if(!lp)return '';
+  const st=m.pend||[],T=short(m),lastPt=(m.ev[m.ev.length-1]||{}).t==='pt';
+  const sid=setterOn(S,st);
+  // Bouton de stat : − / = / + ; dans la colonne Attaque, le « = » est remplacé par « Relance » (ballon renvoyé sans attaque)
+  const op=openPass(st);
+  const btn=(k,sg,i)=>{const kk=k,dis=kk==='srv'&&!lp.srv,on=(ui.stPick&&ui.stPick.k===kk&&ui.stPick.s===sg)||((kk==='srv'||kk==='rec')&&st.some(x=>x[0]===kk&&x[1]===sg))||(kk==='pas'&&op>=0&&st[op][1]===sg);
+    return `<button class="stb ${stCls(sg)} ${on?'on':''} ${kk==='srv'?'srvb':''} ${kk==='pas'?'pas':''} ${kk==='pas'&&op>=0&&st[op][1]!==sg?'dim':''} ${kk==='rel'?'rel':''} ga-${stCls(sg)}${i}" data-act="stCat" data-k="${kk}" data-s="${sg}" ${dis?'disabled title="Service adverse"':''}><span class="lgl">${stLab(kk,sg)}</span><span class="shl">${kk==='rel'?'Renvoi sans attaque':stSym(sg)}</span>${kk==='pas'?`<small>${sid?esc(pnum(m,sid)+' '+dname(m,sid)):'passe'}</small>`:''}</button>`;};
+  const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
+  return `<div class="stp ${store.prefs.stBoth?'both':''}"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
+    ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
+      <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><button class="btn big dfskip" data-act="diffSkip">Passer</button></div>`;})():ui.stPick&&!store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick)
+    :(store.prefs.easy?(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       // Mode stats faciles : grille fixe 3 × 3 ; la colonne passe / service est attribuée automatiquement (nom affiché)
       const auto=k=>k==='srv'?lp.srv:k==='pas'?sid:null;
       const on=(k,sg)=>((k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg))||(k==='pas'&&op>=0&&st[op][1]===sg)||(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg);
@@ -2104,7 +2187,7 @@ function statPanel(m,S){
       return `<div class="egrid ${c1==='srv'?'srvfocus':''}" style="grid-template-columns:repeat(${cats.length},minmax(0,1fr))">${cats.map(k=>`<span class="eh ${k==='srv'||k==='pas'?'au':''} ${k==='srv'?'srvh':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cats.map(k=>eb(k,sg)).join('')).join('')}
         <button class="eb" data-act="stUndo" ${st.length||lastPt?'':'disabled'}>↶ Annuler<br>${undoLab(m,S,st,lastPt)}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>${BLK()?'<span></span>':''}</div>`;})()
     :(()=>{const c0=lp.srv||st.some(x=>x[0]==='rec')?'def':'rec',c1=lp.srv&&!st.some(x=>x[0]==='srv')?'srv':'pas',cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
-      return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})()}
+      return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})())+(store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick||{k:'def',s:0,none:1}):'')}
     ${st.length&&!store.prefs.easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
 }
@@ -2136,7 +2219,7 @@ function matchHTML(m,S){
   const sw2=dispSwap();
   return `${hist}
     <div class="courtbar">${F4?`<span class="rot">${F4.n}x${F4.n}</span><span class="sys">${F4.rot?'Rotations':'Sans rotation'}</span>`:`<span class="rot" title="Position de la passe">${pz?'P'+pz:'P–'}</span><span class="sys" title="Système de jeu">${is42(S.zones,S.roles)?'4-2':setterOn(S)?'5-1':'–'}</span>`}
-      <span class="srvinfo">${S.phase!=='play'?'':S.serving==='G'?'Service':'Réception'}</span>
+      ${S.phase==='play'&&F4&&!F4.rot?`<button class="srvinfo srv4b" data-act="srv4" title="Changer le serveur"><span>${S.serving==='G'?'Service':'Réception'}</span> ✎</button>`:`<span class="srvinfo">${S.phase!=='play'?'':S.serving==='G'?'Service':'Réception'}</span>`}
       <button class="btn coachb" data-act="matchSheet" aria-label="Actions du match"><span>Match</span></button></div>
     <section class="dock dtop ${store.prefs.dockOpen?'':'folded'}">
       <div id="tmr" hidden aria-live="polite"></div>
@@ -2213,6 +2296,13 @@ function sheetHTML(m,S){
   if(ui.sheet==='aceQ'){const st=(m.pend||[])[0];
     return `<div class="sh"><h3>Ace ?</h3>${close}</div><p>${esc(tag(m,st&&st[2]))} : le service a-t-il fait le point directement ?</p>
       <div class="tools aceq"><button class="btn big primary" data-act="aceAns" data-v="1">Oui</button><button class="btn big" data-act="aceAns" data-v="0">Non</button></div>`;}
+  // 4x4, 3x3, 2x2 sans rotation : choix du serveur (ou du prochain serveur en réception) ; l'ordre de service repart de lui
+  if(ui.sheet==='lrnPick'){const z=ui.lrnPick,zs=lrnZones(ui.lrnRot||1),cur=zs[z];
+    return `<div class="sh"><h3>Poste ${z}</h3>${close}</div><p class="hint xp">Le joueur choisi prend cette place ; s'il est déjà sur le terrain, les deux joueurs échangent leurs places.</p>
+      <div style="display:flex;flex-direction:column;gap:6px">${(lrnTeam().roster||[]).slice().sort((a,b)=>a.n-b.n).map(p=>`<button class="prow pclick ${p.id===cur?'on':''}" data-act="lrnSet" data-id="${p.id}"><span class="num ${rcls((p.postes||[])[0])}">${esc(p.n)}</span><span class="who"><b>${esc(lrnName(p))} ${esc(String(p.nom||''))}</b><small>${(p.postes||[]).map(r=>tr(ROLES[r])).join(', ')}${zs.includes(p.id)?' · '+tr('sur le terrain'):''}</small></span></button>`).join('')}</div>`;}
+  if(ui.sheet==='srv4'&&F4){const g=S.serving==='G';
+    return `<div class="sh"><h3>${g?'Serveur':'Prochain serveur'}</h3>${close}</div><p class="hint xp">L'ordre de service est conservé et repart du joueur choisi.</p>
+      <div style="display:flex;flex-direction:column;gap:6px">${SRV4.filter(z=>S.zones[z]).map(z=>{const id=S.zones[z];return `<button class="prow pclick ${z===F4.sz?'on':''}" data-act="srv4Set" data-z="${z}"><span class="num ${rcls(S.roles[id])}">${pnum(m,id)}</span><span class="who"><b>${esc(dname(m,id))}</b><small>${tr(lab4(z))}</small></span>${z===F4.sz?'<span aria-hidden="true">🏐</span>':''}</button>`;}).join('')}</div>`;}
   if(ui.sheet==='tac'&&F4){const q=(m.tacNext||[]).filter(e=>e.t==='tac'),last=k=>{const x=q.filter(e=>e[k]!==undefined);return x.length?x[x.length-1][k]:undefined;};
     const rp=last('rp'),bz=last('bz'),o={r4:F4.rot?undefined:false,rp:rp!==undefined?rp:F4.rp,bz:bz!==undefined?bz:F4.bz},ids={list:Z4.map(z=>S.zones[z]).filter(Boolean),z:id=>S.zones.indexOf(id),at:z=>S.zones[z]};
     return `<div class="sh"><h3>Options tactiques</h3>${close}</div>
@@ -2251,7 +2341,7 @@ function sheetHTML(m,S){
       <label class="f" style="margin-top:10px">N° de licence (facultatif)<input id="rLic" value="${esc(r.lic||'')}" maxlength="30" autocomplete="off"></label>
       <p class="hint xp privn">Ces informations restent sur cet appareil et ne sont transmises à personne. <button class="linkbtn" data-act="legal" data-k="privacy">Politique de confidentialité</button></p>
       <h2>Postes${tipB('posdef')}</h2><p class="hint xp">Touchez pour ajouter ou retirer un poste ; double-touchez pour le poste par défaut (★).</p>
-      <div class="roles" style="justify-content:flex-start">${ROLE_ORDER.map(k=>`<button class="rc r-${k} ${r.postes.includes(k)?'on':''}" data-act="rPoste" data-r="${k}" style="padding:0 12px">${r.postes[0]===k?'★ ':''}${ROLES[k]}</button>`).join('')}</div>
+      <div class="roles" style="justify-content:flex-start">${roleOrd().map(k=>`<button class="rc r-${k} ${r.postes.includes(k)?'on':''}" data-act="rPoste" data-r="${k}" style="padding:0 12px">${r.postes[0]===k?'★ ':''}${ROLES[k]}</button>`).join('')}</div>
       ${r.err?`<div class="warnbox">${esc(r.err)}</div>`:''}
       <div style="margin-top:16px"><button class="btn big primary" data-act="rSave">Enregistrer</button></div>`;
   }
@@ -2276,6 +2366,7 @@ function sheetHTML(m,S){
       ${isExtra(r.id)?'':`<div class="barcell" style="margin:6px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
       ${radarSVG(me,team)}
       ${rateBars(r,f)}
+      ${isExtra(r.id)?'':axesHTML(r,f,SS,set)}
       <details class="pfdet"><summary>Détail − / = / +</summary><div style="overflow-x:auto"><table class="pftab"><tr><th>Compétence</th><th>−</th><th>=</th><th>+</th><th>Actions</th><th>Efficacité</th><th>Équipe</th></tr>
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
@@ -2528,6 +2619,18 @@ function attZones(r){const L=PPOSTS.map(([z,l])=>{const P=r['az'+z+'P']||0,N=r['
 // Fiche joueur, « Détails par poste » : réception, défense et attaque selon la place réelle (après permutation)
 const PZL={att:PPOSTS.map(x=>[x[0],x[1]]),rec:[5,6,1,4,3,2].map(z=>[z,'Poste '+z]),def:[5,6,1,4,3,2].map(z=>[z,'Poste '+z])},PZK={att:'az',rec:'rz',def:'dz'};
 function posZones(r,k){return PZL[k].map(([z,l])=>{const p=PZK[k]+z,P=r[p+'P']||0,N=r[p+'N']||0,M=r[p+'M']||0,n=P+N+M;return {l,n,v:n?(2*P+N)/(2*n):0};}).filter(x=>x.n);}
+// Fiche joueur, « Axes d'amélioration » : les 3 domaines (compétence, par poste, passe par destination) les plus en dessous de l'équipe,
+// à partir de AX_MIN actions et d'un écart d'au moins 5 points
+function axesHTML(r,f,SS,set){const T=teamTot(f),me=radEff(r),tm=radEff(T),MIN=STAT_CFG.AX_MIN,out=[];
+  const add=(l,v,tv)=>{if(v&&tv&&v.n>=MIN&&tv.v-v.v>=0.05)out.push({l,g:tv.v-v.v,v:v.v,tv:tv.v});};
+  const LB={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque',blk:'Bloc'};
+  (BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att']).forEach(k=>add(tr(LB[k]),me[k],tm[k]));
+  ['rec','def','att'].forEach(k=>{const tz=posZones(T,k);posZones(r,k).forEach(x=>{const t=tz.find(y=>y.l===x.l);add(tr(LB[k])+' · '+tr(x.l),x,t);});});
+  if(r.role==='Pa'&&SS&&SS.pst){const A=passAgg(SS,set),me=A[r.id]||{},all={};Object.values(A).forEach(o=>Object.entries(o).forEach(([z,c])=>{const d=all[z]||(all[z]={n:0,s:0});d.n+=c.n;d.s+=c.s;}));
+    PPOSTS.forEach(([z,l])=>{const c=me[z],t=all[z];if(c&&t&&c.n)add(tr('Passe')+' · '+tr(l),{v:c.s/(2*c.n),n:c.n},{v:t.s/(2*t.n),n:t.n});});}
+  // un seul axe par libellé de compétence globale s'il est déjà détaillé par poste
+  const L=out.sort((a,b)=>b.g-a.g).filter((x,i,a)=>!(!x.l.includes(' · ')&&a.some(y=>y!==x&&y.l.startsWith(x.l+' · ')&&a.indexOf(y)<i))).slice(0,3);
+  return `<div class="axes"><b class="cond">Axes d'amélioration${tipB('axes')}</b>${L.length?`<ul>${L.map(x=>`<li><b>${esc(x.l)}</b> <span class="neg">${Math.round(x.v*100)} %</span> <small class="hint">${tr('équipe {N}').replace('{N}',Math.round(x.tv*100)+' %')}</small></li>`).join('')}</ul>`:`<p class="hint">${tr("Aucun point faible net par rapport à l'équipe (au moins {N} actions par domaine).").replace('{N}',MIN)}</p>`}</div>`;}
 function rateBars(r,f){
   const T=teamTot(f),me=radEff(r),tm=radEff(T),cats=BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att'];
   const fr=o=>{const M=cats.reduce((a,k)=>a+(o[k+'M']||0),0),n=cats.reduce((a,k)=>a+(o[k+'M']||0)+(o[k+'N']||0)+(o[k+'P']||0),0);return n?{v:M/n,n,c:M}:null;};
@@ -2651,8 +2754,10 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
   const card=(t,inner,extra='',desc)=>`<div class="card" ${extra}>${desc?D(t,desc):`<b class="cond" style="font-size:20px">${t}</b>`}${inner}</div>`;
   const all=`
     ${sec('gen','Général',card('Langue',`<label class="f">Langue de l'application<select data-lang>${LANGS.map(([c,n])=>`<option value="${c}" ${(P.lang||'fr')===c?'selected':''}>${n}</option>`).join('')}</select></label>`)
+      +card('Apparence',`<div class="seg">${[['auto','Automatique'],['light','Clair'],['dark','Sombre']].map(([v,l])=>`<button class="${(P.theme||'auto')===v?'on':''}" data-act="theme" data-v="${v}" aria-pressed="${(P.theme||'auto')===v}">${l}</button>`).join('')}</div>`,'',`<p class="hint xp">Automatique : suit le réglage clair ou sombre du téléphone.</p>`)
       +card('Aides contextuelles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="hints" ${P.hints!==false?'checked':''}> Afficher les explications sous les écrans</label>`,'',`<p class="hint">Les explications et conseils affichés sous les titres et les boutons. Désactivées, les bulles « i » restent disponibles à la demande, et les avertissements importants restent visibles.</p>`))}
     ${sec('saisie','Saisie des statistiques',card('Mode stats faciles',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="easy" ${P.easy?'checked':''}> Mode stats faciles</label><p class="hint reco">Recommandé sur téléphone</p>
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="stBoth" ${P.stBoth?'checked':''}> Actions et joueurs affichés en permanence</label><p class="hint xp">Les actions (service, réception, passe, attaque, bloc) et les joueurs restent affichés ensemble : touchez l'action, puis le joueur.</p>
       ${canLock()?`<label class="chk sw"><input type="checkbox" role="switch" data-pref="rotLock" ${P.rotLock?'checked':''}> Bloquer la rotation de l’écran</label>`:''}`,'',`<p class="hint xp">Pendant le match, la saisie occupe tout l'écran ; « Positions | Saisie » passe de l'un à l'autre.</p>${canLock()?`<p class="hint xp">L'écran garde son orientation et passe en plein écran.</p>`:`<p class="hint xp">Non disponible sur cet appareil ; la grille garde sa disposition quand l'écran tourne.</p>`}`)
       // Statistiques optionnelles notées pendant le match : le bloc et la difficulté du ballon adverse
       +card('Statistiques supplémentaires',`<p class="hint xp">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
@@ -2691,7 +2796,7 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
 // Résumé du match : chaque point avec le score et la dernière action notée
 // Résumé du match : chaque point avec le score et la dernière action notée (changements, temps morts, libéro)
 // 4x4 : remplaçant du passeur et bloc, notés dans le résumé (composition du set et options tactiques)
-function tac4Rows(m,ev,cur){if(ev.rp!==undefined)cur.rows.push({k:'tac',a:tr('Remplacement du passeur')+' : '+(ev.rp?dname(m,ev.rp):tr('Non'))});
+function tac4Rows(m,ev,cur){if(ev.sz&&ev.sp)cur.rows.push({k:'tac',a:tr('Au service')+' : '+dname(m,ev.sp)});if(ev.rp!==undefined)cur.rows.push({k:'tac',a:tr('Remplacement du passeur')+' : '+(ev.rp?dname(m,ev.rp):tr('Non'))});
   if(ev.bz)cur.rows.push({k:'tac',a:tr('Bloc')+' : '+[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>tr(l)+' '+(ev.bz[q]?dname(m,ev.bz[q]):'—')).join(' · ')});}
 function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null,lp0=+(m.libPos||5),x0=false;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
   m.ev.forEach((ev,idx)=>{
@@ -2821,6 +2926,7 @@ const TIPS={
  def:['Défense',"+ : défense qui permet de contre-attaquer. = : ballon sauvé mais difficile à exploiter. − : ballon perdu."],
  att:['Attaque',"+ : attaque gagnante ou qui met l'adversaire en grande difficulté. = : attaque défendue, le jeu continue. − : attaque dehors, dans le filet ou contrée."],
  blk:['Bloc',"+ : bloc gagnant ou qui met l'adversaire en difficulté. = : bloc touché, le jeu continue. − : bloc faute (filet, out sur le bloc). Statistique optionnelle (Réglages) : difficile à noter en temps réel, elle charge la grille sur téléphone. Seuls les 3 joueurs au filet sont proposés (R4 en 4, centre en 3, passe ou pointe en 2 ; en P1, R4 et pointe sont inversées)."],
+ axes:["Axes d'amélioration","Les trois domaines où le joueur est le plus en dessous de la moyenne de l'équipe : compétence, poste (réception, défense, attaque) et, pour un passeur, destination de la passe. Un domaine compte à partir de 5 actions et d'un écart de 5 points."],
  az:['Attaque par poste',"Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes."],
  pas:['Passe',"Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones."],
  fautes:['Fautes',"Part des actions ratées (−) parmi toutes les actions notées du joueur : service, réception, défense et attaque."],
@@ -3081,7 +3187,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     <div class="card teamc">
       <small class="hint">${store.roster.length} joueur${store.roster.length>1?'s':''} · ${TA.length} match${TA.length>1?'s':''} archivé${TA.length>1?'s':''}</small>
       ${AT.locked&&!ui.tuto?`<p class="hint">🔒 Équipe d\'exemple Team Earth : non modifiable ; toutes ses statistiques sont ouvertes. Son match en cours, un set de 15 points, sert d\'exercice : il n\'est jamais enregistré. Vous pouvez la supprimer dans « Gérer les équipes ».</p>`:''}
-      <div class="teamtools">${AT.locked?'':`<button class="btn" data-act="teamRen" data-id="${store.teamId}">Nom et genre</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
+      <div class="teamtools">${AT.locked?'':`<button class="btn icon" data-act="teamRen" data-id="${store.teamId}" aria-label="Nom, genre et type de l'équipe" title="Nom, genre et type de l'équipe">${IC.gear}</button>`}<button class="btn icon" data-act="teamShare" aria-label="Partager">${IC.share}</button><button class="btn" data-act="teamPick">Gérer les équipes</button></div></div>
     <h2 id="rosterSec">Effectif — ${esc(AT.name)} (${store.roster.length} joueurs)</h2>
     ${twinBanner()}
     <p class="hint xp">Les changements valent pour le match en cours et les suivants ; les matchs archivés gardent leur effectif.${tipB('roster')}</p>
@@ -3609,7 +3715,7 @@ const A={
   pickZone(d){ui.pick=+d.z;ui.sheet='pick';},
   pickP(d){const z=ui.pick,zs=ui.draft.zones,k=zs.indexOf(d.id);if(k>0&&k!==z)zs[k]=zs[z];zs[z]=d.id;const o=(ui.draft.order||[]).filter(id=>id!==d.id);o.push(d.id);ui.draft.order=o;ui.sheet=null;draftCheck();placeCheck(z);},
   pickClear(){ui.draft.zones[ui.pick]=null;ui.sheet=null;draftCheck();},
-  draftSrv(d){ui.draft.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
+  draftSrv(d){const D=ui.draft;if(D.set>0&&d.s!==D.srv&&!is4(store.cur)){D.zones=shift6(D.zones,d.s==='A'?1:-1);draftCheck();}D.srv=d.s;}, draftLib(d){ui.draft.lib=d.id||null;},
   draftP1x(d){ui.draft.p1x=d.v==='1';},
   // 4x4 : rotations, premier serveur, remplaçant du passeur, bloc (gauche, centre, droite) du set à composer
   draft4(d){const D=ui.draft;if(!D)return;if(d.k==='r4'){D.r4=d.v==='1';if(!D.r4&&!SRV4.includes(D.sz))D.sz=SRV4[0];if(D.r4)D.rp=null;}
@@ -3653,6 +3759,13 @@ const A={
     tacApply({t:'lib',p:v});return 'keep';},
   tacLp(d){tacApply({t:'tac',lp:+d.v});return 'keep';},
   tacX(d){tacApply({t:'tac',x:d.v==='1'?1:0});return 'keep';},
+  lrnSrv(d){ui.lrnSrv=d.v==='A'?'A':'G';},
+  lrnRot(d){ui.lrnRot=+d.v||1;},
+  lrnReset(){ui.lrnPos={};},
+  lrnStart(){const t=lrnTeam();store.learn={t:t.id,base:lrnStart()};ui.lrnPos={};save();toast('6 de départ de l’équipe repris','ok');},
+  lrnSet(d){const r=ui.lrnRot||1,z=ui.lrnPick,b=lrnBase().slice(),k=((z-r+6)%6)+1,j=b.indexOf(d.id);ui.sheet=null;if(!z||!d.id)return;if(j>0)b[j]=b[k];b[k]=d.id;store.learn.base=b;ui.lrnPos={};save();},
+  srv4(){if((store.cur.pend||[]).length){toast('Possible avant la première stat de l’échange','warn');return 1;}ui.sheet='srv4';},
+  srv4Set(d){const m=store.cur,S=replay(m),z=+d.z;ui.sheet=null;if(!S.f4||S.f4.rot||(m.pend||[]).length||z===S.f4.sz)return;dispatch({t:'tac',sz:z,sp:S.zones[z]});},
   tac4(d){const S=replay(store.cur),F=S.f4;if(!F)return 'keep';const q=(store.cur.tacNext||[]).filter(e=>e.t==='tac'&&e.bz),bz=Object.assign({},q.length?q[q.length-1].bz:F.bz);
     if(d.k==='rp')tacApply({t:'tac',rp:d.v||null});else if(d.k.startsWith('bz')){if(d.v)bz[d.k[2]]=d.v;else delete bz[d.k[2]];tacApply({t:'tac',bz});}return 'keep';},
   fmtSet(d){const m=store.cur;if(replay(m).sets.length)return;const F=fmt(m);F[d.k]=d.k==='tb'?d.v==='true':+d.v;m.format=F;save();},
@@ -3681,6 +3794,8 @@ const A={
   csub(d){ui.csub=d.v;ui.coachView=null;ui.fxSet=null;ui.confirm=null;window.scrollTo(0,0);},
   // Onglets : Terrain ramène au match ; les quatre autres ouvrent l'espace entraîneur (code demandé s'il est activé)
   ctab(d){ui.confirm=null;window.scrollTo(0,0);
+    if(d.v==='learn'){if(ui.tuto)return 1;if(ui.screen!=='learn')ui.lrnBack=ui.screen==='lineup'?'lineup':null;ui.screen='learn';ui.sheet=null;return;} // sans code entraîneur
+    if(ui.screen==='learn'){ui.screen=ui.lrnBack||null;ui.lrnBack=null;if(d.v==='terrain')return;}
     if(d.v==='terrain'){if(ui.coach&&ui.screen==='coach')A.relock();else if(ui.toStats)A.toBack();else ui.screen=null;return;} // depuis la feuille ou la composition : retour au match (le brouillon de composition est gardé)
     if(d.v==='settings'&&ui.ctab!=='settings')ui.setPage=null;ui.ctab=d.v;
     if(ui.coach&&ui.screen==='coach')return;ui.toStats=false;ui.afterCode=null;openLock();},
@@ -3692,6 +3807,7 @@ const A={
     const {m,rep}=mergeMatches(loc,q.imp,d.v);if(q.where==='cur'){m.pend=store.cur.pend||[];store.cur=m;}else{const k=store.arch.findIndex(a=>a.id===q.id);store.arch[k]=m;}save();
     ui.alert=['Fusion terminée.',mergeReport(rep,d.v)];ui.alertFixes=[];ui.alertMode=null;ui.alertClose='Fermer';},
   methodOpen(){ui.sheet='method';},
+  theme(d){store.prefs.theme=d.v==='light'||d.v==='dark'?d.v:'auto';save();},
   hintsOff(){store.prefs.hints=false;store.prefs.hintsAsked=true;save();toast('Explications masquées (Réglages › Général)','ok');},
   hintsKeep(){store.prefs.hintsAsked=true;save();},
   setOpen(d){ui.setPage=d.id;window.scrollTo(0,0);},
@@ -3895,9 +4011,13 @@ function initDraft(m,S){
   const libs=present(m).filter(p=>S.roles[p.id]==='L').map(p=>p.id);
   const lib=S.libTouched?(S.lib&&libs.includes(S.lib)?S.lib:null):prev&&prev.lib&&libs.includes(prev.lib)?prev.lib:(libs[0]||null);
   if(is4(m)){const F=S.f4||{},G=FMT4[n4(f4c(m))],ok=id=>id&&pres.has(id);for(let z=1;z<=6;z++)if(!G.Z.includes(z))zones[z]=null;const bz={};['g','c','d'].forEach(q=>{if(ok((F.bz||{})[q]))bz[q]=F.bz[q];});
-    return {set:i,zones,srv,lib:null,f4:1,r4:F.rot!==false,sz:F.rot===false&&prev&&G.SRV.includes(prev.sz4)?prev.sz4:G.SRV[0],rp:ok(F.rp)?F.rp:null,bz};}
+    return {set:i,zones,srv,lib:null,f4:1,r4:prev?F.rot!==false:false,sz:F.rot===false&&prev&&G.SRV.includes(prev.sz4)?prev.sz4:G.SRV[0],rp:ok(F.rp)?F.rp:null,bz};}
+  // 6x6 : le premier serveur du set précédent passe en P2 si l'équipe reçoit (il servira au premier gain du service), et revient en P1 si elle sert
+  if(prev&&prev.srv!==srv)return {set:i,zones:shift6(zones,srv==='A'?1:-1),srv,lib,lp:S.libPos||+(m.libPos||5),p1x:!!S.p1x};
   return {set:i,zones,srv,lib,lp:S.libPos||+(m.libPos||5),p1x:!!S.p1x};
 }
+// Décale la composition d'un cran : d=1, le joueur en P1 passe en P2 (sens inverse de la rotation) ; d=-1, celui en P2 passe en P1
+function shift6(zones,d){const n=zones.slice();for(let z=1;z<=6;z++)n[d>0?z%6+1:z]=zones[d>0?z:z%6+1];return n;}
 // Double toucher sur un joueur (composition et changement uniquement) : choix du poste
 const DBL={subO:'now',subI:'now',pickZone:'delay',pickP:'delay'};
 let lastTap=null;
@@ -3937,6 +4057,7 @@ document.addEventListener('change',e=>{
   if(t.dataset&&t.dataset.teamsel!==undefined){teamSelect(t.value);render();return;}
   if(t.dataset&&t.dataset.lang!==undefined){store.prefs.lang=t.value;save();render();return;}
   if(t.dataset&&t.dataset.waiver!==undefined){ui.waiver=t.checked;render();return;}
+  if(t.dataset&&t.dataset.lrnarr!=null){ui.lrnPlay=t.checked;render();return;}
   if(t.dataset&&t.dataset.pref){store.prefs[t.dataset.pref]=t.checked;if(t.dataset.pref==='easy'&&t.checked)store.prefs.dockOpen=true;if(t.dataset.pref==='rotLock')applyRotLock(true);save();render();return;}
   if(t.dataset&&t.dataset.seasonsel!==undefined){ui.seasonSel=t.value;ui.confirm=null;render();return;}
   if(t.dataset&&t.dataset.teamsel2!==undefined){const v=t.value;if(v==='__new'){A.teamNew();}else{A.teamUse({id:v,force:1});}render();return;}
