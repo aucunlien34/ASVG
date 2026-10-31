@@ -1218,7 +1218,15 @@ const I18N = {
   "kill": "kill",
   "faute": "error",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "One card per position of the reception before the set (5, 6, 1, or another position). At the top: the team's reception quality in that position. On the court: set quality towards each attack position, in its real place; green above the setter's average, red below. Positions 5 and 6 only appear when there are enough sets to them.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficiency of the player's attacks in each position (+ = 2, = = 1, − = 0), compared with the team's average in the same position: green above, red below. In small print: share of winning attacks (kills) and errors."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficiency of the player's attacks in each position (+ = 2, = = 1, − = 0), compared with the team's average in the same position: green above, red below. In small print: share of winning attacks (kills) and errors.",
+  "Vue d'ensemble": "Overview",
+  "Fiche complète": "Full profile",
+  "Transition (après défense)": "Transition (after a dig)",
+  "Qualité défense": "Dig quality",
+  "Pas de détail par poste.": "No breakdown by position.",
+  "Aucun": "None",
+  "archivé": "archived",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "An attack without a recorded set counts in the number of sets, not in the percentage."
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -2368,7 +2376,15 @@ const I18N = {
   "kill": "punto",
   "faute": "error",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Una tarjeta por posición de la recepción previa a la colocación (5, 6, 1 u otra posición). Arriba: calidad de recepción del equipo en esa posición. En la pista: calidad de la colocación hacia cada posición de ataque, en su lugar real; verde por encima de la media del colocador, rojo por debajo. Las posiciones 5 y 6 solo aparecen si hay suficientes colocaciones hacia ellas.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Eficacia de los ataques del jugador en cada posición (+ = 2, = = 1, − = 0), comparada con la media del equipo en la misma posición: verde por encima, rojo por debajo. En pequeño: porcentaje de ataques ganadores (punto) y de errores."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Eficacia de los ataques del jugador en cada posición (+ = 2, = = 1, − = 0), comparada con la media del equipo en la misma posición: verde por encima, rojo por debajo. En pequeño: porcentaje de ataques ganadores (punto) y de errores.",
+  "Vue d'ensemble": "Resumen",
+  "Fiche complète": "Ficha completa",
+  "Transition (après défense)": "Transición (tras defensa)",
+  "Qualité défense": "Calidad de defensa",
+  "Pas de détail par poste.": "Sin detalle por posición.",
+  "Aucun": "Ninguno",
+  "archivé": "archivado",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Un ataque sin pase anotado cuenta en el número de pases, no en el porcentaje."
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -3518,7 +3534,15 @@ const I18N = {
   "kill": "punto",
   "faute": "errore",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Una scheda per posizione della ricezione che precede l’alzata (5, 6, 1 o altra posizione). In alto: qualità della ricezione della squadra in quella posizione. Sul campo: qualità dell’alzata verso ogni posizione d’attacco, al suo posto reale; verde sopra la media del palleggiatore, rosso sotto. Le posizioni 5 e 6 compaiono solo con abbastanza alzate verso di esse.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficacia degli attacchi del giocatore in ogni posizione (+ = 2, = = 1, − = 0), rispetto alla media della squadra nella stessa posizione: verde sopra, rosso sotto. In piccolo: quota di attacchi vincenti (punto) e di errori."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficacia degli attacchi del giocatore in ogni posizione (+ = 2, = = 1, − = 0), rispetto alla media della squadra nella stessa posizione: verde sopra, rosso sotto. In piccolo: quota di attacchi vincenti (punto) e di errori.",
+  "Vue d'ensemble": "Panoramica",
+  "Fiche complète": "Scheda completa",
+  "Transition (après défense)": "Transizione (dopo la difesa)",
+  "Qualité défense": "Qualità della difesa",
+  "Pas de détail par poste.": "Nessun dettaglio per posizione.",
+  "Aucun": "Nessuno",
+  "archivé": "archiviato",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Un attacco senza alzata registrata conta nel numero di alzate, non nella percentuale."
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -4668,7 +4692,15 @@ const I18N = {
   "kill": "Punkt",
   "faute": "Fehler",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Eine Karte pro Position der Annahme vor dem Zuspiel (5, 6, 1 oder andere Position). Oben: Annahmequalität der Mannschaft auf dieser Position. Auf dem Feld: Zuspielqualität zu jeder Angriffsposition, an ihrem echten Platz; grün über dem Durchschnitt des Zuspielers, rot darunter. Die Positionen 5 und 6 erscheinen nur bei genug Zuspielen dorthin.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Effizienz der Angriffe des Spielers auf jeder Position (+ = 2, = = 1, − = 0), verglichen mit dem Mannschaftsdurchschnitt auf derselben Position: grün darüber, rot darunter. Klein: Anteil der Punkte (Kill) und der Fehler."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Effizienz der Angriffe des Spielers auf jeder Position (+ = 2, = = 1, − = 0), verglichen mit dem Mannschaftsdurchschnitt auf derselben Position: grün darüber, rot darunter. Klein: Anteil der Punkte (Kill) und der Fehler.",
+  "Vue d'ensemble": "Überblick",
+  "Fiche complète": "Vollständiges Profil",
+  "Transition (après défense)": "Transition (nach Abwehr)",
+  "Qualité défense": "Abwehrqualität",
+  "Pas de détail par poste.": "Keine Aufschlüsselung nach Position.",
+  "Aucun": "Keiner",
+  "archivé": "archiviert",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Ein Angriff ohne erfasstes Zuspiel zählt zur Anzahl der Zuspiele, nicht zum Prozentsatz."
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -5818,7 +5850,15 @@ const I18N = {
   "kill": "punkt",
   "faute": "błąd",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Jedna karta na pozycję przyjęcia przed wystawą (5, 6, 1 lub inna pozycja). U góry: jakość przyjęcia drużyny na tej pozycji. Na boisku: jakość wystawy do każdej pozycji ataku, w jej rzeczywistym miejscu; zielony powyżej średniej rozgrywającego, czerwony poniżej. Pozycje 5 i 6 pojawiają się tylko przy wystarczającej liczbie wystaw.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Skuteczność ataków zawodnika na każdej pozycji (+ = 2, = = 1, − = 0) w porównaniu ze średnią drużyny na tej samej pozycji: zielony powyżej, czerwony poniżej. Drobnym drukiem: odsetek ataków punktowych i błędów."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Skuteczność ataków zawodnika na każdej pozycji (+ = 2, = = 1, − = 0) w porównaniu ze średnią drużyny na tej samej pozycji: zielony powyżej, czerwony poniżej. Drobnym drukiem: odsetek ataków punktowych i błędów.",
+  "Vue d'ensemble": "Przegląd",
+  "Fiche complète": "Pełna karta",
+  "Transition (après défense)": "Kontra (po obronie)",
+  "Qualité défense": "Jakość obrony",
+  "Pas de détail par poste.": "Brak podziału na pozycje.",
+  "Aucun": "Brak",
+  "archivé": "zarchiwizowany",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Atak bez zapisanego rozegrania liczy się do liczby rozegrań, ale nie do procentu."
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -6968,7 +7008,15 @@ const I18N = {
   "kill": "ponto",
   "faute": "erro",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Um cartão por posição da receção que antecede o levantamento (5, 6, 1 ou outra posição). Em cima: qualidade da receção da equipa nessa posição. No campo: qualidade do levantamento para cada posição de ataque, no seu lugar real; verde acima da média do levantador, vermelho abaixo. As posições 5 e 6 só aparecem com levantamentos suficientes.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Eficácia dos ataques do jogador em cada posição (+ = 2, = = 1, − = 0), comparada à média da equipa na mesma posição: verde acima, vermelho abaixo. Em pequeno: percentagem de ataques ganhos (ponto) e de erros."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Eficácia dos ataques do jogador em cada posição (+ = 2, = = 1, − = 0), comparada à média da equipa na mesma posição: verde acima, vermelho abaixo. Em pequeno: percentagem de ataques ganhos (ponto) e de erros.",
+  "Vue d'ensemble": "Visão geral",
+  "Fiche complète": "Ficha completa",
+  "Transition (après défense)": "Transição (após defesa)",
+  "Qualité défense": "Qualidade da defesa",
+  "Pas de détail par poste.": "Sem detalhe por posição.",
+  "Aucun": "Nenhum",
+  "archivé": "arquivado",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Um ataque sem levantamento registado conta no número de levantamentos, não na percentagem."
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -8118,7 +8166,15 @@ const I18N = {
   "kill": "sayı",
   "faute": "hata",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Pastan önceki karşılamanın her bölgesi için bir kart (5, 6, 1 veya başka bölge). Üstte: takımın o bölgedeki karşılama kalitesi. Sahada: her hücum bölgesine pas kalitesi, gerçek yerinde; pasörün ortalamasının üstünde yeşil, altında kırmızı. 5 ve 6 numaralı bölgeler yalnızca yeterli pas varsa görünür.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Oyuncunun her bölgedeki hücum etkinliği (+ = 2, = = 1, − = 0), aynı bölgedeki takım ortalamasıyla karşılaştırmalı: üstünde yeşil, altında kırmızı. Küçük yazıyla: sayı getiren hücum ve hata oranı."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Oyuncunun her bölgedeki hücum etkinliği (+ = 2, = = 1, − = 0), aynı bölgedeki takım ortalamasıyla karşılaştırmalı: üstünde yeşil, altında kırmızı. Küçük yazıyla: sayı getiren hücum ve hata oranı.",
+  "Vue d'ensemble": "Genel bakış",
+  "Fiche complète": "Tam profil",
+  "Transition (après défense)": "Geçiş (savunmadan sonra)",
+  "Qualité défense": "Savunma kalitesi",
+  "Pas de détail par poste.": "Pozisyona göre ayrıntı yok.",
+  "Aucun": "Yok",
+  "archivé": "arşivlenmiş",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Pas kaydı olmayan bir hücum pas sayısına dahil edilir, yüzdeye dahil edilmez."
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -9268,7 +9324,15 @@ const I18N = {
   "kill": "決定",
   "faute": "ミス",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "トスの前のレセプション位置ごとに1枚のカード（5、6、1、その他）。上：その位置でのチームのレセプションの質。コート上：各アタック位置へのトスの質を実際の位置に表示。セッター平均より上は緑、下は赤。ポジション5と6は十分なトスがある場合のみ表示されます。",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "各ポジションでの選手のアタック効果率（+ = 2、= = 1、− = 0）を、同じポジションのチーム平均と比較：上は緑、下は赤。小さな文字：決定率とミス率。"
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "各ポジションでの選手のアタック効果率（+ = 2、= = 1、− = 0）を、同じポジションのチーム平均と比較：上は緑、下は赤。小さな文字：決定率とミス率。",
+  "Vue d'ensemble": "概要",
+  "Fiche complète": "詳細プロフィール",
+  "Transition (après défense)": "トランジション（ディグ後）",
+  "Qualité défense": "ディグの質",
+  "Pas de détail par poste.": "ポジション別の内訳はありません。",
+  "Aucun": "なし",
+  "archivé": "アーカイブ済み",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "トスの記録がない攻撃は、トス数には含まれますが、割合には含まれません。"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -10418,7 +10482,15 @@ const I18N = {
   "kill": "得分",
   "faute": "失误",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "每个传球前接发球位置一张卡片（5、6、1 号位或其他）。上方：全队在该位置的接发球质量。场地上：传向各进攻位置的传球质量，显示在实际位置；高于二传平均为绿色，低于为红色。5 号位和 6 号位只有在传球足够时才显示。",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "球员在各位置的进攻效率（+ = 2，= = 1，− = 0），与全队同一位置平均值对比：高于为绿色，低于为红色。小字：得分率和失误率。"
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "球员在各位置的进攻效率（+ = 2，= = 1，− = 0），与全队同一位置平均值对比：高于为绿色，低于为红色。小字：得分率和失误率。",
+  "Vue d'ensemble": "概览",
+  "Fiche complète": "完整资料",
+  "Transition (après défense)": "转换进攻（防守后）",
+  "Qualité défense": "防守质量",
+  "Pas de détail par poste.": "无按位置细分。",
+  "Aucun": "无",
+  "archivé": "已归档",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "未记录二传的进攻计入传球次数，但不计入百分比。"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -11568,7 +11640,15 @@ const I18N = {
   "kill": "punt",
   "faute": "fout",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Eén kaart per positie van de pass vóór de set (5, 6, 1 of een andere positie). Bovenaan: passkwaliteit van het team op die positie. Op het veld: setkwaliteit naar elke aanvalspositie, op de echte plaats; groen boven het gemiddelde van de spelverdeler, rood eronder. Posities 5 en 6 verschijnen alleen bij genoeg sets ernaartoe.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficiëntie van de aanvallen van de speler op elke positie (+ = 2, = = 1, − = 0), vergeleken met het teamgemiddelde op dezelfde positie: groen erboven, rood eronder. Klein: aandeel scorende aanvallen (punt) en fouten."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efficiëntie van de aanvallen van de speler op elke positie (+ = 2, = = 1, − = 0), vergeleken met het teamgemiddelde op dezelfde positie: groen erboven, rood eronder. Klein: aandeel scorende aanvallen (punt) en fouten.",
+  "Vue d'ensemble": "Overzicht",
+  "Fiche complète": "Volledig profiel",
+  "Transition (après défense)": "Transitie (na verdediging)",
+  "Qualité défense": "Verdedigingskwaliteit",
+  "Pas de détail par poste.": "Geen uitsplitsing per positie.",
+  "Aucun": "Geen",
+  "archivé": "gearchiveerd",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Een aanval zonder genoteerde set telt mee in het aantal sets, niet in het percentage."
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -12718,7 +12798,15 @@ const I18N = {
   "kill": "poen",
   "faute": "greška",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Jedna kartica po poziciji prijema pre dizanja (5, 6, 1 ili druga pozicija). Gore: kvalitet prijema ekipe na toj poziciji. Na terenu: kvalitet dizanja ka svakoj poziciji napada, na njenom stvarnom mestu; zeleno iznad proseka tehničara, crveno ispod. Pozicije 5 i 6 se prikazuju samo uz dovoljno dizanja.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efikasnost napada igrača na svakoj poziciji (+ = 2, = = 1, − = 0), u poređenju s prosekom ekipe na istoj poziciji: zeleno iznad, crveno ispod. Sitnije: udeo poena iz napada i grešaka."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efikasnost napada igrača na svakoj poziciji (+ = 2, = = 1, − = 0), u poređenju s prosekom ekipe na istoj poziciji: zeleno iznad, crveno ispod. Sitnije: udeo poena iz napada i grešaka.",
+  "Vue d'ensemble": "Pregled",
+  "Fiche complète": "Kompletan profil",
+  "Transition (après défense)": "Tranzicija (posle odbrane)",
+  "Qualité défense": "Kvalitet odbrane",
+  "Pas de détail par poste.": "Nema podele po pozicijama.",
+  "Aucun": "Nijedan",
+  "archivé": "arhiviran",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Napad bez zabeleženog dizanja ulazi u broj dizanja, ali ne i u procenat."
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -13868,7 +13956,15 @@ const I18N = {
   "kill": "точка",
   "faute": "грешка",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "По една карта за всяка зона на посрещането преди подаването (5, 6, 1 или друга зона). Горе: качество на посрещането на отбора в тази зона. На игрището: качество на подаването към всяка зона на атака, на истинското ѝ място; зелено над средното на разпределителя, червено под него. Зони 5 и 6 се показват само при достатъчно подавания.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Ефективност на атаките на играча във всяка зона (+ = 2, = = 1, − = 0) спрямо средното на отбора в същата зона: зелено над, червено под. С дребен шрифт: дял на печелившите атаки и на грешките."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Ефективност на атаките на играча във всяка зона (+ = 2, = = 1, − = 0) спрямо средното на отбора в същата зона: зелено над, червено под. С дребен шрифт: дял на печелившите атаки и на грешките.",
+  "Vue d'ensemble": "Общ преглед",
+  "Fiche complète": "Пълен профил",
+  "Transition (après défense)": "Преход (след защита)",
+  "Qualité défense": "Качество на защитата",
+  "Pas de détail par poste.": "Няма разбивка по позиции.",
+  "Aucun": "Няма",
+  "archivé": "архивиран",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Атака без записано подаване се брои в броя подавания, но не и в процента."
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -15018,7 +15114,15 @@ const I18N = {
   "kill": "točka",
   "faute": "napaka",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Ena kartica za vsak položaj sprejema pred podajo (5, 6, 1 ali drug položaj). Zgoraj: kakovost sprejema ekipe na tem položaju. Na igrišču: kakovost podaje proti vsakemu položaju napada, na njegovem pravem mestu; zeleno nad povprečjem podajalca, rdeče pod njim. Položaja 5 in 6 se prikažeta le ob dovolj podajah.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Učinkovitost napadov igralca na vsakem položaju (+ = 2, = = 1, − = 0) v primerjavi s povprečjem ekipe na istem položaju: zeleno nad, rdeče pod. Drobno: delež dobljenih napadov in napak."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Učinkovitost napadov igralca na vsakem položaju (+ = 2, = = 1, − = 0) v primerjavi s povprečjem ekipe na istem položaju: zeleno nad, rdeče pod. Drobno: delež dobljenih napadov in napak.",
+  "Vue d'ensemble": "Pregled",
+  "Fiche complète": "Celoten profil",
+  "Transition (après défense)": "Tranzicija (po obrambi)",
+  "Qualité défense": "Kakovost obrambe",
+  "Pas de détail par poste.": "Ni razčlenitve po položajih.",
+  "Aucun": "Noben",
+  "archivé": "arhiviran",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Napad brez zabeležene podaje šteje v število podaj, ne pa v odstotek."
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -16168,7 +16272,15 @@ const I18N = {
   "kill": "очко",
   "faute": "помилка",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Одна картка для кожної зони прийому перед передачею (5, 6, 1 або інша зона). Угорі: якість прийому команди в цій зоні. На майданчику: якість передачі в кожну зону атаки, на її справжньому місці; зелений вище середнього зв’язуючого, червоний нижче. Зони 5 і 6 з’являються лише за достатньої кількості передач.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Ефективність атак гравця в кожній зоні (+ = 2, = = 1, − = 0) порівняно із середнім команди в тій самій зоні: зелений вище, червоний нижче. Дрібно: частка результативних атак і помилок."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Ефективність атак гравця в кожній зоні (+ = 2, = = 1, − = 0) порівняно із середнім команди в тій самій зоні: зелений вище, червоний нижче. Дрібно: частка результативних атак і помилок.",
+  "Vue d'ensemble": "Огляд",
+  "Fiche complète": "Повний профіль",
+  "Transition (après défense)": "Перехід (після захисту)",
+  "Qualité défense": "Якість захисту",
+  "Pas de détail par poste.": "Немає розподілу за позиціями.",
+  "Aucun": "Немає",
+  "archivé": "в архіві",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Атака без записаної передачі враховується в кількості передач, але не у відсотку."
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -17318,7 +17430,15 @@ const I18N = {
   "kill": "bod",
   "faute": "chyba",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Jedna karta pro každou pozici příjmu před nahrávkou (5, 6, 1 nebo jiná pozice). Nahoře: kvalita příjmu týmu na této pozici. Na hřišti: kvalita nahrávky na každou pozici útoku, na jejím skutečném místě; zeleně nad průměrem nahrávače, červeně pod ním. Pozice 5 a 6 se zobrazí jen při dostatku nahrávek.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Účinnost útoků hráče na každé pozici (+ = 2, = = 1, − = 0) ve srovnání s průměrem týmu na stejné pozici: zeleně nad, červeně pod. Drobně: podíl úspěšných útoků a chyb."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Účinnost útoků hráče na každé pozici (+ = 2, = = 1, − = 0) ve srovnání s průměrem týmu na stejné pozici: zeleně nad, červeně pod. Drobně: podíl úspěšných útoků a chyb.",
+  "Vue d'ensemble": "Přehled",
+  "Fiche complète": "Úplný profil",
+  "Transition (après défense)": "Přechod (po obraně)",
+  "Qualité défense": "Kvalita obrany",
+  "Pas de détail par poste.": "Bez rozpisu podle pozic.",
+  "Aucun": "Žádný",
+  "archivé": "archivovaný",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Útok bez zapsané nahrávky se počítá do počtu nahrávek, ne do procenta."
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -18468,7 +18588,15 @@ const I18N = {
   "kill": "ได้แต้ม",
   "faute": "เสีย",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "หนึ่งการ์ดต่อหนึ่งตำแหน่งรับลูกก่อนการเซต (5, 6, 1 หรือตำแหน่งอื่น) ด้านบน: คุณภาพการรับลูกของทีมในตำแหน่งนั้น บนสนาม: คุณภาพการเซตไปยังแต่ละตำแหน่งตบ ณ ตำแหน่งจริง สีเขียวสูงกว่าค่าเฉลี่ยของตัวเซต สีแดงต่ำกว่า ตำแหน่ง 5 และ 6 จะแสดงเมื่อมีการเซตไปพอเท่านั้น",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "ประสิทธิภาพการตบของผู้เล่นในแต่ละตำแหน่ง (+ = 2, = = 1, − = 0) เทียบกับค่าเฉลี่ยของทีมในตำแหน่งเดียวกัน: สีเขียวสูงกว่า สีแดงต่ำกว่า ตัวเล็ก: สัดส่วนการตบได้แต้มและการเสีย"
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "ประสิทธิภาพการตบของผู้เล่นในแต่ละตำแหน่ง (+ = 2, = = 1, − = 0) เทียบกับค่าเฉลี่ยของทีมในตำแหน่งเดียวกัน: สีเขียวสูงกว่า สีแดงต่ำกว่า ตัวเล็ก: สัดส่วนการตบได้แต้มและการเสีย",
+  "Vue d'ensemble": "ภาพรวม",
+  "Fiche complète": "โปรไฟล์ฉบับเต็ม",
+  "Transition (après défense)": "ทรานซิชัน (หลังการรับลูกตบ)",
+  "Qualité défense": "คุณภาพการรับลูกตบ",
+  "Pas de détail par poste.": "ไม่มีรายละเอียดตามตำแหน่ง",
+  "Aucun": "ไม่มี",
+  "archivé": "เก็บถาวรแล้ว",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "การตบที่ไม่ได้บันทึกการเซตจะนับในจำนวนการเซต แต่ไม่นับในเปอร์เซ็นต์"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -19618,7 +19746,15 @@ const I18N = {
   "kill": "득점",
   "faute": "범실",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "토스 직전 리시브 위치마다 카드 1장(5, 6, 1 또는 기타 위치). 위: 해당 위치의 팀 리시브 품질. 코트: 각 공격 위치로 가는 토스 품질을 실제 자리에 표시하며, 세터 평균보다 높으면 초록, 낮으면 빨강. 5번과 6번 위치는 토스가 충분할 때만 표시됩니다.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "각 위치에서 선수의 공격 효율(+ = 2, = = 1, − = 0)을 같은 위치의 팀 평균과 비교: 높으면 초록, 낮으면 빨강. 작은 글씨: 득점 공격과 범실 비율."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "각 위치에서 선수의 공격 효율(+ = 2, = = 1, − = 0)을 같은 위치의 팀 평균과 비교: 높으면 초록, 낮으면 빨강. 작은 글씨: 득점 공격과 범실 비율.",
+  "Vue d'ensemble": "개요",
+  "Fiche complète": "전체 프로필",
+  "Transition (après défense)": "트랜지션(디그 후)",
+  "Qualité défense": "디그 품질",
+  "Pas de détail par poste.": "포지션별 세부 정보가 없습니다.",
+  "Aucun": "없음",
+  "archivé": "보관됨",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "토스 기록이 없는 공격은 토스 수에는 포함되지만 비율에는 포함되지 않습니다."
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -20768,7 +20904,15 @@ const I18N = {
   "kill": "puntos",
   "faute": "mali",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Isang card bawat puwesto ng reception bago ang set (5, 6, 1, o ibang puwesto). Sa itaas: kalidad ng reception ng team sa puwestong iyon. Sa court: kalidad ng set papunta sa bawat puwesto ng atake, sa tunay nitong lugar; berde kapag lampas sa average ng setter, pula kapag kulang. Lumalabas lang ang puwesto 5 at 6 kapag sapat ang mga set.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Bisa ng mga atake ng player sa bawat puwesto (+ = 2, = = 1, − = 0), kumpara sa average ng team sa parehong puwesto: berde kapag lampas, pula kapag kulang. Sa maliit na titik: bahagi ng atakeng nakapuntos at ng mga mali."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Bisa ng mga atake ng player sa bawat puwesto (+ = 2, = = 1, − = 0), kumpara sa average ng team sa parehong puwesto: berde kapag lampas, pula kapag kulang. Sa maliit na titik: bahagi ng atakeng nakapuntos at ng mga mali.",
+  "Vue d'ensemble": "Pangkalahatang-tanaw",
+  "Fiche complète": "Buong profile",
+  "Transition (après défense)": "Transition (pagkatapos ng dig)",
+  "Qualité défense": "Kalidad ng dig",
+  "Pas de détail par poste.": "Walang detalye ayon sa posisyon.",
+  "Aucun": "Wala",
+  "archivé": "naka-archive",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Ang atake na walang naitalang set ay binibilang sa dami ng set, hindi sa porsiyento."
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -21918,7 +22062,15 @@ const I18N = {
   "kill": "poin",
   "faute": "kesalahan",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Satu kartu per posisi penerimaan sebelum umpan (5, 6, 1, atau posisi lain). Atas: kualitas penerimaan tim di posisi itu. Di lapangan: kualitas umpan ke setiap posisi serangan, di tempat sebenarnya; hijau di atas rata-rata tosser, merah di bawahnya. Posisi 5 dan 6 hanya muncul jika umpannya cukup.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efektivitas serangan pemain di setiap posisi (+ = 2, = = 1, − = 0), dibandingkan rata-rata tim di posisi yang sama: hijau di atas, merah di bawah. Huruf kecil: persentase serangan poin dan kesalahan."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Efektivitas serangan pemain di setiap posisi (+ = 2, = = 1, − = 0), dibandingkan rata-rata tim di posisi yang sama: hijau di atas, merah di bawah. Huruf kecil: persentase serangan poin dan kesalahan.",
+  "Vue d'ensemble": "Ringkasan",
+  "Fiche complète": "Profil lengkap",
+  "Transition (après défense)": "Transisi (setelah bertahan)",
+  "Qualité défense": "Kualitas bertahan",
+  "Pas de détail par poste.": "Tidak ada rincian per posisi.",
+  "Aucun": "Tidak ada",
+  "archivé": "diarsipkan",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Serangan tanpa umpan yang dicatat dihitung dalam jumlah umpan, bukan dalam persentase."
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -23068,7 +23220,15 @@ const I18N = {
   "kill": "очко",
   "faute": "ошибка",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Одна карточка на каждую зону приёма перед передачей (5, 6, 1 или другая зона). Вверху: качество приёма команды в этой зоне. На площадке: качество передачи в каждую зону атаки, на её настоящем месте; зелёный выше среднего связующего, красный ниже. Зоны 5 и 6 показываются только при достаточном числе передач.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Эффективность атак игрока в каждой зоне (+ = 2, = = 1, − = 0) по сравнению со средним команды в той же зоне: зелёный выше, красный ниже. Мелко: доля результативных атак и ошибок."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Эффективность атак игрока в каждой зоне (+ = 2, = = 1, − = 0) по сравнению со средним команды в той же зоне: зелёный выше, красный ниже. Мелко: доля результативных атак и ошибок.",
+  "Vue d'ensemble": "Обзор",
+  "Fiche complète": "Полный профиль",
+  "Transition (après défense)": "Переход (после защиты)",
+  "Qualité défense": "Качество защиты",
+  "Pas de détail par poste.": "Нет разбивки по позициям.",
+  "Aucun": "Нет",
+  "archivé": "в архиве",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Атака без записанной передачи учитывается в числе передач, но не в проценте."
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -24218,7 +24378,15 @@ const I18N = {
   "kill": "نقطة",
   "faute": "خطأ",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "بطاقة لكل مركز استقبال يسبق الإعداد (5 أو 6 أو 1 أو مركز آخر). في الأعلى: جودة استقبال الفريق في ذلك المركز. على الملعب: جودة الإعداد نحو كل مركز هجوم في مكانه الحقيقي؛ أخضر فوق متوسط المعدّ وأحمر تحته. لا يظهر المركزان 5 و6 إلا عند وجود إعدادات كافية نحوهما.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "فعالية هجمات اللاعب في كل مركز (+ = 2، = = 1، − = 0) مقارنة بمتوسط الفريق في المركز نفسه: أخضر فوقه وأحمر تحته. بخط صغير: نسبة الهجمات الرابحة والأخطاء."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "فعالية هجمات اللاعب في كل مركز (+ = 2، = = 1، − = 0) مقارنة بمتوسط الفريق في المركز نفسه: أخضر فوقه وأحمر تحته. بخط صغير: نسبة الهجمات الرابحة والأخطاء.",
+  "Vue d'ensemble": "نظرة عامة",
+  "Fiche complète": "الملف الكامل",
+  "Transition (après défense)": "التحول (بعد الدفاع)",
+  "Qualité défense": "جودة الدفاع",
+  "Pas de détail par poste.": "لا يوجد تفصيل حسب المركز.",
+  "Aucun": "لا أحد",
+  "archivé": "مؤرشف",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "يُحتسب الهجوم دون تمريرة مسجلة في عدد التمريرات، لا في النسبة المئوية."
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -25368,7 +25536,15 @@ const I18N = {
   "kill": "ghi điểm",
   "faute": "lỗi",
   "Une carte par poste de la réception qui précède la passe (5, 6, 1, ou autre poste). En haut : qualité des réceptions de l'équipe à ce poste. Sur le terrain : qualité de la passe vers chaque poste d'attaque, à sa place réelle ; vert au-dessus de la moyenne du passeur, rouge en dessous. Les postes 5 et 6 n'apparaissent que s'il y a assez de passes vers eux.": "Mỗi vị trí đỡ bước một trước đường chuyền có một thẻ (5, 6, 1 hoặc vị trí khác). Phía trên: chất lượng đỡ bước một của đội ở vị trí đó. Trên sân: chất lượng chuyền tới từng vị trí tấn công, đúng chỗ thật; xanh khi trên mức trung bình của chuyền hai, đỏ khi dưới. Vị trí 5 và 6 chỉ hiện khi có đủ đường chuyền tới đó.",
-  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Hiệu quả tấn công của cầu thủ ở từng vị trí (+ = 2, = = 1, − = 0), so với mức trung bình của đội ở cùng vị trí: xanh khi cao hơn, đỏ khi thấp hơn. Chữ nhỏ: tỉ lệ tấn công ghi điểm và lỗi."
+  "Efficacité des attaques du joueur à chaque poste (+ = 2, = = 1, − = 0), comparée à la moyenne de l'équipe au même poste : vert au-dessus, rouge en dessous. En petit : part des attaques gagnantes (kill) et des fautes.": "Hiệu quả tấn công của cầu thủ ở từng vị trí (+ = 2, = = 1, − = 0), so với mức trung bình của đội ở cùng vị trí: xanh khi cao hơn, đỏ khi thấp hơn. Chữ nhỏ: tỉ lệ tấn công ghi điểm và lỗi.",
+  "Vue d'ensemble": "Tổng quan",
+  "Fiche complète": "Hồ sơ đầy đủ",
+  "Transition (après défense)": "Chuyển tiếp (sau phòng thủ)",
+  "Qualité défense": "Chất lượng phòng thủ",
+  "Pas de détail par poste.": "Không có chi tiết theo vị trí.",
+  "Aucun": "Không",
+  "archivé": "đã lưu trữ",
+  "Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.": "Pha tấn công không ghi chuyền hai được tính vào số đường chuyền, không tính vào tỉ lệ phần trăm."
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue

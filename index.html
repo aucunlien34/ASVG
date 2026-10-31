@@ -685,6 +685,14 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 .pbest{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.pbest>div{border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.35}.pbest .good{background:rgba(35,146,74,.12);color:var(--pos)}.pbest .bad{background:rgba(215,38,61,.1);color:var(--neg)}
 @media (max-width:560px){.pbest{grid-template-columns:1fr}}
 .sbars{display:flex;flex-direction:column;gap:6px;margin:6px 0 8px}
+.pcats{margin:12px 0 4px}.pcat{border:1.5px solid var(--line);border-radius:12px;margin:8px 0;overflow:hidden;background:var(--surface)}
+.pcb{all:unset;box-sizing:border-box;width:100%;min-height:48px;display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;font:700 18px 'Barlow Condensed',sans-serif;letter-spacing:.02em;color:var(--ink)}
+.pcb:focus-visible{outline:3px solid #F2BE22;outline-offset:-3px}.pcl{flex:1}.pcat.open>.pcb{background:var(--surface2)}
+.pcb .ch{color:var(--muted);font-size:22px;transition:transform .15s}.pcat.open>.pcb .ch{transform:rotate(90deg)}
+.pill{min-width:62px;text-align:center;border-radius:8px;padding:3px 8px;font-size:16px;color:#fff}.pill.g{background:#23924A}.pill.y{background:#F2BE22;color:#14213d}.pill.r{background:#D7263D}.pill.n{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.pcbody{padding:8px 12px 14px}.pcbody .vad,.pcbody .stdl{margin-top:0;border-top:0;padding-top:0}.pcbody .axes{border:0;padding:0;margin:0}.pcbody .hmsec{margin-top:10px}
+.btn.pfbtn{display:block;width:100%;margin-top:10px;font-weight:700}
+.pfw .hbars .sbar{grid-template-columns:90px 1fr 120px}.hbars .zk{display:block;font-weight:400;font-size:10px;color:var(--muted)}
 /* Heatmaps (V176) : mini-terrains, cases au poste réel */
 .hmsec{margin:14px 0 6px;display:flex;flex-direction:column;gap:8px}.hmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.hmgrid.one{grid-template-columns:minmax(0,420px)}
 .hmc{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -742,7 +750,7 @@ table.fxm td.m,table.fxm td.p,table.fxm th.m,table.fxm th.p{text-align:center;wi
 .pickc.p4s.o0 .bchip.pk.s4,.pickc.p4s.o2 .bchip.pk.s4{min-height:clamp(55px,8.5vh,110px)}
 .pickc.p4s.o0 .bchip.pk:not(.s4),.pickc.p4s.o2 .bchip.pk:not(.s4){min-height:clamp(110px,17vh,220px)}
 .axes{margin:10px 0;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px}.axes ul{margin:6px 0 0;padding-left:20px}.axes li{margin:3px 0}.axes .neg{color:var(--neg);font-weight:800}
-.lbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 6px}.lbar .lrot{flex:1 1 auto}.lbar .lrot button{flex:1;min-width:0}
+.seg .sglab{align-self:center;padding:0 8px;font-size:12px;color:var(--muted);font-weight:700}.lbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 6px}.lbar .lrot{flex:1 1 auto}.lbar .lrot button{flex:1;min-width:0}
 .lwrap{max-width:900px;padding:30px 5% 54px}.lcourt .ltok{touch-action:none;cursor:grab;z-index:2}.lcourt .ltok.lplay{cursor:pointer}.lcourt .ltok.drag{cursor:grabbing;z-index:3;transition:none}.lcourt .ltok.drag .disc{box-shadow:0 6px 14px rgba(0,0,0,.35)}
 /* Tableau (V175) : phases, ballon de défense sur le filet, plein écran avec menu rétractable */
 .lbar .lphs{display:flex;flex:1 1 220px}.lbar .lphs button{flex:1;min-width:0}.lbar .ldef{display:flex;flex:1 1 100%}.lbar .ldef button{flex:1;min-width:0}
@@ -786,7 +794,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V176';
+const APP_VERSION='V177';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1256,7 +1264,8 @@ function replay0(m){
       if(ev.st&&ev.st.some(x=>x[0]==='att'||x[0]==='pas')){
         const q42=is42(S.zones,S.roles),dm=q42?null:layoutPlay(eff,pr),slot=pid=>dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);
         const sid0=setterOn(S)||'_eq';
-        let ft=0,fo=null;const pas=[];ev.st.forEach(x=>{if(x[0]==='rec'||x[0]==='def'){ft=x[1];fo=x[0]==='rec'&&x[2]?([5,6,1].includes(rz(x[2]))?rz(x[2]):'o'):null;}else if(x[0]==='pas'){pas.push([x[0],x[1],x[2],ft,fo]);ft=0;fo=null;}});
+        // origine de chaque attaque (V177) : poste de la réception (5, 6, 1, o = autre ou réceptionneur non noté), t = transition (après une défense)
+        let ft=0,fo=null;const pas=[],aor=[];ev.st.forEach(x=>{if(x[0]==='rec'||x[0]==='def'){ft=x[1];fo=x[0]==='def'?'t':x[2]&&[5,6,1].includes(rz(x[2]))?rz(x[2]):'o';}else if(x[0]==='pas'){pas.push([x[0],x[1],x[2],ft,fo]);ft=0;}else if(x[0]==='att'&&x[2]){aor.push(fo);fo=null;}});
         const atts=ev.st.filter(x=>x[0]==='att'&&x[2]);
         const add=(sid,z,q,f,ar)=>{const P=S.pst[si]||(S.pst[si]={}),o=P[sid]||(P[sid]={}),c=o[z]||(o[z]={n:0,s:0,M:0,N:0,P:0,w:0,as:0,an:0});c.n++;c.s+=q+1;if(q<0)c.M++;else if(q>0)c.P++;else c.N++;
           if(ar!=null){c.as=(c.as||0)+ar+1;c.an=(c.an||0)+1;}};
@@ -1264,7 +1273,8 @@ function replay0(m){
           // libéro : la passe compte, mais ni la zone ni le circuit (zones et circuits favorables / défavorables)
           if(isL){add(sid,'x',pp?pp[1]:0,pp?pp[3]:0);return;}
           add(sid,[1,2,3,4,5,6].includes(z)?z:'x',pp?pp[1]:0,pp?pp[3]:0,a[1]);
-          if(pp&&pp[4]&&[1,2,3,4,5,6].includes(z)){const O=S.pso[si]||(S.pso[si]={}),o3=(O[sid]||(O[sid]={}))[pp[4]]||(O[sid][pp[4]]={}),c3=o3[z]||(o3[z]={n:0,s:0});c3.n++;c3.s+=pp[1]+1;}
+          // n, s : passes notées (qualité) ; a : toutes les attaques (une attaque sans passe notée compte dans le volume seulement)
+          if(aor[i]&&[1,2,3,4,5,6].includes(z)){const O=S.pso[si]||(S.pso[si]={}),o3=(O[sid]||(O[sid]={}))[aor[i]]||(O[sid][aor[i]]={}),c3=o3[z]||(o3[z]={n:0,s:0,a:0});c3.a++;if(pp){c3.n++;c3.s+=pp[1]+1;}}
           const PP=S.psp[si]||(S.psp[si]={}),o2=PP[sid]||(PP[sid]={}),c2=o2[a[2]]||(o2[a[2]]={n:0,as:0});c2.n++;c2.as+=a[1]+1;});
         pas.slice(atts.length).forEach(pp=>add(pp[2]||sid0,'x',pp[1],pp[3]));
       }
@@ -1981,6 +1991,9 @@ function render(){
 // Depuis un temps mort (V175) : ui.lrnM = copie du match en cours {roster, zones, roles, lib, f4, libPos, base}, jamais réécrite dans le match.
 // Postes déduits de la place par rapport à la passe (SLOT) ; positions déplaçables au doigt (ui.lrnPos, effacées au changement de vue).
 function lrnTeam(){return activeTeam()||{roster:[]};}
+const lrnLibs=()=>lrnRoster().filter(p=>(p.postes||[]).includes('L'));
+function lrnLib(){if(ui.lrnM)return ui.lrnM.lib||null;const b=lrnBase(),L=store.learn;if(L.lib===0)return null;
+  const id=L.lib&&lrnP(L.lib)?L.lib:((lrnLibs().find(p=>!b.includes(p.id))||{}).id||null);return id&&!b.includes(id)?id:null;}
 function lrnRoster(){return ui.lrnM?ui.lrnM.roster:(lrnTeam().roster||[]);}
 function lrnP(id){return lrnRoster().find(p=>p.id===id)||null;}
 function lrnName(p){return p?(title(p.pre||'')||String(p.nom||'')).trim()||('N° '+p.n):'?';}
@@ -2006,14 +2019,20 @@ function base2(x){const c=v=>Math.max(8,Math.min(92,v));
   if(x<=38)return {4:[c(x-7),11],3:[c(x+11),11],2:[80,38],5:[12,60],1:[88,58],6:[62,88]};
   return {3:[c(x),11],4:[16,34],2:[84,34],5:[16,64],1:[84,64],6:[50,88]};}
 // Positions de la vue : srv = G (service), A (réception) ou D (défense : ui.lrnDef = pj poste de jeu, b1, b2) ; zs = joueur par place, k = poste de jeu
-function lrnCoords(r,srv){const M=ui.lrnM,f0=F4,l0=LIBPOS;setF4(M&&M.f4?Object.assign({},M.f4):null);if(M)LIBPOS=M.libPos||5;
-  try{const z0=lrnZones(r),R=lrnRoles(z0,r),lib=M?M.lib:null,{eff,pr}=effective(z0,R,lib,srv==='G'?'G':'A'),at={},to={},k={},PP=F4?POS4:POS,sv=F4?srvOf(z0,eff):eff[1];
+function lrnCoords(r,srv){const M=ui.lrnM,f0=F4,l0=LIBPOS;setF4(M&&M.f4?Object.assign({},M.f4):null);LIBPOS=M?M.libPos||5:(store.cur&&store.cur.libPos)||5;
+  try{const z0=lrnZones(r),R=lrnRoles(z0,r),lib=M?M.lib:lrnLib(),{eff,pr}=effective(z0,R,lib,srv==='G'?'G':'A'),at={},to={},k={},PP=F4?POS4:POS,sv=F4?srvOf(z0,eff):eff[1];
     const RL=Object.assign({},R,pr);if(lib&&!RL[lib])RL[lib]='L';
     if(srv==='A')Object.assign(at,playCoords(z0,R,lib,'A').out);
     else for(let z=1;z<=6;z++){const id=eff[z];if(id)at[id]=id===sv?(F4?srvXY(z0):SERVE):PP[z];}
     const map=layoutPlay(eff,pr),d=ui.lrnDef,T=F4||!d||d==='pj'?PP:d==='b1'?BASE1:base2(ui.lrnBall??80);
     for(const q in map)if(map[q]){to[map[q]]=T[q]||PP[q];k[map[q]]=q;}
     const zs=[null];for(let z=1;z<=6;z++)zs[z]=eff[z]||null;return {zs,R:RL,at,to,k,sv:srv==='G'?sv:null};}finally{setF4(f0);LIBPOS=l0;}}
+// Réception (V177) : écarte les jetons qui se chevauchent (largeur 19 %, hauteur 25 %), sans créer de faute de position
+function lrnSpread(P,zs,srv){const Q={},ids=Object.keys(P);ids.forEach(k=>Q[k]=P[k].slice());
+  for(let it=0;it<24;it++){let mv=false;for(let i=0;i<ids.length;i++)for(let j=i+1;j<ids.length;j++){const a=Q[ids[i]],b=Q[ids[j]],dx=b[0]-a[0],dy=b[1]-a[1],ox=19-Math.abs(dx),oy=25-Math.abs(dy);
+    if(ox>0&&oy>0){mv=true;if(ox/19<oy/25){const d=(dx>=0?1:-1)*ox/2;a[0]-=d;b[0]+=d;}else{const d=(dy>=0?1:-1)*oy/2;a[1]-=d;b[1]+=d;}}}
+    ids.forEach(k=>{Q[k][0]=Math.max(7,Math.min(93,Q[k][0]));Q[k][1]=Math.max(6,Math.min(100,Q[k][1]));});if(!mv)break;}
+  ids.forEach(k=>{Q[k]=[+Q[k][0].toFixed(1),+Q[k][1].toFixed(1)];});return lrnFaults(zs,Q,srv).length<=lrnFaults(zs,P,srv).length?Q:P;}
 // Fautes de position au moment du service : avant devant l'arrière correspondant, ordre gauche-droite dans chaque ligne (serveur exempté)
 function lrnFaults(zs,P,srv){const out=[],nm=z=>lrnName(lrnP(zs[z]))+' (P'+z+')',ex=z=>srv==='G'&&z===1,c=z=>P[zs[z]];
   [[4,5],[3,6],[2,1]].forEach(([a,b])=>{if(ex(b)||!c(a)||!c(b))return;if(!(c(a)[1]<c(b)[1]))out.push(tr('{A} doit être plus près du filet que {B}').replace('{A}',nm(a)).replace('{B}',nm(b)));});
@@ -2022,10 +2041,11 @@ function lrnFaults(zs,P,srv){const out=[],nm=z=>lrnName(lrnP(zs[z]))+' (P'+z+')'
 const LRN_ROT=[1,6,5,4,3,2];
 // Plein écran (ui.lrnFull) : terrain seul, menu rétractable (Service / Réception / Défense, P1 à P6, changement) ; depuis un temps mort, « Fin du temps mort » ramène au Terrain
 function learnHTML(){const M=ui.lrnM,T=lrnTeam(),RS=lrnRoster();
-  if(!M&&RS.length<6){ui.lrnFull=false;return `<div class="cmain"><div class="top"><h1>Tableau</h1></div><div class="card hint">Il faut au moins 6 joueurs dans l'effectif de l'équipe active pour afficher les placements.</div></div>`;}
+  if(!M&&RS.length<6){ui.lrnFull=false;return `<div class="cmain"><div class="top"><h1>Tableau</h1></div><div class="card teamc">${teamPickHTML('learn')}</div><div class="card hint">Il faut au moins 6 joueurs dans l'effectif de l'équipe active pour afficher les placements.</div></div>`;}
   const f=!!(M&&M.f4),r=f?1:ui.lrnRot||1,srv=ui.lrnSrv||'G',D=srv==='D';if(f||!ui.lrnDef)ui.lrnDef='pj';
   const d=ui.lrnDef,c=lrnCoords(r,srv),{zs,R:RL,at,to}=c,key=srv+r+(D?d:'');if(ui.lrnKey!==key){ui.lrnKey=key;ui.lrnPos={};}
   const P={};for(let z=1;z<=6;z++){const id=zs[z];if(id)P[id]=(ui.lrnPos||{})[id]||(D?to[id]:at[id])||at[id];}
+  if(srv==='A'&&!Object.keys(ui.lrnPos||{}).length)Object.assign(P,lrnSpread(P,zs,srv));
   const F=D||f?[]:lrnFaults(zs,P,srv),moved=Object.keys(ui.lrnPos||{}).length,bx=ui.lrnBall??80;
   let t='';
   for(let z=1;z<=6;z++){const id=zs[z];if(!id)continue;const p=lrnP(id),rl=RL[id],q=P[id];
@@ -2033,16 +2053,18 @@ function learnHTML(){const M=ui.lrnM,T=lrnTeam(),RS=lrnRoster();
   const court=`<div class="courtwrap o0 lwrap"><div class="court o0 lcourt" id="lrnCourt"><div class="net"></div><div class="attack"></div><span class="netlbl">FILET</span>${D?`<button class="lball" id="lrnBall" style="left:${bx}%" aria-label="Ballon au filet">${IC.ball}</button>`:''}${t}</div></div>`;
   const phs=`<div class="seg lphs">${[['G','Service'],['A','Réception'],['D','Défense']].map(([v,l])=>`<button class="${srv===v?'on':''}" data-act="lrnSrv" data-v="${v}">${l}</button>`).join('')}</div>`;
   const defs=D&&!f?`<div class="seg ldef">${[['pj','Poste de jeu'],['b1','Base 1'],['b2','Base 2']].map(([v,l])=>`<button class="${d===v?'on':''}" data-act="lrnDef" data-v="${v}">${l}</button>`).join('')}</div>`:'';
+  const LB=M||f?[]:lrnLibs(),li=M?null:lrnLib(),libs=LB.length?`<div class="seg llib" role="group" aria-label="${tr('Libéro')}"><span class="sglab">${tr('Libéro')}</span><button class="${li?'':'on'}" data-act="lrnLib" data-v="0">${tr('Aucun')}</button>${LB.map(p=>`<button class="${li===p.id?'on':''}" data-act="lrnLib" data-v="${p.id}">${esc(p.n)} ${esc(lrnName(p))}</button>`).join('')}</div>`:'';
   const rots=f?'':`<div class="seg lrot">${LRN_ROT.map(k=>`<button class="${r===k?'on':''}" data-act="lrnRot" data-v="${k}" aria-label="Rotation P${k}">P${k}</button>`).join('')}</div>`;
   const dn=d==='b1'?'Base 1':d==='b2'?'Base 2':'Poste de jeu',dtx=d==='b1'?"Attente après le service : contreurs à 1 m du filet, 5 et 1 à 6 m près des lignes, 6 au fond."
     :d==='b2'?"Défense sur l'attaque adverse : contre à deux du côté du ballon, l'autre avant recule à 3 m, un arrière le long de la ligne, un en diagonale, le 6 au fond.":"Chacun rejoint son poste de jeu : passe et pointe à droite, R4 à gauche, centre au milieu.";
   if(ui.lrnFull)return `<div class="lfull">${court}
     <button class="lmbtn" data-act="lrnMenu" aria-expanded="${!!ui.lrnMenu}"><span aria-hidden="true">${ui.lrnMenu?'✕':'☰'}</span><span>${srv==='G'?'Service':srv==='A'?'Réception':'Défense'}</span>${f?'':`<span>· P${r}</span>`}${D&&!f&&d!=='pj'?`<span>· ${dn}</span>`:''}</button>
-    ${ui.lrnMenu?`<div class="lmenu">${phs}${defs}${rots}<button class="btn" data-act="lrnChg">🔁 Changement</button>${moved?'<button class="btn" data-act="lrnReset">Replacer les joueurs</button>':''}
+    ${ui.lrnMenu?`<div class="lmenu">${phs}${defs}${rots}${libs}<button class="btn" data-act="lrnChg">🔁 Changement</button>${moved?'<button class="btn" data-act="lrnReset">Replacer les joueurs</button>':''}
       ${M?'<button class="btn primary" data-act="toBack">🏐 Fin du temps mort</button>':'<button class="btn" data-act="lrnFull">✕ Quitter le plein écran</button>'}</div>`:''}
     ${F.length?`<div class="lfault" role="status">⚠ ${esc(F[0])}</div>`:''}${M&&tmr?'<div id="tmr" class="lrntmr" hidden aria-live="polite"></div>':''}</div>`;
-  return `<div class="cmain lrn"><div class="top"><h1>Tableau</h1><span class="hint ctm">${esc(T.name||'')} · 5-1</span><button class="btn" data-act="lrnFull" style="margin-left:auto">⛶ Plein écran</button></div>
-    <div class="lbar">${phs}${rots}${defs}</div>
+  return `<div class="cmain lrn"><div class="top"><h1>Tableau</h1><span class="hint ctm">5-1</span><button class="btn" data-act="lrnFull" style="margin-left:auto">⛶ Plein écran</button></div>
+    ${M?'':`<div class="card teamc">${teamPickHTML('learn')}</div>`}
+    <div class="lbar">${phs}${rots}${defs}${libs}</div>
     <p class="hint xp">P1 à P6 : place de la passe. Glissez un joueur pour le déplacer.</p>${D?'<p class="hint xp">Glissez le ballon le long du filet.</p>':''}
     ${court}
     <div class="card ${F.length?'warnc':''} lres">${D?`<b>${dn}</b><p class="hint">${dtx}</p>`:F.length?`<b>Faute de position</b><ul>${F.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<b class="lok">✓ Placement réglementaire</b>`}
@@ -2118,10 +2140,10 @@ function setupHTML(m,S){
       :`<button class="btn big primary" data-act="compose" ${nonLib<need?'disabled':''}>${'Composer le '+need+' de départ'}</button>${nonLib<need?`<p class="hint" style="text-align:center">${f4?'Il faut au moins '+need+' présences.':'Il faut au moins 6 présences hors libéro.'}</p>`:''}`}</div>`;
 }
 // Temps mort : statistiques du match en cours (joueurs, zones, classements), bandeau du temps mort flottant
-function toStatsHTML(m,S){const sv=['p','z','o','r','h'].includes(ui.statView)?ui.statView:'p';if(ui.statView!==sv)ui.statView=sv;
+function toStatsHTML(m,S){const TB=svTabs(S,[['p','Joueurs'],['z','Zones'],['o','Rotations'],['r','Classements'],['h','Résumé']]),sv=TB.some(([k])=>k===ui.statView)?ui.statView:'p';if(ui.statView!==sv)ui.statView=sv;
   return `<div id="tmr" class="tofloat" hidden aria-live="polite"></div>
     <div class="top"><h1>${tmr?'Temps mort':ui.fxSet!=null?`Stats du set ${ui.fxSet+1}`:'Statistiques'}</h1><button class="btn icon" data-act="share" data-id="" aria-label="Partager">${IC.share}</button>${tmr?'<button class="btn primary" data-act="toBoard">📋 Tableau</button>':'<button class="btn primary" data-act="toBack">🏐 Retour au terrain</button>'}</div>
-    <div class="vtabs" role="tablist">${[['p','Joueurs'],['z','Zones'],['o','Rotations'],['r','Classements'],['h','Résumé']].map(([k,l])=>`<button class="${sv===k?'on':''}" role="tab" data-act="statView" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="vtabs" role="tablist">${TB.map(([k,l])=>`<button class="${sv===k?'on':''}" role="tab" data-act="statView" data-v="${k}">${l}</button>`).join('')}</div>
     <div style="margin-top:10px">${statCols(m,S)}</div>`;}
 // 4x4 : options du set (composition) et options tactiques en cours de match ; o = {r4, sz, rp, bz}, act = préfixe des actions
 function opt4HTML(m,o,ids,act,lineup){const nm=id=>`<span class="num ${rcls(P4[ids.z(id)]||'')}">${pnum(m,id)}</span>${esc(dname(m,id))}`,on=ids.list,pa=on.find(id=>ids.z(id)===3);
@@ -2468,19 +2490,9 @@ function sheetHTML(m,S){
     const pp=pById(M,r.id),lic=pp.lic||((store.roster.find(x=>x.id===r.id)||{}).lic)||'';
     const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'),true,SS,set)).join(''):'';
     return `<div class="pfw ${rcls(r.role)}"><div class="sh"><h3 style="display:flex;align-items:center;gap:10px"><span class="num ${rcls(r.role)}">${r.n}</span>${esc(r.full)} <small class="hint">${esc(ROLES[r.role]||'')} · ${esc(scope)}${lic?' · Licence '+esc(lic):''}</small></h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>
-      ${impHTML(SS,set,r)}${vaDetailHTML(r)}${stdHTML(r)}${hotHTML(r,teamTot(f))}
+      ${impHTML(SS,set,r)}
       ${isExtra(r.id)?'':`<div class="barcell" style="margin:6px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
-      ${radarSVG(me,team)}
-      ${rateBars(r,f)}
-      ${isExtra(r.id)?'':attHeatHTML(M,SS,set,r.id)}
-      ${isExtra(r.id)?'':axesHTML(r,f,SS,set)}
-      <details class="pfdet"><summary>Détail − / = / +</summary><div style="overflow-x:auto"><table class="pftab"><tr><th>Compétence</th><th>−</th><th>=</th><th>+</th><th>Actions</th><th>Efficacité</th><th>Équipe</th></tr>
-        ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
-        <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
-        ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div></details>
-      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>
-      <p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>
-      ${pc?`<h3 style="margin-top:16px">Passe</h3>${pc}`:''}</div>`;
+      ${pfCats(M,SS,set,r,f,me,team,pc,line)}</div>`;
   }
   if(ui.sheet==='method')return methodHTML(close);
   if(ui.sheet==='pro')return proSheetHTML(close);
@@ -2518,7 +2530,7 @@ function sheetHTML(m,S){
       <div class="tools" style="margin-top:10px;flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="splitGo">Créer les deux fiches</button><button class="btn big" data-act="splitBack">Revenir à la fiche</button></div>`;}
   if(ui.sheet==='merge1'&&ui.mergeQ){const q=ui.mergeQ,loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id),pn=m=>(m.ev||[]).filter(e=>e.t==='pt').length,sn=m=>(m.ev||[]).filter(e=>e.t==='pt').reduce((a,e)=>a+(e.st?e.st.length:0),0);
     return `<div class="sh"><h3>Nouveau match ?</h3>${close}</div>
-      <p>Le match importé, <b>${esc(q.imp.team||'')} – ${esc(q.imp.opp||'')}</b> du ${fmtDate(q.imp.date)}, porte le même intitulé qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil.</p>
+      <p>Le match importé, <b>${esc(q.imp.team||'')} – ${esc(q.imp.opp||'')}</b> du ${fmtDate(q.imp.date)}, ${q.by==='time'?`a été saisi en même temps qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil (${esc(loc.team||'')} – ${esc(loc.opp||'')}${matchTime(loc)?', '+matchTime(loc):''}).`:`porte le même intitulé qu'un match ${q.where==='cur'?'en cours':'archivé'} sur cet appareil.`}</p>
       <div class="mgcmp"><div><small>Sur cet appareil</small><b>${pn(loc)} points · ${sn(loc)} actions</b></div><div><small>Importé</small><b>${pn(q.imp)} points · ${sn(q.imp)} actions</b></div></div>
       <p class="hint xp">Deux saisies du même match ? La fusion les recoupe point par point et complète l'une par l'autre.</p>
       <div class="tools" style="flex-direction:column;align-items:stretch;margin-top:10px"><button class="btn big primary" data-act="mergeYes">${isPro()?'':'🔒 '}Oui : fusionner les deux saisies</button><button class="btn big" data-act="mergeNo">Non : garder les deux matchs (doublon)</button></div>`;}
@@ -2681,8 +2693,8 @@ function passAgg(S,set){const out={};(set==null?S.pst:[S.pst[set]]).forEach(P=>{
   Object.entries(o).forEach(([z,c])=>{const d=t[z]||(t[z]={n:0,s:0,M:0,N:0,P:0,w:0,as:0,an:0});['n','s','M','N','P','w','as','an'].forEach(k=>d[k]+=c[k]);});});});return out;}
 // Attaque qui suit la passe, par zone (+ = 2, = = 1, − = 0) et moyenne toutes zones
 const zAtt=c=>c&&c.an?c.as/(2*c.an):null,zAttAvg=P=>{let a=0,n=0;PPOSTS.forEach(([z])=>{if(P[z]){a+=P[z].as||0;n+=P[z].an||0;}});return n?a/(2*n):null;};
-// Passes par origine (poste de la réception) et destination (V176) : {sid: {5|6|1|o: {poste: {n, s}}}}
-function psoAdd(t,P){Object.entries(P).forEach(([sid,o])=>Object.entries(o).forEach(([q,D])=>Object.entries(D).forEach(([z,c])=>{const a=t[sid]||(t[sid]={}),b=a[q]||(a[q]={}),d=b[z]||(b[z]={n:0,s:0});d.n+=c.n;d.s+=c.s;})));return t;}
+// Passes par origine (poste de la réception, t = transition) et destination (V176, V177) : {sid: {5|6|1|o|t: {poste: {n, s, a}}}}
+function psoAdd(t,P){Object.entries(P).forEach(([sid,o])=>Object.entries(o).forEach(([q,D])=>Object.entries(D).forEach(([z,c])=>{const a=t[sid]||(t[sid]={}),b=a[q]||(a[q]={}),d=b[z]||(b[z]={n:0,s:0,a:0});d.n+=c.n;d.s+=c.s;d.a+=c.a||c.n;})));return t;}
 function psoAgg(S,set,sid){const t={};((set==null?S.pso:[S.pso&&S.pso[set]])||[]).forEach(P=>{if(P)psoAdd(t,P);});return t[sid]||{};}
 function zstAgg(S,set){const Z={att:{},rec:{},def:{}};((set==null?S.zst:[S.zst[set]])||[]).forEach(Q=>{if(!Q)return;['att','rec','def'].forEach(k=>Object.entries(Q[k]).forEach(([z,c])=>{const t=Z[k][z]||(Z[k][z]={M:0,P:0,N:0});t.M+=c.M;t.P+=c.P;t.N+=c.N||0;}));});return Z;}
 // Heatmap sur un mini-terrain (V176) : cases au poste réel (filet en haut), couleur selon l'écart à la référence (15 points = couleur pleine, gris à moins de 3 points)
@@ -2690,27 +2702,34 @@ const HXY={4:[17,21],3:[50,21],2:[83,21],5:[17,63],6:[50,63],1:[83,63]};
 function heatSty(d){const t=Math.max(-1,Math.min(1,d/0.15));if(Math.abs(t)<0.2)return 'background:var(--surface2);color:var(--ink)';const a=0.25+Math.abs(t)*0.75;return `background:rgba(${t>0?'35,146,74':'215,38,61'},${a.toFixed(2)});color:${a>0.55?'#fff':'var(--ink)'}`;}
 const hmLab=z=>(PPOSTS.find(x=>x[0]===+z)||[0,'Poste '+z])[1];
 function hmCell(z,c,ref,min,sub){const [x,y]=HXY[z],p=`left:${x}%;top:${y}%`;
-  if(!c||c.n<min)return `<div class="hmz na" style="${p}"><span class="zl">${hmLab(z)}</span><span class="zv">–</span><span class="zn">${c?c.n:0}</span></div>`;
-  return `<div class="hmz" style="${p};${heatSty(c.v-ref)}"><span class="zl">${hmLab(z)}</span><span class="zv">${Math.round(c.v*100)} %</span><span class="zn">${c.n}</span>${sub||''}</div>`;}
+  if(!c||c.n<min)return `<div class="hmz na" style="${p}"><span class="zl">${hmLab(z)}</span><span class="zv">–</span><span class="zn">${c?c.a??c.n:0}</span></div>`;
+  return `<div class="hmz" style="${p};${heatSty(c.v-ref)}"><span class="zl">${hmLab(z)}</span><span class="zv">${Math.round(c.v*100)} %</span><span class="zn">${c.a??c.n}</span>${sub||''}</div>`;}
+// Heatmap utile seulement si au moins 2 cases ont assez de données (V177) ; sinon barres (même couleur que les fiches joueurs, trait = référence)
+const hmOk=(L,min)=>L.filter(x=>x.c&&x.c.n>=min).length>=2;
+function hmBars(L,min){return `<div class="sbars hbars">${L.map(({z,c,ref,sub})=>{const ok=c&&c.n>=min,d=ok?c.v-ref:0;
+  return `<div class="sbar ${!ok?'c-y':d<-0.10?'c-r':d>0.10?'c-g':'c-y'}"><span class="sl">${tr(hmLab(z))}</span><span class="st">${ok?`<i style="width:${(c.v*100).toFixed(1)}%"></i>`:''}<b class="tm" style="left:${(ref*100).toFixed(1)}%"></b></span><span class="sv">${ok?Math.round(c.v*100)+' %':'–'}<small> ${c?c.a??c.n:0}</small>${sub&&ok?sub:''}</span></div>`;}).join('')}</div>`;}
 const hmMin=m=>m&&m.season?STAT_CFG.ZONE_MIN_S:STAT_CFG.ZONE_MIN_M;
 // Analyse du passeur : une carte par poste de réception (5, 6, 1, autre), qualité de la réception en haut, qualité de la passe par destination ; gratuit : poste 6 seulement
 function passOrgHTML(m,S,set,sid,P){if(!S||!S.pso)return '';const O=psoAgg(S,set,sid),T=passTot(P);if(!T.n)return '';const ref=T.s/(2*T.n),min=hmMin(m),pro=proFor(m),Z=zstAgg(S,set).rec;
   const rq=ks=>{let p=0,n=0,q=0;Object.entries(Z).forEach(([z,c])=>{if(ks(z)){p+=c.P;q+=c.N;n+=c.M+c.P+c.N;}});return n?{v:(2*p+q)/(2*n),n}:null;},all=rq(()=>true);
-  const C=[5,6,1,'o'].filter(k=>O[k]).map(k=>{const D=O[k],lock=!pro&&k!==6,r=k==='o'?rq(z=>![5,6,1].map(String).includes(z)):rq(z=>z===String(k));
-    const cells=[4,3,2,1,6,5].filter(z=>[4,3,2,1].includes(z)||(D[z]&&D[z].n>=min)).map(z=>lock?hmCell(z,null,0,1):hmCell(z,D[z]?{v:D[z].s/(2*D[z].n),n:D[z].n}:null,ref,min)).join('');
-    return `<div class="hmc ${lock?'hlock':''}"><div class="hmh"><b>${k==='o'?tr('Autre réception'):tr('Réception poste {N}').replace('{N}',k)}</b><span class="hrq" style="${r&&all&&!lock?heatSty(r.v-all.v):'background:var(--surface2)'}"><small>Qualité réception</small><b>${r&&!lock?Math.round(r.v*100)+' %':'–'}</b></span></div>
-      <div class="hcourt"><span class="hnet">FILET</span>${cells}${k==='o'?'':`<span class="horg" style="left:${HXY[k][0]}%" aria-hidden="true">R</span>`}</div>
+  const DZ=zstAgg(S,set).def,dq=(()=>{let p=0,n=0,q=0;Object.values(DZ).forEach(c=>{p+=c.P;q+=c.N;n+=c.M+c.P+c.N;});return n?{v:(2*p+q)/(2*n),n}:null;})();
+  const C=[5,6,1,'o','t'].filter(k=>O[k]).map(k=>{const D=O[k],lock=!pro&&k!==6,tt=k==='t',r=tt?dq:k==='o'?rq(z=>![5,6,1].map(String).includes(z)):rq(z=>z===String(k));
+    const L=[4,3,2,1,6,5].filter(z=>[4,3,2,1].includes(z)||(D[z]&&D[z].n>=min)).map(z=>({z,c:D[z]?{v:D[z].n?D[z].s/(2*D[z].n):0,n:D[z].n,a:D[z].a||D[z].n}:null,ref}));
+    const cells=lock?L.map(x=>hmCell(x.z,null,0,1)).join(''):L.map(x=>hmCell(x.z,x.c,ref,min)).join(''),heat=lock||hmOk(L,min);
+    return `<div class="hmc ${lock?'hlock':''}"><div class="hmh"><b>${tt?tr('Transition (après défense)'):k==='o'?tr('Autre réception'):tr('Réception poste {N}').replace('{N}',k)}</b><span class="hrq" style="${r&&all&&!lock&&!tt?heatSty(r.v-all.v):'background:var(--surface2)'}"><small>${tt?tr('Qualité défense'):tr('Qualité réception')}</small><b>${r&&!lock?Math.round(r.v*100)+' %':'–'}</b></span></div>
+      ${heat?`<div class="hcourt"><span class="hnet">FILET</span>${cells}${k==='o'||tt?'':`<span class="horg" style="left:${HXY[k][0]}%" aria-hidden="true">R</span>`}</div>`:hmBars(L.filter(x=>x.c),min)}
       ${lock?'<button class="hlk" data-act="pro"><b>🔒 VolleyCoach Pro</b><small>La réception au poste 6 reste visible en version gratuite.</small></button>':''}</div>`;});
   if(!C.length)return '';
   return `<div class="hmsec"><b class="cond" style="font-size:19px">Analyse par poste de réception${tipB('porg')}</b><div class="hmgrid">${C.join('')}</div>
-    <p class="hint">${tr('Qualité de passe comparée à la moyenne du passeur ({N}).').replace('{N}',Math.round(ref*100)+' %')} ${tr('Case en pointillé : moins de {N} passes.').replace('{N}',min)}</p></div>`;}
+    <p class="hint">${tr('Qualité de passe comparée à la moyenne du passeur ({N}).').replace('{N}',Math.round(ref*100)+' %')} ${tr('Case en pointillé : moins de {N} passes.').replace('{N}',min)} ${tr('Une attaque sans passe notée compte dans le nombre de passes, pas dans le pourcentage.')}</p></div>`;}
 // Attaque par poste d'un joueur : efficacité (kills et fautes en petit) comparée à la moyenne de l'équipe au même poste ; Pro
 function attHeatHTML(m,S,set,id){const a=S.fx[id];if(!a)return '';const o={};(set==null?a:[a[set]]).forEach(x=>{if(x)Object.entries(x).forEach(([k,v])=>{if(/^az\d[PMN]$/.test(k))o[k]=(o[k]||0)+v;});});
   const Z=zstAgg(S,set).att,min=hmMin(m),zs=[4,3,2,1,6,5].filter(z=>o['az'+z+'P']||o['az'+z+'N']||o['az'+z+'M']);if(!zs.length)return '';
   if(!proFor(m))return `<div class="hmsec"><b class="cond" style="font-size:19px">Attaque par poste</b><button class="card lockz" data-act="pro"><span>🔒 Version pro uniquement</span></button></div>`;
-  const cells=zs.map(z=>{const c=scoreOf(o['az'+z+'P'],o['az'+z+'N'],o['az'+z+'M']),t=Z[z]?scoreOf(Z[z].P,Z[z].N,Z[z].M):null;
-    return hmCell(z,c,t?t.v:c.v,min,`<span class="zk">${tr('kill')} ${Math.round(c.P/c.n*100)} % · ${tr('faute')} ${Math.round(c.M/c.n*100)} %</span>`);}).join('');
-  return `<div class="hmsec"><b class="cond" style="font-size:19px">Attaque par poste${tipB('ahm')}</b><div class="hmgrid one"><div class="hmc"><div class="hcourt"><span class="hnet">FILET</span>${cells}</div></div></div>
+  const L=zs.map(z=>{const c=scoreOf(o['az'+z+'P'],o['az'+z+'N'],o['az'+z+'M']),t=Z[z]?scoreOf(Z[z].P,Z[z].N,Z[z].M):null;
+    return {z,c,ref:t?t.v:c.v,sub:`<span class="zk">${tr('kill')} ${Math.round(c.P/c.n*100)} % · ${tr('faute')} ${Math.round(c.M/c.n*100)} %</span>`};});
+  const cells=L.map(x=>hmCell(x.z,x.c,x.ref,min,x.sub)).join('');
+  return `<div class="hmsec"><b class="cond" style="font-size:19px">Attaque par poste${tipB('ahm')}</b>${hmOk(L,min)?`<div class="hmgrid one"><div class="hmc"><div class="hcourt"><span class="hnet">FILET</span>${cells}</div></div></div>`:hmBars(L,min)}
     <p class="hint">${tr('Efficacité comparée à la moyenne de l\'équipe au même poste.')} ${tr('Case en pointillé : moins de {N} attaques.').replace('{N}',min)}</p></div>`;}
 function passTot(P){return Object.values(P).reduce((a,c)=>({n:a.n+c.n,s:a.s+c.s,M:a.M+c.M,N:a.N+c.N,P:a.P+c.P}),{n:0,s:0,M:0,N:0,P:0});}
 // Valeur ajoutée d'un joueur (k = 'ip' passe, 'ia' attaque) sur le match / la saison ou un set
@@ -2770,17 +2789,43 @@ function axesHTML(r,f,SS,set){const T=teamTot(f),me=radEff(r),tm=radEff(T),MIN=S
   // un seul axe par libellé de compétence globale s'il est déjà détaillé par poste
   const L=out.sort((a,b)=>b.g-a.g).filter((x,i,a)=>!(!x.l.includes(' · ')&&a.some(y=>y!==x&&y.l.startsWith(x.l+' · ')&&a.indexOf(y)<i))).slice(0,3);
   return `<div class="axes"><b class="cond">Axes d'amélioration${tipB('axes')}</b>${L.length?`<ul>${L.map(x=>`<li><b>${esc(x.l)}</b> <span class="neg">${Math.round(x.v*100)} %</span> <small class="hint">${tr('équipe {N}').replace('{N}',Math.round(x.tv*100)+' %')}</small></li>`).join('')}</ul>`:`<p class="hint">${tr("Aucun point faible net par rapport à l'équipe (au moins {N} actions par domaine).").replace('{N}',MIN)}</p>`}</div>`;}
+// Fiche joueur agrandie en catégories (V177) : une seule ouverte à la fois (ui.pCat, Vue d'ensemble par défaut), stat globale en couleur dans la barre
+function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),ex=isExtra(r.id),pk=ui.pCat===undefined?'ov':ui.pCat,pc1=v=>v==null?'–':Math.round(v*100)+' %';
+  const pe=k=>{const v=me[k];return v?{t:Math.round(v.v*100)+' %',c:sbCls(v,team[k]).slice(2)}:null;};
+  const G=L=>{L=L.filter(Boolean);return L.length?`<div class="stdg">${L.map(([l,v])=>`<span><small>${l}</small><b>${v}</b></span>`).join('')}</div>`:'';};
+  const pz=k=>posZones(r,k).map(z=>sbRow('· '+tr(z.l),z,team[k],false,v=>' '+v.n)).join('');
+  const cat=(k,lab,pill,body)=>body?`<div class="pcat ${pk===k?'open':''}"><button class="pcb" data-act="pCat" data-v="${k}" aria-expanded="${pk===k}"><span class="pcl">${lab}</span>${pill?`<span class="pill ${pill.c}">${pill.t}</span>`:''}<span class="ch" aria-hidden="true">›</span></button>${pk===k?`<div class="pcbody">${body}</div>`:''}</div>`:'';
+  const all=radEffAll(r),ta=radEffAll(T),va=vaRole(r),h=hotEff(r),hd=h&&all?h.v-all.v:0,ax=ex?'':axesHTML(r,f,SS,set),nax=(ax.match(/<li>/g)||[]).length;
+  const tn=['srv','rec','def','att','blk'].reduce((a,k)=>a+(r[k+'P']||0)+(r[k+'N']||0)+(r[k+'M']||0),0);
+  const P=r.role==='Pa'?passAgg(SS,set)[r.id]:null,pt=P?passTot(P):null,ah=ex?'':attHeatHTML(M,SS,set,r.id);
+  return `<div class="pcats">${[
+    cat('ov',tr("Vue d'ensemble"),all?{t:Math.round(all.v*100)+' %',c:sbCls(all,ta).slice(2)}:null,radarSVG(me,team)+rateBars(r,f)),
+    pc?cat('pas',tr('Passe'),pt&&pt.n?{t:passPct(pt)+' %',c:'n'}:null,pc):'',
+    me.att?cat('att',tr('Attaque'),pe('att'),G([x.A&&[tr('Kill'),pc1(x.kill)],x.A&&[tr('Erreurs att.'),pc1(x.attErr)],x.A&&[tr('Efficacité att.'),x.attEff==null?'–':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],[tr('Renvois sans attaque'),r.relN||0]])+((ex||!proFor(M)||!ah)&&pz('att')?`<div class="sbars">${pz('att')}</div>`:'')+ah):'',
+    me.rec?cat('rec',tr('Réception'),pe('rec'),G([x.Rc&&[tr('Réception +'),pc1(x.recPos)],[tr('Fautes de réception'),r.rfN||0]])+(pz('rec')?`<div class="sbars">${pz('rec')}</div>`:'')):'',
+    me.srv?cat('srv',tr('Service'),pe('srv'),G([[tr('Aces'),r.aceN||0],x.Sv&&[tr('Aces / fautes'),`${x.aces} / ${x.srvErr}`]])):'',
+    me.def?cat('def',tr('Défense'),pe('def'),pz('def')?`<div class="sbars">${pz('def')}</div>`:`<p class="hint">${tr('Pas de détail par poste.')}</p>`):'',
+    BLK()&&me.blk?cat('blk',tr('Bloc'),pe('blk'),G([[tr('Points de bloc'),String(x.blkP)]])):'',
+    ex?'':cat('va',tr('Valeur ajoutée'),va&&va.n>=VA_MIN?{t:facTxt(va),c:va.v>2?'g':va.v<-2?'r':'y'}:null,vaDetailHTML(r)),
+    cat('hot',tr('Fin de set'),h?{t:Math.round(h.v*100)+' %',c:h.n>=5&&hd>=0.1?'g':h.n>=5&&hd<=-0.1?'r':'y'}:null,hotHTML(r,T)),
+    cat('axes',tr("Axes d'amélioration"),{t:String(nax),c:'n'},ax),
+    cat('det',tr('Détail − / = / +'),{t:String(tn),c:'n'},`<div style="overflow-x:auto"><table class="pftab"><tr><th>Compétence</th><th>−</th><th>=</th><th>+</th><th>Actions</th><th>Efficacité</th><th>Équipe</th></tr>
+        ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
+        <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
+        ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div>
+      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>`)
+  ].join('')}</div><p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>`;}
 function sbCls(v,tv,red){if(!v||!tv||v.n<3)return 'c-y';const d=(v.v-tv.v)*(red?-1:1);return d<-0.10?'c-r':d>0.10?'c-g':'c-y';}
+// Couleur (V176) : plus de 10 points sous l'équipe = rouge, à moins de 10 points = jaune, au-dessus = vert (fautes : sens inverse) ; 3 actions minimum
+const sbRow=(lab,v,tv,red,cnt)=>`<div class="sbar ${sbCls(v,tv,red)}"><span class="sl">${lab}</span><span class="st">${v?`<i style="width:${(v.v*100).toFixed(1)}%"></i>`:''}${tv?`<b class="tm" style="left:${(tv.v*100).toFixed(1)}%" title="équipe ${Math.round(tv.v*100)} %"></b>`:''}</span><span class="sv">${v?Math.round(v.v*100)+' %':'–'}<small>${v?cnt(v):''}</small></span></div>`;
 function rateBars(r,f){
   const T=teamTot(f),me=radEff(r),tm=radEff(T),cats=BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att'];
   const fr=o=>{const M=cats.reduce((a,k)=>a+(o[k+'M']||0),0),n=cats.reduce((a,k)=>a+(o[k+'M']||0)+(o[k+'N']||0)+(o[k+'P']||0),0);return n?{v:M/n,n,c:M}:null;};
   const er=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
-  // Couleur (V176) : plus de 10 points sous l'équipe = rouge, à moins de 10 points = jaune, au-dessus = vert (fautes : sens inverse) ; 3 actions minimum
-  const row=(lab,v,tv,red,cnt)=>`<div class="sbar ${sbCls(v,tv,red)}"><span class="sl">${lab}</span><span class="st">${v?`<i style="width:${(v.v*100).toFixed(1)}%"></i>`:''}${tv?`<b class="tm" style="left:${(tv.v*100).toFixed(1)}%" title="équipe ${Math.round(tv.v*100)} %"></b>`:''}</span><span class="sv">${v?Math.round(v.v*100)+' %':'–'}<small>${v?cnt(v):''}</small></span></div>`;
+  const row=sbRow;
   const L=(l,k)=>`${l}${tipB(k)}`;
-  const det=['rec','def','att'].some(k=>posZones(r,k).length);
-  return `<div class="sbars">${[['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).map(([l,k])=>row(L(l,k),me[k],tm[k],false,v=>' '+v.n)+(ui.pDet&&PZK[k]?posZones(r,k).map((x,i)=>row('· '+tr(x.l)+(i||k!=='att'?'':tipB('az')),x,tm[k],false,v=>' '+v.n)).join(''):'')).join('')}
-    ${row(L('Fautes','fautes'),fr(r),fr(T),true,v=>` ${v.c} / ${v.n}`)}${r.role==='Pa'?'':row(L('Err. att.','ea'),er(r),er(T),true,v=>` ${v.c} / ${v.n}`)}</div>${det?`<button class="linkbtn pdet" data-act="pDet" aria-expanded="${ui.pDet?'true':'false'}">${ui.pDet?'Masquer le détail par poste':'Détails par poste'}</button>`:''}`;
+  return `<div class="sbars">${[['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).map(([l,k])=>row(L(l,k),me[k],tm[k],false,v=>' '+v.n)).join('')}
+    ${row(L('Fautes','fautes'),fr(r),fr(T),true,v=>` ${v.c} / ${v.n}`)}${r.role==='Pa'?'':row(L('Err. att.','ea'),er(r),er(T),true,v=>` ${v.c} / ${v.n}`)}</div>`;
 }
 function abbr(n){const w=String(n||'').trim().split(/\s+/);return w.length>1?`${w[0]} ${w[1].charAt(0)}.`:w[0]||'';}
 const LOW_OK=STAT_CFG.LOW_OK;
@@ -3201,6 +3246,10 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
 function covBadge(c){const p=covPct(c);if(p==null)return '';const cl=p>=0.8?'g':p>=0.5?'o':'r';return ` <span class="covb ${cl}">Saisie : ${Math.round(p*100)} %${tipB('cov')}</span>`;}
 // Rotations : side-out (notre équipe reçoit) et break (notre équipe sert), par position du passeur
+// Onglets de stats selon le contenu (V177) : Rotations seulement avec au moins 2 rotations jouées, Zones avec au moins 2 zones notées (4x4, 3x3, 2x2…)
+function svHas(S,k){if(k==='o')return Object.values(rotAgg(S,null)).filter(o=>o.soP+o.brP>0).length>=2;
+  if(k==='z'){const Z=zstAgg(S,null);return ['att','rec','def'].some(q=>Object.keys(Z[q]).filter(z=>z!=='x').length>=2);}return true;}
+function svTabs(S,L){const T=L.filter(([k])=>svHas(S,k));if(!T.some(([k])=>k===(ui.statView||'p')))ui.statView='p';return T;}
 function rotAgg(S,set){const out={};(set==null?S.rot:[S.rot[set]]).forEach(R=>{Object.entries(R||{}).forEach(([z,o])=>{const t=out[z]||(out[z]={soP:0,soW:0,brP:0,brW:0});['soP','soW','brP','brW'].forEach(k=>t[k]+=o[k]);});});return out;}
 function rotHTML(m,S,set){const R=rotAgg(S,set),zs=[1,2,3,4,5,6].filter(z=>R[z]&&(R[z].soP+R[z].brP)>0);if(!zs.length)return '<div class="card"><div class="hint">Aucun point joué.</div></div>';
   const so=z=>R[z].soP?R[z].soW/R[z].soP:null,br=z=>R[z].brP?R[z].brW/R[z].brP:null,tot=z=>(R[z].soP+R[z].brP)?(R[z].soW+R[z].brW)/(R[z].soP+R[z].brP):null;
@@ -3238,15 +3287,15 @@ function statCols(m,S){
       ${radarSVG(radEff(r),teamR)}
       ${rateBars(r,f)}
       <div class="relx">Aces${tipB('aces')} : <b>${r.aceN||0}</b> · Fautes de récep.${tipB('rf')} : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b><br>Renvois sans attaque${tipB('rel')} : <b>${r.relN||0}</b>${r.rlyN?` · Relais de passe${tipB('rly')} : <b>${r.rlyN}</b>`:''}</div>
-      ${ex?'':vaDetailHTML(r)}
       ${set==null&&!ex?cardProgHTML(m,S,r.id):''}
+      <button class="btn pfbtn" data-act="pfull" data-id="${r.id}">${tr('Fiche complète')} ›</button>
       </div>`;};
   const isLow=r=>{const pl=played(r.id),pct=tot?pl/tot*100:0;return !isExtra(r.id)&&lowSample(r,pct);};
   const order=grpSort(f.rows).map((r,i)=>({r,i,l:isLow(r)?1:0,s:r.role==='Pa'?0:1})).sort((a,b)=>a.l-b.l||a.s-b.s||a.i-b.i).map(x=>x.r);
   ui.pfOrder=order.map(r=>r.id);
   const PRO=proFor(m),FREE=PRO?null:freeIds(m,S);FREE_SET=FREE;
   if(S.season&&!PRO)return lockHTML('Stats de saison','Les statistiques cumulées sur la saison font partie de VolleyCoach Pro.');
-  const sv=ui.statView||'p',svw=`<div class="seg svw phone"><button class="${sv==='p'?'on':''}" data-act="statView" data-v="p">Joueurs</button><button class="${sv==='r'?'on':''}" data-act="statView" data-v="r">Classements</button><button class="${sv==='z'?'on':''}" data-act="statView" data-v="z">Zones</button></div>`;
+  const sv=ui.statView||'p',svw=`<div class="seg svw phone"><button class="${sv==='p'?'on':''}" data-act="statView" data-v="p">Joueurs</button><button class="${sv==='r'?'on':''}" data-act="statView" data-v="r">Classements</button>${svHas(S,'z')?`<button class="${sv==='z'?'on':''}" data-act="statView" data-v="z">Zones</button>`:''}</div>`;
   if(sv==='r'){ui.rankScope=null;return svw+seg+(PRO?'':'<p class="hint freeh">Version gratuite : seuls le passeur, un R4 et un central sont classés. <button class="linkbtn" data-act="pro">Tout voir avec Pro</button></p>')+rankHTML(m,S,set);}
   if(sv==='h')return seg+summaryHTML(m);
   if(sv==='z'){const Z={att:{},rec:{},def:{}};(set==null?S.zst:[S.zst[set]]).forEach(Q=>{if(!Q)return;['att','rec','def'].forEach(k=>Object.entries(Q[k]).forEach(([z,c])=>{const t=Z[k][z]||(Z[k][z]={M:0,P:0,N:0});t.M+=c.M;t.P+=c.P;t.N+=c.N||0;}));});
@@ -3304,7 +3353,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
       <select data-scope1 aria-label="Périmètre"><option value="cur" ${v1==='cur'?'selected':''}>Match en cours</option>${T0.seasons.slice().reverse().map(so=>{const n=seasMs(so.id).length;return `<option value="s:${so.id}" ${v1==='s:'+so.id?'selected':''} ${n?'':'disabled'}>📁 ${esc(so.name)} (${n})</option>`;}).join('')}</select>
       ${scope!=='cur'?`<select data-scope2 aria-label="Match"><option value="season" ${scope==='season'?'selected':''}>Saison entière</option>${seasMs(curSeasonOfView).map(a=>{const r=replay(a);return `<option value="${a.id}" ${a.id===ui.coachView?'selected':''}>${esc(fmtDate(a.date))} · ${esc(a.opp||'Adversaire')} (${r.wins.G}-${r.wins.A})</option>`;}).join('')}</select>`:''}
       <button class="btn icon" data-act="share" data-id="${view?view.id:''}" aria-label="Partager">${IC.share}</button></div></div>`;
-    const tabs=[['p','Joueurs'],['z','Zones'],['o','Rotations'],['r','Classements']].concat(scope==='season'?[['g','Progression']]:[['h','Résumé']]);
+    const tabs=svTabs(S,[['p','Joueurs'],['z','Zones'],['o','Rotations'],['r','Classements']].concat(scope==='season'?[['g','Progression']]:[['h','Résumé']]));sv=ui.statView||'p';
     const tabBar=`<div class="vtabs" role="tablist">${tabs.map(([k,l])=>`<button class="${sv===k?'on':''}" role="tab" data-act="statView" data-v="${k}">${l}</button>`).join('')}</div>`;
     const head=`<div class="card" style="margin:10px 0"><b class="cond" style="font-size:22px">${esc(m.season?`${m.team||'Équipe'} – ${m.seasonName||'Saison'}`:matchTitle(m))}</b>${m.season?' <span class="hint">(cumul des matchs archivés)</span>':view?' <span class="hint">(archive)</span>':' <span class="hint">(match en cours)</span>'}
       <div class="hint" style="margin:2px 0 0">${m.season?`${m.n} match${m.n>1?'s':''} du ${esc(fmtDate(m.date))} au ${esc(fmtDate(m.date2))} — ${S.wins.G} victoire${S.wins.G>1?'s':''}, ${S.wins.A} défaite${S.wins.A>1?'s':''}`:`${esc(fmtDate(m.date))}${m.num?' · match '+esc(m.num):''} — Sets ${S.wins.G}-${S.wins.A}${sc?' ('+sc+')':''}`}</div>
@@ -3915,11 +3964,12 @@ const A={
     if(!f){const k0=setterZone(z,R)||1;M.base=[null].concat([0,1,2,3,4,5].map(k=>z[((k+k0-1)%6)+1]));ui.lrnRot=k0;}
     ui.lrnM=M;ui.lrnSrv=S.serving==='G'?'G':'A';ui.lrnDef='pj';ui.lrnPos={};ui.lrnKey=null;ui.lrnFull=true;ui.lrnMenu=false;ui.screen='learn';ui.sheet=null;window.scrollTo(0,0);},
   lrnRot(d){ui.lrnRot=+d.v||1;},
+  lrnLib(d){lrnBase();store.learn.lib=d.v==='0'?0:d.v;ui.lrnPos={};ui.lrnKey=null;save();},
   lrnReset(){ui.lrnPos={};},
   lrnStart(){const t=lrnTeam();store.learn={t:t.id,base:lrnStart()};ui.lrnPos={};save();toast('6 de départ de l’équipe repris','ok');},
   lrnSet(d){const M=ui.lrnM,r=ui.lrnRot||1,z=ui.lrnPick;ui.sheet=null;if(!z||!d.id)return;ui.lrnPos={};
     if(M&&M.f4){const Z=M.zones,j=Z.indexOf(d.id);if(j>0)Z[j]=Z[z];Z[z]=d.id;return;}
-    const b=lrnBase().slice(),k=((z-r+6)%6)+1,j=b.indexOf(d.id);if(j>0)b[j]=b[k];b[k]=d.id;if(M)M.base=b;else{store.learn.base=b;save();}},
+    const b=lrnBase().slice(),k=((z-r+6)%6)+1,j=b.indexOf(d.id);if(j>0)b[j]=b[k];b[k]=d.id;if(M)M.base=b;else{store.learn.base=b;if(store.learn.lib===d.id)delete store.learn.lib;save();}},
   bzSel(d){ui.bzSel=ui.bzSel===d.q?null:d.q;return ui.sheet==='tac'?'keep':undefined;},
   srv4(){if((store.cur.pend||[]).length){toast('Possible avant la première stat de l’échange','warn');return 1;}ui.sheet='srv4';},
   srv4Set(d){const m=store.cur,S=replay(m),z=+d.z;ui.sheet=null;if(!S.f4||S.f4.rot||(m.pend||[]).length||z===S.f4.sz)return;dispatch({t:'tac',sz:z,sp:S.zones[z]});},
@@ -4037,7 +4087,7 @@ const A={
     setTimeout(()=>{SHARE=false;},4000);},
   expOpen(){ui.exp={mode:'all',teams:{},seasons:{},off:{},open:{}};store.teams.filter(t=>!t.locked).forEach(t=>{ui.exp.teams[t.id]=t.id===store.teamId;});ui.sheet='expPick';},
   expMode(d){if(ui.exp)ui.exp.mode=d.v;},
-  pDet(){ui.pDet=!ui.pDet;},
+  pCat(d){const c=ui.pCat===undefined?'ov':ui.pCat;ui.pCat=c===d.v?null:d.v;},
   seasonIncl(){ui.sheet='seasonIncl';},
   seasonInclT(d){const so=seasonObj();if(!so)return;const X=new Set(so.excl||[]);
     if(X.has(d.id))X.delete(d.id);else{if(teamArch().filter(a=>!X.has(a.id)).length<=1){toast('Au moins un match doit rester inclus','warn');return;}X.add(d.id);}
@@ -4230,8 +4280,14 @@ document.addEventListener('change',e=>{
 // ===== Fusion de deux saisies d'un même match (deux statisticiens) =====
 // Points alignés set par set sur la suite des gagnants (plus longue sous-suite commune) ; actions recoupées par type et par ordre.
 const mgNorm=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-function mergeCandidate(mm){const ok=a=>a&&a.id!==mm.id&&Array.isArray(a.ev)&&a.date===mm.date&&mgNorm(a.opp)===mgNorm(mm.opp)&&mgNorm(a.opp)!=='';
-  if(ok(store.cur)&&store.cur.ev.length)return {where:'cur',m:store.cur};const a=store.arch.find(ok);return a?{where:'arch',m:a}:null;}
+// Candidat (V177) : saisies qui se recouvrent dans le temps (heures des évènements, marge de 30 min pour les horloges et un début de saisie tardif),
+// la plus proche d'abord ; sinon même date et même adversaire. Deux saisies datées mais sans recouvrement ne sont jamais proposées.
+const MG_TOL=30*60e3;
+const mgSpan=m=>{const t=(m.ev||[]).map(e=>e.at).filter(Number.isFinite);return t.length?[Math.min(...t),Math.max(...t)]:null;};
+function mergeCandidate(mm){const sm=mgSpan(mm),L=[];
+  const look=(a,where)=>{if(!a||a.id===mm.id||!Array.isArray(a.ev)||!a.ev.length)return;const sa=mgSpan(a),nm=a.date===mm.date&&mgNorm(a.opp)===mgNorm(mm.opp)&&mgNorm(a.opp)!=='';
+    if(sm&&sa){if(sa[0]-MG_TOL<=sm[1]&&sm[0]-MG_TOL<=sa[1])L.push({where,m:a,by:'time',d:Math.abs(sa[0]-sm[0])});}else if(nm)L.push({where,m:a,by:'name',d:Infinity});};
+  look(store.cur,'cur');store.arch.forEach(a=>look(a,'arch'));L.sort((x,y)=>x.d-y.d);return L[0]||null;}
 function setsOf(m){const out=[];let cur=null;(m.ev||[]).forEach(e=>{if(e.t==='set'){cur={head:e,ev:[]};out.push(cur);}else if(cur)cur.ev.push(e);});return out;}
 function lcsAlign(A,B,eq){const n=A.length,m=B.length,D=Array.from({length:n+1},()=>new Int16Array(m+1));
   for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)D[i][j]=eq(A[i],B[j])?D[i+1][j+1]+1:Math.max(D[i+1][j],D[i][j+1]);
@@ -4338,7 +4394,7 @@ function importText(txt){
   if(teamsOnly&&!(Array.isArray(d.teams)||Array.isArray(d.roster))){toast('Ce fichier ne contient aucun effectif','warn');return false;}
   try{
     const list=teamsOnly?[]:(d.arch||[]).concat(d.cur&&Array.isArray(d.cur.ev)&&d.cur.ev.length?[d.cur]:[]);
-    if(list.length===1&&list[0]&&Array.isArray(list[0].ev)){const c=mergeCandidate(list[0]);if(c){ui.mergeQ={imp:lean(list[0]),where:c.where,id:c.m.id};ui.sheet='merge1';render();return true;}}
+    if(list.length===1&&list[0]&&Array.isArray(list[0].ev)){const c=mergeCandidate(list[0]);if(c){ui.mergeQ={imp:lean(list[0]),where:c.where,id:c.m.id,by:c.by};ui.sheet='merge1';render();return true;}}
     const ok=list.filter(mm=>mm&&mm.id&&Array.isArray(mm.ev));
     if(!Array.isArray(d.teams)&&ok.length){ui.imp=impPlan(d,ok);ui.tuto=null;ui.sheet='impPick';render();return true;}
     list.forEach(mm=>{if(!mm||!mm.id||!Array.isArray(mm.ev))return;if(mm.id===store.cur.id||store.arch.some(a=>a.id===mm.id))return;store.arch.push(lean(mm));n++;});
