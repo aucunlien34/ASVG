@@ -830,7 +830,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V181';
+const APP_VERSION='V182';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1964,6 +1964,7 @@ const LEGAL={
 <p><b>Offres et prix</b> : Pass saison à 29,99 €, en vente de septembre à décembre, et pass mi-saison à 19,99 €, en vente de janvier à août ; tous deux valables jusqu'au 31 août qui suit l'achat, sans renouvellement automatique. Abonnement mensuel à 5,99 € par mois, avec les mêmes fonctions. Le pass ou l'abonnement profite aux appareils connectés au même compte App Store ou Google Play. Essai gratuit de toutes les fonctions jusqu'au 31 août 2027, puis 14 jours pour les nouveaux utilisateurs. Prix en euros, toutes taxes comprises, fixés par les stores dans chaque pays. À l'échéance d'un pass ou d'un abonnement résilié, l'application revient en version gratuite, sans perte de données.</p>
 <p><b>Abonnement mensuel</b> : sans engagement. Il est renouvelé automatiquement chaque mois, au prix en vigueur, et débité par le store à chaque renouvellement, sauf résiliation au plus tard 24 heures avant la fin de la période en cours. La résiliation se fait dans les abonnements du compte App Store ou Google Play (lien « Gérer mon abonnement » dans la fiche VolleyCoach Pro) ; l'accès Pro reste ouvert jusqu'à la fin du mois payé. Toute hausse de prix est annoncée par le store avant de s'appliquer.</p>
 <p><b>Commande et paiement</b> : uniquement dans l'application, par achat intégré via l'App Store ou Google Play, aux conditions du store. Le pass ou l'abonnement est activé aussitôt dans l'application. La confirmation et le reçu sont envoyés par le store.</p>
+<p><b>Codes cadeaux</b> : un code cadeau remis par VolleyCoach offre un pass (saison ou mi-saison), sans paiement ni renouvellement. Il s'utilise dans l'App Store ou Google Play, aux conditions du store ; le pass est ensuite reconnu dans l'application comme un pass acheté, jusqu'au 31 août de sa saison. Aucun paiement n'ayant lieu, un code cadeau n'ouvre ni droit de rétractation ni remboursement.</p>
 <p><b>Fourniture</b> : accès immédiat aux fonctions Pro après activation, pour la durée choisie.</p>
 <p><b>Droit de rétractation</b> : 14 jours à compter de l'achat, pour un consommateur, sauf si vous demandez l'exécution immédiate du service et renoncez expressément à ce droit (case à cocher au moment du paiement). Pour un achat via l'App Store ou Google Play, la demande se fait auprès du store, selon ses conditions. Détails et formulaire type : page « Rétractation et remboursement ».</p>
 <p><b>Garantie légale de conformité</b> : vous bénéficiez de la garantie légale de conformité applicable aux contenus et services numériques (articles L224-25-1 et suivants du Code de la consommation).</p>
@@ -2008,7 +2009,7 @@ function vtMore(){document.querySelectorAll('.vtabs').forEach(v=>{const w=v.pare
 function render(){
   if(ui.screen!=='coach')ui.coach=false;
   // Ouverture de la fiche Pro : case de renonciation décochée, prix du store rechargé
-  if(ui.sheet==='pro'&&!IAP.open){IAP.open=true;ui.waiver=false;IAP.load();}else if(ui.sheet!=='pro')IAP.open=false;
+  if(ui.sheet==='pro'&&!IAP.open){IAP.open=true;ui.waiver=false;IAP.load();IAP.sync();}else if(ui.sheet!=='pro')IAP.open=false;
   try{if(ui.coach&&ui.screen==='coach')sessionStorage.setItem('vc-coach',JSON.stringify({ctab:ui.ctab,coachView:ui.coachView,statView:ui.statView,seasonSel:ui.seasonSel,fxSet:ui.fxSet}));else sessionStorage.removeItem('vc-coach');}catch(e){}
   const m=store.cur,S=replay(m);let h;LIBPOS=S.libPos||+(m.libPos||5);setF4(S.f4||null);
   PAR=(ui.screen==='lineup'&&ui.draft)?(ui.draft.set||0):Math.max(0,S.sets.length-1)+(tbSwitched(m,S)?1:0);
@@ -3499,8 +3500,10 @@ function proStatus(){const L=store.lic;if(L&&L.plan&&L.plan!=='free'&&(!L.until|
 // ===== Achats intégrés (module NativePurchases), vérifiés sur l'appareil, sans serveur
 // Vente ouverte à la fin de l'essai gratuit pour tous, ou plus tôt en mode test (7 appuis sur le titre de la fiche Pro) : voir passOffers().
 // Le consentement à l'exécution immédiate (renonciation au délai de rétractation) est demandé avant chaque achat.
-const IAP={products:{},busy:false,taps:0,
+const APPLE_ID='6825917786'; // identifiant numérique de l'appli dans App Store Connect (page de rachat des codes cadeaux)
+const IAP={products:{},busy:false,taps:0,last:0,
   plugin(){return NATIVE?CAP().NativePurchases:null;},
+  plat(){return window.Capacitor&&window.Capacitor.getPlatform?window.Capacitor.getPlatform():'web';},
   // Prix des deux pass, tels que le store les affiche (devise et taxes du pays)
   async load(){const P=IAP.plugin();if(!P)return;const ids=passOffers().map(o=>o.id);
     try{const r=await P.getProducts({productIdentifiers:ids,productType:'inapp'});(r.products||[]).forEach(p=>{IAP.products[p.identifier]=p;});}catch(e){}
@@ -3508,18 +3511,26 @@ const IAP={products:{},busy:false,taps:0,
     if(ui.sheet==='pro')render();},
   // Pass possédés par le compte du store : le plus tardif devient la licence ; un pass remboursé disparaît de la liste.
   // Renvoie null si le store ne répond pas (rien n'est changé), sinon le pass trouvé ou false.
+  // Google Play : un achat fait hors de l'appli (code cadeau utilisé dans le Play Store) arrive non accusé ; sans accusé de réception
+  // sous 3 jours, Google le rembourse. getPurchases n'accuse pas (seul purchaseProduct le fait) : on accuse ici avant d'activer. Achats en attente (état 2) ignorés.
   async refresh(){const P=IAP.plugin();if(!P)return null;let list;
     try{list=(await P.getPurchases({productType:'inapp',onlyCurrentEntitlements:true})).purchases||[];}catch(e){return null;}
-    let best=null;list.forEach(t=>{const m=PASS_RE.exec(t.productIdentifier||'');if(!m||t.revocationDate||(t.purchaseState!=null&&String(t.purchaseState)!=='1'))return;
-      const until=m[2]+'-08-31';if(!best||until>best.until)best={until,product:t.productIdentifier,tx:t.transactionId||null};});
+    const ack=async t=>{if(t.isAcknowledged===false&&t.purchaseToken){try{await P.acknowledgePurchase({purchaseToken:t.purchaseToken});}catch(e){}}};
+    let best=null;for(const t of list){const m=PASS_RE.exec(t.productIdentifier||'');if(!m||t.revocationDate||(t.purchaseState!=null&&String(t.purchaseState)!=='1'))continue;
+      await ack(t);const until=m[2]+'-08-31';if(!best||until>best.until)best={until,product:t.productIdentifier,tx:t.transactionId||null};}
     try{const subs=(await P.getPurchases({productType:'subs',onlyCurrentEntitlements:true})).purchases||[];
-      subs.forEach(t=>{if(t.productIdentifier!==SUB.id||t.revocationDate||t.isActive===false)return;if(t.purchaseState!=null&&String(t.purchaseState)!=='1')return;
-        const exp=t.expirationDate?String(t.expirationDate).slice(0,10):new Date(Date.now()+31*86400000).toISOString().slice(0,10);if(exp<today())return;
-        if(!best||exp>best.until)best={until:exp,product:SUB.id,tx:t.transactionId||null,plan:'monthly'};});}catch(e){}
-    const L=store.lic;
-    if(best&&(!L||L.src==='store'||(L.until&&L.until<best.until))){if(!L||L.until!==best.until||L.src!=='store'){store.lic=Object.assign({plan:'season',src:'store',consent:L&&L.consent||null},best);save();render();}else if(L&&L.plan!==(best.plan||'season')){L.plan=best.plan||'season';save();}}
+      for(const t of subs){if(t.productIdentifier!==SUB.id||t.revocationDate||t.isActive===false)continue;if(t.purchaseState!=null&&String(t.purchaseState)!=='1')continue;
+        await ack(t);const exp=t.expirationDate?String(t.expirationDate).slice(0,10):new Date(Date.now()+31*86400000).toISOString().slice(0,10);if(exp<today())continue;
+        if(!best||exp>best.until)best={until:exp,product:SUB.id,tx:t.transactionId||null,plan:'monthly'};}}catch(e){}
+    const L=store.lic,d=today();
+    if(best&&(!L||L.src==='store'||(L.until&&L.until<best.until))){if(!L||L.until!==best.until||L.src!=='store'){store.lic=Object.assign({plan:'season',src:'store',consent:L&&L.consent||null,chk:d},best);save();render();}else{if(L.plan!==(best.plan||'season'))L.plan=best.plan||'season';L.chk=d;save();}}
     else if(!best&&L&&L.src==='store'){store.lic=null;save();render();}
     return best||false;},
+  // Actualisation étranglée (retour au premier plan, ouverture de la fiche Pro, évènement du store) : un droit nouveau ou prolongé
+  // (code cadeau utilisé dans le store, achat sur un autre appareil) est signalé et la fiche se referme sur le pass actif.
+  async sync(force){if(!IAP.plugin())return;const now=Date.now();if(!force&&now-IAP.last<60000)return;IAP.last=now;
+    const was=store.lic&&store.lic.src==='store'?store.lic.until:null,r=await IAP.refresh(),L=store.lic;
+    if(r&&L&&L.src==='store'&&L.until!==was){ui.giftOpen=false;toast('VolleyCoach Pro activé jusqu’au '+fmtDate(L.until),'ok');render();}},
   err(e){return String(e&&(e.code||e.message)||e||'');}
 };
 // Gratuit : seuls sont analysés le passeur, un R4 et un central, les plus utilisés (temps de jeu) à leur poste
@@ -3563,7 +3574,8 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
     ${any||subOffer().on?`<label class="chk waiver"><input type="checkbox" data-waiver ${ui.waiver?'checked':''}> <span>Je demande l’accès immédiat aux fonctions Pro et je renonce à mon droit de rétractation dès le début du service.</span></label>
       ${ui.waiver?'':'<p class="hint">Cochez la case pour acheter.</p>'}`:''}
     <button class="linkbtn restb" data-act="restore">Restaurer mes achats</button>
-    ${ui.codeOpen?`<div class="actcode"><label for="actcode">Code d’activation</label><div class="row"><input id="actcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="VC-XXXX-XXXX-XXXX"><button class="btn primary" data-act="codeGo">Activer</button></div></div>`:'<button class="linkbtn restb" data-act="codeOpen">J’ai un code d’activation</button>'}`;
+    ${ui.codeOpen?`<div class="actcode"><label for="actcode">Code d’activation</label><div class="row"><input id="actcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="VC-XXXX-XXXX-XXXX"><button class="btn primary" data-act="codeGo">Activer</button></div></div>`:'<button class="linkbtn restb" data-act="codeOpen">J’ai un code d’activation</button>'}
+    ${giftHTML()}`;
   return `<div class="sh"><h3 data-act="iapTap">VolleyCoach Pro</h3>${close}</div>
     <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p><p class="hint">Les matchs commencés pendant le Pro (pass ou essai) gardent leurs statistiques complètes et leurs exports à vie.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:var(--warn)">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
     ${proCmpHTML()}
@@ -3571,6 +3583,13 @@ function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(
     <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Ou l’abonnement mensuel (5,99 € par mois), sans engagement. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
     <p class="hint">Prix TTC. Les pass ne sont pas renouvelés ; l’abonnement est renouvelé automatiquement chaque mois jusqu’à sa résiliation. Droit de rétractation de 14 jours (formulaire type dans les textes légaux). Éditeur : VolleyCoach.</p>
     <div class="tools"><button class="btn" data-act="legal" data-k="cgv">Conditions générales de vente</button><button class="btn" data-act="legal" data-k="retract">Rétractation et remboursement</button></div>`;}
+// Code cadeau (V182) : un pass offert, utilisé dans le store lui-même (Google Play : page de rachat avec le code ; iOS 16+ : feuille
+// système de l'App Store, sinon sa page de rachat) ; le pass est lu au retour dans l'appli (IAP.sync) ou à l'évènement du store.
+function giftHTML(){if(!ui.giftOpen)return `<button class="linkbtn restb" data-act="giftOpen">J’ai un code cadeau</button>`;const ios=IAP.plat()==='ios';
+  return `<div class="actcode gift"><label for="giftcode">Code cadeau</label>
+    <p class="hint">Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.</p>
+    ${ios?`<button class="btn primary" data-act="giftGo">Utiliser mon code dans l’App Store</button>`:`<div class="row"><input id="giftcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Code reçu"><button class="btn primary" data-act="giftGo">Utiliser dans Google Play</button></div>`}
+    <p class="hint">Pass toujours absent au retour ? Touchez « Restaurer mes achats ».</p></div>`;}
 // Complétude de la saisie : badge vert / orange / rouge
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
 function covBadge(c){const p=covPct(c);if(p==null)return '';const cl=p>=0.8?'g':p>=0.5?'o':'r';return ` <span class="covb ${cl}">Saisie : ${Math.round(p*100)} %${tipB('cov')}</span>`;}
@@ -4436,8 +4455,15 @@ const A={
     // fin du premier chapitre : le match d'exercice de Team Earth devient le match actif (si le match en cours de l'utilisateur est vide) ; sinon retour à la liste des chapitres
     if(ci0===0&&store.teams.some(t=>t.id==='t-earth')&&!store.cur.ev.length){if(store.teamId!=='t-earth')switchTeam('t-earth');else if(store.cur.id!==DEMO_CUR.id){store.cur=demoCur();save();}tHome();window.scrollTo(0,0);toast('Match d’exercice : à vous de jouer !','ok');return;}
     tCoachOpen('settings');ui.setPage='aide';},
-  pro(){ui.sheet='pro';ui.codeOpen=false;},
-  codeOpen(){ui.codeOpen=true;render();setTimeout(()=>{const i=document.getElementById('actcode');if(i)i.focus();},0);},
+  pro(){ui.sheet='pro';ui.codeOpen=false;ui.giftOpen=false;},
+  codeOpen(){ui.codeOpen=true;ui.giftOpen=false;render();setTimeout(()=>{const i=document.getElementById('actcode');if(i)i.focus();},0);},
+  giftOpen(){ui.giftOpen=true;ui.codeOpen=false;render();setTimeout(()=>{const i=document.getElementById('giftcode');if(i)i.focus();},0);},
+  // Code cadeau : iOS 16+ feuille système (le pass arrive ensuite par l'évènement transactionUpdated), iOS 15 page de rachat de l'App Store ;
+  // Google Play : page de rachat du Play Store avec le code ; le pass est lu au retour au premier plan (IAP.sync)
+  async giftGo(){const P=IAP.plugin();
+    if(IAP.plat()==='ios'){if(P&&P.presentOfferCodeRedeemSheet){try{await P.presentOfferCodeRedeemSheet();IAP.sync(true);return 1;}catch(e){}}window.open('https://apps.apple.com/redeem?ctx=offercodes&id='+APPLE_ID,'_blank');return 1;}
+    const i=document.getElementById('giftcode'),c=String(i&&i.value||'').replace(/\s+/g,'');if(!c){toast('Saisissez le code reçu','warn');return 1;}
+    window.open('https://play.google.com/redeem?code='+encodeURIComponent(c),'_blank');return 1;},
   // Code d'activation (examinateurs des stores) : licence Pro de 30 jours, jamais à la place d'un pass acheté plus long
   async codeGo(){const i=document.getElementById('actcode'),until=await reviewCode(i&&i.value);
     if(!until){toast('Code d’activation non valable','warn');return;}
@@ -4880,8 +4906,11 @@ async function openFileUrl(u){if(!u||!/^(content|file):/i.test(u))return;try{if(
   try{const r=await CAP().Filesystem.readFile({path:u,encoding:'utf8'});ui.tuto=null;ui.sheet=null;importText(r.data);}
   catch(e){toast('Impossible de lire ce fichier sur cet appareil','warn');}}
 if(NATIVE&&CAP().App){CAP().App.getLaunchUrl().then(r=>r&&openFileUrl(r.url)).catch(()=>{});CAP().App.addListener('appUrlOpen',e=>openFileUrl(e&&e.url));}
-// Pass achetés : vérifiés au démarrage (achat sur un autre appareil du même compte, remboursement)
-if(NATIVE)setTimeout(()=>IAP.refresh(),2500);
+// Pass achetés : vérifiés au démarrage (achat sur un autre appareil du même compte, remboursement), au retour au premier plan
+// (code cadeau utilisé dans le store) et à chaque transaction signalée par le store (iOS : feuille de rachat, lien de rachat)
+if(NATIVE){IAP.last=Date.now();setTimeout(()=>IAP.refresh(),2500);
+  if(CAP().App)CAP().App.addListener('appStateChange',s=>{if(s&&s.isActive)IAP.sync();});
+  const NP=IAP.plugin();if(NP&&NP.addListener)try{NP.addListener('transactionUpdated',()=>IAP.sync(true));}catch(e){}}
 try{const sv=JSON.parse(sessionStorage.getItem('vc-coach')||'null');if(sv){ui.coach=true;ui.screen='coach';['ctab','coachView','statView','seasonSel','fxSet'].forEach(k=>{if(sv[k]!==undefined)ui[k]=sv[k];});if(ui.ctab==='match')ui.ctab='stats';}}catch(e){}
 render();
 setTimeout(()=>checkUpdate(false),1500);watchUpdates();document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate(false);});

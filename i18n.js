@@ -1386,7 +1386,17 @@ const I18N = {
   "Entraînement : les 5 dernières minutes restent en mémoire. Match : toute la séance est enregistrée.": "Training: the last 5 minutes stay in memory. Match: the whole session is recorded.",
   "Démarrer : posez l'appareil sur un trépied, écran vers les joueurs. Ils se revoient avec le retard choisi (− / + en haut), au ralenti d'un appui ; REC garde une séquence.": "Start: put the device on a tripod, screen facing the players. They watch themselves with the chosen delay (− / + at the top), in slow motion with one tap; REC keeps a sequence.",
   "Vos enregistrements : « Revoir » pour relire, monter (garder / jeter, ou Montage auto qui coupe les temps morts) et exporter ; « Clips » pour les extraits d'un joueur d'après les stats du match.": "Your recordings: “Watch” to replay, edit (keep / discard, or Auto edit which cuts the dead time) and export; “Clips” for one player's extracts based on the match stats.",
-  "La barre vous emmène partout, dans cet ordre : Équipe, Terrain, Stats, Coaching, Vidéo, Saisons, Réglages. Elle est toujours là.": "The bar takes you everywhere, in this order: Team, Court, Stats, Coaching, Video, Seasons, Settings. It is always there."
+  "La barre vous emmène partout, dans cet ordre : Équipe, Terrain, Stats, Coaching, Vidéo, Saisons, Réglages. Elle est toujours là.": "The bar takes you everywhere, in this order: Team, Court, Stats, Coaching, Video, Seasons, Settings. It is always there.",
+  "Codes cadeaux": "Gift codes",
+  ": un code cadeau remis par VolleyCoach offre un pass (saison ou mi-saison), sans paiement ni renouvellement. Il s'utilise dans l'App Store ou Google Play, aux conditions du store ; le pass est ensuite reconnu dans l'application comme un pass acheté, jusqu'au 31 août de sa saison. Aucun paiement n'ayant lieu, un code cadeau n'ouvre ni droit de rétractation ni remboursement.": ": a gift code issued by VolleyCoach gives a pass (season or mid-season) with no payment and no renewal. It is redeemed in the App Store or Google Play, under the store's terms; the app then recognises the pass like a purchased one, until 31 August of its season. As no payment takes place, a gift code gives no right of withdrawal or refund.",
+  "J’ai un code cadeau": "I have a gift code",
+  "Code cadeau": "Gift code",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "A gift code gives you a pass, with no payment and no automatic renewal. Redeem it in the App Store or Google Play, then come back to VolleyCoach: the pass is activated automatically.",
+  "Utiliser mon code dans l’App Store": "Redeem my code in the App Store",
+  "Utiliser dans Google Play": "Redeem in Google Play",
+  "Code reçu": "Code received",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Pass still missing when you come back? Tap “Restore purchases”.",
+  "Saisissez le code reçu": "Enter the code you received"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -2689,7 +2699,15 @@ const I18N = {
   "Toutes les actions": "Todas las acciones",
   "Horloges synchronisées (écart {N} s)": "Relojes sincronizados (desfase {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Calidad de las colocaciones hacia cada posición de ataque",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "En cada casilla: la calidad de las colocaciones del colocador hacia esa posición de ataque (% de colocaciones + y =) y su número. Una tarjeta por posición donde se hizo la recepción."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "En cada casilla: la calidad de las colocaciones del colocador hacia esa posición de ataque (% de colocaciones + y =) y su número. Una tarjeta por posición donde se hizo la recepción.",
+  "J’ai un code cadeau": "Tengo un código regalo",
+  "Code cadeau": "Código regalo",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Un código regalo te da un pase, sin pago ni renovación automática. Se canjea en el App Store o en Google Play: luego vuelve a VolleyCoach y el pase se activa automáticamente.",
+  "Utiliser mon code dans l’App Store": "Canjear mi código en el App Store",
+  "Utiliser dans Google Play": "Canjear en Google Play",
+  "Code reçu": "Código recibido",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "¿El pase sigue sin aparecer al volver? Toca «Restaurar compras».",
+  "Saisissez le code reçu": "Introduce el código recibido"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -3992,7 +4010,15 @@ const I18N = {
   "Toutes les actions": "Tutte le azioni",
   "Horloges synchronisées (écart {N} s)": "Orologi sincronizzati (scarto {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Qualità delle alzate verso ogni posizione d’attacco",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In ogni casella: la qualità delle alzate del palleggiatore verso quella posizione d’attacco (% di alzate + e =) e il loro numero. Una scheda per posizione in cui è stata fatta la ricezione."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In ogni casella: la qualità delle alzate del palleggiatore verso quella posizione d’attacco (% di alzate + e =) e il loro numero. Una scheda per posizione in cui è stata fatta la ricezione.",
+  "J’ai un code cadeau": "Ho un codice regalo",
+  "Code cadeau": "Codice regalo",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Un codice regalo offre un pass, senza pagamento né rinnovo automatico. Si riscatta nell’App Store o in Google Play: poi torna in VolleyCoach e il pass viene attivato automaticamente.",
+  "Utiliser mon code dans l’App Store": "Riscatta il mio codice nell’App Store",
+  "Utiliser dans Google Play": "Riscatta in Google Play",
+  "Code reçu": "Codice ricevuto",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Il pass manca ancora al ritorno? Tocca «Ripristina acquisti».",
+  "Saisissez le code reçu": "Inserisci il codice ricevuto"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -5295,7 +5321,15 @@ const I18N = {
   "Toutes les actions": "Alle Aktionen",
   "Horloges synchronisées (écart {N} s)": "Uhren synchronisiert (Abweichung {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Zuspielqualität zu jeder Angriffsposition",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In jedem Feld: die Qualität der Zuspiele des Zuspielers zu dieser Angriffsposition (% der Zuspiele + und =) und ihre Anzahl. Eine Karte pro Position, auf der die Annahme erfolgte."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In jedem Feld: die Qualität der Zuspiele des Zuspielers zu dieser Angriffsposition (% der Zuspiele + und =) und ihre Anzahl. Eine Karte pro Position, auf der die Annahme erfolgte.",
+  "J’ai un code cadeau": "Ich habe einen Geschenkcode",
+  "Code cadeau": "Geschenkcode",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Ein Geschenkcode schenkt dir einen Pass, ohne Zahlung und ohne automatische Verlängerung. Er wird im App Store oder bei Google Play eingelöst: Kehre danach zu VolleyCoach zurück, der Pass wird automatisch aktiviert.",
+  "Utiliser mon code dans l’App Store": "Meinen Code im App Store einlösen",
+  "Utiliser dans Google Play": "Bei Google Play einlösen",
+  "Code reçu": "Code erhalten",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Pass nach der Rückkehr immer noch nicht da? Tippe auf „Käufe wiederherstellen“.",
+  "Saisissez le code reçu": "Gib den erhaltenen Code ein"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -6598,7 +6632,15 @@ const I18N = {
   "Toutes les actions": "Wszystkie akcje",
   "Horloges synchronisées (écart {N} s)": "Zegary zsynchronizowane (różnica {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Jakość wystaw do każdej pozycji ataku",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "W każdym polu: jakość wystaw rozgrywającego do tej pozycji ataku (% wystaw + i =) oraz ich liczba. Jedna karta na pozycję, w której wykonano przyjęcie."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "W każdym polu: jakość wystaw rozgrywającego do tej pozycji ataku (% wystaw + i =) oraz ich liczba. Jedna karta na pozycję, w której wykonano przyjęcie.",
+  "J’ai un code cadeau": "Mam kod podarunkowy",
+  "Code cadeau": "Kod podarunkowy",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Kod podarunkowy daje karnet, bez płatności i bez automatycznego odnawiania. Realizuje się go w App Store lub Google Play: potem wróć do VolleyCoach, karnet aktywuje się automatycznie.",
+  "Utiliser mon code dans l’App Store": "Zrealizuj mój kod w App Store",
+  "Utiliser dans Google Play": "Zrealizuj w Google Play",
+  "Code reçu": "Otrzymany kod",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Karnetu nadal nie ma po powrocie? Dotknij „Przywróć zakupy”.",
+  "Saisissez le code reçu": "Wpisz otrzymany kod"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -7901,7 +7943,15 @@ const I18N = {
   "Toutes les actions": "Todas as ações",
   "Horloges synchronisées (écart {N} s)": "Relógios sincronizados (desvio {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Qualidade dos levantamentos para cada posição de ataque",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Em cada célula: a qualidade dos levantamentos do levantador para essa posição de ataque (% de levantamentos + e =) e o seu número. Um cartão por posição onde a receção foi feita."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Em cada célula: a qualidade dos levantamentos do levantador para essa posição de ataque (% de levantamentos + e =) e o seu número. Um cartão por posição onde a receção foi feita.",
+  "J’ai un code cadeau": "Tenho um código de oferta",
+  "Code cadeau": "Código de oferta",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Um código de oferta dá um passe, sem pagamento nem renovação automática. Resgata-se na App Store ou no Google Play: depois volte ao VolleyCoach e o passe é ativado automaticamente.",
+  "Utiliser mon code dans l’App Store": "Resgatar o meu código na App Store",
+  "Utiliser dans Google Play": "Resgatar no Google Play",
+  "Code reçu": "Código recebido",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "O passe continua em falta ao voltar? Toque em “Restaurar compras”.",
+  "Saisissez le code reçu": "Digite o código recebido"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -9204,7 +9254,15 @@ const I18N = {
   "Toutes les actions": "Tüm eylemler",
   "Horloges synchronisées (écart {N} s)": "Saatler senkronize edildi (fark {N} sn)",
   "Qualité des passes vers chaque poste d’attaque": "Her hücum bölgesine pas kalitesi",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Her kutuda: pasörün o hücum bölgesine attığı pasların kalitesi (+ ve = pasların yüzdesi) ve sayısı. Karşılamanın yapıldığı her bölge için bir kart."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Her kutuda: pasörün o hücum bölgesine attığı pasların kalitesi (+ ve = pasların yüzdesi) ve sayısı. Karşılamanın yapıldığı her bölge için bir kart.",
+  "J’ai un code cadeau": "Hediye kodum var",
+  "Code cadeau": "Hediye kodu",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Hediye kodu, ödeme ve otomatik yenileme olmadan bir kart sağlar. App Store veya Google Play’de kullanılır: ardından VolleyCoach’a dönün, kart otomatik olarak etkinleştirilir.",
+  "Utiliser mon code dans l’App Store": "Kodumu App Store’da kullan",
+  "Utiliser dans Google Play": "Google Play’de kullan",
+  "Code reçu": "Alınan kod",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Döndüğünüzde kart hâlâ yok mu? “Satın alımları geri yükle”ye dokunun.",
+  "Saisissez le code reçu": "Aldığınız kodu girin"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -10507,7 +10565,15 @@ const I18N = {
   "Toutes les actions": "すべてのプレー",
   "Horloges synchronisées (écart {N} s)": "時計を同期しました（ずれ {N} 秒）",
   "Qualité des passes vers chaque poste d’attaque": "各アタック位置へのトスの質",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "各マスには、セッターからそのアタック位置へのトスの質（+ と = のトスの %）と本数を表示。レセプションが行われた位置ごとに1枚のカード。"
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "各マスには、セッターからそのアタック位置へのトスの質（+ と = のトスの %）と本数を表示。レセプションが行われた位置ごとに1枚のカード。",
+  "J’ai un code cadeau": "ギフトコードを持っています",
+  "Code cadeau": "ギフトコード",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "ギフトコードを使うと、支払いも自動更新もなしでパスを利用できます。App Store または Google Play で引き換えてから VolleyCoach に戻ると、パスが自動的に有効になります。",
+  "Utiliser mon code dans l’App Store": "App Store でコードを引き換える",
+  "Utiliser dans Google Play": "Google Play で引き換える",
+  "Code reçu": "受け取ったコード",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "戻ってもパスが表示されない場合は、「購入を復元」をタップしてください。",
+  "Saisissez le code reçu": "受け取ったコードを入力してください"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -11810,7 +11876,15 @@ const I18N = {
   "Toutes les actions": "所有动作",
   "Horloges synchronisées (écart {N} s)": "时钟已同步（偏差 {N} 秒）",
   "Qualité des passes vers chaque poste d’attaque": "传向各进攻位置的二传质量",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "每个格子：二传手传向该进攻位置的二传质量（+ 和 = 二传的 %）及次数。每个接发球位置一张卡片。"
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "每个格子：二传手传向该进攻位置的二传质量（+ 和 = 二传的 %）及次数。每个接发球位置一张卡片。",
+  "J’ai un code cadeau": "我有礼品码",
+  "Code cadeau": "礼品码",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "礼品码可兑换一张通行证，无需付款，也不会自动续订。请在 App Store 或 Google Play 中兑换，然后返回 VolleyCoach，通行证将自动激活。",
+  "Utiliser mon code dans l’App Store": "在 App Store 中兑换我的礼品码",
+  "Utiliser dans Google Play": "在 Google Play 中兑换",
+  "Code reçu": "收到的礼品码",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "返回后仍未显示通行证？请点按“恢复购买”。",
+  "Saisissez le code reçu": "请输入收到的礼品码"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -13113,7 +13187,15 @@ const I18N = {
   "Toutes les actions": "Alle acties",
   "Horloges synchronisées (écart {N} s)": "Klokken gesynchroniseerd (verschil {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Setkwaliteit naar elke aanvalspositie",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In elk vak: de kwaliteit van de set-ups van de spelverdeler naar die aanvalspositie (% set-ups + en =) en hun aantal. Eén kaart per positie waar de pass is gegeven."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "In elk vak: de kwaliteit van de set-ups van de spelverdeler naar die aanvalspositie (% set-ups + en =) en hun aantal. Eén kaart per positie waar de pass is gegeven.",
+  "J’ai un code cadeau": "Ik heb een cadeaucode",
+  "Code cadeau": "Cadeaucode",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Een cadeaucode geeft je een pas, zonder betaling en zonder automatische verlenging. Je wisselt hem in via de App Store of Google Play: kom daarna terug naar VolleyCoach, de pas wordt automatisch geactiveerd.",
+  "Utiliser mon code dans l’App Store": "Mijn code inwisselen in de App Store",
+  "Utiliser dans Google Play": "Inwisselen in Google Play",
+  "Code reçu": "Ontvangen code",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Pas nog steeds niet zichtbaar als je terugkomt? Tik op ‘Aankopen herstellen’.",
+  "Saisissez le code reçu": "Voer de ontvangen code in"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -14416,7 +14498,15 @@ const I18N = {
   "Toutes les actions": "Sve akcije",
   "Horloges synchronisées (écart {N} s)": "Satovi sinhronizovani (razlika {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Kvalitet dizanja ka svakoj poziciji napada",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "U svakom polju: kvalitet dizanja tehničara ka toj poziciji napada (% dizanja + i =) i njihov broj. Jedna kartica po poziciji na kojoj je izvršen prijem."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "U svakom polju: kvalitet dizanja tehničara ka toj poziciji napada (% dizanja + i =) i njihov broj. Jedna kartica po poziciji na kojoj je izvršen prijem.",
+  "J’ai un code cadeau": "Imam poklon kod",
+  "Code cadeau": "Poklon kod",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Poklon kod daje propusnicu, bez plaćanja i bez automatskog obnavljanja. Iskoristite ga u App Store-u ili na Google Play-u: zatim se vratite u VolleyCoach, propusnica se aktivira automatski.",
+  "Utiliser mon code dans l’App Store": "Iskoristi moj kod u App Store-u",
+  "Utiliser dans Google Play": "Iskoristi na Google Play-u",
+  "Code reçu": "Primljeni kod",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Propusnice i dalje nema po povratku? Dodirnite „Vrati kupovine”.",
+  "Saisissez le code reçu": "Unesite primljeni kod"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -15719,7 +15809,15 @@ const I18N = {
   "Toutes les actions": "Всички действия",
   "Horloges synchronisées (écart {N} s)": "Часовниците са синхронизирани (разлика {N} с)",
   "Qualité des passes vers chaque poste d’attaque": "Качество на подаванията към всяка зона на атака",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Във всяко поле: качеството на подаванията на разпределителя към тази зона на атака (% подавания + и =) и техният брой. По една карта за всяка зона, в която е направено посрещането."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Във всяко поле: качеството на подаванията на разпределителя към тази зона на атака (% подавания + и =) и техният брой. По една карта за всяка зона, в която е направено посрещането.",
+  "J’ai un code cadeau": "Имам подаръчен код",
+  "Code cadeau": "Подаръчен код",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Подаръчният код дава карта, без плащане и без автоматично подновяване. Използва се в App Store или Google Play: след това се върнете във VolleyCoach и картата се активира автоматично.",
+  "Utiliser mon code dans l’App Store": "Използвай моя код в App Store",
+  "Utiliser dans Google Play": "Използвай в Google Play",
+  "Code reçu": "Получен код",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Картата все още липсва след връщане? Докоснете „Възстанови покупките“.",
+  "Saisissez le code reçu": "Въведете получения код"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -17022,7 +17120,15 @@ const I18N = {
   "Toutes les actions": "Vse akcije",
   "Horloges synchronisées (écart {N} s)": "Uri sinhronizirani (razlika {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Kakovost podaj proti vsakemu položaju napada",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "V vsakem polju: kakovost podaj podajalca proti temu položaju napada (% podaj + in =) in njihovo število. Ena kartica za vsak položaj, kjer je bil sprejem."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "V vsakem polju: kakovost podaj podajalca proti temu položaju napada (% podaj + in =) in njihovo število. Ena kartica za vsak položaj, kjer je bil sprejem.",
+  "J’ai un code cadeau": "Imam darilno kodo",
+  "Code cadeau": "Darilna koda",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Darilna koda vam da karto, brez plačila in brez samodejnega podaljševanja. Unovčite jo v App Storu ali Google Playu: nato se vrnite v VolleyCoach, karta se aktivira samodejno.",
+  "Utiliser mon code dans l’App Store": "Unovči mojo kodo v App Storu",
+  "Utiliser dans Google Play": "Unovči v Google Playu",
+  "Code reçu": "Prejeta koda",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Karte ob vrnitvi še vedno ni? Tapnite »Obnovi nakupe«.",
+  "Saisissez le code reçu": "Vnesite prejeto kodo"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -18325,7 +18431,15 @@ const I18N = {
   "Toutes les actions": "Усі дії",
   "Horloges synchronisées (écart {N} s)": "Годинники синхронізовано (різниця {N} с)",
   "Qualité des passes vers chaque poste d’attaque": "Якість передач у кожну зону атаки",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "У кожній клітинці: якість передач зв’язуючого в цю зону атаки (% передач + і =) та їх кількість. Одна картка для кожної зони, де було зроблено прийом."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "У кожній клітинці: якість передач зв’язуючого в цю зону атаки (% передач + і =) та їх кількість. Одна картка для кожної зони, де було зроблено прийом.",
+  "J’ai un code cadeau": "У мене є подарунковий код",
+  "Code cadeau": "Подарунковий код",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Подарунковий код дає абонемент без оплати та без автоматичного поновлення. Його використовують в App Store або Google Play: потім поверніться у VolleyCoach, абонемент активується автоматично.",
+  "Utiliser mon code dans l’App Store": "Використати мій код в App Store",
+  "Utiliser dans Google Play": "Використати в Google Play",
+  "Code reçu": "Отриманий код",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Абонемента після повернення досі немає? Торкніться «Відновити покупки».",
+  "Saisissez le code reçu": "Введіть отриманий код"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -19628,7 +19742,15 @@ const I18N = {
   "Toutes les actions": "Všechny akce",
   "Horloges synchronisées (écart {N} s)": "Hodiny synchronizovány (rozdíl {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Kvalita nahrávek na jednotlivé pozice útoku",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "V každém poli: kvalita nahrávek nahrávače na tuto pozici útoku (% nahrávek + a =) a jejich počet. Jedna karta pro každou pozici, kde proběhl příjem."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "V každém poli: kvalita nahrávek nahrávače na tuto pozici útoku (% nahrávek + a =) a jejich počet. Jedna karta pro každou pozici, kde proběhl příjem.",
+  "J’ai un code cadeau": "Mám dárkový kód",
+  "Code cadeau": "Dárkový kód",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Dárkový kód vám dá permanentku, bez platby a bez automatického obnovování. Uplatníte ho v App Storu nebo na Google Play: poté se vraťte do VolleyCoach, permanentka se aktivuje automaticky.",
+  "Utiliser mon code dans l’App Store": "Uplatnit můj kód v App Storu",
+  "Utiliser dans Google Play": "Uplatnit na Google Play",
+  "Code reçu": "Obdržený kód",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Permanentka po návratu stále chybí? Klepněte na „Obnovit nákupy“.",
+  "Saisissez le code reçu": "Zadejte obdržený kód"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -20931,7 +21053,15 @@ const I18N = {
   "Toutes les actions": "การเล่นทั้งหมด",
   "Horloges synchronisées (écart {N} s)": "ซิงก์นาฬิกาแล้ว (ต่างกัน {N} วิ)",
   "Qualité des passes vers chaque poste d’attaque": "คุณภาพการเซตไปยังแต่ละตำแหน่งบุก",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "ในแต่ละช่อง: คุณภาพการเซตของตัวเซตไปยังตำแหน่งบุกนั้น (% ของการเซต + และ =) และจำนวนครั้ง หนึ่งการ์ดต่อหนึ่งตำแหน่งที่รับลูกเสิร์ฟ"
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "ในแต่ละช่อง: คุณภาพการเซตของตัวเซตไปยังตำแหน่งบุกนั้น (% ของการเซต + และ =) และจำนวนครั้ง หนึ่งการ์ดต่อหนึ่งตำแหน่งที่รับลูกเสิร์ฟ",
+  "J’ai un code cadeau": "ฉันมีโค้ดของขวัญ",
+  "Code cadeau": "โค้ดของขวัญ",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "โค้ดของขวัญมอบบัตรให้คุณโดยไม่ต้องชำระเงินและไม่มีการต่ออายุอัตโนมัติ ใช้โค้ดใน App Store หรือ Google Play จากนั้นกลับมาที่ VolleyCoach บัตรจะเปิดใช้งานโดยอัตโนมัติ",
+  "Utiliser mon code dans l’App Store": "ใช้โค้ดของฉันใน App Store",
+  "Utiliser dans Google Play": "ใช้ใน Google Play",
+  "Code reçu": "โค้ดที่ได้รับ",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "กลับมาแล้วยังไม่มีบัตร? แตะ “กู้คืนการซื้อ”",
+  "Saisissez le code reçu": "ใส่โค้ดที่ได้รับ"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -22234,7 +22364,15 @@ const I18N = {
   "Toutes les actions": "모든 동작",
   "Horloges synchronisées (écart {N} s)": "시계 동기화됨(차이 {N}초)",
   "Qualité des passes vers chaque poste d’attaque": "공격 위치별 토스 품질",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "각 칸: 세터가 그 공격 위치로 올린 토스의 품질(+ 및 = 토스의 %)과 횟수. 리시브가 이루어진 위치마다 카드 하나."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "각 칸: 세터가 그 공격 위치로 올린 토스의 품질(+ 및 = 토스의 %)과 횟수. 리시브가 이루어진 위치마다 카드 하나.",
+  "J’ai un code cadeau": "선물 코드가 있습니다",
+  "Code cadeau": "선물 코드",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "선물 코드를 사용하면 결제나 자동 갱신 없이 패스를 받을 수 있습니다. App Store 또는 Google Play에서 코드를 사용한 뒤 VolleyCoach로 돌아오면 패스가 자동으로 활성화됩니다.",
+  "Utiliser mon code dans l’App Store": "App Store에서 내 코드 사용하기",
+  "Utiliser dans Google Play": "Google Play에서 사용하기",
+  "Code reçu": "받은 코드",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "돌아온 뒤에도 패스가 없나요? ‘구매 복원’을 누르세요.",
+  "Saisissez le code reçu": "받은 코드를 입력하세요"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -23537,7 +23675,15 @@ const I18N = {
   "Toutes les actions": "Lahat ng aksyon",
   "Horloges synchronisées (écart {N} s)": "Na-sync ang mga orasan (pagitan {N} s)",
   "Qualité des passes vers chaque poste d’attaque": "Kalidad ng mga set papunta sa bawat posisyon ng atake",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Sa bawat kahon: ang kalidad ng mga set ng setter papunta sa posisyon ng atakeng iyon (% ng mga set na + at =) at ang bilang nito. Isang card bawat posisyon kung saan ginawa ang reception."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Sa bawat kahon: ang kalidad ng mga set ng setter papunta sa posisyon ng atakeng iyon (% ng mga set na + at =) at ang bilang nito. Isang card bawat posisyon kung saan ginawa ang reception.",
+  "J’ai un code cadeau": "May gift code ako",
+  "Code cadeau": "Gift code",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Ang gift code ay nagbibigay ng pass, walang bayad at walang automatic na pag-renew. I-redeem ito sa App Store o Google Play: pagkatapos, bumalik sa VolleyCoach at awtomatikong ia-activate ang pass.",
+  "Utiliser mon code dans l’App Store": "I-redeem ang code ko sa App Store",
+  "Utiliser dans Google Play": "I-redeem sa Google Play",
+  "Code reçu": "Natanggap na code",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Wala pa rin ang pass pagbalik mo? I-tap ang “I-restore ang mga binili”.",
+  "Saisissez le code reçu": "Ilagay ang natanggap na code"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -24840,7 +24986,15 @@ const I18N = {
   "Toutes les actions": "Semua aksi",
   "Horloges synchronisées (écart {N} s)": "Jam disinkronkan (selisih {N} dtk)",
   "Qualité des passes vers chaque poste d’attaque": "Kualitas umpan ke setiap posisi serangan",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Di setiap kotak: kualitas umpan tosser ke posisi serangan tersebut (% umpan + dan =) dan jumlahnya. Satu kartu per posisi tempat penerimaan dilakukan."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Di setiap kotak: kualitas umpan tosser ke posisi serangan tersebut (% umpan + dan =) dan jumlahnya. Satu kartu per posisi tempat penerimaan dilakukan.",
+  "J’ai un code cadeau": "Saya punya kode hadiah",
+  "Code cadeau": "Kode hadiah",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Kode hadiah memberi Anda pass, tanpa pembayaran dan tanpa perpanjangan otomatis. Tukarkan di App Store atau Google Play: lalu kembali ke VolleyCoach, pass akan aktif secara otomatis.",
+  "Utiliser mon code dans l’App Store": "Tukarkan kode saya di App Store",
+  "Utiliser dans Google Play": "Tukarkan di Google Play",
+  "Code reçu": "Kode yang diterima",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Pass masih belum ada setelah kembali? Ketuk “Pulihkan pembelian”.",
+  "Saisissez le code reçu": "Masukkan kode yang diterima"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -26143,7 +26297,15 @@ const I18N = {
   "Toutes les actions": "Все действия",
   "Horloges synchronisées (écart {N} s)": "Часы синхронизированы (расхождение {N} с)",
   "Qualité des passes vers chaque poste d’attaque": "Качество передач в каждую зону атаки",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "В каждой ячейке: качество передач связующего в эту зону атаки (% передач + и =) и их число. Одна карточка на каждую зону, где был выполнен приём."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "В каждой ячейке: качество передач связующего в эту зону атаки (% передач + и =) и их число. Одна карточка на каждую зону, где был выполнен приём.",
+  "J’ai un code cadeau": "У меня есть подарочный код",
+  "Code cadeau": "Подарочный код",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Подарочный код даёт абонемент без оплаты и без автоматического продления. Он активируется в App Store или Google Play: затем вернитесь в VolleyCoach, абонемент включится автоматически.",
+  "Utiliser mon code dans l’App Store": "Использовать мой код в App Store",
+  "Utiliser dans Google Play": "Использовать в Google Play",
+  "Code reçu": "Полученный код",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Абонемента после возврата по-прежнему нет? Нажмите «Восстановить покупки».",
+  "Saisissez le code reçu": "Введите полученный код"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -27446,7 +27608,15 @@ const I18N = {
   "Toutes les actions": "كل المحاولات",
   "Horloges synchronisées (écart {N} s)": "تمت مزامنة الساعات (فارق {N} ث)",
   "Qualité des passes vers chaque poste d’attaque": "جودة الإعداد نحو كل مركز هجوم",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "في كل خانة: جودة إعداد المعدّ نحو مركز الهجوم هذا (% من الإعدادات + و =) وعددها. بطاقة لكل مركز تم فيه الاستقبال."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "في كل خانة: جودة إعداد المعدّ نحو مركز الهجوم هذا (% من الإعدادات + و =) وعددها. بطاقة لكل مركز تم فيه الاستقبال.",
+  "J’ai un code cadeau": "لدي رمز هدية",
+  "Code cadeau": "رمز هدية",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "يمنحك رمز الهدية اشتراكًا دون دفع ودون تجديد تلقائي. يُستخدم في App Store أو Google Play: ثم عُد إلى VolleyCoach، وسيُفعَّل الاشتراك تلقائيًا.",
+  "Utiliser mon code dans l’App Store": "استخدام رمزي في App Store",
+  "Utiliser dans Google Play": "استخدام الرمز في Google Play",
+  "Code reçu": "الرمز المستلم",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "هل ما زال الاشتراك غائبًا بعد العودة؟ اضغط على «استعادة المشتريات».",
+  "Saisissez le code reçu": "أدخل الرمز المستلم"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -28749,7 +28919,15 @@ const I18N = {
   "Toutes les actions": "Tất cả hành động",
   "Horloges synchronisées (écart {N} s)": "Đồng hồ đã đồng bộ (lệch {N} giây)",
   "Qualité des passes vers chaque poste d’attaque": "Chất lượng chuyền hai tới từng vị trí tấn công",
-  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Trong mỗi ô: chất lượng đường chuyền của chuyền hai tới vị trí tấn công đó (% đường chuyền + và =) và số lượng. Một thẻ cho mỗi vị trí đã đỡ bước một."
+  "Dans chaque case : la qualité des passes du passeur vers ce poste d’attaque (% de passes + et =) et leur nombre. Une carte par poste où la réception a été faite.": "Trong mỗi ô: chất lượng đường chuyền của chuyền hai tới vị trí tấn công đó (% đường chuyền + và =) và số lượng. Một thẻ cho mỗi vị trí đã đỡ bước một.",
+  "J’ai un code cadeau": "Tôi có mã quà tặng",
+  "Code cadeau": "Mã quà tặng",
+  "Un code cadeau offre un pass, sans paiement ni renouvellement automatique. Il s’utilise dans l’App Store ou Google Play : revenez ensuite dans VolleyCoach, le pass est activé automatiquement.": "Mã quà tặng tặng bạn một thẻ, không cần thanh toán và không tự động gia hạn. Hãy đổi mã trong App Store hoặc Google Play, rồi quay lại VolleyCoach: thẻ sẽ được kích hoạt tự động.",
+  "Utiliser mon code dans l’App Store": "Đổi mã của tôi trong App Store",
+  "Utiliser dans Google Play": "Đổi mã trong Google Play",
+  "Code reçu": "Mã đã nhận",
+  "Pass toujours absent au retour ? Touchez « Restaurer mes achats ».": "Quay lại mà vẫn chưa có thẻ? Nhấn “Khôi phục giao dịch mua”.",
+  "Saisissez le code reçu": "Nhập mã đã nhận"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
