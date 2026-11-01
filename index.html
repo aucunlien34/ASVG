@@ -125,6 +125,7 @@ label.f select:disabled{opacity:.7}
 .tools.aceq .btn{flex:1;min-height:64px;font-size:22px}
 .bchip.tbchip{border-left:6px solid var(--gc)}
 .card.imp{padding:4px 10px}.btn.expm{margin:0 0 6px 30px;min-height:34px}.expml{margin:0 0 8px 30px;border-left:3px solid var(--line);padding-left:10px}.improw{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.improw:last-child{border-bottom:0}
+.pcmp .cpart{font-weight:700;color:var(--muted);white-space:nowrap}.buyc.sub .pp small{font-size:12px;font-weight:600}
 .improw input{margin-top:3px}.improw small{display:block;font-size:12px;color:var(--muted)}.improw small.dupw{color:var(--neg);font-weight:700}
 .gfilt{margin:0 0 10px}.gfilt .gseg,.teamc .gseg{display:flex}.gfilt .gseg button,.teamc .gseg button{flex:1 1 auto;min-width:0;padding:0 6px;font-size:14px;gap:5px}.gfilt .gseg .gdot,.teamc .gseg .gdot{width:9px;height:9px}
 /* Téléphone : partie stats repliable (sélecteur « Positions | Saisie ») */
@@ -767,10 +768,16 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vinfo{margin-left:auto;font:600 13px Barlow,sans-serif;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}.vinfo:empty{display:none}
 .vwait{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 22px Barlow,sans-serif;z-index:1}.vwait[hidden]{display:none}
 .vbar{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:24px calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px));background:linear-gradient(transparent,rgba(0,0,0,.75) 40%)}
+:root{--vkeep:#F2BE22;--vdis:rgba(255,255,255,.18)}
+.vpbbar{flex-direction:column;align-items:stretch}.vtrack{position:relative;height:40px;border-radius:10px;touch-action:none;cursor:pointer;border:1px solid rgba(255,255,255,.35)}
+.vhead{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px #000;border-radius:2px;pointer-events:none}
+.vkeepb.drop{background:#D7263D!important;border-color:#D7263D!important;color:#fff!important}.vzw{background:#F2BE22;color:#14243D}.vzw[hidden]{display:none}
 .vtop .vdel{pointer-events:auto}.vtop .vdel .btn{min-height:44px;min-width:44px;background:rgba(0,0,0,.55);color:#fff;border-color:rgba(255,255,255,.4);font-size:22px}
 .vslowb{position:relative;overflow:hidden;min-width:min(340px,60vw);display:inline-flex;align-items:center;gap:8px}.vslowb .vback{position:relative;flex:none}
 .vslow{flex:1 1 380px;min-width:0}.vslowb{flex:1 1 auto;min-width:0!important;text-align:left}.vslowb span{white-space:normal;line-height:1.15}
 .vslow .seg{flex:none;flex-direction:column;max-width:none}.vslow .seg button{flex:1;min-height:22px;padding:1px 12px;font-size:13px;line-height:1}
+.vstage.replay::after{content:"";position:absolute;inset:0;border:6px solid #F2BE22;pointer-events:none;z-index:1}
+.vbackto{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:3;background:rgba(0,0,0,.7);color:#fff;font:700 24px Barlow,sans-serif;padding:10px 18px;border-radius:14px}.vbackto[hidden]{display:none}
 .vstopb{flex:none;width:46px;height:46px;border-radius:12px;border:2px solid #fff;background:rgba(0,0,0,.4);display:inline-flex;align-items:center;justify-content:center;padding:0}.vstopb i{width:20px;height:20px;background:#E0263B;border-radius:3px}.vstopb[hidden]{display:none}.vslowb i{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(20,36,61,.35)}.vslowb span{position:relative}.vslowb.run{background:#fff!important;border-color:#fff!important}
 .vcutbar{flex-direction:column;align-items:stretch}.vcutrk{position:relative;height:44px}.vcutrk input{position:absolute;inset:0;width:100%;height:44px;margin:0;accent-color:#fff;background:transparent}
 .vsel{position:absolute;top:15px;height:14px;background:#F2BE22;border-radius:7px}.vrow2{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -818,7 +825,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V178';
+const APP_VERSION='V180';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1403,7 +1410,7 @@ function rosterSim(A,B){const a=new Set(A.map(normName).filter(Boolean)),b=new S
 // Équipes et saisons intégrées à l'application
 const SEED_TEAMS=[{id:'t-earth',name:'Team Earth',gender:'X',locked:true,roster:[{"id":"e1","n":1,"nom":"S.","pre":"DARIA","postes":["Pa"]},{"id":"e2","n":2,"nom":"V.","pre":"MELISSA","postes":["Pu"]},{"id":"e3","n":3,"nom":"G.","pre":"BOJANA","postes":["R4"]},{"id":"e4","n":4,"nom":"A.","pre":"EKATERINA","postes":["R4"]},{"id":"e5","n":5,"nom":"K.","pre":"JÚLIA","postes":["C"]},{"id":"e6","n":6,"nom":"G.","pre":"ZEHRA","postes":["C"]},{"id":"e7","n":7,"nom":"G.","pre":"JULIETTE","postes":["L"]},{"id":"e8","n":8,"nom":"B.","pre":"ANTOINE","postes":["Pa"]},{"id":"e9","n":9,"nom":"N.","pre":"ALEKSANDAR","postes":["Pu"]},{"id":"e10","n":10,"nom":"F.","pre":"TOMASZ","postes":["R4"]},{"id":"e11","n":11,"nom":"H.","pre":"MATHIS","postes":["R4"]},{"id":"e12","n":12,"nom":"H.","pre":"JACKSON","postes":["C"]},{"id":"e13","n":13,"nom":"K.","pre":"JAKUB","postes":["C"]},{"id":"e14","n":14,"nom":"M.","pre":"FRANCO","postes":["L"]}]}];
 // Match d'exercice en cours de Team Earth (voir demoCur)
-const DEMO_CUR={base:'seed-sl-04',id:'demo-15',opp:'Team Pluto',num:'Exercice',date:'2026-07-24'};
+const DEMO_CUR={base:'seed-sl3-04',id:'demo-15',opp:'Team Pluto',num:'Exercice',date:'2026-07-24'};
 const SEED_SEASONS=[{team:'t-earth',id:'s-earth-wl',name:'Solar League',closed:true,level:'N',calib:true}];
 function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.seedTeams||[];s.seedSeasons=s.seedSeasons||[];
   (s.teams||[]).forEach(t=>{if(!t.gender)t.gender='F';});
@@ -1934,8 +1941,9 @@ const LEGAL={
 <p><b>Responsabilité</b> : les statistiques sont fournies à titre indicatif, à partir de vos saisies. L'éditeur ne peut être tenu responsable d'une perte de données liée à l'appareil, au navigateur ou à l'absence de sauvegarde.</p>
 <p><b>Droit applicable</b> : droit français. Éditeur : VolleyCoach (voir les mentions légales).</p>`],
  cgv:['Conditions générales de vente',`<p><b>Vendeur</b> : VolleyCoach, particulier, entreprise en cours de création (SIRET en cours d’attribution), 45 impasse des Maseliers, 34660 Cournonsec, France, volleycoachstats@gmail.com, +33 6 79 62 06 61. TVA non applicable, article 293 B du CGI.</p>
-<p><b>Offres et prix</b> : Pass saison à 29,99 €, en vente de septembre à décembre, et pass mi-saison à 19,99 €, en vente de janvier à août ; tous deux valables jusqu'au 31 août qui suit l'achat. Le pass profite aux appareils connectés au même compte App Store ou Google Play. Essai gratuit de toutes les fonctions jusqu'au 31 août 2027, puis 14 jours pour les nouveaux utilisateurs. Prix en euros, toutes taxes comprises, fixés par les stores dans chaque pays. Aucun renouvellement automatique : à l'échéance, l'application revient en version gratuite, sans perte de données.</p>
-<p><b>Commande et paiement</b> : uniquement dans l'application, par achat intégré via l'App Store ou Google Play, aux conditions du store. Le pass est activé aussitôt dans l'application. La confirmation et le reçu sont envoyés par le store.</p>
+<p><b>Offres et prix</b> : Pass saison à 29,99 €, en vente de septembre à décembre, et pass mi-saison à 19,99 €, en vente de janvier à août ; tous deux valables jusqu'au 31 août qui suit l'achat, sans renouvellement automatique. Abonnement mensuel à 5,99 € par mois, avec les mêmes fonctions. Le pass ou l'abonnement profite aux appareils connectés au même compte App Store ou Google Play. Essai gratuit de toutes les fonctions jusqu'au 31 août 2027, puis 14 jours pour les nouveaux utilisateurs. Prix en euros, toutes taxes comprises, fixés par les stores dans chaque pays. À l'échéance d'un pass ou d'un abonnement résilié, l'application revient en version gratuite, sans perte de données.</p>
+<p><b>Abonnement mensuel</b> : sans engagement. Il est renouvelé automatiquement chaque mois, au prix en vigueur, et débité par le store à chaque renouvellement, sauf résiliation au plus tard 24 heures avant la fin de la période en cours. La résiliation se fait dans les abonnements du compte App Store ou Google Play (lien « Gérer mon abonnement » dans la fiche VolleyCoach Pro) ; l'accès Pro reste ouvert jusqu'à la fin du mois payé. Toute hausse de prix est annoncée par le store avant de s'appliquer.</p>
+<p><b>Commande et paiement</b> : uniquement dans l'application, par achat intégré via l'App Store ou Google Play, aux conditions du store. Le pass ou l'abonnement est activé aussitôt dans l'application. La confirmation et le reçu sont envoyés par le store.</p>
 <p><b>Fourniture</b> : accès immédiat aux fonctions Pro après activation, pour la durée choisie.</p>
 <p><b>Droit de rétractation</b> : 14 jours à compter de l'achat, pour un consommateur, sauf si vous demandez l'exécution immédiate du service et renoncez expressément à ce droit (case à cocher au moment du paiement). Pour un achat via l'App Store ou Google Play, la demande se fait auprès du store, selon ses conditions. Détails et formulaire type : page « Rétractation et remboursement ».</p>
 <p><b>Garantie légale de conformité</b> : vous bénéficiez de la garantie légale de conformité applicable aux contenus et services numériques (articles L224-25-1 et suivants du Code de la consommation).</p>
@@ -2126,7 +2134,7 @@ function lrnOff(){if(!ui.lrnM)return;const v=ui.lrnSave||{};ui.lrnM=null;ui.lrnF
 // à l'autre, à l'heure « maintenant − délai » ; ils vivent dans un calque gardé d'un rendu à l'autre (VID.layer).
 // Gratuit : 5 min de caméra par jour ; enregistrement (REC, mode Match) : Pro.
 const VID={tok:0,on:false,segs:[],rec:null,rp:null,pb:null,zoom:1,maxZoom:1,fps:0,w:0,h:0,err:null,free:null,raf:0,sec:0,web:null,mem:{},ls:[],layer:null};
-const VFREE=300,VMEM=5,VSTEP=2000,VMIN=2,VMAX=30,VBPS={720:5e6,1080:10e6};
+const VFREE=300,VMEM=5,VSLOW0=2000,VSTEP=1000,VMIN=2,VMAX=30,VBPS={720:5e6,1080:10e6};
 const vNative=()=>NATIVE&&!!CAP().VideoDelay;
 const VP=()=>store.prefs.vid||(store.prefs.vid={delay:8,q:'720',mode:'train',slow:0.5});
 function vUse(){if(!store.vidUse||store.vidUse.d!==today())store.vidUse={d:today(),s:0};return store.vidUse;}
@@ -2140,7 +2148,7 @@ function vidLayer(){if(VID.layer)return VID.layer;const L=document.createElement
   [...L.children].forEach(v=>{v.muted=true;v.playsInline=true;});return VID.layer=L;}
 function vidClear(){if(!VID.layer)return;[...VID.layer.children].forEach(v=>{v.pause();v.removeAttribute('src');v._seg=null;v._on=0;try{v.load();}catch(e){}});}
 function vidDrop(L){if(!L.length)return;if(vNative()){CAP().VideoDelay.remove({paths:L.map(s=>s.path).filter(Boolean)}).catch(()=>{});}else L.forEach(s=>{try{URL.revokeObjectURL(s.url);}catch(e){}});}
-function vidSeg(s){if(!VID.on)return;VID.segs.push(s);if(VID.rec){s.keep=true;VID.rec.segs.push(s);}if(s.free!=null)VID.free=s.free;
+function vidSeg(s){if(!VID.on)return;VID.segs.push(s);if(VID.rec){vRecAdd(s);if(Date.now()-VID.recSave>15000){VID.recSave=Date.now();save();}}if(s.free!=null)VID.free=s.free;
   // mémoire glissante : les tranches de plus de 5 min sortent de la liste (supprimées sauf si elles sont enregistrées)
   const lim=Date.now()-VMEM*60e3,old=[];while(!VID.cut&&VID.segs.length&&VID.segs[0].t0+VID.segs[0].dur<lim)old.push(VID.segs.shift());vidDrop(old.filter(x=>!x.keep));
   if(VID.free!=null&&VID.rec&&VID.free<400e6){vidRecStop();toast('Place presque pleine : enregistrement arrêté','warn');render();}
@@ -2154,7 +2162,7 @@ async function vidStart(){if(VID.on)return;if(vidLeft()<=0){ui.vidLock=true;rend
     VID.on=true;
     if(vNative()){const V=CAP().VideoDelay;VID.ls=[await V.addListener('segment',e=>vidSeg({url:vUrl(e.path),path:e.path,t0:e.t0,dur:e.dur,size:e.size,free:e.free})),
         await V.addListener('error',e=>{VID.err=tr('Erreur de la caméra')+((e&&e.message)?' : '+e.message:'');vidStop();render();})];
-      const keep=[];(store.vids||[]).forEach(r=>r.segs.forEach(s=>keep.push(s.u)));
+      await vidRecover();const keep=[];(store.vids||[]).forEach(r=>vSegsOf(r).forEach(x=>keep.push(x.u)));
       const r=await V.start({quality:P.q,fps:60,keep});if(gone())return;VID.fps=r.fps;VID.maxZoom=r.maxZoom||1;VID.free=r.free;VID.w=r.width;VID.h=r.height;}
     else{await vidWebStart(P);if(gone()){vidStop();return;}}
     if(P.mode==='match')vidRecStart();}
@@ -2179,13 +2187,32 @@ function vidCutStart(){if(!isPro()){ui.sheet='pro';return;}const S=VID.segs;if(!
 function vidCutSave(){const C=VID.cut;if(!C||C.b-C.a<200)return;const segs=VID.segs.filter(x=>x.t0+x.dur>C.a&&x.t0<C.b);if(!segs.length)return;segs.forEach(x=>x.keep=true);
   const e={id:'v'+Date.now().toString(36),mode:'train',t0:C.a,dur:Math.round(C.b-C.a),ia:Math.max(0,Math.round(C.a-segs[0].t0)),size:segs.reduce((a,x)=>a+(x.size||0),0),q:VP().q,fps:VID.fps,segs:segs.map(x=>({u:x.path||x.url,d:Math.round(x.dur),t:x.t0}))};
   if(!vNative()){e.web=1;VID.mem[e.id]=segs;}store.vids=[e].concat(store.vids||[]);VID.cut=null;save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
-// Mode Match : enregistrement de la mise en route à l'arrêt de la caméra
-function vidRecStart(){if(!isPro()){ui.sheet='pro';return;}const from=Date.now()-VP().delay*1000-1000;
-  VID.rec={id:'v'+Date.now().toString(36),at:Date.now(),mode:VP().mode,segs:VID.segs.filter(s=>s.t0+s.dur>from)};VID.rec.segs.forEach(s=>s.keep=true);}
-function vidRecStop(){const r=VID.rec;VID.rec=null;if(!r||!r.segs.length)return;const segs=r.segs;
-  const e={id:r.id,mode:r.mode,t0:segs[0].t0,dur:segs.reduce((a,s)=>a+s.dur,0),size:segs.reduce((a,s)=>a+(s.size||0),0),q:VP().q,fps:VID.fps,segs:segs.map(s=>({u:s.path||s.url,d:Math.round(s.dur),t:s.t0}))};
-  if(!vNative()){e.web=1;VID.mem[e.id]=segs;}
-  store.vids=[e].concat(store.vids||[]);save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
+// Mode Match : enregistrement de la mise en route à l'arrêt de la caméra, noté au fur et à mesure (V180) : il est dans la liste dès
+// le départ (st « live »), ses tranches y sont ajoutées une à une et sauvegardées toutes les 15 s ; après un arrêt brutal de l'appli,
+// vidRecover le complète avec les tranches restées sur le disque. Tranches notées par leur nom de fichier (dossier commun dans dir).
+const vDir=p=>String(p||'').slice(0,String(p||'').lastIndexOf('/')+1);
+const vSegsOf=r=>(r.segs||[]).map(x=>({u:(r.dir||'')+x.u,d:x.d,t:x.t}));
+function vidRecStart(){if(!isPro()){ui.sheet='pro';return;}const from=Date.now()-VP().delay*1000-1000,segs=VID.segs.filter(x=>x.t0+x.dur>from);
+  const e={id:'v'+Date.now().toString(36),mode:VP().mode,t0:segs.length?segs[0].t0:Date.now(),dur:0,size:0,q:VP().q,fps:VID.fps,st:'live',segs:[]};
+  if(!vNative()){e.web=1;VID.mem[e.id]=[];}
+  store.vids=[e].concat(store.vids||[]);VID.rec={id:e.id,at:Date.now(),e};segs.forEach(vRecAdd);VID.recSave=Date.now();save();}
+function vRecAdd(x){const R=VID.rec;if(!R)return;const e=R.e;x.keep=true;if(!e.dir&&x.path)e.dir=vDir(x.path);
+  e.segs.push({u:e.dir&&x.path&&x.path.startsWith(e.dir)?x.path.slice(e.dir.length):(x.path||x.url),d:Math.round(x.dur),t:x.t0});e.dur+=x.dur;e.size+=x.size||0;if(e.web)VID.mem[e.id].push(x);}
+function vidRecStop(){const R=VID.rec;VID.rec=null;if(!R)return;const e=R.e;delete e.st;e.dur=Math.round(e.dur);
+  if(!e.segs.length){store.vids=(store.vids||[]).filter(x=>x!==e);save();return;}
+  save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
+// Reprise après un arrêt brutal (V180) : un enregistrement resté « live » est complété avec les tranches restées sur le disque
+// (après sa dernière tranche notée et avant l'enregistrement suivant), puis marqué « interrompu »
+async function vidRecover(){if(VID.on||VID.recovered)return;VID.recovered=true;const L=(store.vids||[]).filter(r=>r.st==='live');if(!L.length)return;
+  let files=[];if(vNative()){try{files=((await CAP().VideoDelay.list())||{}).files||[];}catch(e){}}
+  const used=new Set();(store.vids||[]).forEach(r=>vSegsOf(r).forEach(x=>used.add(x.u)));
+  const orph=files.filter(x=>x.t&&!used.has(x.path)).sort((a,b)=>a.t-b.t);
+  L.forEach(r=>{const last=r.segs.length?r.segs[r.segs.length-1].t:r.t0-3000,next=Math.min(Infinity,...(store.vids||[]).filter(x=>x!==r&&x.t0>r.t0).map(x=>x.t0));
+    const add=orph.filter(x=>x.t>last&&x.t<next&&!used.has(x.path));if(!r.dir&&add[0])r.dir=vDir(add[0].path);
+    add.forEach((x,i)=>{const d=Math.round(Math.min(3000,Math.max(300,(add[i+1]?add[i+1].t:x.t+1000)-x.t)));used.add(x.path);
+      r.segs.push({u:r.dir&&x.path.startsWith(r.dir)?x.path.slice(r.dir.length):x.path,d,t:x.t});r.dur+=d;r.size+=x.size||0;});
+    r.dur=Math.round(r.dur);r.st='int';});
+  store.vids=store.vids.filter(r=>!(r.st==='int'&&!r.segs.length));save();if(ui.screen==='video')render();}
 // Heure affichée : maintenant − délai ; pendant un ralenti, les dernières secondes rejouées plus lentement, puis retour au différé
 function vidT(now){const rp=VID.rp;if(rp){const t=rp.a+(now-rp.b)*rp.r;if(t<rp.e)return {t,r:rp.r};VID.rp=null;}return {t:now-VP().delay*1000,r:1};}
 function vidShow(sg,loc,r,nx,play){const L=VID.layer;if(!L||!sg)return;const [v1,v2]=L.children;let a=v1._on?v1:v2._on?v2:null;
@@ -2194,11 +2221,28 @@ function vidShow(sg,loc,r,nx,play){const L=VID.layer;if(!L||!sg)return;const [v1
   else{if(a.playbackRate!==r)a.playbackRate=r;if(Math.abs(a.currentTime*1000-loc)>(play?350:8)&&loc<sg.dur){try{a.currentTime=Math.max(0,loc)/1000;}catch(e){}}
     if(play&&a.paused&&!a.ended)a.play().catch(()=>{});if(!play&&!a.paused)a.pause();}
   const b=a===v1?v2:v1;if(nx&&b._seg!==nx){b.src=nx.url;b._seg=nx;try{b.load();}catch(e){}}}
+// Montage d'un enregistrement (V180) : points de coupe r.cuts = [[ms, 1 garder | 0 jeter]…], sauvegardés à chaque action.
+// Au début, tout est gardé ; « Jeter à partir d'ici » / « Garder à partir d'ici » ajoutent une bascule à la position.
+const vRec=()=>VID.pb&&(store.vids||[]).find(x=>x.id===VID.pb.id);
+const vCuts=r=>(r&&r.cuts)||[];
+function vKeepAt(r,pos){let k=1;for(const [t,v] of vCuts(r)){if(t<=pos)k=v;else break;}return k;}
+function vNextKeep(r,pos){for(const [t,v] of vCuts(r))if(t>pos&&v)return t;return null;}
+function vRanges(r,tot){const out=[];let a=0,k=1;vCuts(r).forEach(([t,v])=>{if(t>=tot)return;if(k&&t>a)out.push([a,t]);a=t;k=v;});if(k&&tot>a)out.push([a,tot]);return out;}
+function vSetCut(r,pos,keep){const C=vCuts(r).filter(([t])=>Math.abs(t-pos)>40);C.push([Math.round(pos),keep?1:0]);C.sort((a,b)=>a[0]-b[0]);
+  const S=[];let k=1;C.forEach(c=>{if(c[1]!==k){S.push(c);k=c[1];}});r.cuts=S;save();}
+function vTrackBg(r,tot,w0,w1){const W=(w1-w0)||1,pc=v=>(Math.max(0,Math.min(1,(v-w0)/W))*100).toFixed(2)+'%',st=[];let x=w0;
+  vRanges(r,tot).forEach(([a,b])=>{st.push('var(--vdis) '+pc(x),'var(--vdis) '+pc(a),'var(--vkeep) '+pc(a),'var(--vkeep) '+pc(b));x=b;});
+  st.push('var(--vdis) '+pc(x),'var(--vdis) 100%');return 'linear-gradient(90deg,'+st.join(',')+')';}
 const vTxt=(id,t)=>{const e=document.getElementById(id);if(e&&e.textContent!==t)e.textContent=t;};
 function vidLoop(){VID.raf=0;if(ui.screen!=='video'||!(VID.on||VID.pb))return;const now=Date.now();
-  if(VID.pb){const P=VID.pb,dt=now-P.at;P.at=now;if(P.play&&!P.drag){P.pos=Math.min(P.tot,P.pos+dt*P.r);if(P.pos>=P.tot)P.play=false;}
+  if(VID.pb){const P=VID.pb,r=vRec(),dt=now-P.at;P.at=now;
+    if(P.play&&!P.drag){let np=Math.min(P.tot,P.pos+dt*P.r);if(r&&!vKeepAt(r,np)){const nk=vNextKeep(r,np);np=nk==null?P.tot:nk;}P.pos=np;if(P.pos>=P.tot)P.play=false;}
     const ab=P.pos+(P.ia||0);let i=P.off.findIndex((o,k)=>ab<o+P.segs[k].dur);if(i<0)i=P.segs.length-1;vidShow(P.segs[i],ab-P.off[i],P.r,P.segs[i+1],P.play);
-    const sk=document.getElementById('vSeek');if(sk&&!P.drag)sk.value=Math.round(P.pos);vTxt('vPos',vMs(P.pos)+' / '+vMs(P.tot));vTxt('vPP',P.play?'❚❚':'▶');}
+    const W=P.zw||[0,P.tot],hd=document.getElementById('vHead');if(hd)hd.style.left=(Math.max(0,Math.min(1,(P.pos-W[0])/((W[1]-W[0])||1)))*100).toFixed(2)+'%';
+    vTxt('vPos',vMs(P.pos)+' / '+vMs(P.tot));vTxt('vPP',P.play?'❚❚':'▶');
+    if(r){const k=vKeepAt(r,P.pos),kb=document.getElementById('vKeepB');if(kb){kb.classList.toggle('drop',!!k);vTxt('vKeepT',k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici'));}
+      vTxt('vKeepI',tr('Gardé : {A} sur {B}').replace('{A}',vMs(vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0))).replace('{B}',vMs(P.tot)));}
+    if(ui.vidExp)vTxt('vExpT',tr('Export… {N} %').replace('{N}',Math.round(ui.vidExp.p*100)));}
   else if(VID.cut){const C=VID.cut,dt=now-C.at,S=VID.segs;C.at=now;if(C.play&&!C.drag){C.pos=Math.min(C.mx,C.pos+dt);if(C.pos>=C.mx)C.play=false;}
     let i=-1;for(let k=S.length-1;k>=0;k--)if(S[k].t0<=C.pos){i=k;break;}if(i>=0)vidShow(S[i],C.pos-S[i].t0,1,S[i+1],C.play);
     const sk=document.getElementById('vCut');if(sk&&!C.drag)sk.value=Math.round(C.pos-C.mn);vTxt('vCutPos','−'+vMs(C.mx-C.pos));vTxt('vCutPP',C.play?'❚❚':'▶');}
@@ -2207,9 +2251,12 @@ function vidLoop(){VID.raf=0;if(ui.screen!=='video'||!(VID.on||VID.pb))return;co
     else vidShow(S[i],t-S[i].t0,r,S[i+1],true);
     vTxt('vLag',VID.rp?tr('Ralenti ×{N}').replace('{N}',String(VID.rp.r).replace('.',',')):'−'+VP().delay+' s');const lg=document.getElementById('vLag');if(lg)lg.classList.toggle('rp',!!VID.rp);
     vTxt('vRecT',VID.rec?'● REC '+vMs(now-VID.rec.at):'');
+    // repères du ralenti : cadre jaune pendant la relecture, « Retour au différé » 1,5 s à la sortie
+    if(VID.rpOn&&!VID.rp)VID.backAt=now;VID.rpOn=!!VID.rp;const stg=document.getElementById('vStage');if(stg)stg.classList.toggle('replay',!!VID.rp);
+    const bk=document.getElementById('vBackTo');if(bk)bk.hidden=!(now-(VID.backAt||0)<1500);
     const sb=document.getElementById('vSlow');if(sb){const rp=VID.rp;sb.classList.toggle('run',!!rp);const fl=document.getElementById('vSlowF');if(fl)fl.style.width=rp?Math.min(100,(t-rp.a0)/(rp.e-rp.a0)*100).toFixed(1)+'%':'0';
       const sx=document.getElementById('vSlowX');if(sx)sx.hidden=!rp;
-      vTxt('vSlowT',rp?tr('−{N} s au ralenti · toucher pour reculer encore').replace('{N}',Math.max(1,Math.ceil((rp.e-t)/1000))):tr('Revenir {N} s en arrière au ralenti').replace('{N}',VSTEP/1000));}
+      vTxt('vSlowT',tr('Ralenti {N} s').replace('{N}',rp?Math.round((rp.e-rp.a0)/1000):VSLOW0/1000));}
     if(!isPro()){vTxt('vFree',tr('Gratuit : {T}').replace('{T}',vMs(vidLeft()*1000)));const s=Math.floor(now/1000);
       if(s!==VID.sec){VID.sec=s;vUse().s++;if(vUse().s%10===0)save();if(vidLeft()<=0){vidStop().then(()=>{ui.vidLock=true;render();});return;}}}}
   VID.raf=requestAnimationFrame(vidLoop);}
@@ -2224,14 +2271,26 @@ function bindVideo(){const st=document.getElementById('vStage');document.body.cl
     st.addEventListener('touchend',()=>{if(d0){d0=0;vidZoom(VID.zoom);}},{passive:true});
     st.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();vidZoom(VID.zoom*(e.deltaY<0?1.1:0.9));}},{passive:false});}
   const ck=document.getElementById('vCut');if(ck&&VID.cut){ck.addEventListener('input',()=>{const C=VID.cut;if(!C)return;C.drag=true;C.play=false;C.pos=C.mn+ +ck.value;});ck.addEventListener('change',()=>{if(VID.cut)VID.cut.drag=false;});}
-  const sk=document.getElementById('vSeek');if(sk&&VID.pb){sk.addEventListener('input',()=>{VID.pb.drag=true;VID.pb.pos=+sk.value;});sk.addEventListener('change',()=>{VID.pb.drag=false;});}}
+  const tk=document.getElementById('vTrack');if(tk&&VID.pb){const P=VID.pb,ZW=20000;let x0=0,lp=null,rect=null;
+    const posAt=x=>{const W=P.zw||[0,P.tot];return Math.max(0,Math.min(P.tot,W[0]+(x-rect.left)/rect.width*(W[1]-W[0])));};
+    const setBg=()=>{const r=vRec();if(r)tk.style.background=vTrackBg(r,P.tot,...(P.zw||[0,P.tot]));const z=document.getElementById('vZoomW');if(z)z.hidden=!P.zw;};
+    tk.addEventListener('pointerdown',e=>{rect=tk.getBoundingClientRect();x0=e.clientX;try{tk.setPointerCapture(e.pointerId);}catch(_){}P.drag=true;P.play=false;P.pos=posAt(e.clientX);
+      lp=setTimeout(()=>{lp=null;if(P.tot<=ZW)return;const f=(x0-rect.left)/rect.width;let a=Math.max(0,Math.min(P.tot-ZW,P.pos-f*ZW));P.zw=[a,a+ZW];setBg();try{navigator.vibrate&&navigator.vibrate(15);}catch(_){}},400);});
+    tk.addEventListener('pointermove',e=>{if(!P.drag||!rect)return;if(lp&&Math.abs(e.clientX-x0)>6){clearTimeout(lp);lp=null;}P.pos=posAt(e.clientX);});
+    const up=()=>{if(lp){clearTimeout(lp);lp=null;}P.drag=false;if(P.zw){P.zw=null;setBg();}};tk.addEventListener('pointerup',up);tk.addEventListener('pointercancel',up);}}
 function vidInfo(){if(!vNative()||VID.on||Date.now()-(VID.infoAt||0)<20e3)return;VID.infoAt=Date.now();CAP().VideoDelay.info().then(r=>{if(r&&r.free!=null&&r.free!==VID.free){VID.free=r.free;if(ui.screen==='video')render();}}).catch(()=>{});}
 function videoHTML(){const P=VP(),pro=isPro();
-  if(VID.pb){const B=VID.pb,r=(store.vids||[]).find(x=>x.id===B.id);
-    return `<div class="vstage pb" id="vStage"><div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span></div>
-      <div class="vbar"><button class="btn vpp" data-act="vidPP" id="vPP">${B.play?'❚❚':'▶'}</button><input type="range" id="vSeek" class="vseek" min="0" max="${Math.round(B.tot)}" step="10" value="${Math.round(B.pos)}" aria-label="Position"><span class="vpos" id="vPos">${vMs(B.pos)} / ${vMs(B.tot)}</span>
-        <div class="seg">${[1,0.5,0.25].map(v=>`<button class="${B.r===v?'on':''}" data-act="vidPR" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div>
-        <button class="btn" data-act="vidPbX">✕ ${tr('Fermer')}</button></div></div>`;}
+  if(VID.pb){const B=VID.pb,r=vRec(),k=r?vKeepAt(r,B.pos):1;
+    return `<div class="vstage pb" id="vStage"><div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}</div>
+      <div class="vbar vpbbar"><div class="vtrack" id="vTrack" style="background:${r?vTrackBg(r,B.tot,0,B.tot):'var(--vkeep)'}"><i class="vhead" id="vHead"></i></div>
+        <div class="vrow2"><button class="btn" data-act="vidPbStep" data-v="-1000">−1 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button>
+          <button class="btn vpp" data-act="vidPP" id="vPP">${B.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="1000">+1 s</button>
+          <span class="vpos" id="vPos">${vMs(B.pos)} / ${vMs(B.tot)}</span>
+          <div class="seg">${[1,0.5,0.25].map(v=>`<button class="${B.r===v?'on':''}" data-act="vidPR" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div></div>
+        <div class="vrow2"><button class="btn vkeepb ${k?'drop':''}" data-act="vidKeep" id="vKeepB">✂ <span id="vKeepT">${k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici')}</span>${pro?'':' 🔒'}</button>
+          <button class="btn" data-act="vidUndo" ${B.undo&&B.undo.length?'':'disabled'}>↶ ${tr('Annuler')}</button>
+          <button class="btn primary" data-act="vidExport" ${ui.vidExp?'disabled':''}>⇩ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>
+          <button class="btn" data-act="vidPbX">✕ ${tr('Fermer')}</button></div></div></div>`;}
   if(VID.on&&VID.cut){const C=VID.cut,W=C.mx-C.mn||1,pc=x=>((x-C.mn)/W*100).toFixed(2);
     return `<div class="vstage" id="vStage"><div class="vtop"><span class="vbadge">✂ ${tr('Choisir le clip')}</span><span class="vbadge" id="vCutPos">−${vMs(C.mx-C.pos)}</span><span class="vinfo">${tr('La caméra continue de filmer.')}</span></div>
       <div class="vbar vcutbar"><div class="vcutrk"><span class="vsel" style="left:${pc(C.a)}%;width:${(+pc(C.b)-pc(C.a)).toFixed(2)}%"></span><input type="range" id="vCut" min="0" max="${Math.round(W)}" step="1" value="${Math.round(C.pos-C.mn)}" aria-label="Position"></div>
@@ -2242,12 +2301,12 @@ function videoHTML(){const P=VP(),pro=isPro();
   if(VID.on){const tm=P.mode==='match';
     return `<div class="vstage" id="vStage"><div class="vtop"><div class="vdel"><button class="btn" data-act="vidDel" data-d="-1" aria-label="Moins">−</button><span class="vbadge lag" id="vLag">−${P.delay} s</span><button class="btn" data-act="vidDel" data-d="1" aria-label="Plus">+</button></div><span class="vbadge rec" id="vRecT"></span>${pro?'':`<span class="vbadge" id="vFree"></span>`}
         <button class="vbadge vz" data-act="vidZ0" id="vZoom" aria-label="Zoom">${VID.zoom.toFixed(1).replace('.',',')}×</button><span class="vinfo">${VID.fps?VID.fps+' i/s':''}${VID.h?' · '+VID.h+'p':''}</span></div>
-      <div class="vwait" id="vWait">${tr('Mise en mémoire…')}</div>
-      <div class="vbar"><div class="vslow"><button class="btn primary vslowb" data-act="vidSlow" id="vSlow"><i id="vSlowF"></i>${IC_BACK}<span id="vSlowT">${tr('Revenir {N} s en arrière au ralenti').replace('{N}',VSTEP/1000)}</span></button><button class="vstopb" data-act="vidSlowX" id="vSlowX" aria-label="Arrêter le ralenti" hidden><i></i></button><div class="seg">${[0.5,0.25].map(v=>`<button class="${P.slow===v?'on':''}" data-act="vidSpd" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div></div>
+      <div class="vbackto" id="vBackTo" hidden>${tr('Retour au différé')}</div><div class="vwait" id="vWait">${tr('Mise en mémoire…')}</div>
+      <div class="vbar"><div class="vslow"><button class="btn primary vslowb" data-act="vidSlow" id="vSlow"><i id="vSlowF"></i>${IC_BACK}<span id="vSlowT">${tr('Ralenti {N} s').replace('{N}',VSLOW0/1000)}</span></button><button class="vstopb" data-act="vidSlowX" id="vSlowX" aria-label="Arrêter le ralenti" hidden><i></i></button><div class="seg">${[0.5,0.25].map(v=>`<button class="${P.slow===v?'on':''}" data-act="vidSpd" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div></div>
         ${tm?`<span class="vmatch">● ${tr('Match enregistré')}</span>`:`<button class="btn vrecb" data-act="vidRec">● REC${pro?'':' 🔒'}</button>`}
         <button class="btn" data-act="vidStop">${tr('Arrêter')}</button></div></div>`;}
-  vidInfo();const L=store.vids||[],left=vidLeft(),mpm=VBPS[P.q]/8*60;
-  const rows=L.map(r=>{const gone=r.web&&!VID.mem[r.id];return `<div class="vrow"><span class="who"><b>${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.mode==='match'?tr('Match'):tr('Entraînement')}</b><small>${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small></span>
+  vidInfo();vidRecover();const L=store.vids||[],left=vidLeft(),mpm=VBPS[P.q]/8*60,short=P.mode==='match'&&VID.free!=null&&VID.free<mpm*120*1.05;
+  const rows=L.map(r=>{const gone=r.web&&!VID.mem[r.id];return `<div class="vrow"><span class="who"><b>${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.mode==='match'?tr('Match'):tr('Entraînement')}</b><small>${r.st==='int'?tr('interrompu, récupéré')+' · ':''}${r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0)))+' · ':''}${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small></span>
       ${gone?'':`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`}<button class="btn ${ui.vidDelAsk===r.id?'danger':''}" data-act="vidDelRec" data-id="${r.id}" aria-label="Supprimer">${ui.vidDelAsk===r.id?tr('Supprimer ?'):'🗑'}</button></div>`;}).join('');
   return `<div class="cmain vid"><div class="top"><h1>Vidéo</h1></div>
     <div class="card"><p class="hint" style="margin-top:0">${tr('Posez cet appareil sur un trépied, caméra vers le terrain et écran tourné vers les joueurs : ils se revoient avec quelques secondes de retard.')} ${tr('La caméra filme dans le sens de l’appareil au démarrage (paysage ou portrait).')}</p>
@@ -2255,7 +2314,7 @@ function videoHTML(){const P=VP(),pro=isPro();
       <p class="hint">${P.mode==='match'?tr('Toute la séance est enregistrée, de la mise en route à l’arrêt de la caméra.'):tr('Les 5 dernières minutes restent en mémoire ; REC garde une séquence.')}</p>
       <div class="vopt"><span>${tr('Qualité')}</span><div class="seg">${['720','1080'].map(q=>`<button class="${P.q===q?'on':''}" data-act="vidQ" data-v="${q}">${q}p</button>`).join('')}</div><small class="hint">${tr('≈ {N} par minute enregistrée').replace('{N}',vMo(mpm))}${VID.free!=null?' · '+tr('place libre : {N}').replace('{N}',vMo(VID.free))+` (≈ ${vMs(VID.free/mpm*60e3).replace(/:\d+$/,'')} min)`:''}</small></div>
       ${pro?'':`<p class="hint freeh">${tr('Version gratuite : 5 min de caméra par jour (il reste {T}). Enregistrement et mode Match : VolleyCoach Pro.').replace('{T}',vMs(left*1000))} <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button></p>`}
-      ${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
+      ${short?`<p class="hint vwarn">${tr('Place libre pour ≈ {N} min en {Q}p : un match de 2 h ne tiendra pas.').replace('{N}',Math.floor(VID.free/mpm)).replace('{Q}',P.q)}${P.q==='1080'&&VID.free>=VBPS[720]/8*60*120?' '+tr('Passez en 720p.'):''}</p>`:''}${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
       <button class="btn big primary" data-act="vidGo" ${left<=0?'disabled':''}>🎥 ${tr('Démarrer la caméra')}</button></div>
     <div class="card"><b>${tr('Enregistrements')}</b>${rows||`<p class="hint">${tr('Aucun enregistrement.')}</p>`}<p class="hint">${tr('Découpe en clips et export : prochaine version.')}</p></div></div>`;}
 const NAV=[['team','👥','Équipe'],['terrain','🏐','Terrain'],['stats','📊','Stats'],['seasons','🗂','Saisons'],['learn','📋','Tableau'],['video','🎥','Vidéo'],['settings','⚙️','Réglages']];
@@ -2730,6 +2789,19 @@ function sheetHTML(m,S){
         ${E.seasons[so.id]&&ms.length?`<button class="btn expm" data-act="expOpenS" data-id="${so.id}" aria-expanded="${!!E.open[so.id]}"><span aria-hidden="true">${E.open[so.id]?'▴':'▾'}</span> Matchs</button>${E.open[so.id]?`<div class="expml">${ms.map(a=>`<label class="chk improw"><input type="checkbox" data-act="expMatch" data-id="${a.id}" ${E.off[a.id]?'':'checked'}><span>${esc(fmtDate(a.date))} · ${esc(a.opp||'Adversaire')}</span></label>`).join('')}</div>`:''}`:''}`;}).join('')}</div>`).join('');
     return `<div class="sh"><h3>Exporter</h3>${close}</div><div class="seg">${mode('all','Tout')}${mode('teams','Équipes')}${mode('seasons','Saisons')}</div>${body}
       <div style="margin-top:12px"><button class="btn big primary" data-act="expGo">${IC.share} Exporter</button></div>`;}
+  if(ui.sheet==='vidOut'&&ui.vidOut){const o=ui.vidOut;return `<div class="sh"><h3>${tr('Montage exporté')}</h3>${close}</div>
+      <p class="hint">${esc(o.name)} · ${vMo(o.size||0)}</p>
+      <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="vidGal">${tr('Enregistrer dans la galerie')}</button><button class="btn big" data-act="vidShareOut">${IC.share} ${tr('Partager')}</button></div>`;}
+  if(ui.sheet==='impFull'&&ui.impF){const F=ui.impF,nT=F.teams.filter(t=>t.sel).length,nM=F.matches.filter(x=>x.sel).length;
+    const stTxt=t=>t.st==='same'?`<small class="dupw">${tr('Déjà présente sur cet appareil (effectif identique)')}</small>`:t.st==='replace'?`<small class="dupw">${tr('Remplacerait l’effectif de « {N} »').replace('{N}',esc(t.with))}</small>`:`<small>${tr('Nouvelle équipe')}</small>`;
+    const byTeam={};F.matches.forEach(x=>{(byTeam[x.team]||(byTeam[x.team]=[])).push(x);});
+    const mrow=x=>`<label class="chk improw"><input type="checkbox" data-act="impFTog" data-k="m" data-i="${x.i}" ${x.sel?'checked':''}><span><b>${esc(x.label)}</b>${x.dup?`<small class="dupw">${tr('Déjà présent sur cet appareil')}</small>`:''}</span></label>`;
+    return `<div class="sh"><h3>${tr('Contenu du fichier')}</h3>${close}</div>
+      <p class="hint">${tr('Rien n’est modifié avant « Importer la sélection ». Ce qui écraserait ou doublerait des données de cet appareil est décoché.')}</p>
+      ${F.teams.length?`<h2>${tr('Équipes et effectifs')}</h2><div class="card imp">${F.teams.map(t=>`<label class="chk improw"><input type="checkbox" data-act="impFTog" data-k="t" data-i="${t.i}" ${t.sel?'checked':''}><span><b>${esc(t.name)} · ${tr(t.n>1?'{N} joueurs':'{N} joueur').replace('{N}',t.n)}${t.seasons?' · '+tr(t.seasons>1?'{N} saisons':'{N} saison').replace('{N}',t.seasons):''}</b>${stTxt(t)}</span></label>`).join('')}</div>`:''}
+      ${F.matches.length?`<h2>${tr('Matchs')}</h2>${Object.entries(byTeam).map(([tn,L])=>`${tn?`<p class="hint" style="margin:8px 0 2px"><b>${esc(tn)}</b></p>`:''}<div class="card imp">${L.map(mrow).join('')}</div>`).join('')}`:''}
+      <div class="tools"><button class="btn" data-act="impFAll" data-v="1">${tr('Tout cocher')}</button><button class="btn" data-act="impFAll" data-v="0">${tr('Tout décocher')}</button></div>
+      <div style="margin-top:12px"><button class="btn big primary" data-act="impFGo" ${nT+nM?'':'disabled'}>${tr('Importer la sélection')} (${nT+nM})</button></div>`;}
   if(ui.sheet==='impPick'&&ui.imp){const P=ui.imp,T=store.teams.filter(t=>!t.locked&&fc4(t.f4)===fc4(P.f4)),dt=P.dest==='new'?null:ensureSeasons(store.teams.find(t=>t.id===P.dest));
     const DR=dt?impRosterOf(dt.id):[],miss=P.R.filter(p=>!impFind(DR,p)).length,n=P.sel.length;
     return `<div class="sh"><h3>Importer</h3>${close}</div>
@@ -3343,6 +3415,11 @@ function passOffers(d){d=d||today();const start=store.prefs.iapTest||d>TRIAL_END
   return PASSES.map(P=>{let y=+start.slice(0,4)-1,from,to;do{from=`${y}-${P.m0}`;to=`${y}-${P.m1}`;y++;}while(to<start);if(from<start)from=start;
     const E=P.endY(+to.slice(0,4));return Object.assign({},P,{from,to,on:from<=d,end:`${E}-08-31`,id:`pass_${E-1}_${E}_${P.k}`});});}
 const PASS_RE=/^pass_(\d{4})_(\d{4})_(plein|reduit)$/;
+// Abonnement mensuel (V180) : tous les droits Pro, renouvelé chaque mois, résiliable dans le store. Google Play : produit vc_pro_monthly,
+// formule de base « mensuel » ; App Store : abonnement à renouvellement automatique vc_pro_monthly. Licence : plan « monthly »,
+// valable jusqu'à la fin de la période payée (date d'expiration donnée par le store, relue à chaque démarrage).
+const SUB={id:'vc_pro_monthly',plan:'mensuel',price:'5,99 €'};
+function subOffer(d){d=d||today();const start=store.prefs.iapTest||d>TRIAL_END?d:'2027-09-01';return Object.assign({},SUB,{from:start,on:start<=d});}
 const TRIAL_DAYS=14;
 const TRIAL_END='2027-08-31'; // période d'essai ouverte à tous jusqu'à cette date
 // Codes d'activation des examinateurs des stores : empreinte SHA-256 du code → fin de sa saison (scripts/review-code.mjs ; codes hors dépôt).
@@ -3366,6 +3443,7 @@ const IAP={products:{},busy:false,taps:0,
   // Prix des deux pass, tels que le store les affiche (devise et taxes du pays)
   async load(){const P=IAP.plugin();if(!P)return;const ids=passOffers().map(o=>o.id);
     try{const r=await P.getProducts({productIdentifiers:ids,productType:'inapp'});(r.products||[]).forEach(p=>{IAP.products[p.identifier]=p;});}catch(e){}
+    try{const r=await P.getProducts({productIdentifiers:[SUB.id],productType:'subs'});(r.products||[]).forEach(p=>{IAP.products[p.identifier]=p;});}catch(e){}
     if(ui.sheet==='pro')render();},
   // Pass possédés par le compte du store : le plus tardif devient la licence ; un pass remboursé disparaît de la liste.
   // Renvoie null si le store ne répond pas (rien n'est changé), sinon le pass trouvé ou false.
@@ -3373,8 +3451,12 @@ const IAP={products:{},busy:false,taps:0,
     try{list=(await P.getPurchases({productType:'inapp',onlyCurrentEntitlements:true})).purchases||[];}catch(e){return null;}
     let best=null;list.forEach(t=>{const m=PASS_RE.exec(t.productIdentifier||'');if(!m||t.revocationDate||(t.purchaseState!=null&&String(t.purchaseState)!=='1'))return;
       const until=m[2]+'-08-31';if(!best||until>best.until)best={until,product:t.productIdentifier,tx:t.transactionId||null};});
+    try{const subs=(await P.getPurchases({productType:'subs',onlyCurrentEntitlements:true})).purchases||[];
+      subs.forEach(t=>{if(t.productIdentifier!==SUB.id||t.revocationDate||t.isActive===false)return;if(t.purchaseState!=null&&String(t.purchaseState)!=='1')return;
+        const exp=t.expirationDate?String(t.expirationDate).slice(0,10):new Date(Date.now()+31*86400000).toISOString().slice(0,10);if(exp<today())return;
+        if(!best||exp>best.until)best={until:exp,product:SUB.id,tx:t.transactionId||null,plan:'monthly'};});}catch(e){}
     const L=store.lic;
-    if(best&&(!L||L.src==='store'||(L.until&&L.until<best.until))){if(!L||L.until!==best.until||L.src!=='store'){store.lic=Object.assign({plan:'season',src:'store',consent:L&&L.consent||null},best);save();render();}}
+    if(best&&(!L||L.src==='store'||(L.until&&L.until<best.until))){if(!L||L.until!==best.until||L.src!=='store'){store.lic=Object.assign({plan:'season',src:'store',consent:L&&L.consent||null},best);save();render();}else if(L&&L.plan!==(best.plan||'season')){L.plan=best.plan||'season';save();}}
     else if(!best&&L&&L.src==='store'){store.lic=null;save();render();}
     return best||false;},
   err(e){return String(e&&(e.code||e.message)||e||'');}
@@ -3401,26 +3483,32 @@ function methodHTML(close){const C=STAT_CFG,E=C.EXPECT,w=o=>Object.entries(o).ma
 // Comparatif gratuit / pass : coche = inclus, croix = non inclus
 const PRO_CMP=[['Saisie du match : score, rotations, positions et stats',1],['Résumé du match point par point (PDF compris)',1],['Sauvegarde complète des données',1],
   ['Stats du passeur, d’un R4 et d’un central',1],['Stats de tous les joueurs et classements complets',0],['Zones de réception et de défense, analyse des rotations',0],
-  ['Stats de saison et progression',0],['Exports PDF et CSV des statistiques',0],['Partage d’un match ou d’une équipe (.vbcs)',0],['Fusion des saisies faites à deux',0]];
+  ['Stats de saison et progression',0],['Exports PDF et CSV des statistiques',0],['Partage d’un match ou d’une équipe (.vbcs)',0],['Fusion des saisies faites à deux',0],
+  ['Tableau tactique (rotations, réception, défense, temps mort)',1],['Analyse du passeur par poste de réception','Poste 6'],['Attaque par poste (heatmap)',0],
+  ['Vidéo en différé et ralenti','5 min / jour'],['Enregistrement vidéo, clips et mode Match',0],['Montage d’un match et export vidéo',0]];
 function proCmpHTML(){const y='<span class="cy" aria-label="Oui">✓</span>',n='<span class="cn" aria-label="Non">✕</span>';
-  return `<table class="pcmp"><thead><tr><th></th><th>Gratuit</th><th>Pass</th></tr></thead><tbody>${PRO_CMP.map(([t,f])=>`<tr><td>${t}</td><td>${f?y:n}</td><td>${y}</td></tr>`).join('')}</tbody></table>`;}
+  return `<table class="pcmp"><thead><tr><th></th><th>Gratuit</th><th>Pro</th></tr></thead><tbody>${PRO_CMP.map(([t,f])=>`<tr><td>${t}</td><td>${typeof f==='string'?`<small class="cpart">${f}</small>`:f?y:n}</td><td>${y}</td></tr>`).join('')}</tbody></table><p class="hint">Pro : pass saison, pass mi-saison ou abonnement mensuel, mêmes fonctions.</p>`;}
 function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(!L.until||L.until>=today()),O=passOffers(),any=O.some(o=>o.on);
   // Les deux pass restent visibles ; hors de sa période de vente, un pass est grisé et indique quand il sera en vente
   const buy=`<div class="passes">${O.map(o=>{const pr=IAP.products[o.id];return `<div class="card buyc ${o.on?'':'off'}">
       <div class="buyh"><b>${o.lab}</b><span class="pp">${esc(pr&&pr.priceString||o.price)}</span></div>
       <p class="hint">${o.on?`En vente jusqu’au ${fmtDate(o.to)}`:`En vente à partir du ${fmtDate(o.from)}`}</p>
       <p class="hint">Valable jusqu’au ${fmtDate(o.end)}, sans renouvellement automatique.</p>
-      <button class="btn big ${o.on?'primary':''}" data-act="buy" data-k="${o.k}" ${o.on&&ui.waiver&&!IAP.busy?'':'disabled'}>${!o.on?'Hors période de vente':IAP.busy?'Achat en cours…':'Acheter ce pass'}</button></div>`;}).join('')}</div>
-    ${any?`<label class="chk waiver"><input type="checkbox" data-waiver ${ui.waiver?'checked':''}> <span>Je demande l’accès immédiat aux fonctions Pro et je renonce à mon droit de rétractation dès le début du service.</span></label>
+      <button class="btn big ${o.on?'primary':''}" data-act="buy" data-k="${o.k}" ${o.on&&ui.waiver&&!IAP.busy?'':'disabled'}>${!o.on?'Hors période de vente':IAP.busy?'Achat en cours…':'Acheter ce pass'}</button></div>`;}).join('')}
+    ${(()=>{const o=subOffer(),pr=IAP.products[SUB.id];return `<div class="card buyc sub ${o.on?'':'off'}"><div class="buyh"><b>Abonnement mensuel</b><span class="pp">${esc(pr&&pr.priceString||o.price)}<small> / mois</small></span></div>
+      <p class="hint">${o.on?'Sans engagement':`En vente à partir du ${fmtDate(o.from)}`}</p>
+      <p class="hint">Renouvelé automatiquement chaque mois au même prix, jusqu’à sa résiliation dans les abonnements de votre compte ${window.Capacitor&&window.Capacitor.getPlatform&&window.Capacitor.getPlatform()==='ios'?'App Store':'Google Play'}, au plus tard 24 h avant la fin du mois en cours.</p>
+      <button class="btn big ${o.on?'primary':''}" data-act="buySub" ${o.on&&ui.waiver&&!IAP.busy?'':'disabled'}>${!o.on?'Hors période de vente':IAP.busy?'Achat en cours…':'S’abonner'}</button></div>`;})()}</div>
+    ${any||subOffer().on?`<label class="chk waiver"><input type="checkbox" data-waiver ${ui.waiver?'checked':''}> <span>Je demande l’accès immédiat aux fonctions Pro et je renonce à mon droit de rétractation dès le début du service.</span></label>
       ${ui.waiver?'':'<p class="hint">Cochez la case pour acheter.</p>'}`:''}
     <button class="linkbtn restb" data-act="restore">Restaurer mes achats</button>
     ${ui.codeOpen?`<div class="actcode"><label for="actcode">Code d’activation</label><div class="row"><input id="actcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="VC-XXXX-XXXX-XXXX"><button class="btn primary" data-act="codeGo">Activer</button></div></div>`:'<button class="linkbtn restb" data-act="codeOpen">J’ai un code d’activation</button>'}`;
   return `<div class="sh"><h3 data-act="iapTap">VolleyCoach Pro</h3>${close}</div>
     <p>Toutes les statistiques, pour tous les joueurs, et tous les exports.</p><p class="hint">Les matchs commencés pendant le Pro (pass ou essai) gardent leurs statistiques complètes et leurs exports à vie.</p>${trialLeft()?`<p class="hint" style="font-weight:700;color:var(--warn)">Essai gratuit en cours : ${trialLeft()} jour${trialLeft()>1?'s':''} restant${trialLeft()>1?'s':''}.</p>`:''}
     ${proCmpHTML()}
-    ${act?`<p class="okline">${L.src==='review'?`✓ VolleyCoach Pro activé par code jusqu’au ${fmtDate(L.until)}.`:L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>`:buy}
-    <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
-    <p class="hint">Prix TTC. Pass non renouvelé automatiquement. Droit de rétractation de 14 jours (formulaire type dans les textes légaux). Éditeur : VolleyCoach.</p>
+    ${act?`<p class="okline">${L.src==='review'?`✓ VolleyCoach Pro activé par code jusqu’au ${fmtDate(L.until)}.`:L.plan==='monthly'?`✓ Abonnement mensuel actif (période en cours jusqu’au ${fmtDate(L.until)}).`:L.until?`✓ Pass saison actif jusqu’au ${fmtDate(L.until)}.`:'✓ Pass saison actif.'}</p>${L.plan==='monthly'&&L.src==='store'?'<button class="btn" data-act="subManage">Gérer mon abonnement</button>':''}`:buy}
+    <p class="hint">Deux pass, valables jusqu’au 31 août : le pass saison (29,99 €), en vente de septembre à décembre, et le pass mi-saison (19,99 €), en vente de janvier à août. Ou l’abonnement mensuel (5,99 € par mois), sans engagement. Achat dans l’App Store ou Google Play, sur les appareils du même compte.</p>
+    <p class="hint">Prix TTC. Les pass ne sont pas renouvelés ; l’abonnement est renouvelé automatiquement chaque mois jusqu’à sa résiliation. Droit de rétractation de 14 jours (formulaire type dans les textes légaux). Éditeur : VolleyCoach.</p>
     <div class="tools"><button class="btn" data-act="legal" data-k="cgv">Conditions générales de vente</button><button class="btn" data-act="legal" data-k="retract">Rétractation et remboursement</button></div>`;}
 // Complétude de la saisie : badge vert / orange / rouge
 function covPct(c){return c&&c.pts?c.withSt/c.pts:null;}
@@ -4191,7 +4279,7 @@ const A={
   vidGo(){vidStart();return 1;},
   vidStop(){vidStop().then(render);return 1;},
   vidDel(d){const P=VP();P.delay=d.v?+d.v:Math.max(VMIN,Math.min(VMAX,P.delay+ +d.d));VID.rp=null;save();},
-  vidSlow(){const now=Date.now(),{t}=vidT(now),rp=VID.rp,f=VID.segs[0]?VID.segs[0].t0:t,a=Math.max(f,t-VSTEP);
+  vidSlow(){const now=Date.now(),{t}=vidT(now),rp=VID.rp,f=VID.segs[0]?VID.segs[0].t0:t,a=Math.max(f,t-(rp?VSTEP:VSLOW0));
     VID.rp=rp?{a,a0:Math.min(rp.a0,a),e:rp.e,b:now,r:rp.r}:{a,a0:a,e:t,b:now,r:VP().slow};return 1;},
   vidSlowX(){VID.rp=null;return 1;},
   vidSpd(d){VP().slow=+d.v;save();},
@@ -4205,13 +4293,31 @@ const A={
   vidZ0(){vidZoom(1);return 1;},
   vidMode(d){if(d.v==='match'&&!isPro()){ui.sheet='pro';return;}VP().mode=d.v;save();},
   vidQ(d){VP().q=d.v;save();},
-  vidPlay(d){const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;const segs=r.web?VID.mem[r.id]:r.segs.map(x=>({url:vUrl(x.u),dur:x.d,t0:x.t}));if(!segs||!segs.length){toast('Vidéo introuvable','warn');return;}
-    const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now()};},
+  vidPlay(d){const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;const segs=r.web?VID.mem[r.id]:vSegsOf(r).map(x=>({url:vUrl(x.u),path:x.u,dur:x.d,t0:x.t}));if(!segs||!segs.length){toast('Vidéo introuvable','warn');return;}
+    const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};},
+  vidPbStep(d){const P=VID.pb,r=vRec();if(!P)return 1;const fr=1000/((r&&r.fps)||30),st=d.v==='f'?fr:d.v==='-f'?-fr:+d.v;P.play=false;P.pos=Math.max(0,Math.min(P.tot,P.pos+st));return 1;},
+  vidKeep(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r)return 1;P.undo.push(JSON.stringify(vCuts(r)));if(P.undo.length>50)P.undo.shift();vSetCut(r,P.pos,!vKeepAt(r,P.pos));},
+  vidUndo(){const P=VID.pb,r=vRec();if(!P||!r||!P.undo.length)return 1;r.cuts=JSON.parse(P.undo.pop());save();},
+  // Export du montage (parties gardées recollées sans réencodage par le module natif), puis Galerie ou Partager
+  async vidExport(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidExp)return 1;
+    if(!vNative()){toast('Export disponible dans l’appli installée','warn');return 1;}
+    const R=vRanges(r,P.tot);if(!R.length){toast('Rien à exporter : tout est jeté','warn');return 1;}
+    const kept=R.reduce((a,[x,y])=>a+y-x,0),est=(r.size||0)*kept/Math.max(1,P.tot);
+    try{const inf=await CAP().VideoDelay.info();if(inf&&inf.free!=null&&inf.free<est*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
+    const pieces=[];R.forEach(([a,b])=>{const A=a+P.ia,Bb=b+P.ia;P.segs.forEach((x,i)=>{const o=P.off[i],e=o+x.dur;if(e<=A||o>=Bb)return;pieces.push({path:x.path,in:Math.round(Math.max(0,A-o)),out:Bb>=e?0:Math.round(Bb-o)});});});
+    const name=`VolleyCoach_${new Date(r.t0).toISOString().slice(0,16).replace(/[-:T]/g,'')}.mp4`,V=CAP().VideoDelay;ui.vidExp={p:0};P.play=false;render();
+    const l=await V.addListener('export',e=>{if(ui.vidExp)ui.vidExp.p=e.p||0;});
+    try{const o=await V.exportCut({pieces,name});ui.vidOut={path:o.path,size:o.size,name};ui.sheet='vidOut';}
+    catch(e){toast(String((e&&e.message)||'Export impossible'),'warn');}
+    finally{try{l.remove();}catch(e){}ui.vidExp=null;render();}return 1;},
+  async vidGal(){const o=ui.vidOut;if(!o)return 1;try{await CAP().VideoDelay.saveToGallery({path:o.path,name:o.name});toast('Vidéo enregistrée dans la galerie','ok');ui.sheet=null;}
+    catch(e){toast(e&&e.code==='UNSUPPORTED'?'Galerie indisponible sur cet appareil : utilisez « Partager »':e&&e.code==='DENIED'?'Accès aux photos refusé : autorisez-le dans les réglages':'Enregistrement impossible','warn');}render();return 1;},
+  async vidShareOut(){const o=ui.vidOut;if(!o)return 1;try{await CAP().Share.share({title:o.name,files:[o.path],dialogTitle:'Partager'});}catch(e){}return 1;},
   vidPP(){const B=VID.pb;if(!B)return 1;if(!B.play&&B.pos>=B.tot)B.pos=0;B.play=!B.play;B.at=Date.now();return 1;},
   vidPR(d){if(VID.pb)VID.pb.r=+d.v;},
   vidPbX(){VID.pb=null;vidClear();},
   vidDelRec(d){if(ui.vidDelAsk!==d.id){ui.vidDelAsk=d.id;return;}ui.vidDelAsk=null;const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;
-    vidDrop(r.web?(VID.mem[r.id]||[]):r.segs.map(x=>({path:x.u})));delete VID.mem[r.id];store.vids=store.vids.filter(x=>x!==r);save();toast('Enregistrement supprimé','ok');},
+    vidDrop(r.web?(VID.mem[r.id]||[]):vSegsOf(r).map(x=>({path:x.u})));delete VID.mem[r.id];store.vids=store.vids.filter(x=>x!==r);save();toast('Enregistrement supprimé','ok');},
   pdf(d){if(!shareOk(d.id)){ui.sheet='pro';return;}const m=d.id==='season'?(statArch().length?seasonMatch():null):d.id?store.arch.find(a=>a.id===d.id):store.cur;if(m)exportPDF(m);return 1;},
   seasonJson(){if(!shareOk('season')){ui.sheet='pro';return;}saveFile(`saison_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:(seasonObj()||{}).name,exported:new Date().toISOString(),arch:teamArch()}));return 1;},
   mergeYes(){if(!isPro()){ui.sheet='pro';toast('La fusion des saisies fait partie de VolleyCoach Pro','warn');return;}ui.sheet='merge2';},
@@ -4258,9 +4364,21 @@ const A={
       if(/ALREADY_OWNED/i.test(m)){const r=await IAP.refresh();toast(r?'Pass déjà acheté : il est restauré':'Pass déjà acheté, mais introuvable : touchez « Restaurer mes achats »',r?'ok':'warn');}
       else if(!/CANCEL/i.test(m))toast(/UNAVAILABLE|not found|BILLING/i.test(m)?'Achat indisponible : vérifiez la connexion et le compte du store':'Achat impossible, réessayez plus tard','warn');}
     finally{IAP.busy=false;render();}},
+  // Abonnement mensuel : même case de renonciation que les pass ; licence jusqu'à la fin du premier mois, relue ensuite dans le store
+  async buySub(){const o=subOffer();if(!o.on||!ui.waiver||IAP.busy)return;const P=IAP.plugin(),consent=new Date().toISOString(),u=new Date(Date.now()+31*86400000).toISOString().slice(0,10);
+    if(!P){store.lic={plan:'monthly',until:u,src:'test',product:SUB.id,consent};save();ui.sheet=null;ui.waiver=false;toast('VolleyCoach Pro activé (abonnement simulé hors appli native)','ok');render();return;}
+    IAP.busy=true;render();
+    try{const t=await P.purchaseProduct({productIdentifier:SUB.id,planIdentifier:SUB.plan,productType:'subs'});
+      if(t&&t.purchaseState!=null&&String(t.purchaseState)!=='1')toast('Paiement en attente : l’abonnement sera activé dès sa confirmation par le store','warn');
+      else{const exp=t&&t.expirationDate?String(t.expirationDate).slice(0,10):u;store.lic={plan:'monthly',until:exp,src:'store',product:SUB.id,tx:t&&t.transactionId||null,consent};save();ui.sheet=null;ui.waiver=false;toast('VolleyCoach Pro activé','ok');}}
+    catch(e){const m=IAP.err(e);
+      if(/ALREADY_OWNED/i.test(m)){const r=await IAP.refresh();toast(r?'Abonnement déjà actif : il est restauré':'Abonnement déjà actif, mais introuvable : touchez « Restaurer mes achats »',r?'ok':'warn');}
+      else if(!/CANCEL/i.test(m))toast(/UNAVAILABLE|not found|BILLING/i.test(m)?'Achat indisponible : vérifiez la connexion et le compte du store':'Achat impossible, réessayez plus tard','warn');}
+    finally{IAP.busy=false;render();}},
+  async subManage(){const P=IAP.plugin();if(!P){toast('Gestion de l’abonnement dans l’appli installée','warn');return 1;}try{await P.manageSubscriptions();}catch(e){toast('Ouvrez les abonnements de votre compte dans le store','warn');}return 1;},
   async restore(){const P=IAP.plugin();if(!P){toast('Restauration disponible dans l’appli installée','warn');return;}
     try{await P.restorePurchases();}catch(e){}
-    const r=await IAP.refresh();toast(r?'Pass restauré':r===false?'Aucun pass trouvé pour ce compte':'Store injoignable : vérifiez la connexion',r?'ok':'warn');render();},
+    const r=await IAP.refresh();toast(r?(r.plan==='monthly'?'Abonnement restauré':'Pass restauré'):r===false?'Aucun pass ni abonnement trouvé pour ce compte':'Store injoignable : vérifiez la connexion',r?'ok':'warn');render();},
   // Mode test des achats avant l'ouverture des ventes : 7 appuis sur le titre de la fiche Pro
   iapTap(){if(++IAP.taps<7)return;IAP.taps=0;store.prefs.iapTest=!store.prefs.iapTest;save();toast(store.prefs.iapTest?'Mode test des achats activé':'Mode test des achats désactivé','ok');IAP.load();},
   tip(d){ui.tip=ui.tip===d.k?null:d.k;},
@@ -4324,6 +4442,9 @@ const A={
   impSeason(d){if(ui.imp)ui.imp.seasonSel=d.id;},
   impTog(d){const P=ui.imp;if(!P)return;const i=+d.i,k=P.sel.indexOf(i);if(k<0)P.sel.push(i);else P.sel.splice(k,1);},
   impRost(){if(ui.imp)ui.imp.rost=!ui.imp.rost;},
+  impFTog(d){const F=ui.impF;if(!F)return;const x=(d.k==='t'?F.teams:F.matches).find(y=>y.i===+d.i);if(x)x.sel=!x.sel;},
+  impFAll(d){const F=ui.impF;if(!F)return;F.teams.concat(F.matches).forEach(x=>{x.sel=d.v==='1';});},
+  impFGo(){const F=ui.impF;if(!F)return;ui.impF=null;ui.sheet=null;importData(impFullData(F));},
   impAll(d){const P=ui.imp;if(P)P.sel=d.v==='1'?P.items.map((x,i)=>i):[];},
   impGo(){const P=ui.imp;if(!P||!P.sel.length)return;let t;
     if(P.dest==='new'){t=newTeamFrom(P.src,P.R.map(p=>Object.assign({},p)));t.gender='F';if(P.f4)t.f4=fc4(P.f4);ensureSeasons(t);if(P.season)t.seasons[0].name=P.season;}
@@ -4383,8 +4504,8 @@ const A={
   statView(d){ui.statView=d.v;},
   rosterJson(){saveFile(`effectif_${today()}.vbcs`,JSON.stringify({app:APPID,type:'effectif',v:1,exported:new Date().toISOString(),roster:store.roster},null,1));return 1;},
   json(){saveFile(`volleycoach_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),cur:lean(store.cur),arch:store.arch,roster:store.roster,teams:(save(),store.teams)}));return 1;},
-  import(){ui.importTeamsOnly=false;$('#importFile').click();return 1;},
-  teamImport(){ui.importTeamsOnly=true;$('#importFile').click();return 1;},
+  import(){ui.importTeamsOnly=false;pickImport();return 1;},
+  teamImport(){ui.importTeamsOnly=true;pickImport();return 1;},
   resume(d){if(isDemoTeam()){toast('Équipe d’exemple : les matchs se consultent seulement','warn');return;}const key='res:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}
     const k=store.arch.findIndex(a=>a.id===d.id);if(k<0)return;const m=store.arch.splice(k,1)[0];archiveCur();m.redo=[];store.cur=m;save();ui.screen=null;ui.coachView=null;toast('Match repris','ok');},
   del(d){if(isDemoTeam())return;const key='del:'+d.id;if(ui.confirm!==key){ui.confirm=key;return 'keep';}store.arch=store.arch.filter(a=>a.id!==d.id);if(ui.coachView===d.id)ui.coachView=null;save();toast('Match supprimé');},
@@ -4583,6 +4704,26 @@ function impPlan(d,list){
   if(!dest){let best=null;store.teams.forEach(x=>{if(!okT(x))return;const r=rosterSim(R,impRosterOf(x.id));if(r.v>=0.5&&(!best||r.v>best.v))best={id:x.id,v:r.v};});dest=best?best.id:R.length?'new':((store.teams.find(t=>okT(t)&&t.id===store.teamId)||store.teams.find(okT)||{}).id||'new');}
   const P={src,season:String(d.season||''),R,items:list.map(lean),dest,rost:true,f4};impSeasonDefault(P);
   P.sel=P.items.map((mm,i)=>impDup(mm,P.dest)?-1:i).filter(i=>i>=0);return P;}
+// Aperçu d'une sauvegarde complète (V180) : une ligne par équipe (effectif, saisons) et par match, cochée sauf si elle
+// doublerait des données de l'appareil (match déjà présent, effectif identique) ou remplacerait un effectif existant
+function impFullPlan(d){
+  const inc=Array.isArray(d.teams)?d.teams.filter(t=>t&&!t.locked&&t.id!=='t-earth'):Array.isArray(d.roster)?[{name:d.team||(d.cur&&d.cur.team)||'Équipe importée',roster:d.roster}]:[];
+  const rosterOfT=x=>x.id===store.teamId?store.roster:x.roster||[];
+  const teams=inc.map((t,i)=>{let R=[];try{R=parseRoster(t.roster||[]);}catch(e){}
+    let best=null;store.teams.forEach(x=>{if(x.locked)return;const r=rosterSim(R,rosterOfT(x));if(r.v>=0.5&&(!best||r.v>best.v))best={id:x.id,name:x.name,v:r.v};});
+    const same=best&&JSON.stringify(R)===JSON.stringify(rosterOfT(store.teams.find(x=>x.id===best.id)));
+    const st=same?'same':best?'replace':'new';return {i,name:t.name||'Équipe importée',n:R.length,seasons:(t.seasons||[]).length,st,with:best&&best.name,wid:best&&best.id,sel:st==='new',id:t.id};});
+  const list=(d.arch||[]).concat(d.cur&&Array.isArray(d.cur.ev)&&d.cur.ev.length?[d.cur]:[]).filter(mm=>mm&&mm.id&&Array.isArray(mm.ev)&&mm.teamId!=='t-earth');
+  const matches=list.map((mm,i)=>{const dup=store.cur.id===mm.id||store.arch.some(a=>a.id===mm.id);const t=inc.find(x=>x.id&&x.id===mm.teamId)||inc.find(x=>x.name===mm.team);
+    return {i,mm,label:impLabel(mm),team:t?t.name:(mm.team||''),dup,sel:!dup};});
+  if(!teams.length&&!matches.length)return null;return {d,teams,matches};}
+// match gardé dont l'équipe est décochée : rattaché à l'équipe équivalente de l'appareil, sinon son équipe (nouvelle) est importée quand même
+function impFullData(F){const d=Object.assign({},F.d),keepM=new Set(F.matches.filter(x=>x.sel).map(x=>x.mm.id)),to={};
+  F.matches.filter(x=>x.sel).forEach(x=>{const t=F.teams.find(y=>y.name===x.team);if(t&&!t.sel){if(t.wid)to[x.mm.id]=t.wid;else t.sel=true;}});
+  const keepT=new Set(F.teams.filter(t=>t.sel).map(t=>t.i));
+  if(Array.isArray(d.teams)){const inc=d.teams.filter(t=>t&&!t.locked&&t.id!=='t-earth');d.teams=inc.filter((t,i)=>keepT.has(i));}else if(Array.isArray(d.roster)&&!keepT.has(0))delete d.roster;
+  const mv=mm=>to[mm.id]?Object.assign({},mm,{teamId:to[mm.id],team:(store.teams.find(t=>t.id===to[mm.id])||{}).name||mm.team}):mm;
+  d.arch=(d.arch||[]).filter(mm=>mm&&keepM.has(mm.id)).map(mv);if(d.cur&&!keepM.has(d.cur.id))delete d.cur;else if(d.cur)d.cur=mv(d.cur);return d;}
 function impLabel(mm){let sc='';try{const S=replay(mm);sc=' · '+S.wins.G+'-'+S.wins.A;}catch(e){}return `${fmtDate(mm.date)} · ${mm.opp||tr('Adversaire')}${sc}`;}
 // identifiants des joueurs remplacés partout dans le match (valeurs et clés : stats, compositions, présences, postes…)
 // Déplacement d'un match archivé vers une autre équipe : joueurs rattachés à son effectif (même nom), les autres ajoutés
@@ -4591,12 +4732,17 @@ function moveToTeam(a,t,sid){const R=t.id===store.teamId?store.roster:(t.roster|
   const f4=f4c(a);if(Object.keys(map).length){const o=remapIds(a,map);Object.keys(a).forEach(k=>delete a[k]);Object.assign(a,o);}Object.assign(a,{teamId:t.id,team:t.name,seasonId:sid,f4});delete a.order;
   ui.mvTeam=null;ui.sheet='archOrg';save();toast(tr('Match déplacé vers « {N} »').replace('{N}',t.name)+(added?' · '+tr(added>1?'{N} joueurs ajoutés':'1 joueur ajouté').replace('{N}',added):''),'ok');}
 function remapIds(o,map){if(Array.isArray(o))return o.map(x=>remapIds(x,map));if(o&&typeof o==='object'){const r={};for(const k in o)r[map[k]||k]=remapIds(o[k],map);return r;}return typeof o==='string'&&map[o]?map[o]:o;}
+const EMPTY_FILE='Le téléphone a transmis un fichier vide. Ouvrez la sauvegarde depuis le gestionnaire de fichiers (« Ouvrir avec » › VolleyCoach), ou recopiez-la ailleurs puis réessayez.';
 function importText(txt){
-  let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;
+  let raw=String(txt||'').replace(/^\uFEFF/,'').trim(),d;if(!raw){toast(EMPTY_FILE,'warn');return false;}
   try{d=JSON.parse(raw);}catch(e){const i=raw.indexOf('{'),j=raw.lastIndexOf('}');
     try{d=JSON.parse(raw.slice(i,j+1));}catch(e2){toast('Fichier illisible : ce n\'est pas un fichier de données VolleyCoach (.vbcs)','warn');return false;}}
   if(!d||typeof d!=='object'||(d.app&&!/volley/i.test(String(d.app)))||!(Array.isArray(d.arch)||Array.isArray(d.roster)||Array.isArray(d.teams)||(d.cur&&Array.isArray(d.cur.ev)))){
     toast('Ce fichier ne contient ni match ni effectif VolleyCoach','warn');return false;}
+  // V180 : sauvegarde avec des équipes ou un effectif → aperçu du contenu, rien n'est modifié avant « Importer la sélection »
+  if(!ui.importTeamsOnly&&Array.isArray(d.teams)){const F=impFullPlan(d);if(F){ui.impF=F;ui.tuto=null;ui.sheet='impFull';render();return true;}}
+  return importData(d);}
+function importData(d){
   let n=0,rn=-1;const teamsOnly=!!ui.importTeamsOnly;ui.importTeamsOnly=false;
   if(teamsOnly&&!(Array.isArray(d.teams)||Array.isArray(d.roster))){toast('Ce fichier ne contient aucun effectif','warn');return false;}
   try{
@@ -4625,8 +4771,14 @@ function importText(txt){
   toast(msg.length?msg.join(' ; '):'Rien de nouveau : ces matchs sont déjà dans l\'archive',msg.length?'ok':'');
   return true;
 }
+// Ouverture d'une sauvegarde : sur Android, sélecteur de documents du système (module SaveAs.open), qui lit le fichier lui-même ;
+// le sélecteur de la WebView transmet parfois un fichier vide (Xiaomi, fichier créé par une installation précédente). Ailleurs : champ fichier.
+function pickImport(){const P=CAP();
+  if(!(NATIVE&&window.Capacitor.getPlatform()==='android'&&P.SaveAs&&P.SaveAs.open&&P.Filesystem)){$('#importFile').click();return;}
+  P.SaveAs.open().then(async r=>{if(!r||!r.size){toast(EMPTY_FILE,'warn');return;}const t=await P.Filesystem.readFile({path:r.path,encoding:'utf8'});importText(t.data);})
+    .catch(e=>{if(/cancel|annul/i.test(String(e&&(e.code||e.message)||e)))return;toast('Impossible de lire ce fichier sur cet appareil','warn');});}
 $('#importFile').addEventListener('change',e=>{
-  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.size){toast(EMPTY_FILE,'warn');e.target.value='';return;}
   const r=new FileReader();
   r.onload=()=>{importText(r.result);e.target.value='';};
   r.onerror=()=>{toast('Impossible de lire ce fichier sur cet appareil','warn');e.target.value='';};
