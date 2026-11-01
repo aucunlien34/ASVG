@@ -64,12 +64,14 @@
 
   async function writeNow() {
     dirty = false;
-    var body = JSON.stringify({ format: FORMAT, stamp: stamp, savedAt: new Date().toISOString(), items: snapshot() });
+    // numéro de cette écriture : stamp peut augmenter pendant l'écriture (nouvelle modification), qui sera recopiée ensuite
+    var st = stamp;
+    var body = JSON.stringify({ format: FORMAT, stamp: st, savedAt: new Date().toISOString(), items: snapshot() });
     var slot = nextSlot;
     await FS.writeFile({ path: SLOTS[slot], directory: DIR, encoding: 'utf8', data: body, recursive: true });
     // Relecture : on ne bascule de fichier qu'après une écriture vérifiée
     var check = await readSlot(slot);
-    if (!check || check.stamp !== stamp) throw new Error('relecture incorrecte');
+    if (!check || check.stamp !== st) throw new Error('relecture incorrecte');
     nextSlot = 1 - slot;
   }
 
