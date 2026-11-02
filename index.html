@@ -789,6 +789,12 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vrecb.on{background:#D7263D;color:#fff;border-color:#D7263D}.vmatch{color:#ff6b6b;font:700 16px Barlow,sans-serif}
 .vseek{flex:1 1 200px;min-width:160px;height:36px;accent-color:#F2BE22}.vpos{font:700 16px 'Barlow Condensed',sans-serif;min-width:96px}
 .vopt{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 4px}.vopt>span{font-weight:700;min-width:70px}
+/* réglages vidéo (V183) : curseurs, segments compacts, aperçu du bandeau, zone d'analyse, lien du match, ▶ des stats */
+.vsr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;margin:8px 0}.vsr>span{font-weight:600}.vsr>b{font:700 16px 'Barlow Condensed',sans-serif;min-width:48px;text-align:right}.vsr input[type=range]{grid-column:1/-1;width:100%;margin:0;accent-color:var(--team)}
+.vsseg button{min-height:40px;padding:0 10px;font-size:14px}.ovprev{display:block;width:100%;height:auto;border-radius:10px;margin:8px 0;background:#4a7}
+.vroi{position:absolute;inset:0;z-index:2;touch-action:none;cursor:crosshair}.vroi i{position:absolute;border:3px solid #F2BE22;background:rgba(242,190,34,.18);border-radius:4px;pointer-events:none}
+.vlinkb{font-size:13px;padding:2px 0;text-align:left;align-self:flex-start}.vlinkb.warn{color:var(--neg);font-weight:700}
+.sch.vjump{min-width:34px;text-align:center;padding:3px 6px;font-size:12px;color:var(--team)}.sumr.vj{grid-template-columns:58px 14px 1fr auto}.vsl{display:flex;flex-direction:column;gap:4px;max-height:40vh;overflow:auto;margin-top:6px}
 .vrow{display:flex;gap:8px;align-items:center;border-top:1px solid var(--line);padding:10px 0}.vrow .who{flex:1;display:flex;flex-direction:column;min-width:0}.vrow small{color:var(--muted)}
 .vwarn{color:var(--neg)}
 .hmsub{display:block;font-size:11px;font-weight:600;color:var(--muted);line-height:1.2}
@@ -825,12 +831,13 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 <script src="i18n.js"></script>
 <script src="seed.js"></script>
 <script src="video-ai.js"></script>
+<script src="video-export.js"></script>
 <script src="native-storage.js"></script>
 <script type="text/x-vc-app" id="vc-app">
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V182';
+const APP_VERSION='V183';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2031,7 +2038,7 @@ function render(){
   sh.classList.toggle('open',!!ui.sheet);
   const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!(ui.alert||ui.roleFor));
-  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();srvFrame();bindLearn();bindVideo();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
+  translateDOM($('#app'));translateDOM(sh);translateDOM(al);fitButtons();vtMore();srvFrame();bindLearn();bindVideo();ovPreview();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -2162,6 +2169,21 @@ const VID={tok:0,on:false,segs:[],rec:null,rp:null,pb:null,zoom:1,maxZoom:1,fps:
 const VFREE=300,VMEM=5,VSLOW0=2000,VSTEP=1000,VMIN=2,VMAX=30,VBPS={720:5e6,1080:10e6};
 const vNative=()=>NATIVE&&!!CAP().VideoDelay;
 const VP=()=>store.prefs.vid||(store.prefs.vid={delay:8,q:'720',mode:'train',slow:0.5,cam:'back'});
+// Réglages vidéo avancés (V183, video-export.js) : prefs.vid.auto / clip / ov / exp, complétés et bornés par vxSettings ; vsSet('ov.corner','tr')
+const VS=()=>vxSettings(VP());
+function vsSet(path,v){const [g,k]=path.split('.'),P=VP();(P[g]||(P[g]={}))[k]=v;P[g]=vxSettings(P)[g];save();}
+const vsFmt=(g,k,v)=>k==='opacity'?Math.round(v*100)+' %':String(v).replace('.',',')+' s';
+// Curseur d'un réglage numérique (Réglages › Vidéo et fiche « Marges » du lecteur) : valeur affichée mise à jour sans rendu
+function vsRange(g,k,lab){const d=VX_SETTINGS[g][k],v=VS()[g][k];return `<label class="vsr"><span>${lab}</span><b id="vs-${g}-${k}">${vsFmt(g,k,v)}</b><input type="range" data-vs="${g}.${k}" min="${d.min}" max="${d.max}" step="${d.step}" value="${v}" aria-label="${lab}"></label>`;}
+function vsSeg(g,k,opts){const cur=String(VS()[g][k]);return `<div class="seg vsseg">${opts.map(([v,l])=>`<button class="${cur===String(v)?'on':''}" data-act="vsSeg" data-g="${g}" data-k="${k}" data-v="${v}" aria-pressed="${cur===String(v)}">${l}</button>`).join('')}</div>`;}
+function vsSwitch(g,k,lab){return `<label class="chk sw"><input type="checkbox" role="switch" data-vs="${g}.${k}" ${VS()[g][k]?'checked':''}> ${lab}</label>`;}
+// Aperçu du bandeau (Réglages › Vidéo) : dessiné dans une vidéo fictive 16/9 selon les réglages en cours
+function ovPreview(){const cv=document.getElementById('ovPrev');if(!cv)return;const W=cv.width,H=cv.height,ctx=cv.getContext('2d'),o=vxOvOpts(VS()),T=activeTeam();
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#5b8db8');g.addColorStop(.45,'#7fa36a');g.addColorStop(1,'#c9803a');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=2;ctx.strokeRect(W*.18,H*.42,W*.64,H*.5);ctx.beginPath();ctx.moveTo(W*.18,H*.67);ctx.lineTo(W*.82,H*.67);ctx.stroke();
+  if(!o||!VS().ov.on)return;const st={set:2,sets:{G:1,A:0},pts:{G:12,A:9},rot:4,srv:'G',sp:'x',spn:'7 '+tr('Juliette'),tm:false,end:false};
+  const h=Math.round(H*(OV_SIZE[o.scale]||OV_SIZE.m)),tmp=document.createElement('canvas');tmp.width=W;tmp.height=h;const d=ovDraw(tmp.getContext('2d'),st,Object.assign({x:0,y:0,h,team:(T&&T.name)||'Nous',opp:tr('Adversaire')},o));
+  const p=ovPlace(d,{w:W,h:H},o.corner);ctx.drawImage(tmp,0,0,d.w,d.h,p.x,p.y,d.w,d.h);}
 function vUse(){if(!store.vidUse||store.vidUse.d!==today())store.vidUse={d:today(),s:0};return store.vidUse;}
 function vidLeft(){return isPro()?Infinity:Math.max(0,VFREE-vUse().s);}
 const vMs=ms=>{const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
@@ -2188,14 +2210,16 @@ async function vidStart(){if(VID.on)return;if(vidLeft()<=0){ui.vidLock=true;rend
     if(vNative()){const V=CAP().VideoDelay;VID.ls=[await V.addListener('segment',e=>vidSeg({url:vUrl(e.path),path:e.path,t0:e.t0,dur:e.dur,size:e.size,free:e.free})),
         await V.addListener('error',e=>{VID.err=tr('Erreur de la caméra')+((e&&e.message)?' : '+e.message:'');vidStop();render();})];
       await vidRecover();const keep=[];(store.vids||[]).forEach(r=>vSegsOf(r).forEach(x=>keep.push(x.u)));
-      const r=await V.start({quality:P.q,fps:60,keep,facing:P.cam||'back'});if(gone())return;VID.fps=r.fps;VID.maxZoom=r.maxZoom||1;VID.free=r.free;VID.w=r.width;VID.h=r.height;}
+      const r=await V.start({quality:P.q,fps:60,keep,facing:P.cam||'back',audio:!!P.snd});if(gone())return;VID.fps=r.fps;VID.maxZoom=r.maxZoom||1;VID.free=r.free;VID.w=r.width;VID.h=r.height;VID.aud=!!r.audio;
+      if(P.snd&&!r.audio)toast(tr('Micro indisponible ou refusé : vidéo sans son'),'warn');}
     else{await vidWebStart(P);if(gone()){vidStop();return;}}
     VID.last={q:P.q,h:Math.min(VID.w||0,VID.h||0),fps:VID.fps,cam:P.cam||'back'};
     if(P.mode==='match')vidRecStart();}
   catch(e){if(!(e&&e.code==='STOPPED'))VID.err=/DENIED|refus|NotAllowed|Permission/i.test(String(e&&(e.code||e.name||e.message)))?tr('Accès à la caméra refusé : autorisez-le dans les réglages du téléphone.'):tr('Caméra indisponible')+' : '+((e&&e.message)||e);await vidStop();}
   render();}
 async function vidWebStart(P){const md=navigator.mediaDevices;if(!md||!md.getUserMedia)throw new Error('caméra non disponible dans ce navigateur');
-  const st=await md.getUserMedia({audio:false,video:{facingMode:P.cam==='front'?'user':'environment',width:{ideal:P.q==='1080'?1920:1280},height:{ideal:P.q==='1080'?1080:720},frameRate:{ideal:60}}});
+  let st;const vc={facingMode:P.cam==='front'?'user':'environment',width:{ideal:P.q==='1080'?1920:1280},height:{ideal:P.q==='1080'?1080:720},frameRate:{ideal:60}};
+  try{st=await md.getUserMedia({audio:!!P.snd,video:vc});}catch(e){if(!P.snd)throw e;st=await md.getUserMedia({audio:false,video:vc});}VID.aud=st.getAudioTracks().length>0;
   const tk=st.getVideoTracks()[0],se=tk.getSettings?tk.getSettings():{},cp=tk.getCapabilities?tk.getCapabilities():{};VID.fps=Math.round(se.frameRate||30);VID.w=se.width;VID.h=se.height;VID.maxZoom=cp.zoom?cp.zoom.max:1;
   const mime=['video/mp4;codecs=avc1','video/webm;codecs=vp8','video/webm'].find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t))||'';
   const W=VID.web={st,tk};const one=()=>{if(VID.web!==W)return;const r=new MediaRecorder(st,mime?{mimeType:mime,videoBitsPerSecond:VBPS[P.q]}:{}),ch=[],t0=Date.now();
@@ -2212,7 +2236,7 @@ function vidCutStart(){if(!isPro()){ui.sheet='pro';return;}const S=VID.segs;if(!
   VID.rp=null;VID.cut={mn,mx,pos,a:Math.max(mn,pos-5000),b:pos,play:false,at:Date.now()};}
 function vidCutSave(){const C=VID.cut;if(!C||C.b-C.a<200)return;const segs=VID.segs.filter(x=>x.t0+x.dur>C.a&&x.t0<C.b);if(!segs.length)return;segs.forEach(x=>x.keep=true);
   const e={id:'v'+Date.now().toString(36),mode:'train',t0:C.a,dur:Math.round(C.b-C.a),ia:Math.max(0,Math.round(C.a-segs[0].t0)),size:segs.reduce((a,x)=>a+(x.size||0),0),q:VP().q,fps:VID.fps,segs:segs.map(x=>({u:x.path||x.url,d:Math.round(x.dur),t:x.t0}))};
-  if(!vNative()){e.web=1;VID.mem[e.id]=segs;}store.vids=[e].concat(store.vids||[]);VID.cut=null;save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
+  if(VID.aud)e.aud=1;if(!vNative()){e.web=1;VID.mem[e.id]=segs;}store.vids=[e].concat(store.vids||[]);VID.cut=null;save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
 // Mode Match : enregistrement de la mise en route à l'arrêt de la caméra, noté au fur et à mesure (V180) : il est dans la liste dès
 // le départ (st « live »), ses tranches y sont ajoutées une à une et sauvegardées toutes les 15 s ; après un arrêt brutal de l'appli,
 // vidRecover le complète avec les tranches restées sur le disque. Tranches notées par leur nom de fichier (dossier commun dans dir).
@@ -2220,13 +2244,15 @@ const vDir=p=>String(p||'').slice(0,String(p||'').lastIndexOf('/')+1);
 const vSegsOf=r=>(r.segs||[]).map(x=>({u:(r.dir||'')+x.u,d:x.d,t:x.t}));
 function vidRecStart(){if(!isPro()){ui.sheet='pro';return;}const from=Date.now()-VP().delay*1000-1000,segs=VID.segs.filter(x=>x.t0+x.dur>from);
   const e={id:'v'+Date.now().toString(36),mode:VP().mode,t0:segs.length?segs[0].t0:Date.now(),dur:0,size:0,q:VP().q,fps:VID.fps,st:'live',segs:[]};
-  if(!vNative()){e.web=1;VID.mem[e.id]=[];}
+  if(VID.aud)e.aud=1;if(!vNative()){e.web=1;VID.mem[e.id]=[];}
   store.vids=[e].concat(store.vids||[]);VID.rec={id:e.id,at:Date.now(),e};segs.forEach(vRecAdd);VID.recSave=Date.now();save();}
 function vRecAdd(x){const R=VID.rec;if(!R)return;const e=R.e;x.keep=true;if(!e.dir&&x.path)e.dir=vDir(x.path);
   e.segs.push({u:e.dir&&x.path&&x.path.startsWith(e.dir)?x.path.slice(e.dir.length):(x.path||x.url),d:Math.round(x.dur),t:x.t0});e.dur+=x.dur;e.size+=x.size||0;if(e.web)VID.mem[e.id].push(x);}
 function vidRecStop(){const R=VID.rec;VID.rec=null;if(!R)return;const e=R.e;delete e.st;e.dur=Math.round(e.dur);
   if(!e.segs.length){store.vids=(store.vids||[]).filter(x=>x!==e);save();return;}
-  save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');}
+  save();toast(tr('Enregistrement gardé ({D})').replace('{D}',vMs(e.dur)),'ok');
+  // match filmé : si plusieurs matchs se recoupent (tournoi) ou qu'aucun ne correspond, l'utilisateur précise le lien dans la liste
+  const LK=vcLinkInfo(e);if(e.mode==='match'&&(!LK.m||!LK.sure))setTimeout(()=>toast(LK.m?tr('Plusieurs matchs correspondent à cette vidéo : vérifiez le match lié dans la liste'):tr('Aucun match saisi ne correspond à cette vidéo : vous pouvez le choisir dans la liste'),'warn'),2500);}
 // Reprise après un arrêt brutal (V180) : un enregistrement resté « live » est complété avec les tranches restées sur le disque
 // (après sa dernière tranche notée et avant l'enregistrement suivant), puis marqué « interrompu »
 async function vidRecover(){if(VID.on||VID.recovered)return;VID.recovered=true;const L=(store.vids||[]).filter(r=>r.st==='live');if(!L.length)return;
@@ -2260,12 +2286,29 @@ function vTrackBg(r,tot,w0,w1){const W=(w1-w0)||1,pc=v=>(Math.max(0,Math.min(1,(
   vRanges(r,tot).forEach(([a,b])=>{st.push('var(--vdis) '+pc(x),'var(--vdis) '+pc(a),'var(--vkeep) '+pc(a),'var(--vkeep) '+pc(b));x=b;});
   st.push('var(--vdis) '+pc(x),'var(--vdis) 100%');return 'linear-gradient(90deg,'+st.join(',')+')';}
 // Vidéo assistée (V181) : enregistrement de match ↔ match saisi (recouvrement horaire à 30 min près), clips par joueur / action (video-ai.js)
-const vSpan=r=>[r.t0-MG_TOL,r.t0+(r.dur||0)+MG_TOL];
-function vcMatchFor(r){if(!r||r.mode!=='match')return null;if(r.clip){const src=(store.vids||[]).find(x=>x.id===r.src);return src?vcMatchFor(src):null;}const [a,b]=vSpan(r);let best=null,bo=0;[store.cur].concat(store.arch).forEach(m=>{if(!m||!Array.isArray(m.ev))return;const sp=mgSpan(m);if(!sp)return;const o=Math.min(b,sp[1])-Math.max(a,sp[0]);if(o>0&&o>bo){bo=o;best=m;}});return best;}
-function vcRecFor(m){const sp=m&&!m.season&&mgSpan(m);if(!sp)return null;let best=null,bo=0;(store.vids||[]).forEach(r=>{if(r.mode!=='match'||r.clip||(r.web&&!VID.mem[r.id]))return;const [a,b]=vSpan(r),o=Math.min(b,sp[1])-Math.max(a,sp[0]);if(o>0&&o>bo){bo=o;best=r;}});return best;}
+// V183 : lien par vcLinkPick (video-export.js) : choix manuel r.mid / r.noLink d'abord, sinon meilleur recouvrement avec le décalage connu ; « sure » = sans concurrent
+const vcMatches=()=>[store.cur].concat(store.arch).filter(m=>m&&Array.isArray(m.ev));
+function vcLinkInfo(r){if(!r||r.mode!=='match')return {m:null,auto:true,sure:true,candidates:[]};if(r.clip){const src=(store.vids||[]).find(x=>x.id===r.src);return src?vcLinkInfo(src):{m:null,auto:true,sure:true,candidates:[]};}return vcLinkPick(r,vcMatches());}
+function vcMatchFor(r){return vcLinkInfo(r).m;}
+function vcRecFor(m){const sp=m&&!m.season&&mgSpan(m);if(!sp)return null;let best=null,bs=-1;(store.vids||[]).forEach(r=>{if(r.mode!=='match'||r.clip||(r.web&&!VID.mem[r.id]))return;if(vcMatchFor(r)!==m)return;const c=vcLinkCandidates(r,[m])[0],s=c?c.score:0;if(s>bs){bs=s;best=r;}});return best;}
+// Taille affichée de la vidéo lue (après rotation), sinon 16/9 selon la qualité demandée
+function vidSrcSize(r){const L=VID.layer;if(L){const v=[...L.children].find(x=>x.videoWidth);if(v)return {w:v.videoWidth,h:v.videoHeight};}const h=+(r&&r.q)||720;return {w:Math.round(h*16/9),h};}
+// Rectangle de l'image vidéo dans la scène (object-fit: contain) → zone d'analyse en fractions de l'image
+function vidRect(){const st=document.getElementById('vStage');if(!st)return null;const sw=st.clientWidth,sh=st.clientHeight,s=vidSrcSize(vRec()),k=Math.min(sw/s.w,sh/s.h),w=s.w*k,h=s.h*k;return {x:(sw-w)/2,y:(sh-h)/2,w,h};}
 // décalage d'horloge vidéo − stats : réglé (r.off), sinon estimé d'après les échanges détectés par le montage auto (r.ral) quand l'estimation est nette
 function vcOffset(m,r){if(r.off!=null)return {off:r.off,src:r.offSrc||'manual'};if(!r.ral||!r.ral.length)return {off:0,src:'none'};
   const e=vcEstimateOffset(m,r,r.ral,{});if(e.src==='auto'&&e.score>=.6&&e.score-(e.second||0)>=.25){r.off=e.offset;r.offSrc='auto';save();return {off:e.offset,src:'auto'};}return {off:0,src:'weak'};}
+// Stats → vidéo (V183) : ouverture du lecteur sur l'instant t (horloge stats) d'un point ou d'une action, quelques secondes avant ; retour au résumé à la fermeture
+function vsGo(m,r,t){const O=vcOffset(m,r),pos=vsJump(r,t,{off:O.off,before:VS().clip.before*1000});if(pos==null){toast(tr('Ce moment est hors de l’enregistrement'),'warn');return;}
+  if(r.web&&!VID.mem[r.id]){toast('Vidéo introuvable','warn');return;}
+  ui.vsBack={ctab:ui.ctab,coachView:ui.coachView,fxSet:ui.fxSet,statView:ui.statView,scroll:window.scrollY};ui.sheet=null;A.ctab({v:'video'});A.vidPlay({id:r.id});if(VID.pb){VID.pb.pos=pos;VID.pb.play=true;}}
+// Actions filmées d'un joueur (fiche agrandie) : une ligne par action horodatée dans l'enregistrement, ▶ ouvre la vidéo
+function vsActsHTML(m,pid,r){if(!r||ui.toStats)return '';const O=vcOffset(m,r),bf=VS().clip.before*1000,L=vcActions(m,{pid}).filter(a=>vsJump(r,a.t,{off:O.off,before:bf})!=null);if(!L.length)return '';
+  return `<details class="tipsd vsacts"><summary><b class="cond" style="font-size:18px">▶ ${tr('Actions filmées')} (${L.length})</b></summary><div class="vsl">${L.map(a=>`<button class="sch" data-act="vsJumpAct" data-t="${a.t}">${esc(sumCtx(m,a.ev))} · ${esc(stLab(a.kind,a.sign))}</button>`).join('')}</div></details>`;}
+// Marges du montage auto appliquées à l'enregistrement lu (fiche « Marges »), sans réanalyse ; l'ancien montage reste dans « Annuler »
+function vautoApply(){const P=VID.pb,r=vRec();if(!P||!r||!r.ral||!r.ral.length)return;if(!P.undoAuto){P.undo.push(JSON.stringify(vCuts(r)));if(P.undo.length>50)P.undo.shift();P.undoAuto=1;}
+  r.cuts=dtCuts(dtAdjust(r.ral,P.tot,vxAutoOpts(VS())).rallies,P.tot);save();const tk=document.getElementById('vTrack');if(tk)tk.style.background=vTrackBg(r,P.tot,...(P.zw||[0,P.tot]));
+  const k=document.getElementById('vautoK');if(k)k.textContent=tr('Gardé : {A} sur {B}').replace('{A}',vMs(vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0))).replace('{B}',vMs(P.tot));}
 const VC_K=[['att','Attaque'],['srv','Service'],['rec','Réception'],['def','Défense'],['blk','Bloc'],['pas','Passe']];
 const vcFilter=q=>({pid:q.pid?[q.pid]:null,kinds:q.kinds.length?q.kinds:null,signs:q.signs.length?q.signs:null});
 const vcRec=q=>(store.vids||[]).find(x=>x.id===q.rid),vcMatch=q=>q.mid===store.cur.id?store.cur:store.arch.find(x=>x.id===q.mid);
@@ -2306,6 +2349,14 @@ function bindVideo(){const st=document.getElementById('vStage');document.body.cl
     st.addEventListener('touchmove',e=>{if(e.touches.length===2&&d0){e.preventDefault();vidZoom(z0*dist(e.touches)/d0);}},{passive:false});
     st.addEventListener('touchend',()=>{if(d0){d0=0;vidZoom(VID.zoom);}},{passive:true});
     st.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();vidZoom(VID.zoom*(e.deltaY<0?1.1:0.9));}},{passive:false});}
+  // zone d'analyse (V183) : rectangle tracé au doigt sur l'image, mémorisé en fractions de l'image vidéo (r.roi)
+  const ro=document.getElementById('vRoi');if(ro&&VID.pb){const r=vRec(),R=document.getElementById('vRoiR'),box=()=>{const vr=vidRect();return vr||{x:0,y:0,w:ro.clientWidth,h:ro.clientHeight};};
+    const show=f=>{const B=box();if(!f){R.hidden=true;return;}R.hidden=false;R.style.left=(B.x+f[0]*B.w)+'px';R.style.top=(B.y+f[1]*B.h)+'px';R.style.width=(f[2]*B.w)+'px';R.style.height=(f[3]*B.h)+'px';};
+    if(r&&r.roi)show(r.roi);let p0=null;const at=e=>{const B=box(),q=ro.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-q.left-B.x)/B.w)),Math.max(0,Math.min(1,(e.clientY-q.top-B.y)/B.h))];};
+    const frac=(a,b)=>[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.abs(b[0]-a[0]),Math.abs(b[1]-a[1])].map(v=>Math.round(v*1000)/1000);
+    ro.addEventListener('pointerdown',e=>{p0=at(e);try{ro.setPointerCapture(e.pointerId);}catch(_){}show(frac(p0,p0));});
+    ro.addEventListener('pointermove',e=>{if(p0)show(frac(p0,at(e)));});
+    const up=e=>{if(!p0)return;const f=frac(p0,at(e));p0=null;if(f[2]<.05||f[3]<.05){show(r&&r.roi);return;}if(r){r.roi=f;save();}};ro.addEventListener('pointerup',up);ro.addEventListener('pointercancel',()=>{p0=null;show(r&&r.roi);});}
   const ck=document.getElementById('vCut');if(ck&&VID.cut){ck.addEventListener('input',()=>{const C=VID.cut;if(!C)return;C.drag=true;C.play=false;C.pos=C.mn+ +ck.value;});ck.addEventListener('change',()=>{if(VID.cut)VID.cut.drag=false;});}
   const tk=document.getElementById('vTrack');if(tk&&VID.pb){const P=VID.pb,ZW=20000;let x0=0,lp=null,rect=null;
     const posAt=x=>{const W=P.zw||[0,P.tot];return Math.max(0,Math.min(P.tot,W[0]+(x-rect.left)/rect.width*(W[1]-W[0])));};
@@ -2322,6 +2373,7 @@ function videoHTML(){const P=VP(),pro=isPro();
   if(VID.pb){const B=VID.pb,r=vRec(),k=r?vKeepAt(r,B.pos):1;
     return `<div class="vstage pb" id="vStage"><div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}</div>
       ${ui.vsync?`<div class="vsyncbar"><span>${tr('Placez la vidéo sur la fin d’un point (ballon au sol), puis :')}</span><button class="btn primary" data-act="vsyncPick">⏱ ${tr('Choisir ce point')}</button><button class="btn" data-act="vsyncX" aria-label="Annuler">✕</button></div>`:''}
+      ${ui.vroi?`<div class="vsyncbar"><span>${tr('Tracez un rectangle sur le terrain : seule cette zone sera analysée par le montage auto (évitez tribunes et bancs).')}</span><button class="btn" data-act="vroiAll">${tr('Toute l’image')}</button><button class="btn primary" data-act="vroiX">OK</button></div><div class="vroi" id="vRoi"><i id="vRoiR" hidden></i></div>`:''}
       <div class="vbar vpbbar"><div class="vtrack" id="vTrack" style="background:${r?vTrackBg(r,B.tot,0,B.tot):'var(--vkeep)'}"><i class="vhead" id="vHead"></i></div>
         <div class="vrow2"><button class="btn" data-act="vidPbStep" data-v="-1000">−1 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button>
           <button class="btn vpp" data-act="vidPP" id="vPP">${B.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="1000">+1 s</button>
@@ -2329,7 +2381,7 @@ function videoHTML(){const P=VP(),pro=isPro();
           <div class="seg">${[1,0.5,0.25].map(v=>`<button class="${B.r===v?'on':''}" data-act="vidPR" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div></div>
         <div class="vrow2"><button class="btn vkeepb ${k?'drop':''}" data-act="vidKeep" id="vKeepB">✂ <span id="vKeepT">${k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici')}</span>${pro?'':' 🔒'}</button>
           <button class="btn" data-act="vidUndo" ${B.undo&&B.undo.length?'':'disabled'}>↶ ${tr('Annuler')}</button>
-          <button class="btn" data-act="vidAuto" ${ui.vidAuto||ui.vidExp?'disabled':''}>✨ ${tr('Montage auto')}${pro?'':' 🔒'}</button>${r&&vcMatchFor(r)?`<button class="btn" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}
+          <button class="btn" data-act="vidAuto" ${ui.vidAuto||ui.vidExp?'disabled':''}>✨ ${tr('Montage auto')}${pro?'':' 🔒'}</button>${r&&r.ral&&r.ral.length?`<button class="btn" data-act="vautoOpen" ${ui.vidAuto||ui.vidExp?'disabled':''}>⚙ ${tr('Marges')}</button>`:''}${r&&vcMatchFor(r)?`<button class="btn" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}
           <button class="btn primary" data-act="vidExport" ${ui.vidExp||ui.vidAuto?'disabled':''}>⇩ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>
           <button class="btn" data-act="vidPbX">✕ ${tr('Fermer')}</button></div></div></div>`;}
   if(VID.on&&VID.cut){const C=VID.cut,W=C.mx-C.mn||1,pc=x=>((x-C.mn)/W*100).toFixed(2);
@@ -2347,7 +2399,10 @@ function videoHTML(){const P=VP(),pro=isPro();
         ${tm?`<span class="vmatch">● ${tr('Match enregistré')}</span>`:`<button class="btn vrecb" data-act="vidRec">● REC${pro?'':' 🔒'}</button>`}
         <button class="btn" data-act="vidStop">${tr('Arrêter')}</button></div></div>`;}
   vidInfo();vidRecover();const L=store.vids||[],left=vidLeft(),mpm=VBPS[P.q]/8*60,short=P.mode==='match'&&VID.free!=null&&VID.free<mpm*120*1.05;
-  const rows=L.map(r=>{const gone=r.web&&!VID.mem[r.id];const mm=vcMatchFor(r);return `<div class="vrow"><span class="who"><b>${r.clip?'🎬 '+esc(r.name)+' · ':''}${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.mode==='match'?tr('Match'):tr('Entraînement')}${mm?' · '+esc(mm.opp||tr('Adversaire')):''}</b><small>${r.st==='int'?tr('interrompu, récupéré')+' · ':''}${r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0)))+' · ':''}${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small></span>
+  const rows=L.map(r=>{const gone=r.web&&!VID.mem[r.id];const LK=vcLinkInfo(r),mm=LK.m,ask=r.mode==='match'&&!r.clip&&r.st!=='live';
+    // match lié (V183) : nom du match, « à confirmer » quand plusieurs matchs se recoupent, « Aucun match » sinon ; touché, il ouvre le choix
+    const link=ask?`<button class="linkbtn vlinkb ${mm&&LK.auto&&!LK.sure?'warn':''}" data-act="vcLinkOpen" data-id="${r.id}">${mm?(LK.auto&&!LK.sure?'⚠ ':'🔗 ')+esc(matchTitle(mm))+(LK.auto?'':' ·  '+tr('choisi')):r.noLink?tr('Sans match'):tr('Aucun match lié')} ▾</button>`:'';
+    return `<div class="vrow"><span class="who"><b>${r.clip?'🎬 '+esc(r.name)+' · ':''}${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.mode==='match'?tr('Match'):tr('Entraînement')}${mm&&!ask?' · '+esc(mm.opp||tr('Adversaire')):''}</b><small>${r.st==='int'?tr('interrompu, récupéré')+' · ':''}${r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0)))+' · ':''}${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${r.aud?' · 🔊':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small>${link}</span>
       ${gone?'':`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`}${!gone&&mm&&!r.clip?`<button class="btn" data-act="vcOpen" data-rid="${r.id}" data-mid="${mm.id}">🎬 ${tr('Clips')}${proFor(mm)?'':' 🔒'}</button>`:''}<button class="btn ${ui.vidDelAsk===r.id?'danger':''}" data-act="vidDelRec" data-id="${r.id}" aria-label="Supprimer">${ui.vidDelAsk===r.id?tr('Supprimer ?'):'🗑'}</button></div>`;}).join('');
   return `<div class="cmain vid"><div class="top"><h1>Vidéo</h1></div>
     <div class="card"><p class="hint" style="margin-top:0">${tr('Posez cet appareil sur un trépied, caméra vers le terrain et écran tourné vers les joueurs : ils se revoient avec quelques secondes de retard.')} ${tr('La caméra filme dans le sens de l’appareil au démarrage (paysage ou portrait).')}</p>
@@ -2355,6 +2410,7 @@ function videoHTML(){const P=VP(),pro=isPro();
       <p class="hint">${P.mode==='match'?tr('Toute la séance est enregistrée, de la mise en route à l’arrêt de la caméra.'):tr('Les 5 dernières minutes restent en mémoire ; REC garde une séquence.')}</p>
       <div class="vopt"><span>${tr('Caméra')}</span><div class="seg"><button class="${P.cam!=='front'?'on':''}" data-act="vidCam" data-v="back">${tr('Arrière')}</button><button class="${P.cam==='front'?'on':''}" data-act="vidCam" data-v="front">${tr('Frontale')}</button></div></div>
       ${P.cam==='front'?`<p class="hint vwarn">${tr('Caméra frontale : image souvent moins nette et moins fluide (ralentis saccadés).')} ${P.mode==='match'?tr('Déconseillée pour un match.'):''}</p>`:''}
+      <div class="vopt"><span>${tr('Son')}</span><div class="seg"><button class="${P.snd?'':'on'}" data-act="vidSnd" data-v="0">${tr('Coupé')}</button><button class="${P.snd?'on':''}" data-act="vidSnd" data-v="1">${tr('Micro')}</button></div><small class="hint">${P.snd?tr('Le son est enregistré avec la vidéo ; l’accès au micro est demandé au démarrage.'):tr('Sans son : les vidéos restent muettes et plus légères.')}</small></div>
       <div class="vopt"><span>${tr('Qualité')}</span><div class="seg">${['720','1080'].map(q=>`<button class="${P.q===q?'on':''}" data-act="vidQ" data-v="${q}">${q}p</button>`).join('')}</div><small class="hint">${tr('≈ {N} par minute enregistrée').replace('{N}',vMo(mpm))}${VID.free!=null?' · '+tr('place libre : {N}').replace('{N}',vMo(VID.free))+` (≈ ${vMs(VID.free/mpm*60e3).replace(/:\d+$/,'')} min)`:''}</small></div>
       ${pro?'':`<p class="hint freeh">${tr('Version gratuite : 5 min de caméra par jour (il reste {T}). Enregistrement et mode Match : VolleyCoach Pro.').replace('{T}',vMs(left*1000))} <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button></p>`}
       ${VID.last&&(VID.last.h<+VID.last.q*.9||VID.last.fps<50)?`<p class="hint">${tr('Dernière session : {A} obtenus pour {B} demandés — cet appareil ne fait pas mieux avec cette caméra.').replace('{A}',VID.last.fps+' i/s · '+VID.last.h+'p').replace('{B}','60 i/s · '+VID.last.q+'p')}</p>`:''}${short?`<p class="hint vwarn">${tr('Place libre pour ≈ {N} min en {Q}p : un match de 2 h ne tiendra pas.').replace('{N}',Math.floor(VID.free/mpm)).replace('{Q}',P.q)}${P.q==='1080'&&VID.free>=VBPS[720]/8*60*120?' '+tr('Passez en 720p.'):''}</p>`:''}${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
@@ -2764,7 +2820,7 @@ function sheetHTML(m,S){
     const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'),true,SS,set)).join(''):'';
     return `<div class="pfw ${rcls(r.role)}"><div class="sh"><h3 style="display:flex;align-items:center;gap:10px"><span class="num ${rcls(r.role)}">${r.n}</span>${esc(r.full)} <small class="hint">${esc(ROLES[r.role]||'')} · ${esc(scope)}${lic?' · Licence '+esc(lic):''}</small></h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>
       ${impHTML(SS,set,r)}
-      ${(()=>{const vr=!isExtra(r.id)&&vcRecFor(M);return vr?`<button class="btn" data-act="vcOpen" data-rid="${vr.id}" data-mid="${M.id}" data-pid="${r.id}" style="margin:4px 0">🎬 ${tr('Clips vidéo')}${proFor(M)?'':' 🔒'}</button>`:'';})()}
+      ${(()=>{const vr=!isExtra(r.id)&&vcRecFor(M);return vr?`<button class="btn" data-act="vcOpen" data-rid="${vr.id}" data-mid="${M.id}" data-pid="${r.id}" style="margin:4px 0">🎬 ${tr('Clips vidéo')}${proFor(M)?'':' 🔒'}</button>${vsActsHTML(M,r.id,vr)}`:'';})()}
       ${isExtra(r.id)?'':`<div class="barcell" style="margin:6px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
       ${pfCats(M,SS,set,r,f,me,team,pc,line)}</div>`;
   }
@@ -2851,6 +2907,31 @@ function sheetHTML(m,S){
     const est=vcTimeAt(r,VID.pb.pos)-(r.off||0)+2000;let near=null;L.forEach(x=>{if(!near||Math.abs(x.at-est)<Math.abs(near.at-est))near=x;});
     return `<div class="sh"><h3>⏱ ${tr('Quel point vient de se finir ?')}</h3>${close}</div><p class="hint xp">${tr('La vidéo est arrêtée sur la fin d’un point : choisissez ce point dans la liste. Les horloges de la vidéo et des stats seront recalées.')}</p>
       <div style="display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto">${L.map(x=>`<button class="prow pclick ${x===near?'on':''}" data-act="vsyncSet" data-i="${x.i}"><span class="who"><b>Set ${x.si+1} · ${x.g}-${x.a}</b><small>${new Date(x.at).toLocaleTimeString(lang()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</small></span>${x===near?'<span aria-hidden="true">🏐</span>':''}</button>`).join('')}</div>`;}
+  if(ui.sheet==='vlink'&&ui.vlink){const r=(store.vids||[]).find(x=>x.id===ui.vlink);if(!r){ui.sheet=null;return '';}const LK=vcLinkInfo(r),C=LK.candidates,ids=new Set(C.map(c=>c.m.id)),cur=LK.m;
+    const when=new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}),row=(m,sub,on)=>`<button class="prow pclick ${on?'on':''}" data-act="vcLinkSet" data-mid="${m.id}"><span class="who"><b>${esc(matchTitle(m))}</b><small>${esc(fmtDate(m.date))}${sub?' · '+sub:''}</small></span>${on?'<span aria-hidden="true">✓</span>':''}</button>`;
+    const others=vcMatches().filter(m=>!ids.has(m.id)&&!m.season).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,40);
+    return `<div class="sh"><h3>🔗 ${tr('Match filmé')}</h3>${close}</div><p class="hint">${tr('Enregistrement du {D} ({T}). Le match lié sert aux clips, au bandeau du score et au saut depuis les stats.').replace('{D}',esc(when)).replace('{T}',vMs(r.dur))}</p>
+      ${C.length?`<h2>${tr('Matchs aux mêmes heures')}</h2><div style="display:flex;flex-direction:column;gap:6px">${C.map(c=>row(c.m,c.overlap>0?tr('recouvrement {N} %').replace('{N}',Math.round(c.ratio*100)):tr('à {N} min').replace('{N}',Math.round(c.gap/60e3)),cur===c.m)).join('')}</div>`:`<p class="hint warnc">${tr('Aucun match saisi aux heures de cette vidéo. Si les horloges des deux appareils diffèrent de plus de 30 min, choisissez le match ci-dessous puis synchronisez-les dans le lecteur.')}</p>`}
+      ${others.length?`<details class="tipsd"><summary><b>${tr('Autres matchs')}</b></summary><div style="display:flex;flex-direction:column;gap:6px;max-height:40vh;overflow:auto">${others.map(m=>row(m,'',cur===m)).join('')}</div></details>`:''}
+      <div class="tools" style="margin-top:10px"><button class="btn ${r.noLink?'primary':''}" data-act="vcLinkSet" data-mid="">${tr('Aucun match')}</button>${r.mid||r.noLink?`<button class="btn" data-act="vcLinkAuto">↺ ${tr('Lien automatique')}</button>`:''}</div>`;}
+  if(ui.sheet==='vauto'&&VID.pb){const P=VID.pb,r=vRec();if(!r||!r.ral){ui.sheet=null;return '';}
+    return `<div class="sh"><h3>⚙ ${tr('Marges du montage auto')}</h3>${close}</div><p class="hint">${tr('Appliqué immédiatement à cet enregistrement et retenu pour les prochains montages. « Annuler » dans le lecteur rétablit le montage précédent.')}</p>
+      ${vsRange('auto','before','Gardé avant chaque échange')}${vsRange('auto','after','Gardé après chaque échange')}${vsRange('auto','minDead','Temps mort minimal')}${vsRange('auto','minRally','Échange minimal')}
+      <p><b id="vautoK">${tr('Gardé : {A} sur {B}').replace('{A}',vMs(vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0))).replace('{B}',vMs(P.tot))}</b></p>
+      <div class="tools"><button class="btn" data-act="vroiStart">▭ ${tr('Zone d’analyse')}${r.roi?' ✓':''}</button><button class="btn primary" data-act="close">OK</button></div>
+      <p class="hint xp">${tr('Zone d’analyse : limite la détection des échanges à une partie de l’image (le terrain), pour ignorer les tribunes ; à définir avant de relancer « Montage auto ».')}</p>`;}
+  if(ui.sheet==='vexp'&&ui.vexp&&VID.pb){const P=VID.pb,r=vRec(),X=ui.vexp;if(!r){ui.sheet=null;return '';}const R=vRanges(r,P.tot),src=vidSrcSize(r),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};
+    const est=vxEstimate(R,{tot:P.tot,size:r.size,speed:X.speed,preset:X.preset,audio:X.audio&&!!r.aud,fps:r.fps}),plan=vxPlan(R,P,{preset:X.preset,speed:X.speed,audio:X.audio,exact:X.exact,overlay:X.ov?1:null,src,size:r.size,fps:r.fps,r});
+    const sw=(k,lab,dis)=>`<label class="chk sw"><input type="checkbox" role="switch" data-act="vexpSet" data-k="${k}" ${X[k]?'checked':''} ${dis?'disabled':''}> ${lab}</label>`,short=Math.min(src.w,src.h);
+    const seg=(k,opts)=>`<div class="seg vsseg">${opts.map(([v,l,dis])=>`<button class="${String(X[k])===String(v)?'on':''}" data-act="vexpSet" data-k="${k}" data-v="${v}" ${dis?'disabled':''}>${l}</button>`).join('')}</div>`;
+    return `<div class="sh"><h3>⇩ ${tr('Exporter le montage')}</h3>${close}</div>
+      <div class="vopt"><span>${tr('Qualité')}</span>${seg('preset',Object.keys(VX_PRESETS).map(k=>[k,k==='orig'?tr('Originale'):VX_PRESETS[k].lab,k!=='orig'&&VX_PRESETS[k].h>=short]))}</div>
+      <div class="vopt"><span>${tr('Vitesse')}</span>${seg('speed',VX_SPEEDS.map(s=>[s,vxSpeedLab(s)]))}</div>
+      ${sw('exact',tr('Coupe à l’image près'))}${r.aud?sw('audio',tr('Son')+(X.speed!==1?' <small class="hint">('+tr('coupé au ralenti')+')</small>':''),X.speed!==1):''}
+      ${m?(av.ok?sw('ov',tr('Score incrusté')):`<p class="hint">${av.why==='noOffset'?tr('Score incrusté : synchronisez d’abord les horloges de la vidéo et des stats (bouton « Synchroniser » du lecteur).'):tr('Score incrusté indisponible : ce match n’a pas d’heures notées.')}</p>`):''}
+      <p class="hint">${plan.reencode||plan.speed!==1?tr('Vidéo réencodée : l’export prend plus de temps.'):tr('Copie sans réencodage : rapide, qualité d’origine ; coupe sur l’image clé précédente.')}</p>
+      <p><b>≈ ${vMs(est.dur)} · ${vMo(est.size)}</b></p>
+      <button class="btn big primary" data-act="vexpGo">⇩ ${tr('Exporter')}</button>`;}
   if(ui.sheet==='vidOut'&&ui.vidOut){const o=ui.vidOut;return `<div class="sh"><h3>${tr('Montage exporté')}</h3>${close}</div>
       <p class="hint">${esc(o.name)} · ${vMo(o.size||0)}</p>
       <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="vidGal">${tr('Enregistrer dans la galerie')}</button><button class="btn big" data-act="vidShareOut">${IC.share} ${tr('Partager')}</button></div>`;}
@@ -3245,7 +3326,7 @@ function rankHTML(m,S,set){return `<p class="hint xp">Touchez un classement pour
   <div class="rkgrid">${RKS().map(([k])=>`<div class="pclick" data-act="kfull" data-k="${k}">${rankTableHTML(m,S,set,k)}</div>`).join('')}</div>`;}
 // Paramètres : langue, code entraîneur, sauvegarde automatique
 // Réglages : sections regroupées, barre latérale rétractable (icônes seules après quelques secondes) qui suit le défilement
-const SETSEC=[['gen','⚙️','Général','Langue · Aides contextuelles'],['saisie','✍️','Saisie des statistiques','Mode stats faciles · Bloc · Difficulté · Calibrage'],['secu','🔒','Sécurité','Code entraîneur'],['abo','⭐','Abonnement','VolleyCoach Pro'],['data','💾','Données','Exporter · Importer · Sauvegardes automatiques'],['aide','❓','Aide','Tutoriel · Conseils de saisie · Méthode de calcul'],['legal','ℹ️','À propos','Version · Mentions légales']];
+const SETSEC=[['gen','⚙️','Général','Langue · Aides contextuelles'],['saisie','✍️','Saisie des statistiques','Mode stats faciles · Bloc · Difficulté · Calibrage'],['video','🎥','Vidéo','Montage auto · Clips · Bandeau du score · Export'],['secu','🔒','Sécurité','Code entraîneur'],['abo','⭐','Abonnement','VolleyCoach Pro'],['data','💾','Données','Exporter · Importer · Sauvegardes automatiques'],['aide','❓','Aide','Tutoriel · Conseils de saisie · Méthode de calcul'],['legal','ℹ️','À propos','Version · Mentions légales']];
 function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id]=inner;return '';};
   // Liste des sections (page d'accueil des Réglages), puis une page par section avec retour
   const list=()=>`<div class="card setlist">${SETSEC.map(([id,ic,l,d])=>`<button class="setrow" data-act="setOpen" data-id="${id}"><span class="ic" aria-hidden="true">${ic}</span><span class="tt"><b>${l}</b><small>${d}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div>`;
@@ -3266,6 +3347,7 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>`)
       +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général ; chaque saison peut garder son propre choix (menu Saisons).${tipB('calib')}</p>`)
 )}
+    ${sec('video','Vidéo',vidSetHTML(card,D))}
     ${sec('secu','Sécurité',card('Code entraîneur',`<label class="chk sw"><input type="checkbox" role="switch" data-act="codeOnOff" ${P.codeOn?'checked':''}> Protéger le Menu par un code</label>
       ${P.codeOn?`<div class="codegrid"><label class="f">Code actuel<input id="cOld" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Nouveau code (4 chiffres)<input id="cNew1" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
@@ -3293,6 +3375,23 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
     ${sec('legal','À propos',card('VolleyCoach '+APP_VERSION,`<p class="hint">Application de banc de touche pour le volley-ball. Vos données restent sur cet appareil.</p>${footerHTML()}`))}`;
   void all;const pg=SETSEC.some(x=>x[0]===ui.setPage)?ui.setPage:null;if(!pg)return list();
   return `<section class="setsec" id="set-${pg}">${SEC[pg]}</section>`;}
+// Réglages › Vidéo (V183) : marges du montage auto et des clips, bandeau du score (aperçu), export par défaut ; valeurs dans prefs.vid, bornées par vxSettings
+function vidSetHTML(card,D){const S=VS();
+  return card('Montage automatique',`${vsRange('auto','before','Gardé avant chaque échange')}${vsRange('auto','after','Gardé après chaque échange')}${vsRange('auto','minDead','Temps mort minimal')}${vsRange('auto','minRally','Échange minimal')}`,'',
+      `<p class="hint">Le montage auto garde chaque échange détecté avec une marge avant et après. Deux échanges séparés d'un temps mort plus court que le minimum sont réunis ; un échange plus court que le minimum est ignoré. Ces marges se règlent aussi après coup dans le lecteur (« Marges »), sans réanalyser la vidéo.</p>`)
+    +card('Clips',`${vsRange('clip','before','Avant l’action')}${vsRange('clip','after','Après l’action')}`,'',`<p class="hint">Chaque clip va de quelques secondes avant à quelques secondes après le moment où l'action a été notée (la saisie suit l'action). Le saut depuis les stats vers la vidéo utilise la même avance.</p>`)
+    +card('Bandeau du score',`${vsSwitch('ov','on','Score incrusté proposé à l’export d’un match')}
+      <canvas id="ovPrev" class="ovprev" width="640" height="360" aria-label="Aperçu du bandeau"></canvas>
+      <div class="vopt"><span>Position</span>${vsSeg('ov','corner',[['tl','↖ Haut gauche'],['tr','↗ Haut droite'],['bl','↙ Bas gauche'],['br','↘ Bas droite']])}</div>
+      <div class="vopt"><span>Taille</span>${vsSeg('ov','scale',[['s','Petite'],['m','Moyenne'],['l','Grande']])}</div>
+      <div class="vopt"><span>Équipes</span>${vsSeg('ov','names',[['full','Noms'],['short','Initiales'],['none','Sans']])}</div>
+      ${vsSwitch('ov','rot','Rotation (P1 à P6)')}${vsSwitch('ov','srv','Équipe au service')}${vsSwitch('ov','server','Nom du serveur')}${vsSwitch('ov','subs','Changements (entrant et sortant)')}
+      ${S.ov.subs?vsRange('ov','subDur','Durée d’affichage d’un changement'):''}${vsRange('ov','opacity','Opacité')}`,'',
+      `<p class="hint">Dans le montage exporté d'un match, un bandeau affiche le score, les sets, la rotation et le service, mis à jour à chaque point d'après les stats saisies. Il demande un enregistrement lié à un match et des horloges synchronisées.</p>`)
+    +card('Export par défaut',`<div class="vopt"><span>Qualité</span>${vsSeg('exp','preset',Object.keys(VX_PRESETS).map(k=>[k,k==='orig'?'Originale':VX_PRESETS[k].lab]))}</div>
+      <div class="vopt"><span>Vitesse</span>${vsSeg('exp','speed',VX_SPEEDS.map(s=>[s,vxSpeedLab(s)]))}</div>
+      ${vsSwitch('exp','exact','Coupe à l’image près')}${vsSwitch('exp','audio','Son (si l’enregistrement en a)')}`,'',
+      `<p class="hint">Choix proposés à chaque export, modifiables sur le moment. « Originale » recolle les morceaux sans réencodage : rapide, aucune perte, mais la coupe tombe sur l'image clé précédente (moins d'une seconde avant). Une autre qualité, la coupe à l'image près ou le bandeau réencodent la vidéo : plus long, fichier plus léger.</p>`);}
 // Résumé du match : chaque point avec le score et la dernière action notée
 // Résumé du match : chaque point avec le score et la dernière action notée (changements, temps morts, libéro)
 // 4x4 : remplaçant du passeur et bloc, notés dans le résumé (composition du set et options tactiques)
@@ -3334,8 +3433,10 @@ function summaryHTML(m){const sets=summaryData(m);SUM_EDIT=!ui.toStats&&!m.seaso
       <div class="sumrows">${last.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div>
       <button class="btn" style="margin-top:10px" data-act="sumAll">Voir tout le résumé</button></div>`;}
   const set=ui.fxSet,evT=r=>r.k==='sub'?`🔁 ${r.a} ↔ ${r.b}`:r.k==='to'?`⏱ Temps mort ${r.a}`:r.k==='srv'?`🏐 Au service : ${r.a}`:r.k==='srvA'?`🏐 Service ${r.a}`:r.k==='tac'?`⚙ ${r.a}`:`Libéro : ${r.a}`;
-  return sw+sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
-    <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}</div>`).join('')}</div></div>`).join('');}
+  // enregistrement vidéo lié (V183) : ▶ sur chaque point horodaté ouvre le lecteur quelques secondes avant le point
+  const vr=!ui.toStats&&!m.season?vcRecFor(m):null,play=r=>vr&&m.ev[r.ei]&&m.ev[r.ei].at!=null?`<button class="sch vjump" data-act="vsJump" data-ei="${r.ei}" aria-label="Revoir ce point en vidéo">▶</button>`:'';
+  return sw+(vr?`<p class="hint xp">▶ ${tr('Revoir le point en vidéo')}</p>`:'')+sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
+    <div class="sumrows">${x.rows.map(r=>r.k!=='pt'?`<div class="sume ${r.k==='srv'?'ssrv':r.k==='srvA'?'ssrv sa':''}">${(r.k==='srv'||r.k==='srvA')&&r.rot?`<span class="srot">P${r.rot}</span>`:''}${esc(evT(r))}</div>`:`<div class="sumr ${r.w==='G'?'g':'a'} ${vr?'vj':''}"><span class="sscore">${r.sc}</span><span class="sdot"></span>${sumAct(r)}${play(r)}</div>`).join('')}</div></div>`).join('');}
 // Export du résumé en PDF (3 colonnes de points par set)
 // Export CSV : une ligne par joueur et par set (match) ou par match (saison) ; séparateur « ; », BOM pour Excel
 function exportCSV(m){const S=replay(m),units=m.season?S.sets.map((x,i)=>({set:i,lab:`${fmtDate(x.date)} ${x.label||''}`})):S.sets.map((x,i)=>({set:i,lab:`Set ${i+1}`})).concat([{set:null,lab:'Match'}]);
@@ -4349,7 +4450,7 @@ const A={
   csub(d){ui.csub=d.v;ui.coachView=null;ui.fxSet=null;ui.confirm=null;window.scrollTo(0,0);},
   // Onglets : Terrain ramène au match ; les quatre autres ouvrent l'espace entraîneur (code demandé s'il est activé)
   ctab(d){ui.confirm=null;window.scrollTo(0,0);
-    if(ui.screen==='video'&&d.v!=='video'){if(VID.on)vidStop();VID.pb=null;vidClear();}
+    if(ui.screen==='video'&&d.v!=='video'){if(VID.on)vidStop();VID.pb=null;ui.vsBack=null;ui.vroi=null;vidClear();}
     if(d.v==='learn'||d.v==='video'){if(ui.tuto&&!(()=>{const st=tFlat()[ui.tuto.i].st;return st.act&&st.sel===TAB(d.v);})())return 1;/* tutoriel : seulement l'onglet attendu par l'étape */if(d.v==='video'&&ui.lrnM)lrnOff();if(ui.screen!=='learn'&&ui.screen!=='video')ui.lrnBack=ui.screen==='lineup'?'lineup':null;ui.screen=d.v;ui.sheet=null;return;} // sans code entraîneur
     if(ui.screen==='learn'||ui.screen==='video'){ui.screen=ui.lrnBack||null;ui.lrnBack=null;if(d.v==='terrain')return;}
     if(d.v==='terrain'){if(ui.coach&&ui.screen==='coach')A.relock();else if(ui.toStats)A.toBack();else ui.screen=null;return;} // depuis la feuille ou la composition : retour au match (le brouillon de composition est gardé)
@@ -4377,13 +4478,35 @@ const A={
   vidPlay(d){const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;const segs=r.web?VID.mem[r.id]:vSegsOf(r).map(x=>({url:vUrl(x.u),path:x.u,dur:x.d,t0:x.t}));if(!segs||!segs.length){toast('Vidéo introuvable','warn');return;}
     const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};},
   // Montage automatique : échanges détectés par l'activité de l'image (video-ai.js), temps morts jetés, ancien montage dans « Annuler »
+  // V183 : marges et seuils des Réglages (vxAutoOpts), zone d'analyse r.roi ; courbe calculée par le module natif (VideoDelay.activity,
+  // décodage matériel) quand il existe, sinon lecture accélérée dans la page (dtAnalyze)
   async vidAuto(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidAuto)return 1;P.play=false;ui.vidAuto={p:0};render();
-    try{const res=await dtAnalyze(P.segs.map(x=>({url:x.url,dur:x.dur})),{ia:P.ia||0,tot:P.tot,onProgress:f=>{if(ui.vidAuto){ui.vidAuto.p=f;vTxt('vAutoT',tr('Analyse… {N} %').replace('{N}',Math.round(f*100)));}}});
+    const O=Object.assign({ia:P.ia||0,tot:P.tot,roi:r.roi||null},vxAutoOpts(VS())),prog=f=>{if(ui.vidAuto){ui.vidAuto.p=f;vTxt('vAutoT',tr('Analyse… {N} %').replace('{N}',Math.round(f*100)));}};
+    try{let res=null;const V=vNative()&&CAP().VideoDelay;
+      if(V&&V.activity&&!r.web){const l=await V.addListener('activity',e=>prog(e.p||0));try{const segs=[];let o=0;P.segs.forEach(x=>{segs.push({path:x.path,offset:Math.round(o-(P.ia||0))});o+=x.dur;});
+          const out=await V.activity({segs,fps:DT.fps,roi:O.roi});res=dtClassify((out.curve||[]).filter(c=>c[0]>=0),O);res.native=true;}catch(e){res=null;}finally{try{l.remove();}catch(e){}}}
+      if(!res)res=await dtAnalyze(P.segs.map(x=>({url:x.url,dur:x.dur})),Object.assign({onProgress:prog},O));
       if(!res.rallies.length)toast(tr('Pas assez de contraste entre jeu et temps morts : montage inchangé'),'warn');
       else{if(VID.pb===P){P.undo.push(JSON.stringify(vCuts(r)));if(P.undo.length>50)P.undo.shift();}r.cuts=dtCuts(res.rallies,P.tot);r.ral=res.core;save();
         const kept=vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0);toast(tr('{N} échanges trouvés : {D} gardés sur {T}').replace('{N}',res.rallies.length).replace('{D}',vMs(kept)).replace('{T}',vMs(P.tot)),'ok');}}
     catch(e){toast(tr('Analyse impossible')+(e&&e.message?' : '+e.message:''),'warn');}
     finally{ui.vidAuto=null;render();}return 1;},
+  // Marges du montage auto changées après coup (fiche « Marges ») : échanges bruts r.ral repris sans réanalyse (dtAdjust)
+  vautoOpen(){const P=VID.pb,r=vRec();if(!P||!r||!r.ral)return 1;P.play=false;ui.sheet='vauto';},
+  vroiStart(){const P=VID.pb;if(!P)return;P.play=false;ui.sheet=null;ui.vroi={};},
+  vroiAll(){const r=vRec();if(r){delete r.roi;save();}const R=document.getElementById('vRoiR');if(R)R.hidden=true;return 1;},
+  vroiX(){ui.vroi=null;const r=vRec();if(r&&r.roi)toast(tr('Zone d’analyse enregistrée : relancez « Montage auto » pour l’appliquer'),'ok');},
+  // Lien enregistrement ↔ match (V183) : candidats classés, autres matchs, « aucun », retour au lien automatique ; les clips suivent leur source
+  vcLinkOpen(d){ui.vlink=d.id;ui.sheet='vlink';},
+  vcLinkSet(d){const r=(store.vids||[]).find(x=>x.id===ui.vlink);if(!r)return;const all=[r].concat((store.vids||[]).filter(x=>x.src===r.id));
+    all.forEach(x=>{if(d.mid){x.mid=d.mid;delete x.noLink;}else{x.noLink=1;delete x.mid;}});save();ui.sheet=null;ui.vlink=null;toast(d.mid?tr('Match lié à la vidéo'):tr('Vidéo sans match'),'ok');},
+  vcLinkAuto(){const r=(store.vids||[]).find(x=>x.id===ui.vlink);if(!r)return;[r].concat((store.vids||[]).filter(x=>x.src===r.id)).forEach(x=>{delete x.mid;delete x.noLink;});save();ui.sheet=null;ui.vlink=null;},
+  vsSeg(d){vsSet(d.g+'.'+d.k,d.v!==''&&!isNaN(d.v)?+d.v:d.v);if(ui.sheet==='vexp'&&ui.vexp&&d.g==='exp')ui.vexp[d.k]=VS().exp[d.k];},
+  // Export (V183) : fiche de choix (qualité, vitesse, coupe, son, bandeau), puis module natif transcode (réencodage, ralenti, son) ou exportCut (copie)
+  vexpSet(d){const X=ui.vexp;if(!X)return;const k=d.k,v=d.v!==''&&!isNaN(d.v)?+d.v:d.v==='true'?true:d.v==='false'?false:d.v;X[k]=typeof X[k]==='boolean'?!X[k]:v;if(k!=='ov')vsSet('exp.'+k,X[k]);},
+  vsJump(d){const m=sumMatch();if(!m)return;const r=vcRecFor(m),ev=m.ev[+d.ei];if(!r||!ev)return;vsGo(m,r,vsPointTime(ev));},
+  vsJumpAct(d){const m=sumMatch()||store.cur,r=vcRecFor(m);if(!r)return;vsGo(m,r,+d.t);},
+  vidSnd(d){VP().snd=d.v==='1';save();},
   // Clips par joueur / action : fiche de choix, puis nouvelle entrée qui partage les tranches de l'enregistrement
   vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;if(!proFor(m)){ui.sheet='pro';return;}ui.vc={rid:d.rid,mid:d.mid,pid:d.pid||null,kinds:['att'],signs:[]};ui.sheet='vclips';},
   vcPid(d){if(ui.vc)ui.vc.pid=d.id||null;},
@@ -4407,15 +4530,23 @@ const A={
   vidKeep(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r)return 1;P.undo.push(JSON.stringify(vCuts(r)));if(P.undo.length>50)P.undo.shift();vSetCut(r,P.pos,!vKeepAt(r,P.pos));},
   vidUndo(){const P=VID.pb,r=vRec();if(!P||!r||!P.undo.length)return 1;r.cuts=JSON.parse(P.undo.pop());save();},
   // Export du montage (parties gardées recollées sans réencodage par le module natif), puis Galerie ou Partager
-  async vidExport(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidExp)return 1;
+  vidExport(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidExp)return 1;
     if(!vNative()){toast('Export disponible dans l’appli installée','warn');return 1;}
     const R=vRanges(r,P.tot);if(!R.length){toast('Rien à exporter : tout est jeté','warn');return 1;}
-    const kept=R.reduce((a,[x,y])=>a+y-x,0),est=(r.size||0)*kept/Math.max(1,P.tot);
-    try{const inf=await CAP().VideoDelay.info();if(inf&&inf.free!=null&&inf.free<est*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
-    const pieces=[];R.forEach(([a,b])=>{const A=a+P.ia,Bb=b+P.ia;P.segs.forEach((x,i)=>{const o=P.off[i],e=o+x.dur;if(e<=A||o>=Bb)return;pieces.push({path:x.path,in:Math.round(Math.max(0,A-o)),out:Bb>=e?0:Math.round(Bb-o)});});});
-    const name=`VolleyCoach_${new Date(r.t0).toISOString().slice(0,16).replace(/[-:T]/g,'')}.mp4`,V=CAP().VideoDelay;ui.vidExp={p:0};P.play=false;render();
+    const S=VS(),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};P.play=false;
+    ui.vexp={preset:S.exp.preset,speed:S.exp.speed,exact:S.exp.exact,audio:!!r.aud&&S.exp.audio,ov:S.ov.on&&av.ok};ui.sheet='vexp';},
+  async vexpGo(){const P=VID.pb,r=vRec(),X=ui.vexp;if(!P||!r||!X||ui.vidExp)return 1;ui.sheet=null;const R=vRanges(r,P.tot),src=vidSrcSize(r),V=CAP().VideoDelay;
+    // bandeau : états du score sur la ligne de temps du fichier exporté, une image PNG par état (video-export.js)
+    let overlay=null;const m=X.ov?vcMatchFor(r):null;
+    if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,X.speed);
+      if(sp.length){const im=ovImages(sp,Object.assign({size:vxSize(X.preset,src)||src,team:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||'Nous',opp:m.opp||tr('Adversaire')},oo));overlay={images:im.images,spans:im.spans.map(s=>Object.assign({},s,im.pos[s.key]))};}}
+    const plan=vxPlan(R,P,{preset:X.preset,speed:X.speed,audio:X.audio&&!!r.aud,exact:X.exact,overlay,src,size:r.size,fps:r.fps,r});
+    try{const inf=await V.info();if(inf&&inf.free!=null&&inf.free<plan.est.size*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
+    const useT=!!V.transcode&&(plan.reencode||plan.speed!==1||plan.audio);ui.vidExp={p:0};P.play=false;render();
     const l=await V.addListener('export',e=>{if(ui.vidExp)ui.vidExp.p=e.p||0;});
-    try{const o=await V.exportCut({pieces,name});ui.vidOut={path:o.path,size:o.size,name};ui.sheet='vidOut';}
+    try{const o=useT?await V.transcode({pieces:plan.pieces,name:plan.name,width:plan.size?plan.size.w:0,height:plan.size?plan.size.h:0,bitrate:plan.kbps?plan.kbps*1000:0,speed:plan.speed,exact:plan.exact,audio:plan.audio,overlay})
+        :await V.exportCut({pieces:plan.pieces,name:plan.name});
+      ui.vidOut={path:o.path,size:o.size,name:plan.name};ui.sheet='vidOut';}
     catch(e){toast(String((e&&e.message)||'Export impossible'),'warn');}
     finally{try{l.remove();}catch(e){}ui.vidExp=null;render();}return 1;},
   async vidGal(){const o=ui.vidOut;if(!o)return 1;try{await CAP().VideoDelay.saveToGallery({path:o.path,name:o.name});toast('Vidéo enregistrée dans la galerie','ok');ui.sheet=null;}
@@ -4423,7 +4554,9 @@ const A={
   async vidShareOut(){const o=ui.vidOut;if(!o)return 1;try{await CAP().Share.share({title:o.name,files:[o.path],dialogTitle:'Partager'});}catch(e){}return 1;},
   vidPP(){const B=VID.pb;if(!B)return 1;if(!B.play&&B.pos>=B.tot)B.pos=0;B.play=!B.play;B.at=Date.now();return 1;},
   vidPR(d){if(VID.pb)VID.pb.r=+d.v;},
-  vidPbX(){VID.pb=null;ui.vsync=null;vidClear();},
+  vidPbX(){VID.pb=null;ui.vsync=null;ui.vroi=null;vidClear();
+    // venu des stats (saut vers la vidéo) : retour au résumé
+    const b=ui.vsBack;if(b){ui.vsBack=null;tCoachOpen(b.ctab||'stats');ui.coachView=b.coachView;ui.fxSet=b.fxSet;ui.statView=b.statView;ui.lrnBack=null;setTimeout(()=>window.scrollTo(0,b.scroll||0),0);}},
   vidDelRec(d){if(ui.vidDelAsk!==d.id){ui.vidDelAsk=d.id;return;}ui.vidDelAsk=null;const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;
     const used=new Set();(store.vids||[]).forEach(x=>{if(x!==r)vSegsOf(x).forEach(y=>used.add(y.u));});const shared=(store.vids||[]).some(x=>x!==r&&(x.src===r.id||x.id===r.src));
     vidDrop(r.web?(shared?[]:VID.mem[r.id]||[]):vSegsOf(r).filter(x=>!used.has(x.u)).map(x=>({path:x.u})));delete VID.mem[r.id];store.vids=store.vids.filter(x=>x!==r);save();toast('Enregistrement supprimé','ok');},
@@ -4689,6 +4822,8 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('input',e=>{
   const t=e.target,m=store.cur;if(!t.dataset)return;
+  // curseurs des réglages vidéo (V183) : valeur affichée, aperçu du bandeau et montage du lecteur mis à jour sans rendu
+  if(t.dataset.vs&&t.type==='range'){vsSet(t.dataset.vs,+t.value);const [g,k]=t.dataset.vs.split('.'),b=document.getElementById('vs-'+g+'-'+k);if(b)b.textContent=vsFmt(g,k,VS()[g][k]);ovPreview();if(ui.sheet==='vauto')vautoApply();return;}
   if(t.dataset.x!==undefined){m.extras[+t.dataset.x][t.dataset.f]=t.value;save();}
   else if(t.dataset.f){m[t.dataset.f]=t.value;save();}
 });
@@ -4712,6 +4847,7 @@ document.addEventListener('change',e=>{
   if(t.dataset&&t.dataset.lang!==undefined){store.prefs.lang=t.value;save();render();return;}
   if(t.dataset&&t.dataset.waiver!==undefined){ui.waiver=t.checked;render();return;}
   if(t.dataset&&t.dataset.pref){store.prefs[t.dataset.pref]=t.checked;if(t.dataset.pref==='easy'&&t.checked)store.prefs.dockOpen=true;if(t.dataset.pref==='rotLock')applyRotLock(true);save();render();return;}
+  if(t.dataset&&t.dataset.vs&&t.type==='checkbox'){vsSet(t.dataset.vs,t.checked);render();return;}
   if(t.dataset&&t.dataset.seasonsel!==undefined){ui.seasonSel=t.value;ui.confirm=null;render();return;}
   if(t.dataset&&t.dataset.teamsel2!==undefined){const v=t.value;if(v==='__new'){A.teamNew();}else{A.teamUse({id:v,force:1});}render();return;}
   if(t.dataset&&t.dataset.scope1!==undefined){const v=t.value;ui.fxSet=null;if(v==='cur'){ui.coachView=null;}else{ui.seasonSel=v.slice(2);ui.coachView='season';}if(ui.statView==='g'&&!ui.coachView)ui.statView='p';render();return;}
