@@ -6,8 +6,9 @@
 // filtre f : {pid:'e3'|['e3','e7'], kinds:['att','srv'], signs:[1]} ; heure absente → heure du point (ev.at), sinon ignorée
 function vcActions(m,f){f=f||{};const P=f.pid==null?null:[].concat(f.pid),K=f.kinds?[].concat(f.kinds):null,G=f.signs?[].concat(f.signs):null,out=[];
   let si=-1,ri=-1;(m&&m.ev||[]).forEach((e,i)=>{if(e.t==='set'){si++;ri=-1;return;}if(e.t!=='pt')return;ri++;
-    (e.st||[]).forEach(x=>{const t=x[5]!=null?x[5]:e.at;if(t==null)return;if(P&&!P.includes(x[2]))return;if(K&&!K.includes(x[0]))return;if(G&&!G.includes(x[1]))return;
-      out.push({t,kind:x[0],sign:x[1],pid:x[2],setIdx:Math.max(0,si),rallyIdx:ri,ev:i,est:x[5]==null});});});
+    (e.st||[]).forEach((x,j)=>{const t=x[5]!=null?x[5]:e.at;if(t==null)return;if(P&&!P.includes(x[2]))return;if(K&&!K.includes(x[0]))return;if(G&&!G.includes(x[1]))return;
+      // j = rang de l'action dans le point, prev = note de l'action précédente du même échange (null : première touche) — V185, section Vidéo des stats
+      out.push({t,kind:x[0],sign:x[1],pid:x[2],setIdx:Math.max(0,si),rallyIdx:ri,ev:i,j,prev:j>0?e.st[j-1][1]:null,est:x[5]==null});});});
   return out.sort((a,b)=>a.t-b.t);}
 
 // Tranches d'un enregistrement {u,d,t} (comme vSegsOf, sans le dossier) et durée totale (comme vidPlay : r.dur pour un clip avec ia)

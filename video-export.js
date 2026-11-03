@@ -133,8 +133,12 @@ const VX_SETTINGS={
   ov:{on:{def:true},corner:{def:'tl',opts:['tl','tr','bl','br']},scale:{def:'m',opts:['s','m','l']},names:{def:'full',opts:['full','short','none']},rot:{def:true},srv:{def:true},server:{def:true},subs:{def:true},subDur:{def:8,min:3,max:20,step:1},opacity:{def:.78,min:.4,max:1,step:.02}},
   exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false}},
   // saisie sur un film (V184) : gardé avant la première action (service / réception) et après le point (s) ; vitesses pendant l'échange et après le point
-  pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1.5,min:0,max:10,step:.5}},
-  vst:{slow:{def:.5,opts:[1,.5,.25]},after:{def:1,opts:[1,2]}}};
+  pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1,min:0,max:10,step:.5}},
+  // V185 : react = temps de réaction (s de temps réel entre l'action vue et le tap, retiré de l'heure de la stat selon la vitesse de lecture)
+  vst:{slow:{def:.5,opts:[1,.5,.25]},after:{def:1,opts:[1,2]},react:{def:.6,min:0,max:1.5,step:.1}},
+  // V185 : clips par type d'action (section Vidéo des stats) : gardé avant / après l'action (s)
+  act:{recB:{def:2.5,min:0,max:10,step:.5},recA:{def:1.5,min:0,max:10,step:.5},pasB:{def:1.5,min:0,max:10,step:.5},pasA:{def:2,min:0,max:10,step:.5},attB:{def:2,min:0,max:10,step:.5},attA:{def:1.5,min:0,max:10,step:.5},
+    blkB:{def:2,min:0,max:10,step:.5},blkA:{def:1.5,min:0,max:10,step:.5},defB:{def:2,min:0,max:10,step:.5},defA:{def:2,min:0,max:10,step:.5},srvB:{def:1.5,min:0,max:10,step:.5},srvA:{def:2.5,min:0,max:10,step:.5}}};
 function vxSettings(P){P=P||{};const out={};Object.keys(VX_SETTINGS).forEach(g=>{const G=VX_SETTINGS[g],src=P[g]||{},o=out[g]={};Object.keys(G).forEach(k=>{const d=G[k],v=src[k];
     if(d.opts)o[k]=d.opts.includes(v)?v:d.def;else if(typeof d.def==='boolean')o[k]=v==null?d.def:!!v;else{const n=+v;o[k]=Number.isFinite(n)?Math.min(d.max,Math.max(d.min,Math.round(n/d.step)*d.step)):d.def;}});});return out;}
 // Réglages du bandeau → options de ovStates (durée du changement) et de ovImages / ovDraw
@@ -196,6 +200,17 @@ function vstPrevPt(m,i){const E=(m&&m.ev)||[];for(let k=Math.min(E.length,i|0)-1
 function vxSendName(r){const d=new Date((r&&r.t0)||Date.now()).toISOString().slice(0,19).replace(/[-:T]/g,'');return `VolleyCoach_${d}_match.mp4`;}
 function vxImportT0(name){const k=/VolleyCoach_(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/.exec(String(name||''));if(!k)return null;const t=Date.UTC(+k[1],+k[2]-1,+k[3],+k[4],+k[5],+k[6]);return Number.isFinite(t)?t:null;}
 
+// ===== 5. Section « Vidéo » des stats (V185) : montage par critères ========================================================
+// Actions retenues (vcActions, avec j et prev) → plages gardées (positions ms) : action isolée = [t − avant(type), t + après(type)] ;
+// point entier = de la première action du point (marge service / réception) à l'heure du point (+ après), comme vstRanges.
+// o = {off, act: VS().act (s), pt: VS().pt (s), whole: true|false} ; m : match (ev), r : enregistrement. Plages fusionnées, triées.
+function vmRanges(m,r,acts,o){o=o||{};if(!r||!_VC.vcPosOf)return [];const tot=_VC.vcTot?_VC.vcTot(r):Infinity,off=o.off||0,A=o.act||{},out=[];
+  if(o.whole){const E=(m&&m.ev)||[],seen=new Set();(acts||[]).forEach(a=>{if(seen.has(a.ev))return;seen.add(a.ev);const ev=E[a.ev];if(ev)out.push(ev);});
+    const P=o.pt||{};return vstRanges({ev:out},r,{off,srv:(P.srv!=null?P.srv:1.5)*1000,rec:(P.rec!=null?P.rec:2.5)*1000,after:(P.after!=null?P.after:1)*1000});}
+  (acts||[]).forEach(a=>{const k=a.kind==='rly'||a.kind==='rel'?'pas':a.kind,bf=(A[k+'B']!=null?A[k+'B']:2)*1000,af=(A[k+'A']!=null?A[k+'A']:1.5)*1000;
+    const p=_VC.vcPosOf(r,a.t+off);if(p==null)return;const x=Math.max(0,p-bf),y=Math.min(tot,p+af);if(y-x>=200)out.push([Math.round(x),Math.round(y)]);});
+  out.sort((p,q)=>p[0]-q[0]);const M=[];out.forEach(c=>{const z=M[M.length-1];if(z&&c[0]<=z[1])z[1]=Math.max(z[1],c[1]);else M.push(c.slice());});return M;}
+
 if(typeof module!=='undefined')module.exports={VX_PRESETS,VX_SPEEDS,VX_AUDIO_KBPS,VX_SETTINGS,OV_SIZE,OV_MARGIN,vxPieces,vxSize,vxEstimate,vxSpeedLab,vxName,vxPlan,vxSettings,vxAutoOpts,vxOvOpts,dtAdjust,
   ovStates,ovKey,ovOnOutput,ovAbbr,ovDraw,ovPlace,ovImages,ovAvailable,mgSpan:_mgSpan,vcLinkCandidates,vcLinkPick,vcRecsFor,vsJump,vsPointTime,
-  vstAnchor,vstFirst,vstRanges,vstShift,vstNextPt,vstPrevPt,vxSendName,vxImportT0};
+  vstAnchor,vstFirst,vstRanges,vstShift,vstNextPt,vstPrevPt,vxSendName,vxImportT0,vmRanges};
