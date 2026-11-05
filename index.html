@@ -434,7 +434,7 @@ body.easy.phstats .dock .stp .sth{display:none}
 .egrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 8px}
 .ehb{font:inherit;color:inherit;cursor:pointer;border:1.5px dashed var(--line)!important;text-decoration:none}.stgrid .stc.ehb{display:block;background:none;padding:2px 6px;border-radius:8px}
 .egrid .eh{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.8vh,34px);padding:6px 0;border-radius:10px;background:var(--surface)}
-.egrid .eh.au{background:#FFF4C2;border:2px solid #E3B31B}
+.egrid .eh.au{background:#FFF4C2;border:2px solid #E3B31B;color:#14243D} /* V187 : fond jaune fixe → texte foncé fixe (illisible en thème sombre) */
 .egrid .ek{border:0;border-radius:18px;min-height:clamp(96px,18vh,240px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;font-weight:800;text-align:center;padding:6px;transition:transform .08s}
 .egrid .ek:active{transform:scale(.97)}
 .egrid .ek.m{background:#D7263D}.egrid .ek.n{background:#7C8A9E}.egrid .ek.p{background:#23924A}
@@ -443,7 +443,7 @@ body.easy.phstats .dock .stp .sth{display:none}
 .egrid .ek .es{font-family:'Barlow Condensed',sans-serif;font-size:clamp(56px,9vh,120px);line-height:.95}.egrid .ek .el{font-size:clamp(15px,2.4vh,30px)}
 .egrid .ek .enm{margin-top:4px;background:rgba(255,255,255,.92);color:#14243D;border-radius:999px;padding:2px 12px;font-size:clamp(12px,2vh,24px);font-weight:800}
 .egrid .eb{min-height:clamp(70px,9vh,120px);border-radius:16px;border:2.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:clamp(15px,2.3vh,28px);line-height:1.15}
-.egrid .eb.ed{border-style:dashed}.egrid .eb.epa{background:#FFF4C2;border-color:#E3B31B}.egrid .eb:disabled{opacity:.4}
+.egrid .eb.ed{border-style:dashed}.egrid .eb.epa{background:#FFF4C2;border-color:#E3B31B;color:#14243D}.egrid .eb:disabled{opacity:.4}
 body.easy.phstats .pickc{gap:10px;padding:22px 8px 8px}
 body.easy.phstats .pickc .bchip.pk{background:var(--rc);color:var(--rci,#fff);border:0;border-radius:18px;min-height:clamp(110px,17vh,220px);flex-direction:column;justify-content:center;align-items:center;gap:4px}
 body.easy.phstats .pickc .bchip.pk .num{background:transparent;color:inherit;width:auto;height:auto;font-family:'Barlow Condensed',sans-serif;font-size:clamp(48px,7vh,92px);box-shadow:none}
@@ -805,11 +805,11 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstpos{background:rgba(0,0,0,.62);color:#F2BE22;border-radius:10px;padding:3px 10px;font:700 17px 'Barlow Condensed',sans-serif;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .vstlast{background:rgba(0,0,0,.62);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:5px 12px;font:600 14px Barlow,sans-serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:34px}.vstlast i{font-style:normal;color:#F2BE22;font-weight:800}
 .vstspd{position:absolute;right:calc(8px + env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:4;flex-direction:column;background:rgba(0,0,0,.6);border-color:rgba(255,255,255,.4);max-width:none}.vstspd button{color:#fff;background:transparent;min-width:54px;min-height:42px;font:700 17px 'Barlow Condensed',sans-serif}.vstspd button.on{background:#F2BE22;color:#14243D}
-.vstdock{position:absolute;left:calc(8px + env(safe-area-inset-left,0px));right:calc(72px + env(safe-area-inset-right,0px));top:calc(100px + env(safe-area-inset-top,0px));bottom:calc(126px + env(safe-area-inset-bottom,0px));z-index:3;overflow:auto;border-radius:14px;padding:8px;background:rgba(255,255,255,.76);color:var(--ink);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .15s;display:flex;flex-direction:column}
+.vstdock{position:absolute;left:calc(8px + env(safe-area-inset-left,0px));right:calc(72px + env(safe-area-inset-right,0px));top:calc(100px + env(safe-area-inset-top,0px));bottom:calc(126px + env(safe-area-inset-bottom,0px));z-index:3;overflow:auto;border-radius:14px;padding:8px;background:rgba(255,255,255,.86);color:var(--ink);transition:opacity .15s,visibility 0s;display:flex;flex-direction:column} /* V187 : pas de backdrop-filter au-dessus d’une vidéo (vidéo noire sur iOS) */
 :root[data-theme="dark"] .vstdock{background:rgba(18,26,40,.82)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vstdock{background:rgba(18,26,40,.82)}}
-.vstdock.off,.vstage.vst.hid .vstdock{opacity:0;pointer-events:none}
-.vstprop{position:absolute;left:50%;transform:translateX(-50%);top:calc(100px + env(safe-area-inset-top,0px));z-index:4;background:rgba(10,16,26,.86);color:#fff;border-radius:14px;padding:8px 12px;display:grid;gap:6px;min-width:min(92vw,440px);max-width:92vw;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .15s}
-.vstprop.off{opacity:0;pointer-events:none}
+.vstdock.off,.vstage.vst.hid .vstdock{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .15s,visibility 0s .15s}
+.vstprop{position:absolute;left:50%;transform:translateX(-50%);top:calc(100px + env(safe-area-inset-top,0px));z-index:4;background:rgba(10,16,26,.86);color:#fff;border-radius:14px;padding:8px 12px;display:grid;gap:6px;min-width:min(92vw,440px);max-width:92vw;transition:opacity .15s,visibility 0s}
+.vstprop.off{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .15s,visibility 0s .15s}
 /* tablette : panneau à droite, image visible à gauche ; téléphone en paysage : panneau à droite des pastilles, dès le haut */
 @media (orientation:landscape) and (min-width:600px) and (min-height:600px){.vstdock{left:42%}.vstage.vst .vstprop{left:auto;right:calc(80px + env(safe-area-inset-right,0px));transform:none}}
 @media (orientation:landscape) and (max-height:599px){.vstdock{left:calc(236px + env(safe-area-inset-left,0px));top:calc(6px + env(safe-area-inset-top,0px))}.vsttl{max-width:226px}
@@ -877,7 +877,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V186';
+const APP_VERSION='V187';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2317,11 +2317,11 @@ function vidLiveLag(){const L=VID.lagL||[];return L.length?Math.min(4000,Math.ma
 function vidT(now){if(VID.live){VID.rp=null;return {t:now-vidLiveLag(),r:1};}const rp=VID.rp;if(rp){const t=rp.a+(now-rp.b)*rp.r;if(t<rp.e)return {t,r:rp.r};VID.rp=null;}return {t:now-VP().delay*1000,r:1};}
 function vidShow(sg,loc,r,nx,play){const L=VID.layer;if(!L||!sg)return;const [v1,v2]=L.children;let a=v1._on?v1:v2._on?v2:null;
   if(!a||a._seg!==sg){const b=a===v1?v2:v1,n=b._seg===sg?b:(a||v1),o=n===v1?v2:v1;if(n._seg!==sg){n.src=sg.url;n._seg=sg;}
-    if(Math.abs(n.currentTime*1000-loc)>120){try{n.currentTime=Math.max(0,loc)/1000;}catch(e){}}n.playbackRate=r;n._on=1;o._on=0;o.pause();if(play)n.play().catch(()=>{});else n.pause();a=n;
+    if(Math.abs(n.currentTime*1000-loc)>120){try{n.currentTime=Math.max(0,loc)/1000;}catch(e){}}n.playbackRate=r;n._on=1;n._want=!!play;o._on=0;o.pause();if(play)n.play().catch(()=>{});else{n.pause();if(n.readyState<2)n.play().then(()=>{if(!n._want||!n._on)n.pause();}).catch(()=>{});}a=n;
     // V185 : l'ancien lecteur reste affiché tant que le nouveau n'a pas sa première image (sinon image grise entre deux tranches)
     const show=()=>{if(!n._on)return;n.style.opacity=1;o.style.opacity=0;};if(n.readyState>=2)show();else n.addEventListener('loadeddata',show,{once:true});}
   else{if(a.playbackRate!==r)a.playbackRate=r;if(Math.abs(a.currentTime*1000-loc)>(play?350:8)&&loc<sg.dur){try{a.currentTime=Math.max(0,loc)/1000;}catch(e){}}
-    if(play&&a.paused&&!a.ended)a.play().catch(()=>{});if(!play&&!a.paused)a.pause();}
+    a._want=!!play;if(play&&a.paused&&!a.ended)a.play().catch(()=>{});if(!play&&!a.paused&&a.readyState>=2)a.pause();}
   const b=a===v1?v2:v1;if(nx&&b._seg!==nx){b.src=nx.url;b._seg=nx;try{b.load();}catch(e){}}}
 // Montage d'un enregistrement (V180) : points de coupe r.cuts = [[ms, 1 garder | 0 jeter]…], sauvegardés à chaque action.
 // Au début, tout est gardé ; « Jeter à partir d'ici » / « Garder à partir d'ici » ajoutent une bascule à la position.
@@ -2447,7 +2447,8 @@ function vstCheck(m){const S=replay(m),n=m.ev.filter(e=>e.t==='pt').length;if(S.
 const DEMO_MSG='Team Earth est une équipe d’exemple : elle ne peut pas servir à saisir un match.';
 // V185 : vidéo liée à un match → sa configuration (équipe, adversaire, format, 6 de départ) est reprise ; s'il a déjà des points, validation
 // V186 : mode 'res' = reprise d'une saisie quittée (match déjà noté) : saisie à la suite, stats de l'échange en cours rendues (m.vpend), vidéo à l'heure de la dernière stat
-function vstStart(r,mode){if(!r||r.clip||r.mode!=='match')return false;if(store.vst){toast(tr('Terminez d’abord la saisie en cours'),'warn');return false;}
+function vstStart(r,mode){if(!r||r.clip)return false;if(store.vst){toast(tr('Terminez d’abord la saisie en cours'),'warn');return false;}
+  if(r.mode!=='match'){r.mode='match';delete r.noLink;} // V187 : vidéo filmée en mode Entraînement → devient une vidéo de match (lien au match, clips, montage)
   const m0=vcMatchFor(r),pts=!!(m0&&m0.ev.some(e=>e.t==='pt')),res=mode==='res'&&!!m0;if(mode==='res')mode='new';if(mode==='val'&&!pts)return false;if(mode==='new'&&pts&&!res)mode='val';
   if(m0?isDemoTeam(teamOf(m0)):isDemoTeam()){toast(DEMO_MSG,'warn');return false;}
   const V={rid:r.id,mode,hold:null,i:-1,j:0};
@@ -2662,8 +2663,9 @@ function videoHTML(){const P=VP(),pro=isPro();
       <button class="btn big" data-act="vidImport" style="margin-top:8px">📥 ${tr('Importer une vidéo')}</button><p class="hint xp">${tr('Film d’un match venu d’un autre appareil (« Envoyer » sur celui-ci : AirDrop, Drive, câble…). Il est daté par son nom VolleyCoach_… ; sinon choisissez le match lié dans la liste.')}</p></div>
     <div class="card"><b>${tr('Enregistrements')}</b>${rows||`<p class="hint">${tr('Aucun enregistrement.')}</p>`}<p class="hint">${tr('« Revoir » : relecture, montage garder / jeter (à la main ou automatique, peu fiable) et export. « Clips » : extraits par joueur ou par action, d’après les stats du match.')} ${tr('« Saisir les stats » : noter le match en relisant la vidéo (score et positions à l’écran, ralenti pendant l’échange) ; « Valider les stats » : revoir point par point des stats déjà saisies.')}</p></div></div>`;}
 // Boutons d'un enregistrement de match (V184) : saisie des stats (nouveau match), validation (match lié avec des points), reprise, envoi
-function vstBtns(r,mm,gone){if(gone||r.clip||r.mode!=='match'||r.st==='live')return '';const V=store.vst,pts=mm&&mm.ev.some(e=>e.t==='pt');
-  const b=V&&V.rid===r.id?`<button class="btn primary" data-act="vstOpen" data-id="${r.id}">📝 ${tr('Reprendre la saisie')}</button>`:V?'':pts?`<button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="res">📝 ${tr('Reprendre la saisie')}</button><button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="val">✓ ${tr('Valider les stats')}</button>`:`<button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="new">📝 ${tr('Saisir les stats')}</button>`;
+// V187 : boutons de saisie aussi pour les vidéos filmées en mode Entraînement, et pendant une autre saisie (vstStart prévient)
+function vstBtns(r,mm,gone){if(gone||r.clip||r.st==='live')return '';const V=store.vst,pts=mm&&mm.ev.some(e=>e.t==='pt');
+  const b=V&&V.rid===r.id?`<button class="btn primary" data-act="vstOpen" data-id="${r.id}">📝 ${tr('Reprendre la saisie')}</button>`:pts?`<button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="res">📝 ${tr('Reprendre la saisie')}</button><button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="val">✓ ${tr('Valider les stats')}</button>`:`<button class="btn" data-act="vstOpen" data-id="${r.id}" data-mode="new">📝 ${tr('Saisir les stats')}</button>`;
   const s=!r.web&&CAP().VideoDelay?`<button class="btn" data-act="vidSend" data-id="${r.id}" ${ui.vidSend?'disabled':''}>📤 ${ui.vidSend&&ui.vidSend.id===r.id?`<span id="vSendT">${tr('Préparation…')}</span>`:tr('Envoyer')}</button>`:'';return b+s;}
 const NAV=[['team','👥','Équipe'],['terrain','🏐','Terrain'],['stats','📊','Stats'],['learn','📋','Coaching'],['video','🎥','Vidéo'],['seasons','🗂','Saisons'],['settings','⚙️','Réglages']];
 function navHTML(){const inC=ui.coach&&ui.screen==='coach',ct=ui.screen==='learn'||ui.screen==='video'?ui.screen:inC?ui.ctab:'terrain',lk=store.prefs.codeOn&&!inC&&!ui.tuto;
