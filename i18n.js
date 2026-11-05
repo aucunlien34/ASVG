@@ -1626,7 +1626,11 @@ const I18N = {
   "Statées": "Tracked",
   "Enregistrer (caméra)": "Record",
   "1 extrait": "1 clip",
-  "Stats : 1 point": "Stats: 1 point"
+  "Stats : 1 point": "Stats: 1 point",
+  "Début du point": "Start of point",
+  "Afficher": "Show",
+  "Match (avec composition)": "Match (with lineup)",
+  "Entraînement (sans composition)": "Training (without lineup)"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -3167,7 +3171,11 @@ const I18N = {
   "Statées": "Analizados",
   "Enregistrer (caméra)": "Grabar",
   "1 extrait": "1 fragmento",
-  "Stats : 1 point": "Estadísticas: 1 punto"
+  "Stats : 1 point": "Estadísticas: 1 punto",
+  "Début du point": "Inicio del punto",
+  "Afficher": "Mostrar",
+  "Match (avec composition)": "Partido (con alineación)",
+  "Entraînement (sans composition)": "Entrenamiento (sin alineación)"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -4708,7 +4716,11 @@ const I18N = {
   "Statées": "Analizzati",
   "Enregistrer (caméra)": "Registra",
   "1 extrait": "1 estratto",
-  "Stats : 1 point": "Statistiche: 1 punto"
+  "Stats : 1 point": "Statistiche: 1 punto",
+  "Début du point": "Inizio del punto",
+  "Afficher": "Mostra",
+  "Match (avec composition)": "Partita (con formazione)",
+  "Entraînement (sans composition)": "Allenamento (senza formazione)"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -6249,7 +6261,11 @@ const I18N = {
   "Statées": "Erfasst",
   "Enregistrer (caméra)": "Aufnehmen",
   "1 extrait": "1 Ausschnitt",
-  "Stats : 1 point": "Statistik: 1 Punkt"
+  "Stats : 1 point": "Statistik: 1 Punkt",
+  "Début du point": "Ballwechsel-Beginn",
+  "Afficher": "Anzeigen",
+  "Match (avec composition)": "Spiel (mit Aufstellung)",
+  "Entraînement (sans composition)": "Training (ohne Aufstellung)"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -7790,7 +7806,11 @@ const I18N = {
   "Statées": "Opracowane",
   "Enregistrer (caméra)": "Nagrywaj",
   "1 extrait": "1 fragment",
-  "Stats : 1 point": "Statystyki: 1 punkt"
+  "Stats : 1 point": "Statystyki: 1 punkt",
+  "Début du point": "Początek akcji",
+  "Afficher": "Pokaż",
+  "Match (avec composition)": "Mecz (ze składem)",
+  "Entraînement (sans composition)": "Trening (bez składu)"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -9331,7 +9351,11 @@ const I18N = {
   "Statées": "Analisados",
   "Enregistrer (caméra)": "Gravar",
   "1 extrait": "1 excerto",
-  "Stats : 1 point": "Estatísticas: 1 ponto"
+  "Stats : 1 point": "Estatísticas: 1 ponto",
+  "Début du point": "Início do ponto",
+  "Afficher": "Mostrar",
+  "Match (avec composition)": "Jogo (com formação)",
+  "Entraînement (sans composition)": "Treino (sem formação)"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -10872,7 +10896,11 @@ const I18N = {
   "Statées": "İşlenmiş",
   "Enregistrer (caméra)": "Kayıt",
   "1 extrait": "1 kesit",
-  "Stats : 1 point": "İstatistik: 1 sayı"
+  "Stats : 1 point": "İstatistik: 1 sayı",
+  "Début du point": "Sayı başlangıcı",
+  "Afficher": "Göster",
+  "Match (avec composition)": "Maç (kadroyla)",
+  "Entraînement (sans composition)": "Antrenman (kadrosuz)"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -12413,7 +12441,11 @@ const I18N = {
   "Statées": "入力済み",
   "Enregistrer (caméra)": "録画",
   "1 extrait": "1件の抜粋",
-  "Stats : 1 point": "統計：1ポイント"
+  "Stats : 1 point": "統計：1ポイント",
+  "Début du point": "ラリー開始",
+  "Afficher": "表示",
+  "Match (avec composition)": "試合 (スタメンあり)",
+  "Entraînement (sans composition)": "練習 (スタメンなし)"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -13954,7 +13986,11 @@ const I18N = {
   "Statées": "已统计",
   "Enregistrer (caméra)": "录制",
   "1 extrait": "1 个片段",
-  "Stats : 1 point": "统计：1 分"
+  "Stats : 1 point": "统计：1 分",
+  "Début du point": "回合开始",
+  "Afficher": "显示",
+  "Match (avec composition)": "比赛 (有阵容)",
+  "Entraînement (sans composition)": "训练 (无阵容)"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -15495,7 +15531,11 @@ const I18N = {
   "Statées": "Verwerkt",
   "Enregistrer (caméra)": "Opnemen",
   "1 extrait": "1 fragment",
-  "Stats : 1 point": "Stats: 1 punt"
+  "Stats : 1 point": "Stats: 1 punt",
+  "Début du point": "Begin van het punt",
+  "Afficher": "Tonen",
+  "Match (avec composition)": "Wedstrijd (met opstelling)",
+  "Entraînement (sans composition)": "Training (zonder opstelling)"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -17036,7 +17076,11 @@ const I18N = {
   "Statées": "Obrađeni",
   "Enregistrer (caméra)": "Snimaj",
   "1 extrait": "1 isečak",
-  "Stats : 1 point": "Statistika: 1 poen"
+  "Stats : 1 point": "Statistika: 1 poen",
+  "Début du point": "Početak poena",
+  "Afficher": "Prikaži",
+  "Match (avec composition)": "Meč (sa postavom)",
+  "Entraînement (sans composition)": "Trening (bez postave)"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -18577,7 +18621,11 @@ const I18N = {
   "Statées": "Обработени",
   "Enregistrer (caméra)": "Запис",
   "1 extrait": "1 откъс",
-  "Stats : 1 point": "Статистика: 1 точка"
+  "Stats : 1 point": "Статистика: 1 точка",
+  "Début du point": "Начало на точката",
+  "Afficher": "Покажи",
+  "Match (avec composition)": "Мач (със състав)",
+  "Entraînement (sans composition)": "Тренировка (без състав)"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -20118,7 +20166,11 @@ const I18N = {
   "Statées": "Obdelani",
   "Enregistrer (caméra)": "Snemaj",
   "1 extrait": "1 izsek",
-  "Stats : 1 point": "Statistika: 1 točka"
+  "Stats : 1 point": "Statistika: 1 točka",
+  "Début du point": "Začetek točke",
+  "Afficher": "Prikaži",
+  "Match (avec composition)": "Tekma (s postavo)",
+  "Entraînement (sans composition)": "Trening (brez postave)"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -21659,7 +21711,11 @@ const I18N = {
   "Statées": "Оброблені",
   "Enregistrer (caméra)": "Запис",
   "1 extrait": "1 фрагмент",
-  "Stats : 1 point": "Статистика: 1 очко"
+  "Stats : 1 point": "Статистика: 1 очко",
+  "Début du point": "Початок розіграшу",
+  "Afficher": "Показати",
+  "Match (avec composition)": "Матч (зі складом)",
+  "Entraînement (sans composition)": "Тренування (без складу)"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -23200,7 +23256,11 @@ const I18N = {
   "Statées": "Zpracovaná",
   "Enregistrer (caméra)": "Nahrávat",
   "1 extrait": "1 úsek",
-  "Stats : 1 point": "Statistiky: 1 bod"
+  "Stats : 1 point": "Statistiky: 1 bod",
+  "Début du point": "Začátek výměny",
+  "Afficher": "Zobrazit",
+  "Match (avec composition)": "Zápas (se sestavou)",
+  "Entraînement (sans composition)": "Trénink (bez sestavy)"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -24741,7 +24801,11 @@ const I18N = {
   "Statées": "มีสถิติ",
   "Enregistrer (caméra)": "อัดวิดีโอ",
   "1 extrait": "1 ช่วง",
-  "Stats : 1 point": "สถิติ: 1 แต้ม"
+  "Stats : 1 point": "สถิติ: 1 แต้ม",
+  "Début du point": "เริ่มแต้ม",
+  "Afficher": "แสดง",
+  "Match (avec composition)": "แมตช์ (มีรายชื่อตัวจริง)",
+  "Entraînement (sans composition)": "ฝึกซ้อม (ไม่มีรายชื่อตัวจริง)"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -26282,7 +26346,11 @@ const I18N = {
   "Statées": "통계 완료",
   "Enregistrer (caméra)": "녹화",
   "1 extrait": "구간 1개",
-  "Stats : 1 point": "통계: 1점"
+  "Stats : 1 point": "통계: 1점",
+  "Début du point": "랠리 시작",
+  "Afficher": "표시",
+  "Match (avec composition)": "경기 (라인업 있음)",
+  "Entraînement (sans composition)": "훈련 (라인업 없음)"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -27823,7 +27891,11 @@ const I18N = {
   "Statées": "May stats",
   "Enregistrer (caméra)": "I-record",
   "1 extrait": "1 bahagi",
-  "Stats : 1 point": "Stats: 1 puntos"
+  "Stats : 1 point": "Stats: 1 puntos",
+  "Début du point": "Simula ng puntos",
+  "Afficher": "Ipakita",
+  "Match (avec composition)": "Laro (may lineup)",
+  "Entraînement (sans composition)": "Ensayo (walang lineup)"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -29364,7 +29436,11 @@ const I18N = {
   "Statées": "Berstatistik",
   "Enregistrer (caméra)": "Rekam",
   "1 extrait": "1 cuplikan",
-  "Stats : 1 point": "Statistik: 1 poin"
+  "Stats : 1 point": "Statistik: 1 poin",
+  "Début du point": "Awal poin",
+  "Afficher": "Tampilkan",
+  "Match (avec composition)": "Pertandingan (dengan susunan)",
+  "Entraînement (sans composition)": "Latihan (tanpa susunan)"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -30905,7 +30981,11 @@ const I18N = {
   "Statées": "Обработанные",
   "Enregistrer (caméra)": "Запись",
   "1 extrait": "1 фрагмент",
-  "Stats : 1 point": "Статистика: 1 очко"
+  "Stats : 1 point": "Статистика: 1 очко",
+  "Début du point": "Начало розыгрыша",
+  "Afficher": "Показать",
+  "Match (avec composition)": "Матч (с расстановкой)",
+  "Entraînement (sans composition)": "Тренировка (без расстановки)"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -32446,7 +32526,11 @@ const I18N = {
   "Statées": "مُحلَّلة",
   "Enregistrer (caméra)": "تسجيل",
   "1 extrait": "مقطع واحد",
-  "Stats : 1 point": "الإحصاءات: نقطة واحدة"
+  "Stats : 1 point": "الإحصاءات: نقطة واحدة",
+  "Début du point": "بداية النقطة",
+  "Afficher": "إظهار",
+  "Match (avec composition)": "المباراة (مع التشكيلة)",
+  "Entraînement (sans composition)": "تدريب (بدون تشكيلة)"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -33987,7 +34071,11 @@ const I18N = {
   "Statées": "Đã thống kê",
   "Enregistrer (caméra)": "Ghi hình",
   "1 extrait": "1 đoạn",
-  "Stats : 1 point": "Thống kê: 1 điểm"
+  "Stats : 1 point": "Thống kê: 1 điểm",
+  "Début du point": "Bắt đầu điểm",
+  "Afficher": "Hiện",
+  "Match (avec composition)": "Trận (có đội hình)",
+  "Entraînement (sans composition)": "Tập luyện (không đội hình)"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue

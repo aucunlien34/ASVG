@@ -184,14 +184,15 @@ function vsPointTime(ev,o){o=Object.assign({lag:2000},o||{});if(!ev)return null;
 // Instant d'ancrage d'un point pour le recalage : sa dernière action horodatée, sinon l'heure du point (noté à la fin de l'échange, sans retard)
 function vstAnchor(ev){if(!ev)return null;const st=(ev.st||[]).map(x=>x[5]).filter(Number.isFinite);return st.length?Math.max(...st):(Number.isFinite(ev.at)?ev.at:null);}
 // Première action du point (heure et type), sinon l'heure du point
-function vstFirst(ev){if(!ev)return null;let b=null;(ev.st||[]).forEach(x=>{if(Number.isFinite(x[5])&&(!b||x[5]<b.t))b={t:x[5],kind:x[0]};});return b||(Number.isFinite(ev.at)?{t:ev.at,kind:null}:null);}
+// V189 : « Début du point » (entraînement) : ev.t0 = heure du début, prise comme première action (marge du service)
+function vstFirst(ev){if(!ev)return null;let b=Number.isFinite(ev.t0)?{t:ev.t0,kind:'start'}:null;(ev.st||[]).forEach(x=>{if(Number.isFinite(x[5])&&(!b||x[5]<b.t))b={t:x[5],kind:x[0]};});return b||(Number.isFinite(ev.at)?{t:ev.at,kind:null}:null);}
 // Plages gardées (positions ms) d'après les points : o = {off, srv, rec, after, noStat} (ms ; noStat = avance quand le point n'a aucune action)
 function vstRanges(m,r,o){o=Object.assign({off:(r&&r.off)||0,srv:1500,rec:2500,after:1500,noStat:6000},o||{});if(!r||!_VC.vcPosOf)return [];const tot=_VC.vcTot?_VC.vcTot(r):Infinity,out=[];
-  ((m&&m.ev)||[]).forEach(ev=>{if(ev.t!=='pt'||!Number.isFinite(ev.at))return;const f=vstFirst(ev),before=f.kind==null?o.noStat:f.kind==='srv'?o.srv:o.rec;
+  ((m&&m.ev)||[]).forEach(ev=>{if(ev.t!=='pt'||!Number.isFinite(ev.at))return;const f=vstFirst(ev),before=f.kind==null?o.noStat:f.kind==='srv'||f.kind==='start'?o.srv:o.rec;
     const a=Math.max(0,_VC.vcPosOf(r,f.t+o.off)-before),b=Math.min(tot,_VC.vcPosOf(r,ev.at+o.off)+o.after);if(Number.isFinite(a)&&Number.isFinite(b)&&b-a>=200)out.push([Math.round(a),Math.round(b)]);});
   return out.sort((p,q)=>p[0]-q[0]);}
 // Recalage : décale de delta ms l'heure des évènements à partir de l'index i (points, actions, changements, temps morts…) → nombre d'évènements touchés
-function vstShift(m,i,delta){let n=0;((m&&m.ev)||[]).forEach((e,k)=>{if(k<i||!delta)return;if(Number.isFinite(e.at)){e.at+=delta;n++;}(e.st||[]).forEach(x=>{if(Number.isFinite(x[5]))x[5]+=delta;});});return n;}
+function vstShift(m,i,delta){let n=0;((m&&m.ev)||[]).forEach((e,k)=>{if(k<i||!delta)return;if(Number.isFinite(e.at)){e.at+=delta;n++;}if(Number.isFinite(e.t0))e.t0+=delta;(e.st||[]).forEach(x=>{if(Number.isFinite(x[5]))x[5]+=delta;});});return n;}
 // Index du prochain point (évènement pt) à partir de i, sinon −1 ; précédent : avant i
 function vstNextPt(m,i){const E=(m&&m.ev)||[];for(let k=Math.max(0,i|0);k<E.length;k++)if(E[k].t==='pt')return k;return -1;}
 function vstPrevPt(m,i){const E=(m&&m.ev)||[];for(let k=Math.min(E.length,i|0)-1;k>=0;k--)if(E[k].t==='pt')return k;return -1;}
