@@ -11,7 +11,7 @@ const _VC=typeof vcPosOf==='function'?{vcPosOf,vcTot}:(typeof require==='functio
 // ===== 1. Export avancé ===================================================================================================
 // Qualités : h = hauteur du petit côté de l'image, kbps = débit vidéo visé ; 'orig' = copie sans réencodage (taille et vitesse d'origine)
 const VX_PRESETS={orig:{lab:'Original',h:null,kbps:null},'1080p':{lab:'1080p',h:1080,kbps:8000},'720p':{lab:'720p',h:720,kbps:4500},'480p':{lab:'480p',h:480,kbps:2000}};
-const VX_SPEEDS=[1,0.5,0.25];
+const VX_SPEEDS=[2,1.5,1,0.75,0.5,0.25]; // V186 : de ×0,25 (ralenti) à ×2 (accéléré)
 const VX_AUDIO_KBPS=128;
 // Plages gardées → morceaux par tranche [{path, in, out}] (ms dans la tranche, out = 0 : jusqu'au bout). P = {segs:[{path,dur}], off:[], ia}
 // (copie conforme de vidExport V180, pour que le module natif reçoive la même chose)
@@ -129,16 +129,15 @@ function ovAvailable(m,r,o){o=o||{};if(!m||!r)return {ok:false,why:'noMatch'};if
 // prefs.vid.auto, prefs.vid.clip, prefs.vid.ov, prefs.vid.exp. vxSettings() complète et borne (réglage absent ou hors bornes → défaut / borne).
 const VX_SETTINGS={
   auto:{before:{def:1.5,min:0,max:10,step:.5},after:{def:1,min:0,max:10,step:.5},minDead:{def:4,min:2,max:15,step:1},minRally:{def:2,min:1,max:6,step:.5}},
-  clip:{before:{def:6,min:2,max:15,step:1},after:{def:2,min:0,max:10,step:1}},
+  clip:{before:{def:1.5,min:0,max:15,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s avant / après
   ov:{on:{def:true},corner:{def:'tl',opts:['tl','tr','bl','br']},scale:{def:'m',opts:['s','m','l']},names:{def:'full',opts:['full','short','none']},rot:{def:true},srv:{def:true},server:{def:true},subs:{def:true},subDur:{def:8,min:3,max:20,step:1},opacity:{def:.78,min:.4,max:1,step:.02}},
   exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false}},
   // saisie sur un film (V184) : gardé avant la première action (service / réception) et après le point (s) ; vitesses pendant l'échange et après le point
-  pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1,min:0,max:10,step:.5}},
+  pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s après le point
   // V185 : react = temps de réaction (s de temps réel entre l'action vue et le tap, retiré de l'heure de la stat selon la vitesse de lecture)
   vst:{slow:{def:.5,opts:[1,.5,.25]},after:{def:1,opts:[1,2]},react:{def:.6,min:0,max:1.5,step:.1}},
-  // V185 : clips par type d'action (section Vidéo des stats) : gardé avant / après l'action (s)
-  act:{recB:{def:2.5,min:0,max:10,step:.5},recA:{def:1.5,min:0,max:10,step:.5},pasB:{def:1.5,min:0,max:10,step:.5},pasA:{def:2,min:0,max:10,step:.5},attB:{def:2,min:0,max:10,step:.5},attA:{def:1.5,min:0,max:10,step:.5},
-    blkB:{def:2,min:0,max:10,step:.5},blkA:{def:1.5,min:0,max:10,step:.5},defB:{def:2,min:0,max:10,step:.5},defA:{def:2,min:0,max:10,step:.5},srvB:{def:1.5,min:0,max:10,step:.5},srvA:{def:2.5,min:0,max:10,step:.5}}};
+  // V185 : clips par type d'action (section Vidéo des stats, Clips) : gardé avant / après l'action (s) ; V186 : 1,5 s partout par défaut (clip de 3 s centré)
+  act:Object.fromEntries(['rec','pas','att','blk','def','srv'].flatMap(k=>[[k+'B',{def:1.5,min:0,max:10,step:.5}],[k+'A',{def:1.5,min:0,max:10,step:.5}]]))};
 function vxSettings(P){P=P||{};const out={};Object.keys(VX_SETTINGS).forEach(g=>{const G=VX_SETTINGS[g],src=P[g]||{},o=out[g]={};Object.keys(G).forEach(k=>{const d=G[k],v=src[k];
     if(d.opts)o[k]=d.opts.includes(v)?v:d.def;else if(typeof d.def==='boolean')o[k]=v==null?d.def:!!v;else{const n=+v;o[k]=Number.isFinite(n)?Math.min(d.max,Math.max(d.min,Math.round(n/d.step)*d.step)):d.def;}});});return out;}
 // Réglages du bandeau → options de ovStates (durée du changement) et de ovImages / ovDraw
@@ -206,8 +205,8 @@ function vxImportT0(name){const k=/VolleyCoach_(\d{4})(\d{2})(\d{2})(\d{2})(\d{2
 // o = {off, act: VS().act (s), pt: VS().pt (s), whole: true|false} ; m : match (ev), r : enregistrement. Plages fusionnées, triées.
 function vmRanges(m,r,acts,o){o=o||{};if(!r||!_VC.vcPosOf)return [];const tot=_VC.vcTot?_VC.vcTot(r):Infinity,off=o.off||0,A=o.act||{},out=[];
   if(o.whole){const E=(m&&m.ev)||[],seen=new Set();(acts||[]).forEach(a=>{if(seen.has(a.ev))return;seen.add(a.ev);const ev=E[a.ev];if(ev)out.push(ev);});
-    const P=o.pt||{};return vstRanges({ev:out},r,{off,srv:(P.srv!=null?P.srv:1.5)*1000,rec:(P.rec!=null?P.rec:2.5)*1000,after:(P.after!=null?P.after:1)*1000});}
-  (acts||[]).forEach(a=>{const k=a.kind==='rly'||a.kind==='rel'?'pas':a.kind,bf=(A[k+'B']!=null?A[k+'B']:2)*1000,af=(A[k+'A']!=null?A[k+'A']:1.5)*1000;
+    const P=o.pt||{};return vstRanges({ev:out},r,{off,srv:(P.srv!=null?P.srv:1.5)*1000,rec:(P.rec!=null?P.rec:2.5)*1000,after:(P.after!=null?P.after:1.5)*1000});}
+  (acts||[]).forEach(a=>{const k=a.kind==='rly'||a.kind==='rel'?'pas':a.kind,bf=(A[k+'B']!=null?A[k+'B']:1.5)*1000,af=(A[k+'A']!=null?A[k+'A']:1.5)*1000;
     const p=_VC.vcPosOf(r,a.t+off);if(p==null)return;const x=Math.max(0,p-bf),y=Math.min(tot,p+af);if(y-x>=200)out.push([Math.round(x),Math.round(y)]);});
   out.sort((p,q)=>p[0]-q[0]);const M=[];out.forEach(c=>{const z=M[M.length-1];if(z&&c[0]<=z[1])z[1]=Math.max(z[1],c[1]);else M.push(c.slice());});return M;}
 

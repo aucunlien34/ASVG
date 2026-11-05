@@ -1573,7 +1573,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Stats entered while replaying a match video (“Enter stats” in the video list): a tap on the picture stops the video and opens the entry; from the first action of the rally, playback resumes in slow motion until the point is awarded, then at the after-point speed. The edit keeps each point from its first action to its end, with these margins. A stat's time is that of the tap minus the reaction time (converted according to the playback speed); after frame-by-frame navigation, it is exact.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "“Video” section of the stats, “isolated action” edit: each kept action is kept from these few seconds before to these few seconds after its time. In “whole point”, the margins of the entry on a video apply.",
   "Indifférent": "Any",
-  "Tous": "All"
+  "Tous": "All",
+  "Annuler cette stat et revenir à son heure": "Undo this stat and go back to its time",
+  "Saisie reprise à la dernière stat": "Entry resumed at the last stat",
+  "Actions seules": "Actions only",
+  "Points entiers": "Whole points",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "The whole point of each selected stat, from the serve (− {A} s) to the point (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Each selected stat, from a few seconds before to a few seconds after (1.5 s by default, Settings › Video › Clips per action).",
+  "Direct": "Live",
+  "Image en direct, sans différé ni ralenti.": "Live picture, no delay or slow motion."
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -3061,7 +3069,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Estadísticas registradas viendo el vídeo de un partido («Registrar estadísticas» en la lista de vídeos): un toque en la imagen detiene el vídeo y abre el registro; desde la primera acción de la jugada, la reproducción se reanuda a cámara lenta hasta la asignación del punto y luego a la velocidad de después del punto. El montaje conserva cada punto desde su primera acción hasta su final, con estos márgenes. La hora de una estadística es la del toque menos el tiempo de reacción (convertido según la velocidad de reproducción); tras una navegación fotograma a fotograma, es exacta.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Sección «Vídeo» de las estadísticas, montaje «acción aislada»: cada acción conservada se guarda desde estos segundos antes hasta estos segundos después de su hora. En «punto entero» se aplican los márgenes del registro sobre un vídeo.",
   "Indifférent": "Indiferente",
-  "Tous": "Todos"
+  "Tous": "Todos",
+  "Annuler cette stat et revenir à son heure": "Anular esta estadística y volver a su momento",
+  "Saisie reprise à la dernière stat": "Registro reanudado en la última estadística",
+  "Actions seules": "Solo acciones",
+  "Points entiers": "Puntos completos",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Todo el punto de cada estadística elegida, del saque (− {A} s) al punto (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Cada estadística elegida, de unos segundos antes a unos segundos después (1,5 s por defecto, Ajustes › Vídeo › Clips por acción).",
+  "Direct": "Directo",
+  "Image en direct, sans différé ni ralenti.": "Imagen en directo, sin diferido ni cámara lenta."
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -4549,7 +4565,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistiche inserite rivedendo il video di una partita («Inserisci le statistiche» nell’elenco dei video): un tocco sull’immagine ferma il video e apre l’inserimento; dalla prima azione dello scambio, la riproduzione riprende al rallentatore fino all’assegnazione del punto, poi alla velocità dopo-punto. Il montaggio tiene ogni punto dalla sua prima azione alla fine, con questi margini. L’ora di una statistica è quella del tocco meno il tempo di reazione (convertito secondo la velocità di riproduzione); dopo una navigazione fotogramma per fotogramma, è esatta.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Sezione «Video» delle statistiche, montaggio «azione isolata»: ogni azione tenuta è conservata da questi pochi secondi prima a questi pochi secondi dopo la sua ora. In «punto intero» si applicano i margini dell’inserimento su un video.",
   "Indifférent": "Indifferente",
-  "Tous": "Tutti"
+  "Tous": "Tutti",
+  "Annuler cette stat et revenir à son heure": "Annulla questa statistica e torna al suo istante",
+  "Saisie reprise à la dernière stat": "Inserimento ripreso dall’ultima statistica",
+  "Actions seules": "Solo azioni",
+  "Points entiers": "Punti interi",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Tutto il punto di ogni statistica scelta, dalla battuta (− {A} s) al punto (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Ogni statistica scelta, da qualche secondo prima a qualche secondo dopo (1,5 s di default, Impostazioni › Video › Clip per azione).",
+  "Direct": "Diretta",
+  "Image en direct, sans différé ni ralenti.": "Immagine in diretta, senza differita né rallentatore."
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -6037,7 +6061,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistik beim Ansehen eines Spielvideos erfasst („Statistik erfassen“ in der Videoliste): ein Tipp aufs Bild hält das Video an und öffnet die Erfassung; ab der ersten Aktion des Ballwechsels läuft die Wiedergabe in Zeitlupe weiter bis zur Zuweisung des Punkts, dann mit der Geschwindigkeit nach dem Punkt. Der Schnitt behält jeden Punkt von seiner ersten Aktion bis zu seinem Ende, mit diesen Rändern. Die Zeit einer Statistik ist die des Tipps minus Reaktionszeit (umgerechnet nach der Wiedergabegeschwindigkeit); nach einer Navigation Bild für Bild ist sie exakt.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Abschnitt „Video“ der Statistik, Schnitt „einzelne Aktion“: jede behaltene Aktion wird von diesen wenigen Sekunden davor bis zu diesen wenigen Sekunden nach ihrer Zeit behalten. Bei „ganzer Punkt“ gelten die Ränder der Erfassung an einem Video.",
   "Indifférent": "Egal",
-  "Tous": "Alle"
+  "Tous": "Alle",
+  "Annuler cette stat et revenir à son heure": "Diese Statistik zurücknehmen und zu ihrem Zeitpunkt springen",
+  "Saisie reprise à la dernière stat": "Erfassung bei der letzten Statistik fortgesetzt",
+  "Actions seules": "Nur Aktionen",
+  "Points entiers": "Ganze Punkte",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Der ganze Punkt jeder gewählten Statistik, vom Aufschlag (− {A} s) bis zum Punkt (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Jede gewählte Statistik, von einigen Sekunden davor bis einige Sekunden danach (standardmäßig 1,5 s, Einstellungen › Video › Clips pro Aktion).",
+  "Direct": "Live",
+  "Image en direct, sans différé ni ralenti.": "Livebild, ohne Verzögerung und ohne Zeitlupe."
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -7525,7 +7557,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statystyki wprowadzone podczas oglądania filmu z meczu („Wprowadź statystyki” na liście wideo): dotknięcie obrazu zatrzymuje wideo i otwiera wprowadzanie; od pierwszej akcji wymiany odtwarzanie wznawia się w zwolnionym tempie aż do przyznania punktu, a potem z prędkością po punkcie. Montaż zachowuje każdy punkt od jego pierwszej akcji do końca, z tymi marginesami. Czas statystyki to czas dotknięcia minus czas reakcji (przeliczony według prędkości odtwarzania); po nawigacji klatka po klatce jest dokładny.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Sekcja „Wideo” statystyk, montaż „pojedyncza akcja”: każda zachowana akcja jest zachowywana od tych kilku sekund przed do tych kilku sekund po jej czasie. W trybie „cały punkt” obowiązują marginesy zapisu na filmie.",
   "Indifférent": "Dowolny",
-  "Tous": "Wszystkie"
+  "Tous": "Wszystkie",
+  "Annuler cette stat et revenir à son heure": "Cofnij tę statystykę i wróć do jej momentu",
+  "Saisie reprise à la dernière stat": "Wprowadzanie wznowione od ostatniej statystyki",
+  "Actions seules": "Tylko akcje",
+  "Points entiers": "Całe punkty",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Cały punkt każdej wybranej statystyki, od zagrywki (− {A} s) do punktu (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Każda wybrana statystyka, od kilku sekund przed do kilku sekund po (1,5 s domyślnie, Ustawienia › Wideo › Klipy według akcji).",
+  "Direct": "Na żywo",
+  "Image en direct, sans différé ni ralenti.": "Obraz na żywo, bez opóźnienia i zwolnienia."
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -9013,7 +9053,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Estatísticas registradas revendo o vídeo de um jogo («Registrar estatísticas» na lista de vídeos): um toque na imagem para o vídeo e abre o registro; desde a primeira ação do rali, a reprodução retoma em câmera lenta até a atribuição do ponto e depois na velocidade de após o ponto. A montagem mantém cada ponto da primeira ação até o fim, com estas margens. A hora de uma estatística é a do toque menos o tempo de reação (convertido conforme a velocidade de reprodução); após uma navegação quadro a quadro, ela é exata.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Seção «Vídeo» das estatísticas, montagem «ação isolada»: cada ação mantida é guardada desde estes poucos segundos antes até estes poucos segundos depois da sua hora. Em «ponto inteiro», aplicam-se as margens do registro sobre um vídeo.",
   "Indifférent": "Indiferente",
-  "Tous": "Todos"
+  "Tous": "Todos",
+  "Annuler cette stat et revenir à son heure": "Anular esta estatística e voltar ao seu momento",
+  "Saisie reprise à la dernière stat": "Registo retomado na última estatística",
+  "Actions seules": "Só ações",
+  "Points entiers": "Pontos inteiros",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "O ponto inteiro de cada estatística escolhida, do serviço (− {A} s) ao ponto (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Cada estatística escolhida, de alguns segundos antes a alguns segundos depois (1,5 s por defeito, Ajustes › Vídeo › Clipes por ação).",
+  "Direct": "Direto",
+  "Image en direct, sans différé ni ralenti.": "Imagem em direto, sem diferido nem câmara lenta."
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -10501,7 +10549,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Bir maç filmini izleyerek girilen istatistikler (video listesinde “İstatistik gir”): görüntüye bir dokunuş videoyu durdurur ve girişi açar; rallinin ilk aksiyonundan itibaren oynatma, sayı verilene kadar ağır çekimde sürer, sonra sayı sonrası hıza geçer. Kurgu her sayıyı ilk aksiyonundan sonuna kadar bu paylarla tutar. Bir istatistiğin saati, dokunuş saati eksi tepki süresidir (oynatma hızına göre çevrilir); kare kare gezindikten sonra tam olarak doğrudur.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "İstatistiklerin “Video” bölümü, “tek aksiyon” kurgusu: tutulan her aksiyon, saatinden bu birkaç saniye öncesinden bu birkaç saniye sonrasına kadar tutulur. “Tüm sayı” modunda film üzerinde giriş payları uygulanır.",
   "Indifférent": "Fark etmez",
-  "Tous": "Tümü"
+  "Tous": "Tümü",
+  "Annuler cette stat et revenir à son heure": "Bu istatistiği geri al ve zamanına dön",
+  "Saisie reprise à la dernière stat": "Giriş son istatistikten devam ediyor",
+  "Actions seules": "Yalnızca aksiyonlar",
+  "Points entiers": "Tam sayılar",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Seçilen her istatistiğin tüm sayısı, servisten (− {A} sn) sayıya (+ {B} sn).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Seçilen her istatistik, birkaç saniye öncesinden birkaç saniye sonrasına (varsayılan 1,5 sn, Ayarlar › Video › Aksiyon başına klipler).",
+  "Direct": "Canlı",
+  "Image en direct, sans différé ni ralenti.": "Canlı görüntü, gecikme ve ağır çekim yok."
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -11989,7 +12045,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "試合映像を見ながら入力した統計（ビデオ一覧の「統計を入力」）：画像をタップすると映像が止まり入力が開きます。ラリーの最初のプレーからポイント付与までスロー再生で再開し、その後ポイント後の速度に戻ります。編集では各ポイントを最初のプレーから終了まで、これらの余白を付けて残します。統計の時刻はタップした時刻から反応時間（再生速度に応じて換算）を引いたものです。コマ送りで移動した後は正確です。",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "統計の「ビデオ」セクション、「単独のプレー」編集：残した各プレーを、その時刻の数秒前からこの数秒後まで残します。「ポイント全体」では映像上での入力の余白が適用されます。",
   "Indifférent": "指定なし",
-  "Tous": "すべて"
+  "Tous": "すべて",
+  "Annuler cette stat et revenir à son heure": "この記録を取り消してその時刻に戻る",
+  "Saisie reprise à la dernière stat": "最後の記録から入力を再開しました",
+  "Actions seules": "アクションのみ",
+  "Points entiers": "ポイント全体",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "選んだ記録ごとのポイント全体（サーブ − {A} 秒からポイント + {B} 秒まで）。",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "選んだ記録ごとに、数秒前から数秒後まで（既定 1.5 秒、設定 › ビデオ › プレー別クリップ）。",
+  "Direct": "ライブ",
+  "Image en direct, sans différé ni ralenti.": "ライブ映像（遅延・スローなし）。"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -13477,7 +13541,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "回放比赛录像时录入的统计（视频列表中的“录入统计”）：点击画面会暂停视频并打开录入；从回合的第一个动作起恢复慢放，直到判定得分，然后以得分后的速度播放。剪辑会保留每一分从第一个动作到结束的部分，并加上这些余量。统计的时间为点击时间减去反应时间（按播放速度换算）；逐帧浏览后，该时间是精确的。",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "统计的“视频”部分，“单个动作”剪辑：保留的每个动作从其时间的前几秒保留到后几秒。在“整个回合”模式下，应用在录像上录入的余量。",
   "Indifférent": "不限",
-  "Tous": "全部"
+  "Tous": "全部",
+  "Annuler cette stat et revenir à son heure": "撤销此统计并回到其时间点",
+  "Saisie reprise à la dernière stat": "已从最后一条统计继续录入",
+  "Actions seules": "仅动作",
+  "Points entiers": "完整回合",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "每条所选统计所在的完整回合，从发球（− {A} 秒）到得分（+ {B} 秒）。",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "每条所选统计，从之前几秒到之后几秒（默认 1.5 秒，设置 › 视频 › 按动作的片段）。",
+  "Direct": "直播",
+  "Image en direct, sans différé ni ralenti.": "实时画面，无延迟、无慢放。"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -14965,7 +15037,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Stats ingevoerd tijdens het terugkijken van een wedstrijdvideo (‘Stats invoeren’ in de videolijst): een tik op het beeld stopt de video en opent de invoer; vanaf de eerste actie van de rally gaat de video verder in slow motion tot het punt is toegekend, daarna op de snelheid na het punt. De montage houdt elk punt van de eerste actie tot het einde, met deze marges. De tijd van een stat is die van de tik min de reactietijd (omgerekend naar de afspeelsnelheid); na beeld voor beeld navigeren is hij exact.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Sectie ‘Video’ van de stats, montage ‘losse actie’: elke bewaarde actie wordt bewaard van deze paar seconden ervoor tot deze paar seconden na haar tijd. Bij ‘heel punt’ gelden de marges van de invoer op een video.",
   "Indifférent": "Maakt niet uit",
-  "Tous": "Alle"
+  "Tous": "Alle",
+  "Annuler cette stat et revenir à son heure": "Deze statistiek ongedaan maken en naar haar tijdstip gaan",
+  "Saisie reprise à la dernière stat": "Invoer hervat bij de laatste statistiek",
+  "Actions seules": "Alleen acties",
+  "Points entiers": "Hele punten",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Het hele punt van elke gekozen statistiek, van de opslag (− {A} s) tot het punt (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Elke gekozen statistiek, van enkele seconden ervoor tot enkele seconden erna (standaard 1,5 s, Instellingen › Video › Clips per actie).",
+  "Direct": "Live",
+  "Image en direct, sans différé ni ralenti.": "Livebeeld, zonder vertraging of slow motion."
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -16453,7 +16533,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistika uneta uz gledanje snimka meča („Unesi statistiku” u listi videa): dodir na sliku zaustavlja video i otvara unos; od prve akcije nadigravanja reprodukcija se nastavlja usporeno do dodele poena, zatim brzinom posle poena. Montaža zadržava svaki poen od njegove prve akcije do kraja, sa ovim marginama. Vreme statistike je vreme dodira minus vreme reakcije (preračunato prema brzini reprodukcije); posle kretanja kadar po kadar, ono je tačno.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Odeljak „Video” statistike, montaža „pojedinačna akcija”: svaka zadržana akcija čuva se od ovih nekoliko sekundi pre do ovih nekoliko sekundi posle svog vremena. U režimu „ceo poen” važe margine unosa na snimku.",
   "Indifférent": "Svejedno",
-  "Tous": "Svi"
+  "Tous": "Svi",
+  "Annuler cette stat et revenir à son heure": "Poništi ovu statistiku i vrati se na njen trenutak",
+  "Saisie reprise à la dernière stat": "Unos nastavljen od poslednje statistike",
+  "Actions seules": "Samo akcije",
+  "Points entiers": "Celi poeni",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Ceo poen svake izabrane statistike, od servisa (− {A} s) do poena (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Svaka izabrana statistika, od nekoliko sekundi pre do nekoliko sekundi posle (podrazumevano 1,5 s, Podešavanja › Video › Klipovi po akciji).",
+  "Direct": "Uživo",
+  "Image en direct, sans différé ni ralenti.": "Slika uživo, bez kašnjenja i usporenja."
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -17941,7 +18029,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Статистика, въведена при преглед на запис на мач („Въведи статистиката“ в списъка с видеа): докосване на картината спира видеото и отваря въвеждането; от първото действие на разиграването възпроизвеждането продължава на забавен каданс до присъждането на точката, после със скоростта след точката. Монтажът запазва всяка точка от първото ѝ действие до края ѝ, с тези полета. Часът на една статистика е този на докосването минус времето за реакция (преобразувано според скоростта на възпроизвеждане); след придвижване кадър по кадър той е точен.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Раздел „Видео“ на статистиката, монтаж „отделно действие“: всяко запазено действие се пази от тези няколко секунди преди до тези няколко секунди след часа му. При „цяла точка“ важат полетата на въвеждането по запис.",
   "Indifférent": "Без значение",
-  "Tous": "Всички"
+  "Tous": "Всички",
+  "Annuler cette stat et revenir à son heure": "Отмени тази статистика и се върни към момента ѝ",
+  "Saisie reprise à la dernière stat": "Въвеждането продължава от последната статистика",
+  "Actions seules": "Само действия",
+  "Points entiers": "Цели точки",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Цялата точка на всяка избрана статистика, от сервиса (− {A} s) до точката (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Всяка избрана статистика, от няколко секунди преди до няколко секунди след (1,5 s по подразбиране, Настройки › Видео › Клипове по действие).",
+  "Direct": "На живо",
+  "Image en direct, sans différé ni ralenti.": "Картина на живо, без забавяне и забавен каданс."
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -19429,7 +19525,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistika, vnesena ob gledanju posnetka tekme (»Vnesi statistiko« na seznamu videov): dotik slike ustavi video in odpre vnos; od prve akcije izmenjave se predvajanje nadaljuje upočasnjeno do dodelitve točke, nato s hitrostjo po točki. Montaža obdrži vsako točko od njene prve akcije do konca, s temi robovi. Čas statistike je čas dotika minus reakcijski čas (preračunan glede na hitrost predvajanja); po premikanju sličico za sličico je točen.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Razdelek »Video« statistike, montaža »posamezna akcija«: vsaka obdržana akcija se ohrani od teh nekaj sekund pred do teh nekaj sekund po svojem času. Pri »cela točka« veljajo robovi vnosa na posnetku.",
   "Indifférent": "Vseeno",
-  "Tous": "Vsi"
+  "Tous": "Vsi",
+  "Annuler cette stat et revenir à son heure": "Razveljavi to statistiko in se vrni na njen trenutek",
+  "Saisie reprise à la dernière stat": "Vnos nadaljevan pri zadnji statistiki",
+  "Actions seules": "Samo akcije",
+  "Points entiers": "Celotne točke",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Celotna točka vsake izbrane statistike, od servisa (− {A} s) do točke (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Vsaka izbrana statistika, od nekaj sekund prej do nekaj sekund pozneje (privzeto 1,5 s, Nastavitve › Video › Izseki po akciji).",
+  "Direct": "V živo",
+  "Image en direct, sans différé ni ralenti.": "Slika v živo, brez zamika in počasnega posnetka."
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -20917,7 +21021,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Статистика, введена під час перегляду запису матчу («Ввести статистику» у списку відео): дотик до зображення зупиняє відео та відкриває введення; від першої дії розіграшу відтворення поновлюється сповільнено до присудження очка, потім зі швидкістю після очка. Монтаж зберігає кожне очко від його першої дії до кінця з цими полями. Час статистики — це час дотику мінус час реакції (перерахований за швидкістю відтворення); після навігації кадр за кадром він точний.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Розділ «Відео» статистики, монтаж «окрема дія»: кожна збережена дія зберігається від цих кількох секунд перед її часом до цих кількох секунд після нього. У режимі «ціле очко» діють поля введення за записом.",
   "Indifférent": "Будь-який",
-  "Tous": "Усі"
+  "Tous": "Усі",
+  "Annuler cette stat et revenir à son heure": "Скасувати цю статистику й повернутися до її моменту",
+  "Saisie reprise à la dernière stat": "Введення продовжено з останньої статистики",
+  "Actions seules": "Лише дії",
+  "Points entiers": "Цілі очки",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Усе очко кожної вибраної статистики, від подачі (− {A} с) до очка (+ {B} с).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Кожна вибрана статистика, від кількох секунд перед нею до кількох секунд після (1,5 с за замовчуванням, Налаштування › Відео › Кліпи за дією).",
+  "Direct": "Наживо",
+  "Image en direct, sans différé ni ralenti.": "Зображення наживо, без затримки й уповільнення."
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -22405,7 +22517,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistiky zadané při sledování záznamu zápasu („Zadat statistiky“ v seznamu videí): klepnutí na obraz zastaví video a otevře zadávání; od první akce výměny přehrávání pokračuje zpomaleně až do přiřazení bodu, pak rychlostí po bodu. Sestřih ponechá každý bod od jeho první akce do konce, s těmito okraji. Čas statistiky je čas klepnutí minus reakční doba (přepočtená podle rychlosti přehrávání); po procházení snímek po snímku je přesný.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Sekce „Video“ statistik, sestřih „samostatná akce“: každá ponechaná akce se uchová od těchto několika sekund před jejím časem do těchto několika sekund po něm. V režimu „celý bod“ platí okraje zadávání na záznamu.",
   "Indifférent": "Libovolné",
-  "Tous": "Všechny"
+  "Tous": "Všechny",
+  "Annuler cette stat et revenir à son heure": "Zrušit tuto statistiku a vrátit se na její okamžik",
+  "Saisie reprise à la dernière stat": "Zadávání obnoveno od poslední statistiky",
+  "Actions seules": "Jen akce",
+  "Points entiers": "Celé body",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Celý bod každé vybrané statistiky, od podání (− {A} s) do bodu (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Každá vybraná statistika, od několika sekund před do několika sekund po (1,5 s výchozí, Nastavení › Video › Klipy podle akce).",
+  "Direct": "Živě",
+  "Image en direct, sans différé ni ralenti.": "Obraz živě, bez zpoždění a zpomalení."
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -23893,7 +24013,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "สถิติที่บันทึกขณะดูวิดีโอแมตช์ (“บันทึกสถิติ” ในรายการวิดีโอ): แตะภาพเพื่อหยุดวิดีโอและเปิดการบันทึก ตั้งแต่การเล่นแรกของแรลลี่ วิดีโอจะเล่นต่อแบบสโลว์โมชันจนกว่าจะให้แต้ม แล้วใช้ความเร็วหลังจบแต้ม การตัดต่อจะเก็บแต่ละแต้มตั้งแต่การเล่นแรกจนจบ พร้อมระยะเผื่อเหล่านี้ เวลาของสถิติคือเวลาที่แตะลบด้วยเวลาตอบสนอง (แปลงตามความเร็วการเล่น) หลังจากเลื่อนทีละเฟรม เวลาจะแม่นยำ",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "ส่วน “วิดีโอ” ของสถิติ การตัดต่อแบบ “การเล่นเดี่ยว”: แต่ละการเล่นที่เก็บไว้จะเก็บตั้งแต่ไม่กี่วินาทีก่อนจนถึงไม่กี่วินาทีหลังเวลาของมันตามค่าเหล่านี้ ในแบบ “ทั้งแต้ม” จะใช้ระยะเผื่อของการบันทึกจากวิดีโอ",
   "Indifférent": "ไม่ระบุ",
-  "Tous": "ทั้งหมด"
+  "Tous": "ทั้งหมด",
+  "Annuler cette stat et revenir à son heure": "ยกเลิกสถิตินี้และกลับไปที่เวลาของมัน",
+  "Saisie reprise à la dernière stat": "กลับมาบันทึกต่อจากสถิติล่าสุดแล้ว",
+  "Actions seules": "เฉพาะการเล่น",
+  "Points entiers": "ทั้งแต้ม",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "ทั้งแต้มของแต่ละสถิติที่เลือก ตั้งแต่เสิร์ฟ (− {A} วิ) ถึงได้แต้ม (+ {B} วิ)",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "แต่ละสถิติที่เลือก ตั้งแต่ไม่กี่วินาทีก่อนถึงไม่กี่วินาทีหลัง (ค่าเริ่มต้น 1.5 วิ, ตั้งค่า › วิดีโอ › คลิปตามการเล่น)",
+  "Direct": "สด",
+  "Image en direct, sans différé ni ralenti.": "ภาพสด ไม่มีดีเลย์หรือภาพช้า"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -25381,7 +25509,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "경기 영상을 다시 보며 입력한 통계(비디오 목록의 “통계 입력”): 화면을 탭하면 비디오가 멈추고 입력이 열립니다. 랠리의 첫 플레이부터 점수 부여까지 슬로 모션으로 재생을 이어가고, 그 뒤 득점 후 속도로 재생합니다. 편집은 각 점수를 첫 플레이부터 끝까지 이 여유분과 함께 유지합니다. 통계의 시각은 탭한 시각에서 반응 시간(재생 속도에 따라 환산)을 뺀 값이며, 프레임 단위로 이동한 뒤에는 정확합니다.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "통계의 “비디오” 섹션, “단일 동작” 편집: 남긴 각 동작을 그 시각의 몇 초 전부터 몇 초 후까지 이 값만큼 유지합니다. “랠리 전체”에서는 영상으로 입력의 여백이 적용됩니다.",
   "Indifférent": "무관",
-  "Tous": "전체"
+  "Tous": "전체",
+  "Annuler cette stat et revenir à son heure": "이 기록을 취소하고 그 시점으로 돌아가기",
+  "Saisie reprise à la dernière stat": "마지막 기록부터 입력을 재개했습니다",
+  "Actions seules": "동작만",
+  "Points entiers": "전체 랠리",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "선택한 각 기록의 전체 랠리, 서브(− {A}초)부터 득점(+ {B}초)까지.",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "선택한 각 기록, 몇 초 전부터 몇 초 후까지(기본 1.5초, 설정 › 비디오 › 동작별 클립).",
+  "Direct": "라이브",
+  "Image en direct, sans différé ni ralenti.": "지연·슬로모션 없는 실시간 화면."
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -26869,7 +27005,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Stats na na-log habang pinapanood ang video ng laro (“I-log ang stats” sa listahan ng mga video): ang isang tap sa larawan ay humihinto sa video at nagbubukas ng pag-log; mula sa unang aksyon ng rally, magpapatuloy ang playback nang slow motion hanggang maibigay ang puntos, pagkatapos ay sa bilis pagkatapos ng puntos. Pananatilihin ng edit ang bawat puntos mula sa unang aksyon hanggang sa dulo nito, kasama ang mga margin na ito. Ang oras ng isang stat ay ang oras ng tap binawasan ng reaction time (na-convert ayon sa bilis ng playback); pagkatapos ng pag-navigate nang frame by frame, eksakto ito.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Seksyong “Video” ng stats, edit na “hiwalay na aksyon”: bawat itinagong aksyon ay itinatago mula sa ilang segundong ito bago hanggang sa ilang segundong ito pagkatapos ng oras nito. Sa “buong puntos”, ang mga margin ng pag-log sa video ng laro ang gagamitin.",
   "Indifférent": "Kahit alin",
-  "Tous": "Lahat"
+  "Tous": "Lahat",
+  "Annuler cette stat et revenir à son heure": "I-undo ang stat na ito at bumalik sa oras nito",
+  "Saisie reprise à la dernière stat": "Ipinagpatuloy ang pagtala sa huling stat",
+  "Actions seules": "Mga aksyon lang",
+  "Points entiers": "Buong puntos",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Ang buong puntos ng bawat napiling stat, mula sa serve (− {A} s) hanggang sa puntos (+ {B} s).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Bawat napiling stat, mula ilang segundo bago hanggang ilang segundo pagkatapos (1.5 s bilang default, Settings › Video › Mga clip bawat aksyon).",
+  "Direct": "Live",
+  "Image en direct, sans différé ni ralenti.": "Live na larawan, walang delay o slow motion."
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -28357,7 +28501,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Statistik yang diinput sambil memutar ulang rekaman pertandingan (“Input statistik” di daftar video): ketukan pada gambar menghentikan video dan membuka input; sejak aksi pertama reli, pemutaran berlanjut dalam gerak lambat sampai poin diberikan, lalu dengan kecepatan setelah poin. Edit menyimpan setiap poin dari aksi pertama hingga akhir, dengan margin ini. Waktu sebuah statistik adalah waktu ketukan dikurangi waktu reaksi (dikonversi menurut kecepatan pemutaran); setelah navigasi bingkai demi bingkai, waktunya tepat.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Bagian “Video” statistik, edit “aksi tunggal”: setiap aksi yang disimpan dijaga dari beberapa detik ini sebelum hingga beberapa detik ini sesudah waktunya. Dalam “poin utuh”, margin input dari rekaman yang berlaku.",
   "Indifférent": "Bebas",
-  "Tous": "Semua"
+  "Tous": "Semua",
+  "Annuler cette stat et revenir à son heure": "Batalkan statistik ini dan kembali ke waktunya",
+  "Saisie reprise à la dernière stat": "Pencatatan dilanjutkan dari statistik terakhir",
+  "Actions seules": "Aksi saja",
+  "Points entiers": "Poin utuh",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Seluruh poin dari setiap statistik terpilih, dari servis (− {A} dtk) sampai poin (+ {B} dtk).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Setiap statistik terpilih, dari beberapa detik sebelum hingga beberapa detik sesudah (bawaan 1,5 dtk, Pengaturan › Video › Klip per aksi).",
+  "Direct": "Langsung",
+  "Image en direct, sans différé ni ralenti.": "Gambar langsung, tanpa tunda atau gerak lambat."
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -29845,7 +29997,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Статистика, введённая при просмотре записи матча («Ввести статистику» в списке видео): касание изображения останавливает видео и открывает ввод; с первого действия розыгрыша воспроизведение возобновляется замедленно до присуждения очка, затем со скоростью после очка. Монтаж сохраняет каждое очко от его первого действия до конца с этими полями. Время статистики — это время касания минус время реакции (пересчитанное по скорости воспроизведения); после покадровой навигации оно точное.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Раздел «Видео» статистики, монтаж «отдельное действие»: каждое сохранённое действие сохраняется от этих нескольких секунд до его времени до этих нескольких секунд после. В режиме «целое очко» действуют поля ввода по записи.",
   "Indifférent": "Любой",
-  "Tous": "Все"
+  "Tous": "Все",
+  "Annuler cette stat et revenir à son heure": "Отменить эту статистику и вернуться к её моменту",
+  "Saisie reprise à la dernière stat": "Ввод продолжен с последней статистики",
+  "Actions seules": "Только действия",
+  "Points entiers": "Целые розыгрыши",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Весь розыгрыш каждой выбранной статистики, от подачи (− {A} с) до очка (+ {B} с).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Каждая выбранная статистика, от нескольких секунд до неё до нескольких секунд после (1,5 с по умолчанию, Настройки › Видео › Клипы по действию).",
+  "Direct": "Прямой эфир",
+  "Image en direct, sans différé ni ralenti.": "Изображение в реальном времени, без задержки и замедления."
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -31333,7 +31493,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "إحصاءات مُدخلة أثناء إعادة مشاهدة تسجيل مباراة («إدخال الإحصاءات» في قائمة الفيديوهات): نقرة على الصورة توقف الفيديو وتفتح الإدخال؛ من أول محاولة في الكرة المتبادلة يستأنف العرض بالبطيء حتى منح النقطة، ثم بسرعة ما بعد النقطة. يُبقي المونتاج كل نقطة من أول محاولة فيها إلى نهايتها، مع هذه الهوامش. وقت الإحصاءة هو وقت النقرة ناقص زمن رد الفعل (محوّلًا حسب سرعة العرض)؛ وبعد التنقل إطارًا بإطار يكون دقيقًا.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "قسم «فيديو» في الإحصاءات، مونتاج «محاولة منفردة»: تُحفظ كل محاولة محتفظ بها من هذه الثواني القليلة قبل وقتها إلى هذه الثواني القليلة بعده. في وضع «النقطة كاملة» تُطبّق هوامش الإدخال على تسجيل.",
   "Indifférent": "لا يهم",
-  "Tous": "الكل"
+  "Tous": "الكل",
+  "Annuler cette stat et revenir à son heure": "إلغاء هذه الإحصائية والعودة إلى وقتها",
+  "Saisie reprise à la dernière stat": "استُؤنف الإدخال من آخر إحصائية",
+  "Actions seules": "الحركات فقط",
+  "Points entiers": "النقاط كاملة",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "النقطة كاملة لكل إحصائية مختارة، من الإرسال (− {A} ث) إلى النقطة (+ {B} ث).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "كل إحصائية مختارة، من بضع ثوانٍ قبلها إلى بضع ثوانٍ بعدها (1.5 ث افتراضيًا، الإعدادات › فيديو › مقاطع حسب المحاولة).",
+  "Direct": "مباشر",
+  "Image en direct, sans différé ni ralenti.": "صورة مباشرة، بلا تأخير ولا تصوير بطيء."
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -32821,7 +32989,15 @@ const I18N = {
   "Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.": "Thống kê nhập khi xem lại video trận đấu (“Nhập thống kê” trong danh sách video): chạm vào hình sẽ dừng video và mở phần nhập; từ pha bóng đầu tiên của lượt bóng, video phát tiếp ở chế độ chậm cho đến khi ghi điểm, rồi ở tốc độ sau điểm. Bản dựng giữ mỗi điểm từ pha bóng đầu tiên đến khi kết thúc, với các khoảng đệm này. Thời điểm của một thống kê là thời điểm chạm trừ thời gian phản ứng (quy đổi theo tốc độ phát); sau khi di chuyển từng khung hình, thời điểm này là chính xác.",
   "Section « Vidéo » des stats, montage « action isolée » : chaque action retenue est gardée de ces quelques secondes avant à ces quelques secondes après son heure. En « point entier », ce sont les marges de la saisie sur un film qui s'appliquent.": "Mục “Video” của thống kê, bản dựng “hành động riêng lẻ”: mỗi hành động được giữ sẽ được giữ từ vài giây này trước đến vài giây này sau thời điểm của nó. Ở chế độ “trọn điểm”, áp dụng khoảng đệm của nhập theo video trận đấu.",
   "Indifférent": "Bất kỳ",
-  "Tous": "Tất cả"
+  "Tous": "Tất cả",
+  "Annuler cette stat et revenir à son heure": "Hủy thống kê này và quay lại thời điểm của nó",
+  "Saisie reprise à la dernière stat": "Đã tiếp tục nhập từ thống kê cuối cùng",
+  "Actions seules": "Chỉ pha bóng",
+  "Points entiers": "Cả điểm",
+  "Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).": "Toàn bộ điểm của mỗi thống kê đã chọn, từ giao bóng (− {A} giây) đến điểm (+ {B} giây).",
+  "Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).": "Mỗi thống kê đã chọn, từ vài giây trước đến vài giây sau (mặc định 1,5 giây, Cài đặt › Video › Clip theo hành động).",
+  "Direct": "Trực tiếp",
+  "Image en direct, sans différé ni ralenti.": "Hình ảnh trực tiếp, không trễ, không quay chậm."
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
