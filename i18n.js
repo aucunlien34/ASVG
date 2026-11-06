@@ -1632,6 +1632,12 @@ const I18N = {
   "Match (avec composition)": "Match (with lineup)",
   "Entraînement (sans composition)": "Training (without lineup)",
   "Avant le point": "Before the point",
+  "Revenir": "Back",
+  "Relais passe": "Relay set",
+  "Renvoi direct": "Direct return",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Record your matches or train by watching yourself on a delay.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Fix your mistakes (serves, attacks…) by watching yourself a few seconds later.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Put the device on a tripod, screen facing the players.",
   "Pendant le point": "During the point"
  },
  "es": {
@@ -3179,6 +3185,12 @@ const I18N = {
   "Match (avec composition)": "Partido (con alineación)",
   "Entraînement (sans composition)": "Entrenamiento (sin alineación)",
   "Avant le point": "Antes del punto",
+  "Revenir": "Volver",
+  "Relais passe": "Colocación relevo",
+  "Renvoi direct": "Devolución directa",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Graba tus partidos o entrena viéndote en diferido.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Corrige tus errores (saques, ataques…) viéndote unos segundos después.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Coloca el dispositivo en un trípode, con la pantalla hacia los jugadores.",
   "Pendant le point": "Durante el punto"
  },
  "it": {
@@ -4726,6 +4738,12 @@ const I18N = {
   "Match (avec composition)": "Partita (con formazione)",
   "Entraînement (sans composition)": "Allenamento (senza formazione)",
   "Avant le point": "Prima del punto",
+  "Revenir": "Indietro",
+  "Relais passe": "Alzata di riserva",
+  "Renvoi direct": "Rinvio diretto",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Registra le tue partite o allenati rivedendoti in differita.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Correggi i tuoi errori (battute, attacchi…) rivedendoti qualche secondo dopo.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Metti il dispositivo su un treppiede, schermo verso i giocatori.",
   "Pendant le point": "Durante il punto"
  },
  "de": {
@@ -6273,6 +6291,12 @@ const I18N = {
   "Match (avec composition)": "Spiel (mit Aufstellung)",
   "Entraînement (sans composition)": "Training (ohne Aufstellung)",
   "Avant le point": "Vor dem Ballwechsel",
+  "Revenir": "Zurück",
+  "Relais passe": "Ersatzzuspiel",
+  "Renvoi direct": "Direkte Rückgabe",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Nehmen Sie Ihre Spiele auf oder trainieren Sie mit zeitversetztem Bild.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Korrigieren Sie Ihre Fehler (Aufschläge, Angriffe…), indem Sie sich wenige Sekunden später sehen.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Stellen Sie das Gerät auf ein Stativ, Bildschirm zu den Spielern.",
   "Pendant le point": "Während des Ballwechsels"
  },
  "pl": {
@@ -7820,6 +7844,12 @@ const I18N = {
   "Match (avec composition)": "Mecz (ze składem)",
   "Entraînement (sans composition)": "Trening (bez składu)",
   "Avant le point": "Przed akcją",
+  "Revenir": "Wróć",
+  "Relais passe": "Rozegranie zastępcze",
+  "Renvoi direct": "Bezpośredni zwrot",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Nagrywaj mecze lub trenuj, oglądając siebie z opóźnieniem.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Poprawiaj błędy (zagrywki, ataki…), oglądając siebie kilka sekund później.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Postaw urządzenie na statywie, ekranem do zawodników.",
   "Pendant le point": "W trakcie akcji"
  },
  "pt": {
@@ -9367,6 +9397,12 @@ const I18N = {
   "Match (avec composition)": "Jogo (com formação)",
   "Entraînement (sans composition)": "Treino (sem formação)",
   "Avant le point": "Antes do ponto",
+  "Revenir": "Voltar",
+  "Relais passe": "Passe de recurso",
+  "Renvoi direct": "Devolução direta",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Grave os seus jogos ou treine vendo-se em diferido.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Corrija os seus erros (serviços, ataques…) vendo-se alguns segundos depois.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Coloque o aparelho num tripé, ecrã virado para os jogadores.",
   "Pendant le point": "Durante o ponto"
  },
  "tr": {
@@ -10914,6 +10950,12 @@ const I18N = {
   "Match (avec composition)": "Maç (kadroyla)",
   "Entraînement (sans composition)": "Antrenman (kadrosuz)",
   "Avant le point": "Sayı öncesi",
+  "Revenir": "Geri",
+  "Relais passe": "Yedek pas",
+  "Renvoi direct": "Doğrudan dönüş",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Maçlarınızı kaydedin ya da kendinizi gecikmeli izleyerek antrenman yapın.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Kendinizi birkaç saniye sonra izleyerek hatalarınızı (servis, smaç…) düzeltin.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Cihazı bir tripoda koyun, ekran oyunculara dönük olsun.",
   "Pendant le point": "Sayı sırasında"
  },
  "ja": {
@@ -12461,6 +12503,12 @@ const I18N = {
   "Match (avec composition)": "試合 (スタメンあり)",
   "Entraînement (sans composition)": "練習 (スタメンなし)",
   "Avant le point": "ラリー前",
+  "Revenir": "戻る",
+  "Relais passe": "代わりのトス",
+  "Renvoi direct": "ダイレクト返球",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "試合を録画するか、遅延映像で自分を見ながら練習しましょう。",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "数秒遅れの映像で自分を見て、ミス（サーブ、アタック…）を直しましょう。",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "端末を三脚に置き、画面を選手に向けてください。",
   "Pendant le point": "ラリー中"
  },
  "zh": {
@@ -14008,6 +14056,12 @@ const I18N = {
   "Match (avec composition)": "比赛 (有阵容)",
   "Entraînement (sans composition)": "训练 (无阵容)",
   "Avant le point": "回合前",
+  "Revenir": "返回",
+  "Relais passe": "替补二传",
+  "Renvoi direct": "直接回球",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "录制比赛，或通过延时画面观看自己进行训练。",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "通过几秒延时观看自己，纠正错误（发球、扣球……）。",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "将设备放在三脚架上，屏幕朝向球员。",
   "Pendant le point": "回合中"
  },
  "nl": {
@@ -15555,6 +15609,12 @@ const I18N = {
   "Match (avec composition)": "Wedstrijd (met opstelling)",
   "Entraînement (sans composition)": "Training (zonder opstelling)",
   "Avant le point": "Voor het punt",
+  "Revenir": "Terug",
+  "Relais passe": "Vervangende set-up",
+  "Renvoi direct": "Directe terugspeelbal",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Neem je wedstrijden op of train door jezelf met vertraging te bekijken.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Verbeter je fouten (services, aanvallen…) door jezelf een paar seconden later te zien.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Zet het toestel op een statief, scherm naar de spelers.",
   "Pendant le point": "Tijdens het punt"
  },
  "sr": {
@@ -17102,6 +17162,12 @@ const I18N = {
   "Match (avec composition)": "Meč (sa postavom)",
   "Entraînement (sans composition)": "Trening (bez postave)",
   "Avant le point": "Pre poena",
+  "Revenir": "Nazad",
+  "Relais passe": "Zamensko dizanje",
+  "Renvoi direct": "Direktno vraćanje",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Snimajte utakmice ili trenirajte gledajući sebe sa zakašnjenjem.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Ispravite greške (servisi, napadi…) gledajući sebe nekoliko sekundi kasnije.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Postavite uređaj na stativ, ekranom prema igračima.",
   "Pendant le point": "Tokom poena"
  },
  "bg": {
@@ -18649,6 +18715,12 @@ const I18N = {
   "Match (avec composition)": "Мач (със състав)",
   "Entraînement (sans composition)": "Тренировка (без състав)",
   "Avant le point": "Преди точката",
+  "Revenir": "Назад",
+  "Relais passe": "Резервно подаване",
+  "Renvoi direct": "Директно връщане",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Записвайте мачовете си или тренирайте, като се гледате със закъснение.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Поправяйте грешките си (сервиси, атаки…), като се виждате няколко секунди по-късно.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Поставете устройството на статив, с екрана към играчите.",
   "Pendant le point": "По време на точката"
  },
  "sl": {
@@ -20196,6 +20268,12 @@ const I18N = {
   "Match (avec composition)": "Tekma (s postavo)",
   "Entraînement (sans composition)": "Trening (brez postave)",
   "Avant le point": "Pred točko",
+  "Revenir": "Nazaj",
+  "Relais passe": "Nadomestna podaja",
+  "Renvoi direct": "Neposredni povratek",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Snemajte tekme ali trenirajte tako, da se gledate z zamikom.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Popravite napake (servise, napade…) tako, da se vidite nekaj sekund pozneje.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Napravo postavite na stojalo, z zaslonom proti igralcem.",
   "Pendant le point": "Med točko"
  },
  "uk": {
@@ -21743,6 +21821,12 @@ const I18N = {
   "Match (avec composition)": "Матч (зі складом)",
   "Entraînement (sans composition)": "Тренування (без складу)",
   "Avant le point": "Перед розіграшем",
+  "Revenir": "Назад",
+  "Relais passe": "Резервна передача",
+  "Renvoi direct": "Пряме повернення",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Записуйте матчі або тренуйтеся, дивлячись на себе із затримкою.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Виправляйте помилки (подачі, атаки…), бачачи себе через кілька секунд.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Поставте пристрій на штатив, екраном до гравців.",
   "Pendant le point": "Під час розіграшу"
  },
  "cs": {
@@ -23290,6 +23374,12 @@ const I18N = {
   "Match (avec composition)": "Zápas (se sestavou)",
   "Entraînement (sans composition)": "Trénink (bez sestavy)",
   "Avant le point": "Před výměnou",
+  "Revenir": "Zpět",
+  "Relais passe": "Náhradní nahrávka",
+  "Renvoi direct": "Přímé vrácení",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Nahrávejte zápasy nebo trénujte a sledujte se se zpožděním.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Opravte chyby (podání, útoky…) tím, že se uvidíte o pár sekund později.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Postavte zařízení na stativ, obrazovkou k hráčům.",
   "Pendant le point": "Během výměny"
  },
  "th": {
@@ -24837,6 +24927,12 @@ const I18N = {
   "Match (avec composition)": "แมตช์ (มีรายชื่อตัวจริง)",
   "Entraînement (sans composition)": "ฝึกซ้อม (ไม่มีรายชื่อตัวจริง)",
   "Avant le point": "ก่อนแต้ม",
+  "Revenir": "ย้อนกลับ",
+  "Relais passe": "เซ็ตสำรอง",
+  "Renvoi direct": "ตีกลับทันที",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "บันทึกการแข่งขัน หรือฝึกซ้อมโดยดูตัวเองแบบหน่วงเวลา",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "แก้ข้อผิดพลาด (เสิร์ฟ ตบ…) โดยดูตัวเองช้ากว่าจริงไม่กี่วินาที",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "วางอุปกรณ์บนขาตั้ง หันหน้าจอไปทางผู้เล่น",
   "Pendant le point": "ระหว่างแต้ม"
  },
  "ko": {
@@ -26384,6 +26480,12 @@ const I18N = {
   "Match (avec composition)": "경기 (라인업 있음)",
   "Entraînement (sans composition)": "훈련 (라인업 없음)",
   "Avant le point": "랠리 전",
+  "Revenir": "돌아가기",
+  "Relais passe": "대체 토스",
+  "Renvoi direct": "직접 반환",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "경기를 녹화하거나 지연 화면으로 자신을 보며 훈련하세요.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "몇 초 늦게 자신을 보며 실수(서브, 공격…)를 고치세요.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "기기를 삼각대에 올리고 화면을 선수 쪽으로 향하게 하세요.",
   "Pendant le point": "랠리 중"
  },
  "fil": {
@@ -27931,6 +28033,12 @@ const I18N = {
   "Match (avec composition)": "Laro (may lineup)",
   "Entraînement (sans composition)": "Ensayo (walang lineup)",
   "Avant le point": "Bago ang puntos",
+  "Revenir": "Bumalik",
+  "Relais passe": "Pamalit na set",
+  "Renvoi direct": "Direktang balik",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "I-record ang mga laban mo o mag-ensayo habang pinapanood ang sarili nang may delay.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Itama ang mga mali (serve, atake…) sa pamamagitan ng panonood sa sarili ilang segundo makalipas.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Ilagay ang device sa tripod, nakaharap ang screen sa mga manlalaro.",
   "Pendant le point": "Habang may puntos"
  },
  "id": {
@@ -29478,6 +29586,12 @@ const I18N = {
   "Match (avec composition)": "Pertandingan (dengan susunan)",
   "Entraînement (sans composition)": "Latihan (tanpa susunan)",
   "Avant le point": "Sebelum poin",
+  "Revenir": "Kembali",
+  "Relais passe": "Umpan pengganti",
+  "Renvoi direct": "Pengembalian langsung",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Rekam pertandingan Anda atau berlatih sambil melihat diri sendiri dengan tunda.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Perbaiki kesalahan (servis, serangan…) dengan melihat diri sendiri beberapa detik kemudian.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Letakkan perangkat di tripod, layar menghadap pemain.",
   "Pendant le point": "Selama poin"
  },
  "ru": {
@@ -31025,6 +31139,12 @@ const I18N = {
   "Match (avec composition)": "Матч (с расстановкой)",
   "Entraînement (sans composition)": "Тренировка (без расстановки)",
   "Avant le point": "До розыгрыша",
+  "Revenir": "Назад",
+  "Relais passe": "Резервная передача",
+  "Renvoi direct": "Прямой возврат",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Записывайте матчи или тренируйтесь, глядя на себя с задержкой.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Исправляйте ошибки (подачи, атаки…), видя себя через несколько секунд.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Поставьте устройство на штатив, экраном к игрокам.",
   "Pendant le point": "Во время розыгрыша"
  },
  "ar": {
@@ -32572,6 +32692,12 @@ const I18N = {
   "Match (avec composition)": "المباراة (مع التشكيلة)",
   "Entraînement (sans composition)": "تدريب (بدون تشكيلة)",
   "Avant le point": "قبل النقطة",
+  "Revenir": "رجوع",
+  "Relais passe": "إعداد بديل",
+  "Renvoi direct": "إرجاع مباشر",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "سجّل مبارياتك أو تدرّب وأنت تشاهد نفسك بتأخير.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "صحّح أخطاءك (الإرسال، الهجوم…) بمشاهدة نفسك بعد بضع ثوانٍ.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "ضع الجهاز على حامل ثلاثي، والشاشة نحو اللاعبين.",
   "Pendant le point": "أثناء النقطة"
  },
  "vi": {
@@ -34119,6 +34245,12 @@ const I18N = {
   "Match (avec composition)": "Trận (có đội hình)",
   "Entraînement (sans composition)": "Tập luyện (không đội hình)",
   "Avant le point": "Trước điểm",
+  "Revenir": "Quay lại",
+  "Relais passe": "Chuyền thay",
+  "Renvoi direct": "Trả bóng trực tiếp",
+  "Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.": "Ghi hình trận đấu hoặc tập luyện bằng cách xem lại mình với độ trễ.",
+  "Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.": "Sửa lỗi (phát bóng, tấn công…) bằng cách xem mình sau vài giây.",
+  "Posez l’appareil sur un trépied, écran tourné vers les joueurs.": "Đặt thiết bị lên chân máy, màn hình hướng về phía người chơi.",
   "Pendant le point": "Trong điểm"
  }
 }, I18P = {};

@@ -806,6 +806,16 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstlast{background:rgba(0,0,0,.62);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:5px 12px;font:600 14px Barlow,sans-serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:34px}.vstlast i{font-style:normal;color:#F2BE22;font-weight:800}
 .fld{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;margin:8px 0}.fld input{min-height:44px;border-radius:10px;border:1px solid var(--line);padding:0 12px;font:inherit;font-size:16px;font-weight:500;background:var(--surface);color:var(--ink)}
 .vlibt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0}.vlibt button small{opacity:.75;margin-left:4px}.vbdg{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;margin-top:3px;background:var(--surface2);color:var(--muted)}.vbdg.ok{background:var(--okBg);color:var(--ok)}.vbdg.go{background:var(--warnBg);color:var(--warn)}
+/* V191 : écran Vidéo : options en volets dépliants */
+.vintro{margin:0 0 12px;font-size:17px;line-height:1.4;font-weight:500}
+.vacc{border:1px solid var(--line);border-radius:12px;overflow:hidden}.vacc+.vacc{margin-top:8px}
+.vah{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;min-height:48px;background:var(--surface2);border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.vah b{font-size:17px}.vah span{margin-left:auto;font-weight:600;color:var(--muted)}.vah i{font-style:normal;color:var(--muted);transition:transform .15s}.vacc.open .vah i{transform:rotate(180deg)}
+.vab{padding:12px 14px;border-top:1px solid var(--line)}.vab .seg{max-width:none;width:100%}.vab .hint{margin:10px 0 0}
+.vacc+.hint,.vacc+.btn{margin-top:14px}
+/* V191 : saisie sur film au téléphone : « Masquer » en haut au milieu, bouton de point à droite sous les vitesses */
+.vsttc{position:absolute;left:50%;top:0;transform:translateX(-50%);pointer-events:auto}.vsttc .vsthb{min-height:38px;padding:0 18px;font-size:16px;font-weight:700;background:#14243D;color:#fff;border-color:#14243D;white-space:nowrap}
+.vstage.vst:not(.dk) .vsttc{display:none}.vsthp{display:none}@media (orientation:portrait){.vsthd .vsthp{display:inline-flex}.vstage.vst .vsttc{display:none}}.vsttr{margin-left:auto}.vstptr{display:none}
 /* V190 : « Masquer » dans le panneau ; bouton de point façon appareil photo (rond rouge = entre deux points, carré rouge animé = point en cours) ; volets du téléphone */
 .vsthd{display:flex;align-items:center;gap:10px;flex:none;margin:0 0 6px}.vsthd .vsthb{min-height:44px;padding:0 18px;font-size:18px;font-weight:700;background:#14243D;color:#fff;border-color:#14243D}.vstvl{font:700 19px 'Barlow Condensed',sans-serif}
 .vstptb{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:0;color:#fff;font:700 17px 'Barlow Condensed',sans-serif;cursor:pointer;min-height:44px}.vstptb .ptl{background:rgba(0,0,0,.62);border-radius:8px;padding:3px 8px}
@@ -829,7 +839,13 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
   .vstage.vst .vstprop{left:calc(236px + env(safe-area-inset-left,0px));right:calc(72px + env(safe-area-inset-right,0px));top:calc(6px + env(safe-area-inset-top,0px));transform:none;min-width:0;max-width:none}
   .vstdock{padding:6px}.vstdock .egrid{gap:4px;margin:0 0 4px}.vstdock .egrid .ek{min-height:30px;padding:1px;flex-direction:row;gap:6px}.vstdock .egrid .ek .es{font-size:18px}.vstdock .egrid .ek .el{display:none}.vstdock .egrid .ek .enm{font-size:10px;padding:0 5px;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vstdock .egrid .eh{font-size:13px;padding:1px 0}.vstdock .egrid .eb{min-height:28px;font-size:11px;padding:2px 4px;line-height:1.1}
   .vstpts{gap:6px;margin:2px 0}.vstpts .btn.big{min-height:38px;font-size:15px}.vsthide{margin-top:2px}.vsthide .btn{min-height:26px;font-size:12px}
-  .vstbar{padding-top:6px;gap:6px}.vstbar .vtrack{height:30px}.vstbar .vstnav .btn{min-height:36px}}
+  .vstbar{padding-top:6px;gap:6px}.vstbar .vtrack{height:30px}.vstbar .vstnav .btn{min-height:36px}
+  .vstage.vst.dk .vsttl.fr{display:none}.vstage.vst.dk .vstbar .vstnav{display:none}
+  .vstage.vst .vstspd{top:calc(50px + env(safe-area-inset-top,0px));transform:none}.vstage.vst .vstspd button{min-height:32px;font-size:15px}
+  .vstage.vst.dk .vstptr{display:flex;position:absolute;right:calc(6px + env(safe-area-inset-right,0px));z-index:4;width:62px;justify-content:center}
+  .vstptr .vstptb{flex-direction:column;gap:3px;margin:0;min-height:0;font-size:14px}.vstptr .ptl{padding:1px 5px;white-space:nowrap}.vstptr .sh{width:46px;height:46px}
+  .vstdock{top:calc(48px + env(safe-area-inset-top,0px))}.vsthd{margin:0 0 3px;justify-content:center}.vsthd:empty{display:none}.vstvl{font-size:13px;text-transform:uppercase;letter-spacing:.05em;opacity:.75}
+  .vstage.vst .vstdock .egrid .eh{font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:0}.vstage.vst .vstdock .egrid .ek .es{font-size:26px}.vstage.vst .vstdock .egrid .eb{min-height:26px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.vvb{width:36px}}
 .vstscore span{display:inline-flex;align-items:center;gap:6px;min-width:0}.vstscore em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.vstscore b{flex:none}
 .vstdock .stp{background:transparent;border:0;padding:0;margin:0;flex:1 1 auto;display:flex;flex-direction:column;min-height:0}.vstdock .egrid.efill{flex:1 1 0;min-height:0}.vstfine span{white-space:nowrap}.vstdock .stp .sth{display:none}.vstdock .egrid{gap:5px;margin:0 0 6px}.vstdock .egrid .ek{min-height:clamp(42px,7vh,80px);border-radius:10px;gap:0}.vstdock .egrid .ek .es{font-size:clamp(18px,3.2vh,32px);line-height:1}.vstdock .egrid .ek .el{font-size:clamp(10px,1.5vh,14px)}.vstdock .egrid .ek .enm{font-size:12px;padding:0 6px;margin:0}.vstdock .egrid .eh{font-size:clamp(14px,2vh,20px);padding:2px 0}.vstdock .egrid .eb{min-height:36px;font-size:12px}
 @media (orientation:portrait){.vstage.vst .vlayer video{object-position:50% 0}.vstdock{top:calc(min(56.25vw,44vh) + 56px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px))}
@@ -890,7 +906,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V190';
+const APP_VERSION='V191';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1902,7 +1918,7 @@ const TUTO=[
   {sel:'[data-act=lrnFull]',txt:"Plein écran, pour expliquer à toute l'équipe. Pendant un temps mort, le bouton « Coaching » ouvre directement la rotation en cours."}]},
  {t:'Vidéo',s:[
   {act:1,sel:TAB('video'),txt:"Touchez « Vidéo ».",until:()=>ui.screen==='video',init:()=>tHome(),go:()=>tHome()},
-  {sel:'[data-act=vidMode]',up:'.vopt',txt:"Entraînement : les 5 dernières minutes restent en mémoire. Match : toute la séance est enregistrée.",go:()=>tVideo()},
+  {sel:'[data-act=vidMode]',up:'.vacc',txt:"Entraînement : les 5 dernières minutes restent en mémoire. Match : toute la séance est enregistrée.",go:()=>{tVideo();ui.vidOpt='mode';}},
   {sel:'[data-act=vidGo]',txt:"Démarrer : posez l'appareil sur un trépied, écran vers les joueurs. Ils se revoient avec le retard choisi (− / + en haut), au ralenti d'un appui ; REC garde une séquence."},
   {sel:'.vid .card:last-child',txt:"Vos enregistrements : « Revoir » pour relire, monter (garder / jeter, ou Montage auto qui coupe les temps morts) et exporter ; « Clips » pour les extraits d'un joueur d'après les stats du match."}]},
  {t:'Saisons',s:[
@@ -2403,7 +2419,7 @@ function vstTapDo(P,pos,wasPlaying,rate){if(ui.vstHide&&!wasPlaying){ui.vstHide=
 // échange entamé : stats en attente (saisie) ou stats déjà validées dans le point (validation) → ralenti ; sinon vitesse d'après-point
 // V189 : point ouvert en entraînement = stats en cours ou « Début du point » touché (m.ptStart, heure stats)
 const vstPtOpen=m=>(m.pend||[]).length>0||m.ptStart!=null;
-function vstPtBtn(m){const V=store.vst;if(!m.free||!V||(V.mode==='val'&&!V.ins))return '';const on=vstPtOpen(m);const l=on?tr('Fin du point'):tr('Début du point');return `<button class="vstptb ${on?'end':''}" data-act="${on?'vstPtEnd':'vstPtStart'}"><span class="ptl">${l}</span><span class="sh" aria-hidden="true"><i></i></span></button>`;}
+function vstPtBtn(m){const V=store.vst;if(!m.free||!V||(V.mode==='val'&&!V.ins))return '';const on=vstPtOpen(m);const fr=lang()==='fr',l=on?(fr?'Fin point':tr('Fin du point')):(fr?'Début point':tr('Début du point')); /* V191 : libellé court */ return `<button class="vstptb ${on?'end':''}" data-act="${on?'vstPtEnd':'vstPtStart'}"><span class="ptl">${l}</span><span class="sh" aria-hidden="true"><i></i></span></button>`;}
 // V190 : volet du téléphone en entraînement : 1 = avant le point (service, réception, bloc), 2 = pendant le point (défense, passe, attaque) ; passe au volet 2 dès la première stat, choix manuel gardé jusqu'à la stat suivante
 function vstVol(m){const n=(m.pend||[]).length,o=ui.vstVolM;if(o&&o.n===n&&o.e===m.ev.length)return o.v;return n?2:1;}
 function vstRallyOpen(){const V=store.vst,m=store.cur;if(!V)return false;if((m.pend||[]).length||m.ptStart!=null)return true;return V.mode==='val'&&!V.ins&&(V.j||0)>0;}
@@ -2523,10 +2539,12 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   const nav=hid?`<div class="vrow2 vstnav"><button class="btn" data-act="vidPbStep" data-v="-f">‹ ${tr('image')}</button><button class="btn" data-act="vidPbStep" data-v="f">${tr('image')} ›</button><span class="vpos" id="vPos">${vMs(P.pos)}</span>${vstPtBtn(m)}</div>${fine}`
     :`<div class="vrow2 vstnav">${tab?`<button class="btn" data-act="vidPbStep" data-v="-2000">−2 s</button>`:''}<button class="btn" data-act="vidPbStep" data-v="-1000">−1 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button><button class="btn vpp" data-act="vidPP" id="vstPP">${P.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="1000">+1 s</button>${tab?`<button class="btn" data-act="vidPbStep" data-v="2000">+2 s</button>`:''}<button class="btn" data-act="vstLast" ${vstLastT(m)!=null?'':'disabled'}>↩ ${tr('Dernière action')}</button><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span>${vstPtBtn(m)}</div>${fine}`;
   const vl=FRm&&!tab&&play?`<b class="vstvl">${vstVol(m)===1?tr('Avant le point'):tr('Pendant le point')}</b>`:'';
-  return `<div class="vstage pb vst ${hid?'hid':''} ${val?'val':''}" id="vStage"><div class="vsttap" data-act="vstTap"></div>
-    <div class="vsttop"><div class="vsttl">${score}${pos}${chip}</div><div class="vsttr">${topR}${menuBtn}</div></div>
+  // V191 : téléphone : « Masquer » en haut au milieu (à la place de « Point · Entraînement » quand le panneau est affiché), bouton de point sous les vitesses
+  const hb=`<button class="btn vsthb" id="vstHB" data-act="vstHide">👁 ${tr('Masquer')}</button>`,hd=tab?`<div class="vsthd">${hb}${vl}</div>`:`<div class="vsthd"><button class="btn vsthb vsthp" data-act="vstHide">👁 ${tr('Masquer')}</button>${vl}</div>`,dkOn=!hid&&!P.play;
+  return `<div class="vstage pb vst ${hid?'hid':''} ${val?'val':''} ${dkOn?'dk':''}" id="vStage"><div class="vsttap" data-act="vstTap"></div>
+    <div class="vsttop"><div class="vsttl ${FRm?'fr':''}">${score}${pos}${chip}</div>${tab?'':`<div class="vsttc">${hb}</div>`}<div class="vsttr">${topR}${menuBtn}</div></div>
     ${val?vstPropHTML(m,Sx):''}${spd}
-    <div class="vstdock ${vstDockOff(P)?'off':''}" id="vstDock"><div class="vsthd"><button class="btn vsthb" id="vstHB" data-act="vstHide">👁 ${tr('Masquer')}</button>${vl}</div>${panel}</div>
+    <div class="vstdock ${vstDockOff(P)?'off':''}" id="vstDock">${hd}${panel}</div>${!tab&&FRm?`<div class="vstptr">${vstPtBtn(m)}</div>`:''}
     ${ui.vstMenu?vstMenuHTML(m,Sx,tab):''}
     <div class="vbar vpbbar vstbar">${nav}</div></div>`;}
 // Menu (haut droite) : changement, temps morts et options tactiques (téléphone), point précédent / manquant / en trop (validation), zoom, fin, quitter
@@ -2574,7 +2592,8 @@ function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!
   if(VID.pb){const P=VID.pb,r=vRec(),dt=now-P.at,vs=vstOn()||peek;P.at=now;
     // saisie sur un film (V184) : les parties jetées sont lues quand même (le montage suit les points saisis)
     if(P.play&&!P.drag){let np=Math.min(P.tot,P.pos+dt*P.r);if(r&&!vs&&!vKeepAt(r,np)){const nk=vNextKeep(r,np);np=nk==null?P.tot:nk;}P.pos=np;if(P.pos>=P.tot)P.play=false;}
-    if(vs){const dk=document.getElementById('vstDock'),pr=document.getElementById('vstProp'),dOff=vstDockOff(P);if(dk)dk.classList.toggle('off',dOff);if(pr)pr.classList.toggle('off',!dOff||!!P.drag);vTxt('vstPP',P.play?'❚❚':'▶');store.vst.pos=P.pos;
+    if(vs){const dk=document.getElementById('vstDock'),pr=document.getElementById('vstProp'),dOff=vstDockOff(P);if(dk)dk.classList.toggle('off',dOff);
+      {const sg=document.getElementById('vStage'),on=!!store.vst&&!ui.vstHide&&!P.play;if(sg&&sg.classList.contains('dk')!==on){sg.classList.toggle('dk',on);vstFit(sg);}}if(pr)pr.classList.toggle('off',!dOff||!!P.drag);vTxt('vstPP',P.play?'❚❚':'▶');store.vst.pos=P.pos;
       if(P._r!==P.r){P._r=P.r;document.querySelectorAll('[data-act=vstSpd],.vstspd [data-act=vidPR]').forEach(b=>b.classList.toggle('on',+b.dataset.v===P.r));}
       // V185 : orientation de l'écran calée sur celle de la vidéo dès que sa taille est connue
       if(!VID.vstLk&&r&&VID.layer&&[...VID.layer.children].some(x=>x.videoWidth)){VID.vstLk=1;vstLock(r);}}
@@ -2605,10 +2624,12 @@ function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!
 function vidZoom(z){z=Math.max(1,Math.min(VID.maxZoom||1,8,z));VID.zoom=z;vTxt('vZoom',z.toFixed(1).replace('.',',')+'×');const now=Date.now();if(now-(VID.zAt||0)<80&&z!==1)return;VID.zAt=now;
   if(vNative())CAP().VideoDelay.zoom({ratio:z}).catch(()=>{});else if(VID.web&&VID.web.tk.applyConstraints)VID.web.tk.applyConstraints({advanced:[{zoom:z}]}).catch(()=>{});}
 // Après chaque rendu : calque vidéo replacé dans l'écran, pincement pour zoomer, barre de lecture d'un enregistrement
+// V191 : panneau et bouton de point au-dessus de la barre du bas (sa hauteur change quand la ligne de lecture est cachée)
+function vstFit(st){const bar=st&&st.querySelector('.vstbar'),dk=document.getElementById('vstDock');if(!bar||!dk)return;const b=(bar.offsetHeight+6)+'px';dk.style.bottom=b;const pr=st.querySelector('.vstptr');if(pr)pr.style.bottom=b;}
 function bindVideo(){const st=document.getElementById('vStage');document.body.classList.toggle('vidfull',!!st);if(!st){if(VID.layer&&VID.layer.parentNode)VID.layer.remove();return;}
   st.prepend(vidLayer());if(!VID.raf)VID.raf=requestAnimationFrame(vidLoop);
   // saisie sur un film (V184) : le panneau s'arrête au-dessus de la barre de lecture, quelle que soit sa hauteur
-  {const bar=st.querySelector('.vstbar'),dk=document.getElementById('vstDock');if(bar&&dk)dk.style.bottom=(bar.offsetHeight+6)+'px';}
+  vstFit(st);
   // V185 : zoom par pincement et déplacement à un doigt sur l'écran de saisie (affichage seulement), barre fine de 4 s quand la saisie est masquée
   if(VID.pb&&st.classList.contains('vst')){const Z=VID.vz||(VID.vz={z:1,x:0,y:0});vzApply();
     let d0=0,z0=1,c0=null,p0=null,moved=false;const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY),mid=t=>({x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2});
@@ -2691,13 +2712,20 @@ function videoHTML(){const P=VP(),pro=isPro();
     return `<div class="vrow"><span class="who"><b>${r.clip?'🎬 '+esc(r.name)+' · ':''}${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.imp?tr('Importée'):r.mode==='match'?tr('Enregistrement'):tr('Différé')}${mm&&!ask?' · '+esc(mm.opp||tr('Adversaire')):''}</b><small>${r.st==='int'?tr('interrompu, récupéré')+' · ':''}${r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0)))+' · ':''}${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${r.aud?' · 🔊':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small>${bdg}${link}</span>
       ${gone?'':`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`}${!gone&&mm&&!r.clip?`<button class="btn" data-act="vcOpen" data-rid="${r.id}" data-mid="${mm.id}">🎬 ${tr('Clips')}${proFor(mm)?'':' 🔒'}</button>`:''}${vstBtns(r,mm,gone)}<button class="btn ${ui.vidDelAsk===r.id?'danger':''}" data-act="vidDelRec" data-id="${r.id}" aria-label="Supprimer">${ui.vidDelAsk===r.id?tr('Supprimer ?'):'🗑'}</button></div>`;}).join('');
   return `<div class="cmain vid"><div class="top"><h1>Vidéo</h1></div>
-    <div class="card"><p class="hint" style="margin-top:0">${tr('Posez cet appareil sur un trépied, caméra vers le terrain et écran tourné vers les joueurs : ils se revoient avec quelques secondes de retard.')} ${tr('La caméra filme dans le sens de l’appareil au démarrage (paysage ou portrait).')}</p>
-      <div class="vopt"><span>${tr('Mode')}</span><div class="seg"><button class="${P.mode!=='match'?'on':''}" data-act="vidMode" data-v="train">${tr('Différé')}</button><button class="${P.mode==='match'?'on':''}" data-act="vidMode" data-v="match">${lang()==='fr'?'Enregistrer':tr('Enregistrer (caméra)')}${pro?'':' 🔒'}</button></div></div>
-      <p class="hint">${P.mode==='match'?tr('Toute la séance est enregistrée, de la mise en route à l’arrêt de la caméra.')+' '+tr('Image en direct, sans différé ni ralenti.'):tr('Les 5 dernières minutes restent en mémoire ; REC garde une séquence.')}</p>
-      <div class="vopt"><span>${tr('Caméra')}</span><div class="seg"><button class="${P.cam!=='front'?'on':''}" data-act="vidCam" data-v="back">${tr('Arrière')}</button><button class="${P.cam==='front'?'on':''}" data-act="vidCam" data-v="front">${tr('Frontale')}</button></div></div>
-      ${P.cam==='front'?`<p class="hint vwarn">${tr('Caméra frontale : image souvent moins nette et moins fluide (ralentis saccadés).')} ${P.mode==='match'?tr('Déconseillée pour un match.'):''}</p>`:''}
-      <div class="vopt"><span>${tr('Son')}</span><div class="seg"><button class="${P.snd?'':'on'}" data-act="vidSnd" data-v="0">${tr('Coupé')}</button><button class="${P.snd?'on':''}" data-act="vidSnd" data-v="1">${tr('Micro')}</button></div><small class="hint">${P.snd?tr('Le son est enregistré avec la vidéo ; l’accès au micro est demandé au démarrage.'):tr('Sans son : les vidéos restent muettes et plus légères.')}</small></div>
-      <div class="vopt"><span>${tr('Qualité')}</span><div class="seg">${['720','1080'].map(q=>`<button class="${P.q===q?'on':''}" data-act="vidQ" data-v="${q}">${q}p</button>`).join('')}</div><small class="hint">${tr('≈ {N} par minute enregistrée').replace('{N}',vMo(mpm))}${VID.free!=null?' · '+tr('place libre : {N}').replace('{N}',vMo(VID.free))+` (≈ ${vMs(VID.free/mpm*60e3).replace(/:\d+$/,'')} min)`:''}</small></div>
+    <div class="card"><p class="vintro">${tr('Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.')}</p>
+      ${(()=>{const o=ui.vidOpt===undefined?'mode':ui.vidOpt,front=P.cam==='front';
+        // V191 : Mode, Caméra, Son, Qualité en volets dépliants (un seul ouvert), choix actuel à droite
+        const acc=(k,lab,val,body)=>`<div class="vacc ${o===k?'open':''}"><button class="vah" data-act="vidOpt" data-v="${k}" aria-expanded="${o===k}"><b>${lab}</b><span>${val}</span><i aria-hidden="true">▾</i></button>${o===k?`<div class="vab">${body}</div>`:''}</div>`;
+        const mlab=lang()==='fr'?'Enregistrer':tr('Enregistrer (caméra)');
+        return acc('mode',tr('Mode'),P.mode==='match'?mlab:tr('Différé'),`<div class="seg"><button class="${P.mode!=='match'?'on':''}" data-act="vidMode" data-v="train">${tr('Différé')}</button><button class="${P.mode==='match'?'on':''}" data-act="vidMode" data-v="match">${mlab}${pro?'':' 🔒'}</button></div>
+            <p class="hint">${P.mode==='match'?tr('Toute la séance est enregistrée, de la mise en route à l’arrêt de la caméra.')+' '+tr('Image en direct, sans différé ni ralenti.'):tr('Corrigez vos défauts (services, attaques…) en vous voyant avec quelques secondes de différé.')+' '+tr('Posez l’appareil sur un trépied, écran tourné vers les joueurs.')}</p>`)
+          +acc('cam',tr('Caméra'),front?tr('Frontale'):tr('Arrière'),`<div class="seg"><button class="${!front?'on':''}" data-act="vidCam" data-v="back">${tr('Arrière')}</button><button class="${front?'on':''}" data-act="vidCam" data-v="front">${tr('Frontale')}</button></div>
+            <p class="hint">${tr('La caméra filme dans le sens de l’appareil au démarrage (paysage ou portrait).')}</p>`)
+          +acc('snd',tr('Son'),P.snd?tr('Micro'):tr('Coupé'),`<div class="seg"><button class="${P.snd?'':'on'}" data-act="vidSnd" data-v="0">${tr('Coupé')}</button><button class="${P.snd?'on':''}" data-act="vidSnd" data-v="1">${tr('Micro')}</button></div>
+            <p class="hint">${P.snd?tr('Le son est enregistré avec la vidéo ; l’accès au micro est demandé au démarrage.'):tr('Sans son : les vidéos restent muettes et plus légères.')}</p>`)
+          +acc('q',tr('Qualité'),P.q+'p',`<div class="seg">${['720','1080'].map(q=>`<button class="${P.q===q?'on':''}" data-act="vidQ" data-v="${q}">${q}p</button>`).join('')}</div>
+            <p class="hint">${tr('≈ {N} par minute enregistrée').replace('{N}',vMo(mpm))}${VID.free!=null?' · '+tr('place libre : {N}').replace('{N}',vMo(VID.free))+` (≈ ${vMs(VID.free/mpm*60e3).replace(/:\d+$/,'')} min)`:''}</p>`)
+          +(front?`<p class="hint vwarn">${tr('Caméra frontale : image souvent moins nette et moins fluide (ralentis saccadés).')} ${P.mode==='match'?tr('Déconseillée pour un match.'):''}</p>`:'');})()}
       ${pro?'':`<p class="hint freeh">${tr('Version gratuite : 5 min de caméra par jour (il reste {T}). Mode Enregistrer et REC : VolleyCoach Pro.').replace('{T}',vMs(left*1000))} <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button></p>`}
       ${VID.last&&(VID.last.h<+VID.last.q*.9||VID.last.fps<50)?`<p class="hint">${tr('Dernière session : {A} obtenus pour {B} demandés — cet appareil ne fait pas mieux avec cette caméra.').replace('{A}',VID.last.fps+' i/s · '+VID.last.h+'p').replace('{B}','60 i/s · '+VID.last.q+'p')}</p>`:''}${short?`<p class="hint vwarn">${tr('Place libre pour ≈ {N} min en {Q}p : un match de 2 h ne tiendra pas.').replace('{N}',Math.floor(VID.free/mpm)).replace('{Q}',P.q)}${P.q==='1080'&&VID.free>=VBPS[720]/8*60*120?' '+tr('Passez en 720p.'):''}</p>`:''}${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
       <button class="btn big primary" data-act="vidGo" ${left<=0?'disabled':''}>🎥 ${tr('Démarrer la caméra')}</button>
@@ -2937,7 +2965,7 @@ function statPanel(m,S){
       const auto=k=>m.free?null:k==='srv'?lp.srv:k==='pas'?sid:null;
       const on=(k,sg)=>(!m.free&&(k==='srv'||k==='rec')&&st.some(x=>x[0]===k&&x[1]===sg))||(k==='pas'&&op>=0&&st[op][1]===sg)||(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg);
       const eb=(k,sg)=>{const a=auto(k);return `<button class="ek ${stCls(sg)} ${a||(!m.free&&(k==='srv'||k==='pas'))?'au':''} ${on(k,sg)?'on':''} ${k==='pas'&&op>=0&&st[op][1]!==sg?'dim':''}" data-act="stCat" data-k="${k}" data-s="${sg}"><span class="es">${stSym(sg)}</span><span class="el">${stLab(k,sg)}</span>${(k==='srv'||k==='pas')&&a?`<span class="enm">${esc(pnum(m,a)+' '+dname(m,a))}</span>`:''}</button>`;};
-      const bot=`<button class="eb" data-act="stUndo" ${st.length||lastPt||m.ptStart!=null?'':'disabled'}>${both?(st.length||lastPt?'↶ '+undoLab(m,S,st,lastPt):'↶ Annuler'):'↶ Annuler<br>'+(m.free&&!st.length&&m.ptStart!=null?tr('Début du point'):undoLab(m,S,st,lastPt))}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>`;
+      const vso=vstOn(),bot=vso?`<button class="eb" data-act="stUndo" ${st.length||lastPt||m.ptStart!=null?'':'disabled'}>↶ ${tr('Revenir')}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">${tr('Relais passe')}</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">${tr('Renvoi direct')}</button>`:`<button class="eb" data-act="stUndo" ${st.length||lastPt||m.ptStart!=null?'':'disabled'}>${both?(st.length||lastPt?'↶ '+undoLab(m,S,st,lastPt):'↶ Annuler'):'↶ Annuler<br>'+(m.free&&!st.length&&m.ptStart!=null?tr('Début du point'):undoLab(m,S,st,lastPt))}</button><button class="eb ed epa" data-act="stCat" data-k="relay" data-s="0">Relais<br>de passe</button><button class="eb ed" data-act="stCat" data-k="rel" data-s="0">Renvoi<br>sans attaque</button>`;
       const G=(cs,last,rows)=>`<div class="egrid ${rows?"efill ":""}${!m.free&&c1==='srv'?'srvfocus':''}" style="grid-template-columns:repeat(${cs.length},minmax(0,1fr))${rows?';grid-template-rows:'+rows:''}">${cs.map(k=>k==='srv'&&F4&&!F4.rot&&!m.free?`<button class="eh au srvh ehb" data-act="srv4" title="Changer le serveur">${SK[k]} ✎</button>`:`<span class="eh ${!m.free&&(k==='srv'||k==='pas')?'au':''} ${k==='srv'&&!m.free?'srvh':''}">${SK[k]}</span>`).join('')}${[-1,0,1].map(sg=>cs.map(k=>eb(k,sg)).join('')).join('')}${last?bot+(cs.length>3?'<span></span>'.repeat(cs.length-3):''):''}</div>`;
       // V189 : entraînement : toutes les actions tout le temps (téléphone : deux rangées de trois, tablette : une rangée)
       if(m.free){const br=`<div class="egrid" style="grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto">${bot}</div>`;if(vstTab())return G(cats,false,'auto repeat(3,minmax(0,1fr))')+br;
@@ -4811,6 +4839,7 @@ const A={
   vidCutX(){VID.cut=null;},
   vidZ0(){vidZoom(1);return 1;},
   vidMode(d){if(d.v==='match'&&!isPro()){ui.sheet='pro';return;}VP().mode=d.v;save();},
+  vidOpt(d){const o=ui.vidOpt===undefined?'mode':ui.vidOpt;ui.vidOpt=o===d.v?'':d.v;},
   vidQ(d){VP().q=d.v;save();},
   vidCam(d){VP().cam=d.v;save();},
   vidPlay(d){const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;const segs=r.web?VID.mem[r.id]:vSegsOf(r).map(x=>({url:vUrl(x.u),path:x.u,dur:x.d,t0:x.t}));if(!segs||!segs.length){toast('Vidéo introuvable','warn');return;}
