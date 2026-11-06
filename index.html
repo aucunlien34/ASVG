@@ -906,7 +906,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V191';
+const APP_VERSION='V192';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2572,8 +2572,13 @@ function vstPeekHTML(){const r=vstRec(),P=r&&vstPb();if(!r||!P){ui.vstPeek=false
     <div class="vbar vpbbar vstbar"><div class="vrow2 vstnav"><button class="btn" data-act="vidPbStep" data-v="-5000">−5 s</button><button class="btn" data-act="vidPbStep" data-v="-1000">−1 s</button><button class="btn vpp" data-act="vidPP" id="vstPP">${P.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="1000">+1 s</button><button class="btn" data-act="vidPbStep" data-v="5000">+5 s</button><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span></div>
       <div class="vtrack" id="vTrack" style="background:${vTrackBg(r,P.tot,0,P.tot)}"><i class="vhead" id="vHead"></i></div></div></div>`;}
 // Vidéo venue d'un autre appareil (V184) : module natif importVideo (copie dans le dossier vidéo, métadonnées), sinon champ fichier (navigateur)
-async function vidImport(){const V=CAP().VideoDelay;if(V&&V.importVideo){try{const o=await V.importVideo();if(o&&o.path)vidImportAdd(o);}
-    catch(e){if(!/cancel|annul/i.test(String(e&&(e.code||e.message)||e)))toast(tr('Import impossible')+' : '+String(e&&e.message||e),'warn');}return;}
+// V192 : progression affichée pendant la récupération et la copie (événement natif « import ») ; un seul import à la fois
+const vImpLab=()=>tr('Import en cours… {N} %').replace('{N}',Math.round(((ui.vidImp&&ui.vidImp.p)||0)*100));
+async function vidImport(){const V=CAP().VideoDelay;if(V&&V.importVideo){if(ui.vidImp)return;let l=null;
+    try{if(V.addListener)l=await V.addListener('import',e=>{const f=!ui.vidImp;ui.vidImp={p:Math.max(0,Math.min(1,+(e&&e.p)||0))};if(f)render();else vTxt('vImpT',vImpLab());});
+      const o=await V.importVideo();if(ui.vidImp){ui.vidImp=null;render();}if(o&&o.path)vidImportAdd(o);}
+    catch(e){if(ui.vidImp){ui.vidImp=null;render();}if(!/cancel|annul/i.test(String(e&&(e.code||e.message)||e)))toast(tr('Import impossible')+' : '+String(e&&e.message||e),'warn');}
+    finally{if(l)try{l.remove();}catch(e){}}return;}
   $('#vidImpFile').click();}
 // o = {path | url, name, size, dur, fps, aud, t (date de création, ms)} ; date de l'enregistrement : nom VolleyCoach_…, sinon métadonnées, sinon maintenant
 function vidDupOf(o){const dur=Math.round(o.dur||0),t0=vxImportT0(o.name);return (store.vids||[]).find(r=>!r.clip&&r.st!=='live'&&Math.abs((r.dur||0)-dur)<2000&&((o.name&&r.name===o.name)||(o.size&&r.size===o.size)||(t0&&Math.abs((r.t0||0)-t0)<3000)))||null;}
@@ -2729,7 +2734,7 @@ function videoHTML(){const P=VP(),pro=isPro();
       ${pro?'':`<p class="hint freeh">${tr('Version gratuite : 5 min de caméra par jour (il reste {T}). Mode Enregistrer et REC : VolleyCoach Pro.').replace('{T}',vMs(left*1000))} <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button></p>`}
       ${VID.last&&(VID.last.h<+VID.last.q*.9||VID.last.fps<50)?`<p class="hint">${tr('Dernière session : {A} obtenus pour {B} demandés — cet appareil ne fait pas mieux avec cette caméra.').replace('{A}',VID.last.fps+' i/s · '+VID.last.h+'p').replace('{B}','60 i/s · '+VID.last.q+'p')}</p>`:''}${short?`<p class="hint vwarn">${tr('Place libre pour ≈ {N} min en {Q}p : un match de 2 h ne tiendra pas.').replace('{N}',Math.floor(VID.free/mpm)).replace('{Q}',P.q)}${P.q==='1080'&&VID.free>=VBPS[720]/8*60*120?' '+tr('Passez en 720p.'):''}</p>`:''}${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
       <button class="btn big primary" data-act="vidGo" ${left<=0?'disabled':''}>🎥 ${tr('Démarrer la caméra')}</button>
-      <button class="btn big" data-act="vidImport" style="margin-top:8px">📥 ${tr('Importer une vidéo')}</button><p class="hint xp">${tr('Film d’un match venu d’un autre appareil (« Envoyer » sur celui-ci : AirDrop, Drive, câble…). Il est daté par son nom VolleyCoach_… ; sinon choisissez le match lié dans la liste.')}</p></div>
+      ${ui.vidImp?`<button class="btn big" style="margin-top:8px" disabled>📥 <span id="vImpT">${vImpLab()}</span></button>`:`<button class="btn big" data-act="vidImport" style="margin-top:8px">📥 ${tr('Importer une vidéo')}</button>`}<p class="hint xp">${tr('Film d’un match venu d’un autre appareil (« Envoyer » sur celui-ci : AirDrop, Drive, câble…). Il est daté par son nom VolleyCoach_… ; sinon choisissez le match lié dans la liste.')}</p></div>
     <div class="card"><b>${tr('Vidéos')}</b>${tabs}<p class="hint xp" style="margin-top:0">${tab==='raw'?tr('Vidéos filmées ou importées, sans stats : « Saisir les stats » pour noter le match en relisant la vidéo, « Revoir » pour la relecture, le montage et l’export.'):tab==='done'?tr('Vidéos liées à un match dont les stats sont saisies : clips par joueur ou par action, reprise ou validation de la saisie, montage par point.'):tr('Clips gardés, avec la vidéo d’origine. Un clip non gardé est effacé quand on le ferme.')}</p>${rows||`<p class="hint">${tab==='clips'?tr('Aucun clip gardé.'):tab==='done'?tr('Aucune vidéo statée.'):tr('Aucune vidéo sans stats.')}</p>`}</div></div>`;}
 // Boutons d'un enregistrement de match (V184) : saisie des stats (nouveau match), validation (match lié avec des points), reprise, envoi
 // V187 : boutons de saisie aussi pour les vidéos filmées en mode Entraînement, et pendant une autre saisie (vstStart prévient)
