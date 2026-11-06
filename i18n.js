@@ -1630,7 +1630,9 @@ const I18N = {
   "Début du point": "Start of point",
   "Afficher": "Show",
   "Match (avec composition)": "Match (with lineup)",
-  "Entraînement (sans composition)": "Training (without lineup)"
+  "Entraînement (sans composition)": "Training (without lineup)",
+  "Avant le point": "Before the point",
+  "Pendant le point": "During the point"
  },
  "es": {
   "Espace entraîneur": "Zona del entrenador",
@@ -3175,7 +3177,9 @@ const I18N = {
   "Début du point": "Inicio del punto",
   "Afficher": "Mostrar",
   "Match (avec composition)": "Partido (con alineación)",
-  "Entraînement (sans composition)": "Entrenamiento (sin alineación)"
+  "Entraînement (sans composition)": "Entrenamiento (sin alineación)",
+  "Avant le point": "Antes del punto",
+  "Pendant le point": "Durante el punto"
  },
  "it": {
   "Espace entraîneur": "Area allenatore",
@@ -4720,7 +4724,9 @@ const I18N = {
   "Début du point": "Inizio del punto",
   "Afficher": "Mostra",
   "Match (avec composition)": "Partita (con formazione)",
-  "Entraînement (sans composition)": "Allenamento (senza formazione)"
+  "Entraînement (sans composition)": "Allenamento (senza formazione)",
+  "Avant le point": "Prima del punto",
+  "Pendant le point": "Durante il punto"
  },
  "de": {
   "Espace entraîneur": "Trainerbereich",
@@ -6265,7 +6271,9 @@ const I18N = {
   "Début du point": "Ballwechsel-Beginn",
   "Afficher": "Anzeigen",
   "Match (avec composition)": "Spiel (mit Aufstellung)",
-  "Entraînement (sans composition)": "Training (ohne Aufstellung)"
+  "Entraînement (sans composition)": "Training (ohne Aufstellung)",
+  "Avant le point": "Vor dem Ballwechsel",
+  "Pendant le point": "Während des Ballwechsels"
  },
  "pl": {
   "Espace entraîneur": "Strefa trenera",
@@ -7810,7 +7818,9 @@ const I18N = {
   "Début du point": "Początek akcji",
   "Afficher": "Pokaż",
   "Match (avec composition)": "Mecz (ze składem)",
-  "Entraînement (sans composition)": "Trening (bez składu)"
+  "Entraînement (sans composition)": "Trening (bez składu)",
+  "Avant le point": "Przed akcją",
+  "Pendant le point": "W trakcie akcji"
  },
  "pt": {
   "Espace entraîneur": "Área do treinador",
@@ -9355,7 +9365,9 @@ const I18N = {
   "Début du point": "Início do ponto",
   "Afficher": "Mostrar",
   "Match (avec composition)": "Jogo (com formação)",
-  "Entraînement (sans composition)": "Treino (sem formação)"
+  "Entraînement (sans composition)": "Treino (sem formação)",
+  "Avant le point": "Antes do ponto",
+  "Pendant le point": "Durante o ponto"
  },
  "tr": {
   "Espace entraîneur": "Antrenör alanı",
@@ -10900,7 +10912,9 @@ const I18N = {
   "Début du point": "Sayı başlangıcı",
   "Afficher": "Göster",
   "Match (avec composition)": "Maç (kadroyla)",
-  "Entraînement (sans composition)": "Antrenman (kadrosuz)"
+  "Entraînement (sans composition)": "Antrenman (kadrosuz)",
+  "Avant le point": "Sayı öncesi",
+  "Pendant le point": "Sayı sırasında"
  },
  "ja": {
   "Espace entraîneur": "コーチエリア",
@@ -12445,7 +12459,9 @@ const I18N = {
   "Début du point": "ラリー開始",
   "Afficher": "表示",
   "Match (avec composition)": "試合 (スタメンあり)",
-  "Entraînement (sans composition)": "練習 (スタメンなし)"
+  "Entraînement (sans composition)": "練習 (スタメンなし)",
+  "Avant le point": "ラリー前",
+  "Pendant le point": "ラリー中"
  },
  "zh": {
   "Espace entraîneur": "教练区",
@@ -13990,7 +14006,9 @@ const I18N = {
   "Début du point": "回合开始",
   "Afficher": "显示",
   "Match (avec composition)": "比赛 (有阵容)",
-  "Entraînement (sans composition)": "训练 (无阵容)"
+  "Entraînement (sans composition)": "训练 (无阵容)",
+  "Avant le point": "回合前",
+  "Pendant le point": "回合中"
  },
  "nl": {
   "Espace entraîneur": "Trainersruimte",
@@ -15535,7 +15553,9 @@ const I18N = {
   "Début du point": "Begin van het punt",
   "Afficher": "Tonen",
   "Match (avec composition)": "Wedstrijd (met opstelling)",
-  "Entraînement (sans composition)": "Training (zonder opstelling)"
+  "Entraînement (sans composition)": "Training (zonder opstelling)",
+  "Avant le point": "Voor het punt",
+  "Pendant le point": "Tijdens het punt"
  },
  "sr": {
   "Espace entraîneur": "Prostor trenera",
@@ -17080,7 +17100,9 @@ const I18N = {
   "Début du point": "Početak poena",
   "Afficher": "Prikaži",
   "Match (avec composition)": "Meč (sa postavom)",
-  "Entraînement (sans composition)": "Trening (bez postave)"
+  "Entraînement (sans composition)": "Trening (bez postave)",
+  "Avant le point": "Pre poena",
+  "Pendant le point": "Tokom poena"
  },
  "bg": {
   "Espace entraîneur": "Зона на треньора",
@@ -18625,7 +18647,9 @@ const I18N = {
   "Début du point": "Начало на точката",
   "Afficher": "Покажи",
   "Match (avec composition)": "Мач (със състав)",
-  "Entraînement (sans composition)": "Тренировка (без състав)"
+  "Entraînement (sans composition)": "Тренировка (без състав)",
+  "Avant le point": "Преди точката",
+  "Pendant le point": "По време на точката"
  },
  "sl": {
   "Espace entraîneur": "Trenerski prostor",
@@ -20170,7 +20194,9 @@ const I18N = {
   "Début du point": "Začetek točke",
   "Afficher": "Prikaži",
   "Match (avec composition)": "Tekma (s postavo)",
-  "Entraînement (sans composition)": "Trening (brez postave)"
+  "Entraînement (sans composition)": "Trening (brez postave)",
+  "Avant le point": "Pred točko",
+  "Pendant le point": "Med točko"
  },
  "uk": {
   "Espace entraîneur": "Зона тренера",
@@ -21715,7 +21741,9 @@ const I18N = {
   "Début du point": "Початок розіграшу",
   "Afficher": "Показати",
   "Match (avec composition)": "Матч (зі складом)",
-  "Entraînement (sans composition)": "Тренування (без складу)"
+  "Entraînement (sans composition)": "Тренування (без складу)",
+  "Avant le point": "Перед розіграшем",
+  "Pendant le point": "Під час розіграшу"
  },
  "cs": {
   "Espace entraîneur": "Trenérská zóna",
@@ -23260,7 +23288,9 @@ const I18N = {
   "Début du point": "Začátek výměny",
   "Afficher": "Zobrazit",
   "Match (avec composition)": "Zápas (se sestavou)",
-  "Entraînement (sans composition)": "Trénink (bez sestavy)"
+  "Entraînement (sans composition)": "Trénink (bez sestavy)",
+  "Avant le point": "Před výměnou",
+  "Pendant le point": "Během výměny"
  },
  "th": {
   "Espace entraîneur": "พื้นที่โค้ช",
@@ -24805,7 +24835,9 @@ const I18N = {
   "Début du point": "เริ่มแต้ม",
   "Afficher": "แสดง",
   "Match (avec composition)": "แมตช์ (มีรายชื่อตัวจริง)",
-  "Entraînement (sans composition)": "ฝึกซ้อม (ไม่มีรายชื่อตัวจริง)"
+  "Entraînement (sans composition)": "ฝึกซ้อม (ไม่มีรายชื่อตัวจริง)",
+  "Avant le point": "ก่อนแต้ม",
+  "Pendant le point": "ระหว่างแต้ม"
  },
  "ko": {
   "Espace entraîneur": "코치 영역",
@@ -26350,7 +26382,9 @@ const I18N = {
   "Début du point": "랠리 시작",
   "Afficher": "표시",
   "Match (avec composition)": "경기 (라인업 있음)",
-  "Entraînement (sans composition)": "훈련 (라인업 없음)"
+  "Entraînement (sans composition)": "훈련 (라인업 없음)",
+  "Avant le point": "랠리 전",
+  "Pendant le point": "랠리 중"
  },
  "fil": {
   "Espace entraîneur": "Lugar ng coach",
@@ -27895,7 +27929,9 @@ const I18N = {
   "Début du point": "Simula ng puntos",
   "Afficher": "Ipakita",
   "Match (avec composition)": "Laro (may lineup)",
-  "Entraînement (sans composition)": "Ensayo (walang lineup)"
+  "Entraînement (sans composition)": "Ensayo (walang lineup)",
+  "Avant le point": "Bago ang puntos",
+  "Pendant le point": "Habang may puntos"
  },
  "id": {
   "Espace entraîneur": "Area pelatih",
@@ -29440,7 +29476,9 @@ const I18N = {
   "Début du point": "Awal poin",
   "Afficher": "Tampilkan",
   "Match (avec composition)": "Pertandingan (dengan susunan)",
-  "Entraînement (sans composition)": "Latihan (tanpa susunan)"
+  "Entraînement (sans composition)": "Latihan (tanpa susunan)",
+  "Avant le point": "Sebelum poin",
+  "Pendant le point": "Selama poin"
  },
  "ru": {
   "Espace entraîneur": "Зона тренера",
@@ -30985,7 +31023,9 @@ const I18N = {
   "Début du point": "Начало розыгрыша",
   "Afficher": "Показать",
   "Match (avec composition)": "Матч (с расстановкой)",
-  "Entraînement (sans composition)": "Тренировка (без расстановки)"
+  "Entraînement (sans composition)": "Тренировка (без расстановки)",
+  "Avant le point": "До розыгрыша",
+  "Pendant le point": "Во время розыгрыша"
  },
  "ar": {
   "Espace entraîneur": "منطقة المدرب",
@@ -32530,7 +32570,9 @@ const I18N = {
   "Début du point": "بداية النقطة",
   "Afficher": "إظهار",
   "Match (avec composition)": "المباراة (مع التشكيلة)",
-  "Entraînement (sans composition)": "تدريب (بدون تشكيلة)"
+  "Entraînement (sans composition)": "تدريب (بدون تشكيلة)",
+  "Avant le point": "قبل النقطة",
+  "Pendant le point": "أثناء النقطة"
  },
  "vi": {
   "Espace entraîneur": "Khu vực HLV",
@@ -34075,7 +34117,9 @@ const I18N = {
   "Début du point": "Bắt đầu điểm",
   "Afficher": "Hiện",
   "Match (avec composition)": "Trận (có đội hình)",
-  "Entraînement (sans composition)": "Tập luyện (không đội hình)"
+  "Entraînement (sans composition)": "Tập luyện (không đội hình)",
+  "Avant le point": "Trước điểm",
+  "Pendant le point": "Trong điểm"
  }
 }, I18P = {};
 // Motifs (textes avec valeurs variables) : mots propres à chaque langue
