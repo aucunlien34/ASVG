@@ -6,7 +6,7 @@
 // 4) saisie des stats sur un film (V184) : plages gardées d'après les points, recalage, nom du fichier envoyé vers un autre appareil.
 // Positions = ms depuis le début de l'enregistrement (comme r.cuts, vRanges, VID.pb.pos). Heures = ms epoch. Décalage off = horloge vidéo − horloge stats.
 // Dépend de video-ai.js (vcPosOf, vcTot) : global dans l'appli, require en Node.
-const _VC=typeof vcPosOf==='function'?{vcPosOf,vcTot}:(typeof require==='function'?require('./video-ai.js'):{});
+const _VC=typeof vcPosOf==='function'?{vcPosOf,vcTot,vcTimeAt}:(typeof require==='function'?require('./video-ai.js'):{});
 
 // ===== 1. Export avancé ===================================================================================================
 // Qualités : h = hauteur du petit côté de l'image, kbps = débit vidéo visé ; 'orig' = copie sans réencodage (taille et vitesse d'origine)
@@ -131,7 +131,7 @@ const VX_SETTINGS={
   auto:{before:{def:1.5,min:0,max:10,step:.5},after:{def:1,min:0,max:10,step:.5},minDead:{def:4,min:2,max:15,step:1},minRally:{def:2,min:1,max:6,step:.5}},
   clip:{before:{def:1.5,min:0,max:15,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s avant / après
   ov:{on:{def:true},corner:{def:'tl',opts:['tl','tr','bl','br']},scale:{def:'m',opts:['s','m','l']},names:{def:'full',opts:['full','short','none']},rot:{def:true},srv:{def:true},server:{def:true},subs:{def:true},subDur:{def:8,min:3,max:20,step:1},opacity:{def:.78,min:.4,max:1,step:.02}},
-  exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false}},
+  exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false},ptB:{def:2,min:0,max:10,step:.5},ptA:{def:2,min:0,max:10,step:.5}}, // V193 : match monté, gardé avant le début / après la fin de chaque point (s)
   // saisie sur un film (V184) : gardé avant la première action (service / réception) et après le point (s) ; vitesses pendant l'échange et après le point
   pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s après le point
   // V185 : react = temps de réaction (s de temps réel entre l'action vue et le tap, retiré de l'heure de la stat selon la vitesse de lecture)
@@ -197,6 +197,9 @@ function vstShift(m,i,delta){let n=0;((m&&m.ev)||[]).forEach((e,k)=>{if(k<i||!de
 function vstNextPt(m,i){const E=(m&&m.ev)||[];for(let k=Math.max(0,i|0);k<E.length;k++)if(E[k].t==='pt')return k;return -1;}
 function vstPrevPt(m,i){const E=(m&&m.ev)||[];for(let k=Math.min(E.length,i|0)-1;k>=0;k--)if(E[k].t==='pt')return k;return -1;}
 // Vidéo envoyée vers un autre appareil : nom VolleyCoach_AAAAMMJJhhmmss_match.mp4 (heure UTC du début), relu à l'import pour dater l'enregistrement
+// V193 : match monté : plages fusionnées (positions ms) et table de temps du fichier exporté (plages bout à bout : t = heure de la vidéo d'origine)
+function vxMerge(R){const out=[];(R||[]).slice().sort((p,q)=>p[0]-q[0]).forEach(([a,b])=>{const z=out[out.length-1];if(z&&a<=z[1])z[1]=Math.max(z[1],b);else out.push([a,b]);});return out;}
+function vxTmap(r,R){return (R||[]).map(([a,b])=>({t:Math.round(_VC.vcTimeAt(r,a)),d:Math.round(b-a)}));}
 function vxSendName(r){const d=new Date((r&&r.t0)||Date.now()).toISOString().slice(0,19).replace(/[-:T]/g,'');return `VolleyCoach_${d}_match.mp4`;}
 function vxImportT0(name){const k=/VolleyCoach_(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/.exec(String(name||''));if(!k)return null;const t=Date.UTC(+k[1],+k[2]-1,+k[3],+k[4],+k[5],+k[6]);return Number.isFinite(t)?t:null;}
 
@@ -211,6 +214,6 @@ function vmRanges(m,r,acts,o){o=o||{};if(!r||!_VC.vcPosOf)return [];const tot=_V
     const p=_VC.vcPosOf(r,a.t+off);if(p==null)return;const x=Math.max(0,p-bf),y=Math.min(tot,p+af);if(y-x>=200)out.push([Math.round(x),Math.round(y)]);});
   out.sort((p,q)=>p[0]-q[0]);const M=[];out.forEach(c=>{const z=M[M.length-1];if(z&&c[0]<=z[1])z[1]=Math.max(z[1],c[1]);else M.push(c.slice());});return M;}
 
-if(typeof module!=='undefined')module.exports={VX_PRESETS,VX_SPEEDS,VX_AUDIO_KBPS,VX_SETTINGS,OV_SIZE,OV_MARGIN,vxPieces,vxSize,vxEstimate,vxSpeedLab,vxName,vxPlan,vxSettings,vxAutoOpts,vxOvOpts,dtAdjust,
+if(typeof module!=='undefined')module.exports={VX_PRESETS,VX_SPEEDS,VX_AUDIO_KBPS,VX_SETTINGS,OV_SIZE,OV_MARGIN,vxPieces,vxSize,vxMerge,vxTmap,vxEstimate,vxSpeedLab,vxName,vxPlan,vxSettings,vxAutoOpts,vxOvOpts,dtAdjust,
   ovStates,ovKey,ovOnOutput,ovAbbr,ovDraw,ovPlace,ovImages,ovAvailable,mgSpan:_mgSpan,vcLinkCandidates,vcLinkPick,vcRecsFor,vsJump,vsPointTime,
   vstAnchor,vstFirst,vstRanges,vstShift,vstNextPt,vstPrevPt,vxSendName,vxImportT0,vmRanges};

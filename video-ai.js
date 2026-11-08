@@ -12,7 +12,8 @@ function vcActions(m,f){f=f||{};const P=f.pid==null?null:[].concat(f.pid),K=f.ki
   return out.sort((a,b)=>a.t-b.t);}
 
 // Tranches d'un enregistrement {u,d,t} (comme vSegsOf, sans le dossier) et durée totale (comme vidPlay : r.dur pour un clip avec ia)
-const vcSegs=r=>(r&&r.segs||[]).map(x=>({d:x.d,t:x.t}));
+// V193 : vidéo « match monté » : r.tmap = plages gardées [{t (heure de la vidéo d'origine), d}], bout à bout dans le fichier ; elles remplacent les tranches pour le calage des heures
+const vcSegs=r=>(r&&(r.tmap||r.segs)||[]).map(x=>({d:x.d,t:x.t}));
 function vcTot(r){const a=vcSegs(r).reduce((s,x)=>s+x.d,0);return r&&r.ia!=null?Math.min(r.dur,a-r.ia):a;}
 // Heure (horloge vidéo) → position. Hors tranches : avant la 1re = négatif, trou entre tranches = début de la suivante, après = au-delà de tot.
 function vcPosOf(r,t){const S=vcSegs(r),ia=(r&&r.ia)||0;if(!S.length)return null;let o=0;

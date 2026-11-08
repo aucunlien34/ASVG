@@ -598,6 +598,8 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 body.easy .diffr{height:max(250px,calc(100dvh - 470px))}body.easy .dfcol{height:100%}body.easy .diffr .dfb{min-height:0;flex:1;font-size:clamp(26px,5vh,40px)}
 .mgcmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.mgcmp>div{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column}.mgcmp small{color:var(--muted);font-size:12px}
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* V193 : pas de sélection de texte ni de menu d’appui long (loupe, copier) dans l’appli, sauf dans les champs de saisie */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}input,textarea,select,[contenteditable],[contenteditable] *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 .srot{display:inline-block;min-width:32px;text-align:center;margin-right:8px;padding:2px 8px;border-radius:7px;background:#F2BE22;color:#14243D;border:2px solid #14243D;font:700 15px/1.1 'Barlow Condensed',sans-serif;vertical-align:0}
 /* Navigation unique : rail à gauche (tablette) ou barre en bas (téléphone), sur tous les écrans. Onglet actif = pastille pleine ; Terrain = vert du mode match */
 @media (min-width:761px){#app{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start}#app>.upd{grid-column:1/-1}.vmain{min-width:0}
@@ -796,7 +798,7 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vlinkb{font-size:13px;padding:2px 0;text-align:left;align-self:flex-start}.vlinkb.warn{color:var(--neg);font-weight:700}
 .sch.vjump{min-width:34px;text-align:center;padding:3px 6px;font-size:12px;color:var(--team)}.sumr.vj{grid-template-columns:58px 14px 1fr auto}.vsl{display:flex;flex-direction:column;gap:4px;max-height:40vh;overflow:auto;margin-top:6px}
 /* Saisie des stats sur un film (V185) : score, position et dernière stat en haut à gauche, Menu en haut à droite, vitesses empilées à droite,
-   panneau de saisie en surimpression semi-opaque quand la vidéo est arrêtée, barre fine de 4 s quand la saisie est masquée */
+   panneau de saisie en surimpression semi-opaque quand la vidéo est arrêtée, barre fine de 6 s (V193) quand la saisie est masquée */
 .vsttap{position:absolute;inset:0;z-index:1}
 .vsttop{position:absolute;top:calc(6px + env(safe-area-inset-top,0px));left:calc(8px + env(safe-area-inset-left,0px));right:calc(8px + env(safe-area-inset-right,0px));display:flex;justify-content:space-between;align-items:flex-start;gap:8px;z-index:4;pointer-events:none}
 .vsttl,.vsttr{display:flex;gap:6px;pointer-events:auto}.vsttl{flex-direction:column;align-items:flex-start;max-width:64vw}.vsttr{flex-wrap:wrap;justify-content:flex-end}
@@ -856,7 +858,7 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstprop .lab{font:700 11px Barlow,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#CFE0FF}.vstprop b{font:700 22px 'Barlow Condensed',sans-serif;line-height:1.1}.vstprop b.g{color:#9ad7a8}.vstprop b.a{color:#ff9aa5}.vstprop small{font-size:12px;opacity:.75}
 .vstprop .row{display:flex;gap:6px;flex-wrap:wrap}.vstprop .btn{min-height:40px;background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.4);font-size:14px;padding:0 10px}.vstprop .btn.ok{background:#23924A;border-color:#23924A}.vstprop .btn.no{background:#D7263D;border-color:#D7263D}.vstprop .btn.primary{background:#F2BE22;color:#14243D;border-color:#F2BE22}
 .vstmenu{position:absolute;right:calc(8px + env(safe-area-inset-right,0px));top:calc(52px + env(safe-area-inset-top,0px));z-index:6;background:rgba(10,16,26,.94);border-radius:14px;padding:6px;display:grid;gap:4px;min-width:min(80vw,300px);max-height:calc(100vh - 70px);overflow:auto}
-.vstmi{background:rgba(255,255,255,.08);color:#fff;border:0;border-radius:10px;padding:10px 12px;font:600 15px Barlow,sans-serif;text-align:left;min-height:44px}.vstmi:disabled{opacity:.4}.vstmi.danger{background:#D7263D}.vstmi small{opacity:.7}
+.vstmo{display:flex;flex-direction:column;gap:6px;color:#fff;font:600 13px Barlow,sans-serif;padding:4px 2px}.vstmo .seg{width:100%;max-width:none;background:transparent;border-color:rgba(255,255,255,.4)}.vstmo .seg button{flex:1;color:#fff;background:transparent;min-height:40px;font:700 15px 'Barlow Condensed',sans-serif}.vstmo .seg button.on{background:#F2BE22;color:#14243D}.vstmi{background:rgba(255,255,255,.08);color:#fff;border:0;border-radius:10px;padding:10px 12px;font:600 15px Barlow,sans-serif;text-align:left;min-height:44px}.vstmi:disabled{opacity:.4}.vstmi.danger{background:#D7263D}.vstmi small{opacity:.7}
 .vstbar .vstnav .btn{min-height:40px;padding:0 10px;font-size:14px}.vstbar .vpos{min-width:80px}.vstbar .vrow2{row-gap:6px}
 .vstfine{height:38px;background:rgba(255,255,255,.3);border:0;position:relative}.vstfine span{position:absolute;top:50%;transform:translate(-50%,-50%);font:700 13px Barlow,sans-serif;color:#14243D;pointer-events:none}.vstfine::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(0,0,0,.35)}
 .vstage.vst.peek .vbadge{font-size:14px;font-family:Barlow,sans-serif;font-weight:600;max-width:60vw;white-space:normal}
@@ -906,7 +908,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V192';
+const APP_VERSION='V193';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1455,8 +1457,12 @@ function migrateTeams(s){
   if(!s.teams.some(t=>t.id===s.teamId))s.teamId=s.teams[0].id;
   s.roster=s.teams.find(t=>t.id===s.teamId).roster;if(s.cur&&!s.cur.teamId)s.cur.teamId=s.teamId;return s;}
 function seasonDefName(){const d=new Date(),y=d.getFullYear(),a=d.getMonth()>=7?y:y-1,W={en:'Season',es:'Temporada',it:'Stagione',de:'Saison',pl:'Sezon',pt:'Temporada',tr:'Sezon',ja:'シーズン',zh:'赛季',nl:'Seizoen',sr:'Sezona',sl:'Sezona',cs:'Sezóna',bg:'Сезон',uk:'Сезон',ru:'Сезон',ar:'موسم',ko:'시즌',th:'ฤดูกาล',vi:'Mùa giải',id:'Musim',fil:'Season'}[lang()]||'Saison';return `${W} ${a}-${a+1}`;}
-function ensureSeasons(t){if(!t)return t;if(!Array.isArray(t.seasons)||!t.seasons.length){t.seasons=[{id:'s'+t.id,name:seasonDefName(),closed:false}];t.curSeason=t.seasons[0].id;}
+// V193 : une équipe peut n'avoir aucune saison (t.seasons vide, t.curSeason null) ; dès qu'un match archivé lui appartient, une saison est créée (bandeau)
+function ensureSeasons(t){if(!t)return t;if(!Array.isArray(t.seasons)){t.seasons=[{id:'s'+t.id,name:seasonDefName(),closed:false}];t.curSeason=t.seasons[0].id;}
+  if(!t.seasons.length){const A=typeof store!=='undefined'&&store&&store.teams&&store.teams.includes(t)?store.arch||[]:[];if(!A.some(a=>a.teamId===t.id||(!a.teamId&&a.team===t.name))){t.curSeason=null;return t;}seasonNew(t);}
   if(!t.seasons.some(x=>x.id===t.curSeason))t.curSeason=t.seasons[t.seasons.length-1].id;return t;}
+function seasonNew(t){const ns={id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:seasonDefName(),closed:false};t.seasons.push(ns);t.curSeason=ns.id;
+  setTimeout(()=>{try{toast(tr('Saison « {N} » créée').replace('{N}',ns.name),'ok');}catch(e){}},0);return ns;}
 const GCOL={M:'#2E68BA',F:'#D9468F',X:'#E0B00F'},GLAB={M:'Masculin',F:'Féminin',X:'Mixte'};
 // Liste des équipes maison (le <select> natif ne se colore pas) : bandeau de la couleur du genre ; filtre par genre dans l'onglet Équipe seulement
 // Heure d'un match : celle du premier service (horodatage du premier set), la feuille de match n'ayant qu'une date
@@ -2381,6 +2387,15 @@ function vTrackBg(r,tot,w0,w1){const W=(w1-w0)||1,pc=v=>(Math.max(0,Math.min(1,(
 const vcMatches=()=>[store.cur].concat(store.arch).filter(m=>m&&Array.isArray(m.ev));
 function vcLinkInfo(r){if(!r||r.mode!=='match')return {m:null,auto:true,sure:true,candidates:[]};if(r.clip){const src=(store.vids||[]).find(x=>x.id===r.src);return src?vcLinkInfo(src):{m:null,auto:true,sure:true,candidates:[]};}return vcLinkPick(r,vcMatches());}
 function vcMatchFor(r){return vcLinkInfo(r).m;}
+// V193 : match monté : chaque point de son début (« Début du point » ou première action) − ptB à sa fin + ptA, plages fusionnées ; point sans action : 6 s avant sa fin
+function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000}));}
+const vmontOk=(m,r)=>!!(m&&r&&!r.clip&&m.ev.some(e=>e.t==='pt'));
+// Vidéo « match monté » reçue : calée sur le match importé qui la décrit (m.vref = {name, dur, tmap, off}), quel que soit l'ordre des deux imports
+const vrefOk=v=>!!(v&&Array.isArray(v.tmap)&&v.tmap.length&&v.tmap.every(x=>x&&Number.isFinite(x.t)&&x.d>0));
+function vrefFind(r,ms){if(!r||r.clip||r.tmap||r.mid||!r.imp)return null;const C=(ms||[]).filter(m=>m&&vrefOk(m.vref)&&!(store.vids||[]).some(x=>x!==r&&x.tmap&&x.mid===m.id));
+  return C.find(m=>r.name&&m.vref.name===r.name)||C.find(m=>Math.abs((m.vref.dur||0)-(r.dur||0))<1500)||null;}
+function vrefSync(){(store.vids||[]).forEach(r=>{const vm=vrefFind(r,store.arch);if(vm){vrefApply(r,vm);setTimeout(()=>toast(tr('Vidéo importée et calée sur le match « {M} »').replace('{M}',matchTitle(vm)),'ok'),0);}});} // stats reçues après la vidéo montée
+function vrefApply(r,m){const v=m.vref;r.tmap=v.tmap.map(x=>({t:x.t,d:x.d}));r.t0=r.tmap[0].t;if(r.segs&&r.segs.length===1)r.segs[0].t=r.t0;r.mid=m.id;delete r.noLink;r.off=v.off||0;r.offSrc='manual';r.mont=1;}
 function vcRecFor(m){const sp=m&&!m.season&&mgSpan(m);if(!sp)return null;let best=null,bs=-1;(store.vids||[]).forEach(r=>{if(r.mode!=='match'||r.clip||(r.web&&!VID.mem[r.id]))return;if(vcMatchFor(r)!==m)return;const c=vcLinkCandidates(r,[m])[0],s=c?c.score:0;if(s>bs){bs=s;best=r;}});return best;}
 // Taille affichée de la vidéo lue (après rotation), sinon 16/9 selon la qualité demandée
 function vidSrcSize(r){const L=VID.layer;if(L){const v=[...L.children].find(x=>x.videoWidth);if(v)return {w:v.videoWidth,h:v.videoHeight};}if(r&&r.w&&r.h)return {w:r.w,h:r.h};const h=+(r&&r.q)||720;return {w:Math.round(h*16/9),h};}
@@ -2438,7 +2453,7 @@ function vstRot(S){if(F4)return F4.rot&&S.r4n!=null?(S.r4n%4)+1:null;return sett
 function vstState(m){const V=store.vst,i=V&&V.i>=0?V.i:m.ev.length;return replay(Object.assign({},m,{ev:m.ev.slice(0,i)}));}
 function vstValSync(m){const V=store.vst;if(!V||V.mode!=='val'||V.ins)return;if(V.i<0){m.pend=[];return;}const st=m.ev[V.i].st||[];V.j=Math.max(0,Math.min(st.length,V.j||0));m.pend=st.slice(0,V.j).map(x=>x.slice());}
 // orientation de l'écran = celle de la vidéo (paysage ou portrait), le temps de la saisie
-function vstLock(r){if(!NATIVE||!CAP().ScreenOrientation)return;const s=vidSrcSize(r),land=!s||!s.h||s.w>=s.h;let o=land?'landscape':'portrait';
+function vstLock(r){if(!NATIVE||!CAP().ScreenOrientation)return;const s=vidSrcSize(r),f=VP().vori,land=f==='l'?true:f==='p'?false:!s||!s.h||s.w>=s.h;let o=land?'landscape':'portrait'; // V193 : sens forcé (Réglage du menu : a = suit la vidéo, l = paysage, p = portrait)
   if(window.Capacitor.getPlatform()==='ios'){const t=(screen.orientation&&screen.orientation.type)||'';o=t.startsWith(o)?t:o+'-primary';}
   try{CAP().ScreenOrientation.lock({orientation:o}).catch(()=>{});}catch(e){}}
 function vstUnlock(){if(!NATIVE||!CAP().ScreenOrientation)return;if(store.prefs.rotLock){applyRotLock(false);return;}try{CAP().ScreenOrientation.unlock().catch(()=>{});}catch(e){}}
@@ -2502,7 +2517,7 @@ function vstStart(r,mode){if(!r||r.clip)return false;if(store.vst){toast(tr('Ter
     V.mid=m.id;r.mid=m.id;delete r.noLink;
     if(mode==='val'){V.i=vstNextPt(store.cur,0);const O=vcOffset(store.cur,r);if(O.src!=='manual'&&O.src!=='auto'){r.off=0;r.offSrc='manual';}ui.screen=null;}
     else{store.cur.vid=r.id;if(!res||(r.offSrc!=='manual'&&r.offSrc!=='auto')){r.off=0;r.offSrc='manual';}ui.screen=store.cur.ev.some(e=>e.t==='set')?null:'setup';}}
-  else{V.hold=store.cur;V.fresh=1;const m=newMatch(store.cur,store.roster),d=new Date(r.t0);m.date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  else{V.hold=store.cur;V.fresh=1;V.prev={off:r.off,offSrc:r.offSrc,noLink:r.noLink};const m=newMatch(store.cur,store.roster),d=new Date(r.t0);m.date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     m.vid=r.id;store.cur=m;V.mid=m.id;r.mid=m.id;delete r.noLink;r.off=0;r.offSrc='manual';ui.screen='setup';}
   store.vst=V;ui.sheet=null;ui.coach=false;ui.toStats=false;ui.vstHide=false;ui.vstMenu=false;ui.vstPeek=false;ui.stPick=null;ui.confirm=null;VID.vz=null;VID.vstLk=0;if(free&&mode==='new'&&!store.cur.ev.some(e=>e.t==='set')){vstFreeSet(store.cur);ui.screen=null;}
   save();if(mode==='val')vstSeek();if(res){const P=vstPb();vstGoBefore(vstLastT(store.cur),0);if(P){P.play=false;V.pos=P.pos;}}vstLock(r);return true;}
@@ -2512,13 +2527,13 @@ function vstFreeSet(m){m.free=1;const S0=replay(m),f4=is4(m),PL=f4?FMT4[n4(f4c(m
 function vstEnd(){const V=store.vst;if(!V)return;const r=vstRec(),m=store.cur;
   if(V.ins){m.ev.push(...(V.ins.tail||[]));delete V.ins;}
   if(V.mode==='new'){if((m.pend||[]).length)m.vpend=m.pend.map(x=>x.slice());else delete m.vpend;}m.pend=[]; // V186 : stats de l'échange en cours gardées pour la reprise
-  if(V.hold){if(m.ev.length){if(replay(m).phase==='over')m.ended=true;archiveCur();}else if(V.fresh&&r&&r.mid===m.id)delete r.mid;store.cur=V.hold;}
+  if(V.hold){if(m.ev.length){if(replay(m).phase==='over')m.ended=true;archiveCur();}else if(V.fresh&&r&&r.mid===m.id){delete r.mid;const p=V.prev||{};['off','offSrc','noLink'].forEach(k=>{if(p[k]==null)delete r[k];else r[k]=p[k];});} /* V193 : saisie quittée avant le premier set : la vidéo redevient comme avant (pas de match) */store.cur=V.hold;}
   VID.pb=null;vidClear();VID.vz=null;VID.vstLk=0;if(VID.layer)VID.layer.style.transform='';delete store.vst;ui.vstHide=false;ui.vstMenu=false;ui.vstPeek=false;ui.stPick=null;ui.sheet=null;ui.confirm=null;CAL_CACHE={k:null,v:null};save();
   ui.screen='video';ui.coach=false;vstUnlock();toast(V.mode==='val'?tr('Validation terminée'):m.ev.length?tr('Saisie terminée : le match est dans les stats'):tr('Saisie abandonnée'),'ok');}
 function vstInsDone(){const V=store.vst,m=store.cur;if(!V||!V.ins)return;const k=m.ev.length;m.ev.push(...V.ins.tail);delete V.ins;V.i=vstNextPt(m,k);V.j=0;CAL_CACHE={k:null,v:null};save();toast(tr('Point inséré'),'ok');vstCheck(m);}
 // Écran (V185) : vidéo plein écran ; en haut à gauche score, position et dernière stat (appui = annulation, retour 1 s avant) ; en haut à droite Menu
 // (tablette : changement et temps morts aussi) ; vitesses empilées à droite ; panneau de saisie (stats faciles) en surimpression quand la vidéo est
-// arrêtée (tap sur l'image) ; en bas navigation fine et barre du clip, ou barre de 4 s quand la saisie est masquée ; validation : stat attendue proposée
+// arrêtée (tap sur l'image) ; en bas navigation fine et barre du clip, ou barre de 6 s quand la saisie est masquée ; validation : stat attendue proposée
 function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTimeout(()=>{vstEnd();render();},0);return '';}
   vstSync(m,r);const val=V.mode==='val'&&!V.ins;if(val)vstValSync(m);const Sx=val?vstState(m):S;
   const si=Sx.sets.length-1,set=Sx.sets[si],play=Sx.phase==='play',T=short(m),opp=m.opp||tr('Adversaire'),tab=vstTab(),rot=play?vstRot(Sx):null;
@@ -2533,9 +2548,9 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   else if(play)panel=`${V.ins?`<p class="vstins">${tr('Point manquant : saisissez ses actions, puis attribuez-le.')} <button class="linkbtn" data-act="vstInsX">${tr('Annuler')}</button></p>`:''}${statPanel(m,Sx)}
       ${FRm?'':`<div class="vstpts"><button class="btn big g" data-act="pt" data-w="G">${tr('Point')} ${esc(T)}</button><button class="btn big a" data-act="pt" data-w="A">${tr('Point')} ${esc(opp)}</button></div>`}`;
   else if(Sx.phase==='between')panel=`<div class="panel"><p>Set ${si+1} gagné par ${esc(set.winner==='G'?T:opp)} (${set.g}-${set.a})</p><div class="row"><button class="btn big primary" data-act="compose">Composer le set ${si+2}</button><button class="btn big" data-act="undo">↶ ${tr('Annuler')}</button></div></div>`;
-  else panel=`<div class="panel"><p>Match terminé : ${esc(Sx.wins.G>Sx.wins.A?T:opp)} gagne ${Math.max(Sx.wins.G,Sx.wins.A)}-${Math.min(Sx.wins.G,Sx.wins.A)}</p><div class="row"><button class="btn big primary" data-act="vstEndGo">🏁 ${tr('Terminer la saisie')}</button><button class="btn big" data-act="undo">↶ ${tr('Annuler')}</button></div></div>`;
+  else panel=`<div class="panel"><p>Match terminé : ${esc(Sx.wins.G>Sx.wins.A?T:opp)} gagne ${Math.max(Sx.wins.G,Sx.wins.A)}-${Math.min(Sx.wins.G,Sx.wins.A)}</p><div class="row"><button class="btn big primary" data-act="vstEndGo">🏁 ${tr('Terminer la saisie')}</button><button class="btn big" data-act="vidExport" data-src="pts">⇩ ${tr('Exporter le match monté')}${isPro()?'':' 🔒'}</button><button class="btn big" data-act="undo">↶ ${tr('Annuler')}</button></div></div>`;
   const hid=!!ui.vstHide,spd=`<div class="vstspd seg">${[2,1,0.5,0.25].map(v=>`<button class="${P.r===v?'on':''}" data-act="vstSpd" data-v="${v}">×${String(v).replace('.',',')}</button>`).join('')}</div>`;
-  const fine=`<div class="vtrack vstfine" id="vstFine"><span style="left:3%">−2 s</span><span style="left:25%">−1 s</span><span style="left:75%">+1 s</span><span style="left:97%">+2 s</span><i class="vhead" id="vHead" style="left:50%"></i></div>`;
+  const fine=`<div class="vtrack vstfine" id="vstFine"><span style="left:3%">−3 s</span><span style="left:16.67%">−2 s</span><span style="left:33.33%">−1 s</span><span style="left:66.67%">+1 s</span><span style="left:83.33%">+2 s</span><span style="left:97%">+3 s</span><i class="vhead" id="vHead" style="left:50%"></i></div>`;
   const nav=hid?`<div class="vrow2 vstnav"><button class="btn" data-act="vidPbStep" data-v="-f">‹ ${tr('image')}</button><button class="btn" data-act="vidPbStep" data-v="f">${tr('image')} ›</button><span class="vpos" id="vPos">${vMs(P.pos)}</span>${vstPtBtn(m)}</div>${fine}`
     :`<div class="vrow2 vstnav">${tab?`<button class="btn" data-act="vidPbStep" data-v="-2000">−2 s</button>`:''}<button class="btn" data-act="vidPbStep" data-v="-1000">−1 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button><button class="btn vpp" data-act="vidPP" id="vstPP">${P.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="1000">+1 s</button>${tab?`<button class="btn" data-act="vidPbStep" data-v="2000">+2 s</button>`:''}<button class="btn" data-act="vstLast" ${vstLastT(m)!=null?'':'disabled'}>↩ ${tr('Dernière action')}</button><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span>${vstPtBtn(m)}</div>${fine}`;
   const vl=FRm&&!tab&&play?`<b class="vstvl">${vstVol(m)===1?tr('Avant le point'):tr('Pendant le point')}</b>`:'';
@@ -2553,6 +2568,7 @@ function vstMenuHTML(m,S,tab){const V=store.vst,val=V.mode==='val'&&!V.ins,T=sho
   return `<div class="vstmenu">${play&&!val&&!tab&&!m.free?it('openSub','🔁 '+tr('Changement'))+it('vstTo',`⏱ TM ${esc(T)} <small>${set.to.G}/2</small>`,'data-s="G"')+it('vstTo',`⏱ TM adv. <small>${set.to.A}/2</small>`,'data-s="A"'):''}
     ${play&&!val&&!m.free&&!(F4&&F4.n===2)?it('tacOpen','⚙ '+tr('Options tactiques')):''}
     ${val?it('vstPrev','↑ '+tr('Point précédent'),vstPrevPt(m,V.i<0?m.ev.length:V.i)>=0?'':'disabled')+it('vstInsert','➕ '+tr('Point manquant ici'),V.i<0?'disabled':'')+it('vstDrop',ui.confirm==='vstdrop'?tr('Supprimer ce point ?'):'🗑 '+tr('Point en trop'),V.i<0?'disabled':'',ui.confirm==='vstdrop'?'danger':''):''}
+    <div class="vstmo"><span>${tr('Sens de l’écran')}</span><div class="seg">${[['a','Auto'],['l','Paysage'],['p','Portrait']].map(([v,l])=>`<button class="${(VP().vori||'a')===v?'on':''}" data-act="vstOri" data-v="${v}">${tr(l)}</button>`).join('')}</div></div>
     ${VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):''}
     ${S.phase==='over'?it('vstEndGo','🏁 '+(val?tr('Terminer la validation'):tr('Terminer la saisie'))):''}
     ${it('vstQuit',ui.confirm==='vstquit'?tr('Quitter ? Le match reste enregistré'):'✕ '+tr('Quitter'),'',ui.confirm==='vstquit'?'danger':'')}</div>`;}
@@ -2586,8 +2602,8 @@ function vidImportAdd(o,force){const dur=Math.round(o.dur||0);if(!dur){toast(tr(
   if(!force){const d=vidDupOf(o);if(d){ui.impDup={o,id:d.id};ui.sheet='impDup';if(ui.screen!=='video')A.ctab({v:'video'});render();return;}}
   const t0=vxImportT0(o.name)||(o.t>0?Math.round(o.t):Date.now()-dur),e={id:'v'+Date.now().toString(36),mode:'match',imp:1,name:o.name||'',t0,dur,size:o.size||0,q:'720',fps:Math.round(o.fps||30)||30,segs:[{u:o.path||o.name||'import',d:dur,t:t0}]};
   if(o.aud)e.aud=1;if(o.w>0&&o.h>0){e.w=o.w;e.h=o.h;}if(!o.path){e.web=1;VID.mem[e.id]=[{url:o.url,dur,t0}];}
-  store.vids=[e].concat(store.vids||[]);save();const LK=vcLinkInfo(e);
-  toast(vxImportT0(o.name)?tr('Vidéo importée ({D})').replace('{D}',vMs(dur)):tr('Vidéo importée ({D}) : date inconnue, choisissez le match lié dans la liste').replace('{D}',vMs(dur)),LK.m||!vxImportT0(o.name)?'ok':'warn');
+  store.vids=[e].concat(store.vids||[]);const vm=vrefFind(e,vcMatches());if(vm)vrefApply(e,vm);save();const LK=vcLinkInfo(e);
+  if(vm)toast(tr('Vidéo importée et calée sur le match « {M} »').replace('{M}',matchTitle(vm)),'ok');else toast(vxImportT0(o.name)?tr('Vidéo importée ({D})').replace('{D}',vMs(dur)):tr('Vidéo importée ({D}) : date inconnue, choisissez le match lié dans la liste').replace('{D}',vMs(dur)),LK.m||!vxImportT0(o.name)?'ok':'warn');
   if(ui.screen!=='video')A.ctab({v:'video'});render();}
 const VC_K=[['att','Attaque'],['srv','Service'],['rec','Réception'],['def','Défense'],['blk','Bloc'],['pas','Passe']];
 const vcFilter=q=>({pid:q.pid?[q.pid]:null,kinds:q.kinds.length?q.kinds:null,signs:q.signs.length?q.signs:null});
@@ -2603,7 +2619,7 @@ function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!
       // V185 : orientation de l'écran calée sur celle de la vidéo dès que sa taille est connue
       if(!VID.vstLk&&r&&VID.layer&&[...VID.layer.children].some(x=>x.videoWidth)){VID.vstLk=1;vstLock(r);}}
     const ab=P.pos+(P.ia||0);let i=P.off.findIndex((o,k)=>ab<o+P.segs[k].dur);if(i<0)i=P.segs.length-1;vidShow(P.segs[i],ab-P.off[i],P.r,P.segs[i+1],P.play);
-    const hd=document.getElementById('vHead');if(hd){if(document.getElementById('vstFine'))hd.style.left=(P.fw?Math.max(0,Math.min(100,(P.pos-P.fw[0])/4000*100)):50).toFixed(2)+'%'; // barre de 4 s (V185) : tête au centre, sauf pendant le glisser
+    const hd=document.getElementById('vHead');if(hd){if(document.getElementById('vstFine'))hd.style.left=(P.fw?Math.max(0,Math.min(100,(P.pos-P.fw[0])/6000*100)):50).toFixed(2)+'%'; // barre de 4 s (V185) : tête au centre, sauf pendant le glisser
       else{const W=P.zw||[0,P.tot];hd.style.left=(Math.max(0,Math.min(1,(P.pos-W[0])/((W[1]-W[0])||1)))*100).toFixed(2)+'%';}}
     vTxt('vPos',vs&&ui.vstHide?vMs(P.pos):vMs(P.pos)+' / '+vMs(P.tot));vTxt('vPP',P.play?'❚❚':'▶');
     if(r){const k=vDropNext(r,P.pos),kb=document.getElementById('vKeepB');if(kb){kb.classList.toggle('drop',!!k);vTxt('vKeepT',k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici'));}
@@ -2635,7 +2651,7 @@ function bindVideo(){const st=document.getElementById('vStage');document.body.cl
   st.prepend(vidLayer());if(!VID.raf)VID.raf=requestAnimationFrame(vidLoop);
   // saisie sur un film (V184) : le panneau s'arrête au-dessus de la barre de lecture, quelle que soit sa hauteur
   vstFit(st);
-  // V185 : zoom par pincement et déplacement à un doigt sur l'écran de saisie (affichage seulement), barre fine de 4 s quand la saisie est masquée
+  // V185 : zoom par pincement et déplacement à un doigt sur l'écran de saisie (affichage seulement), barre fine de 6 s quand la saisie est masquée
   if(VID.pb&&st.classList.contains('vst')){const Z=VID.vz||(VID.vz={z:1,x:0,y:0});vzApply();
     let d0=0,z0=1,c0=null,p0=null,moved=false;const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY),mid=t=>({x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2});
     const ok=e=>!e.target.closest('.vstdock,.vbar,.vsttop,.vstspd,.vstmenu,.vstprop');
@@ -2646,7 +2662,7 @@ function bindVideo(){const st=document.getElementById('vStage');document.body.cl
       else if(e.touches.length===1&&p0&&p0.cx!=null&&Z.z>1){const dx=e.touches[0].clientX-p0.cx,dy=e.touches[0].clientY-p0.cy;if(Math.abs(dx)+Math.abs(dy)>8)moved=true;
         if(moved){e.preventDefault();Z.x=p0.x+dx;Z.y=p0.y+dy;vzClamp(st);vzApply();VID.vzAt=Date.now();}}},{passive:false});
     st.addEventListener('touchend',e=>{if(e.touches.length<2)d0=0;if(!e.touches.length){if(moved)VID.vzAt=Date.now();p0=null;moved=false;}},{passive:true});
-    const fb=document.getElementById('vstFine');if(fb){const P=VID.pb,FW=4000;let rect=null,W0=null;const at=x=>Math.max(0,Math.min(P.tot,W0[0]+(x-rect.left)/rect.width*FW));
+    const fb=document.getElementById('vstFine');if(fb){const P=VID.pb,FW=6000;let rect=null,W0=null;const at=x=>Math.max(0,Math.min(P.tot,W0[0]+(x-rect.left)/rect.width*FW));
       fb.addEventListener('pointerdown',e=>{rect=fb.getBoundingClientRect();W0=[P.pos-FW/2,P.pos+FW/2];P.fw=W0;P.drag=true;P.play=false;P.fine=true;try{fb.setPointerCapture(e.pointerId);}catch(_){}P.pos=at(e.clientX);});
       fb.addEventListener('pointermove',e=>{if(!P.drag||!W0)return;P.pos=at(e.clientX);});
       const up=()=>{P.drag=false;P.fw=null;W0=null;};fb.addEventListener('pointerup',up);fb.addEventListener('pointercancel',up);}}
@@ -2715,7 +2731,7 @@ function videoHTML(){const P=VP(),pro=isPro();
     // match lié (V183) : nom du match, « à confirmer » quand plusieurs matchs se recoupent, « Aucun match » sinon ; touché, il ouvre le choix
     const link=ask?`<button class="linkbtn vlinkb ${mm&&LK.auto&&!LK.sure?'warn':''}" data-act="vcLinkOpen" data-id="${r.id}">${mm?(LK.auto&&!LK.sure?'⚠ ':'🔗 ')+esc(matchTitle(mm))+(LK.auto?'':' ·  '+tr('choisi')):r.noLink?tr('Sans match'):tr('Aucun match lié')} ▾</button>`:'';
     return `<div class="vrow"><span class="who"><b>${r.clip?'🎬 '+esc(r.name)+' · ':''}${esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))} · ${r.imp?tr('Importée'):r.mode==='match'?tr('Enregistrement'):tr('Différé')}${mm&&!ask?' · '+esc(mm.opp||tr('Adversaire')):''}</b><small>${r.st==='int'?tr('interrompu, récupéré')+' · ':''}${r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0)))+' · ':''}${vMs(r.dur)} · ${vMo(r.size)}${r.fps?' · '+r.fps+' i/s':''}${r.aud?' · 🔊':''}${gone?' · '+tr('vidéo du navigateur, perdue au rechargement'):''}</small>${bdg}${link}</span>
-      ${gone?'':`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`}${!gone&&mm&&!r.clip?`<button class="btn" data-act="vcOpen" data-rid="${r.id}" data-mid="${mm.id}">🎬 ${tr('Clips')}${proFor(mm)?'':' 🔒'}</button>`:''}${vstBtns(r,mm,gone)}<button class="btn ${ui.vidDelAsk===r.id?'danger':''}" data-act="vidDelRec" data-id="${r.id}" aria-label="Supprimer">${ui.vidDelAsk===r.id?tr('Supprimer ?'):'🗑'}</button></div>`;}).join('');
+      ${gone?'':`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`}${!gone&&mm&&!r.clip?`<button class="btn" data-act="vcOpen" data-rid="${r.id}" data-mid="${mm.id}">🎬 ${tr('Clips')}${proFor(mm)?'':' 🔒'}</button>`:''}${!gone&&!r.web&&npt&&!(store.vst&&store.vst.rid===r.id)?`<button class="btn" data-act="vidMonte" data-id="${r.id}">⇩ ${tr('Match monté')}${isPro()?'':' 🔒'}</button>`:''}${vstBtns(r,mm,gone)}<button class="btn ${ui.vidDelAsk===r.id?'danger':''}" data-act="vidDelRec" data-id="${r.id}" aria-label="Supprimer">${ui.vidDelAsk===r.id?tr('Supprimer ?'):'🗑'}</button></div>`;}).join('');
   return `<div class="cmain vid"><div class="top"><h1>Vidéo</h1></div>
     <div class="card"><p class="vintro">${tr('Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.')}</p>
       ${(()=>{const o=ui.vidOpt===undefined?'mode':ui.vidOpt,front=P.cam==='front';
@@ -3274,19 +3290,26 @@ function sheetHTML(m,S){
       <p><b id="vautoK">${tr('Gardé : {A} sur {B}').replace('{A}',vMs(vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0))).replace('{B}',vMs(P.tot))}</b></p>
       <div class="tools"><button class="btn" data-act="vroiStart">▭ ${tr('Zone d’analyse')}${r.roi?' ✓':''}</button><button class="btn primary" data-act="close">OK</button></div>
       <p class="hint xp">${tr('Zone d’analyse : limite la détection des échanges à une partie de l’image (le terrain), pour ignorer les tribunes ; à définir avant de relancer « Montage auto ».')}</p>`;}
-  if(ui.sheet==='vexp'&&ui.vexp&&VID.pb){const P=VID.pb,r=vRec(),X=ui.vexp;if(!r){ui.sheet=null;return '';}const R=vRanges(r,P.tot),src=vidSrcSize(r),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};
-    const est=vxEstimate(R,{tot:P.tot,size:r.size,speed:X.speed,preset:X.preset,audio:X.audio&&!!r.aud,fps:r.fps}),plan=vxPlan(R,P,{preset:X.preset,speed:X.speed,audio:X.audio,exact:X.exact,overlay:X.ov?1:null,src,size:r.size,fps:r.fps,r});
+  if(ui.sheet==='vexp'&&ui.vexp&&VID.pb){const P=VID.pb,r=vRec(),X=ui.vexp;if(!r){ui.sheet=null;return '';}const src=vidSrcSize(r),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};
+    const pts=X.src==='pts'&&vmontOk(m,r),R=pts?vmontRanges(m,r):vRanges(r,P.tot),spd=pts?1:X.speed,exact=pts||X.exact; // V193 : match monté = vitesse normale, coupe à l'image près (stats calées)
+    const est=vxEstimate(R,{tot:P.tot,size:r.size,speed:spd,preset:X.preset,audio:X.audio&&!!r.aud,fps:r.fps}),plan=vxPlan(R,P,{preset:X.preset,speed:spd,audio:X.audio,exact,overlay:X.ov?1:null,src,size:r.size,fps:r.fps,r});
     const sw=(k,lab,dis)=>`<label class="chk sw"><input type="checkbox" role="switch" data-act="vexpSet" data-k="${k}" ${X[k]?'checked':''} ${dis?'disabled':''}> ${lab}</label>`,short=Math.min(src.w,src.h);
     const seg=(k,opts)=>`<div class="seg vsseg">${opts.map(([v,l,dis])=>`<button class="${String(X[k])===String(v)?'on':''}" data-act="vexpSet" data-k="${k}" data-v="${v}" ${dis?'disabled':''}>${l}</button>`).join('')}</div>`;
-    return `<div class="sh"><h3>⇩ ${tr('Exporter le montage')}</h3>${close}</div>
+    return `<div class="sh"><h3>⇩ ${pts?tr('Exporter le match monté'):tr('Exporter le montage')}</h3>${close}</div>
+      ${vmontOk(m,r)?`<div class="vopt"><span>${tr('Contenu')}</span>${seg('src',[['cut',tr('Montage actuel')],['pts',tr('Match monté')]])}</div>`:''}
+      ${pts?`<p class="hint">${tr('Chaque point, de son début à sa fin, sans les temps morts ; les stats sont recalées sur la vidéo montée.')}</p>${vsRange('exp','ptB',tr('Gardé avant le début du point'))}${vsRange('exp','ptA',tr('Gardé après la fin du point'))}`:''}
       <div class="vopt"><span>${tr('Qualité')}</span>${seg('preset',Object.keys(VX_PRESETS).map(k=>[k,k==='orig'?tr('Originale'):VX_PRESETS[k].lab,k!=='orig'&&VX_PRESETS[k].h>=short]))}</div>
-      <div class="vopt"><span>${tr('Vitesse')}</span>${seg('speed',VX_SPEEDS.map(s=>[s,vxSpeedLab(s)]))}</div>
-      ${sw('exact',tr('Coupe à l’image près'))}${r.aud?sw('audio',tr('Son')+(X.speed!==1?' <small class="hint">('+tr('coupé au ralenti')+')</small>':''),X.speed!==1):''}
+      ${pts?'':`<div class="vopt"><span>${tr('Vitesse')}</span>${seg('speed',VX_SPEEDS.map(s=>[s,vxSpeedLab(s)]))}</div>
+      ${sw('exact',tr('Coupe à l’image près'))}`}${r.aud?sw('audio',tr('Son')+(spd!==1?' <small class="hint">('+tr('coupé au ralenti')+')</small>':''),spd!==1):''}
       ${m?(av.ok?sw('ov',tr('Score incrusté')):`<p class="hint">${av.why==='noOffset'?tr('Score incrusté : synchronisez d’abord les horloges de la vidéo et des stats (bouton « Synchroniser » du lecteur).'):tr('Score incrusté indisponible : ce match n’a pas d’heures notées.')}</p>`):''}
       <p class="hint">${plan.reencode||plan.speed!==1?tr('Vidéo réencodée : l’export prend plus de temps.'):tr('Copie sans réencodage : rapide, qualité d’origine ; coupe sur l’image clé précédente.')}</p>
       <p><b>≈ ${vMs(est.dur)} · ${vMo(est.size)}</b></p>
       <button class="btn big primary" data-act="vexpGo">⇩ ${tr('Exporter')}</button>`;}
-  if(ui.sheet==='vidOut'&&ui.vidOut){const o=ui.vidOut;return `<div class="sh"><h3>${tr('Montage exporté')}</h3>${close}</div>
+  if(ui.sheet==='vidOut'&&ui.vidOut){const o=ui.vidOut;if(o.vbcs)return `<div class="sh"><h3>${tr('Match monté exporté')}</h3>${close}</div>
+      <p class="hint">${esc(o.name)} · ${vMo(o.size||0)}</p>
+      <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="vidShareOut">${IC.share} ${tr('Partager la vidéo et les stats')}</button><button class="btn big" data-act="vidGal">${tr('Enregistrer la vidéo dans la galerie')}</button></div>
+      <p class="hint">${tr('Deux fichiers : la vidéo et les stats du match (.vbcs). Le destinataire ouvre les deux dans VolleyCoach, dans l’ordre qu’il veut : la vidéo se cale toute seule sur le match.')}</p>`;
+    return `<div class="sh"><h3>${tr('Montage exporté')}</h3>${close}</div>
       <p class="hint">${esc(o.name)} · ${vMo(o.size||0)}</p>
       <div class="tools" style="flex-direction:column;align-items:stretch"><button class="btn big primary" data-act="vidGal">${tr('Enregistrer dans la galerie')}</button><button class="btn big" data-act="vidShareOut">${IC.share} ${tr('Partager')}</button></div>`;}
   if(ui.sheet==='impFull'&&ui.impF){const F=ui.impF,nT=F.teams.filter(t=>t.sel).length,nM=F.matches.filter(x=>x.sel).length;
@@ -4173,7 +4196,8 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
       ${m.season?`<div class="tools" style="margin-top:6px"><button class="btn" data-act="seasonIncl"><span>☑ ${tr("Matchs inclus : {N}").replace("{N}",m.n+" / "+TA.length)}</span></button></div>${m.nonPro?`<p class="hint warnc" style="margin:6px 0 0">${m.nonPro>1?tr('{N} matchs hors Pro non inclus').replace('{N}',m.nonPro):tr('1 match hors Pro non inclus')} <button class="linkbtn" data-act="pro">VolleyCoach Pro</button></p>`:''}`:''}</div>`;
     body=`<div class="card teamc">${teamPickHTML('stats')}</div>${scopeBar}${tabBar}${sv==='g'?progressHTML():sv==='v'?head+vmHTML(vML):head+statCols(m,S)}`;}
   else if(ct==='seasons'){const T=T0,so=seasonObj(),cur=so&&so.id===T.curSeason;
-    const list=T.seasons.slice().reverse().map(x=>{const n=store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===x.id).length;
+    if(!T.seasons.length)body=`<div class="card teamc">${teamPickHTML('seasons')}</div><div class="card" style="margin-top:12px"><p>${tr('Aucune saison.')}</p><p class="hint">${tr('Une saison sera créée automatiquement avec le prochain match.')}</p></div>`;
+    else{const list=T.seasons.slice().reverse().map(x=>{const n=store.arch.filter(a=>teamOf(a)===store.teamId&&seasonOf(a)===x.id).length;
       return `<button class="sline ${x.id===so.id?'on':''}" style="--gc:${teamColor(T)}" data-act="seasonPick" data-id="${x.id}"><b>📁 ${esc(x.name)}</b><small>${n} match${n>1?'s':''} · ${x.id===T.curSeason?'en cours':'clôturée'}</small></button>`;}).join('');
     body=`<div class="card teamc">${teamPickHTML('seasons')}</div>
     <div class="slist">${list}</div>
@@ -4185,7 +4209,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
       <label class="chk sw"><input type="checkbox" role="switch" data-act="seasonCalib" ${calibOn(so)?'checked':''} ${isDemoTeam()?'disabled':''}> Calibrer les attentes sur les matchs de la saison${tipB('calib')}</label>${so&&so.calib==null?'<p class="hint" style="margin-top:2px">Selon le réglage général (Réglages › Saisie des statistiques).</p>':''}
       ${TA.length?`<div class="tools"><button class="btn primary" data-act="cv" data-id="season">📊 Stats de la saison</button><button class="btn icon" data-act="share" data-id="season" aria-label="Partager">${IC.share}</button></div>`:''}</div>
     <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn" data-act="archOrg">↕ Réorganiser</button>':''}</div>
-    ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}
+    ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}}
   else if(ct==='team'){
     const gf=store.prefs.gFilt||'';
     body=`<div class="card teamc stk">${teamPickHTML('team',true)}</div>
@@ -4519,7 +4543,7 @@ function exportPDF(m){
 function lean(m){const c=JSON.parse(JSON.stringify(m));delete c.redo;delete c.pend;return c;}
 function archiveCur(){
   const c=store.cur;if(!c.ev.length||c.id===DEMO_CUR.id||isDemoTeam(c.teamId||store.teamId))return; // équipe d'exemple : rien n'est archivé
-  const k=store.arch.findIndex(a=>a.id===c.id);const l=lean(c);if(!l.seasonId){const t=activeTeam();if(t)l.seasonId=t.curSeason;}
+  const k=store.arch.findIndex(a=>a.id===c.id);const l=lean(c);if(!l.seasonId){const t=activeTeam();if(t){if(!ensureSeasons(t).seasons.length)seasonNew(t);l.seasonId=t.curSeason;}}
   if(k>=0)store.arch[k]=l;else store.arch.unshift(l);
 }
 
@@ -4620,19 +4644,19 @@ const A={
     try{await nativeSave(q.filename,q.data);}catch(e){if(!/cancel|abort/i.test(String(e&&e.message||e)))toast('Partage impossible sur cet appareil','warn');}return 1;},
   async exportKeep(){const q=ui.exportQ;ui.exportQ=null;ui.sheet=null;render();if(!q)return 1;
     try{if(await nativeKeep(q.filename,q.data))toast('Fichier enregistré','ok');}catch(e){toast('Enregistrement impossible sur cet appareil','warn');}return 1;},
-  seasonRen(){ui.seasonMode='ren';ui.sheet='seasonName';},
-  seasonDel(){if(isDemoTeam())return;ui.seasonDelId=selSeason();ui.confirm=null;ui.sheet='seasonDel';},
+  seasonRen(){if(!seasonObj())return;ui.seasonMode='ren';ui.sheet='seasonName';},
+  seasonDel(){if(isDemoTeam()||!seasonObj())return;ui.seasonDelId=selSeason();ui.confirm=null;ui.sheet='seasonDel';},
   // export proposé avant suppression : permis aussi en version gratuite (protection des données)
   seasonDelExport(){const so=seasonObj(ui.seasonDelId);if(!so)return;saveFile(`saison_${slug(so.name)}_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:so.name,exported:new Date().toISOString(),arch:seasonMatches(so.id)}));return 'keep';},
   seasonDelGo(){if(ui.confirm!=='sdel'){ui.confirm='sdel';return 'keep';}const T=activeTeam(),id=ui.seasonDelId,so=seasonObj(id);if(!T||!so)return;
     const n=seasonMatches(id).length,wasCur=id===T.curSeason;
     store.arch=store.arch.filter(a=>!(teamOf(a)===T.id&&seasonOf(a)===id));T.seasons=T.seasons.filter(x=>x.id!==id);
-    // saison en cours supprimée : une nouvelle saison vide prend le relais (les saisons clôturées le restent)
-    if(wasCur){const ns={id:'s'+Date.now().toString(36),name:seasonDefName(),closed:false};T.seasons.push(ns);T.curSeason=ns.id;}
+    // saison en cours supprimée : une nouvelle saison vide prend le relais (les saisons clôturées le restent) ; dernière saison supprimée : aucune saison (V193)
+    if(wasCur&&T.seasons.length){const ns={id:'s'+Date.now().toString(36),name:seasonDefName(),closed:false};T.seasons.push(ns);T.curSeason=ns.id;}
     ensureSeasons(T);ui.seasonSel=T.curSeason;ui.seasonDelId=null;ui.confirm=null;ui.sheet=null;ui.coachView=null;CAL_CACHE={k:null,v:null};save();
     toast('Saison supprimée','ok');},
-  seasonClose(){ui.seasonMode='close';ui.sheet='seasonName';},
-  seasonOk(){const v=(($('#seasonIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}const T=activeTeam();
+  seasonClose(){if(!seasonObj())return;ui.seasonMode='close';ui.sheet='seasonName';},
+  seasonOk(){const v=(($('#seasonIn')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}const T=activeTeam();if(!seasonObj()){ui.sheet=null;return;}
     if(ui.seasonMode==='close'){const so=seasonObj(T.curSeason);so.closed=true;
       store.arch.forEach(a=>{if(teamOf(a)===T.id&&!a.seasonId)a.seasonId=so.id;});
       const ns={id:'s'+Date.now().toString(36),name:v,closed:false};T.seasons.push(ns);T.curSeason=ns.id;ui.seasonSel=ns.id;toast(`« ${so.name} » clôturée · « ${v} » ouverte`,'ok');}
@@ -4875,7 +4899,7 @@ const A={
   vcLinkAuto(){const r=(store.vids||[]).find(x=>x.id===ui.vlink);if(!r)return;[r].concat((store.vids||[]).filter(x=>x.src===r.id)).forEach(x=>{delete x.mid;delete x.noLink;});save();ui.sheet=null;ui.vlink=null;},
   vsSeg(d){vsSet(d.g+'.'+d.k,d.v!==''&&!isNaN(d.v)?+d.v:d.v);if(ui.sheet==='vexp'&&ui.vexp&&d.g==='exp')ui.vexp[d.k]=VS().exp[d.k];},
   // Export (V183) : fiche de choix (qualité, vitesse, coupe, son, bandeau), puis module natif transcode (réencodage, ralenti, son) ou exportCut (copie)
-  vexpSet(d){const X=ui.vexp;if(!X)return;const k=d.k,v=d.v!==''&&!isNaN(d.v)?+d.v:d.v==='true'?true:d.v==='false'?false:d.v;X[k]=typeof X[k]==='boolean'?!X[k]:v;if(k!=='ov')vsSet('exp.'+k,X[k]);},
+  vexpSet(d){const X=ui.vexp;if(!X)return;const k=d.k,v=d.v!==''&&!isNaN(d.v)?+d.v:d.v==='true'?true:d.v==='false'?false:d.v;X[k]=typeof X[k]==='boolean'?!X[k]:v;if(k!=='ov'&&k!=='src')vsSet('exp.'+k,X[k]);},
   vsJump(d){const m=sumMatch();if(!m)return;const r=vcRecFor(m),ev=m.ev[+d.ei];if(!r||!ev)return;vsGo(m,r,vsPointTime(ev));},
   vsJumpAct(d){const m=sumMatch()||store.cur,r=vcRecFor(m);if(!r)return;vsGo(m,r,+d.t);},
   vidSnd(d){VP().snd=d.v==='1';save();},
@@ -4906,6 +4930,7 @@ const A={
     const r0=L[0].r,e={id:'v'+Date.now().toString(36),mode:'match',clip:1,tmp:1,src:r0.id,srcs,name:`${who} · ${what}${Q.signs.length?' '+Q.signs.map(v=>v>0?'+':v<0?'−':'=').join(''):''}`,t0:r0.t0,dur:tot,size,q:r0.q,fps:r0.fps,segs,cuts:vcCuts(R,tot)};
     if(web){e.web=1;VID.mem[e.id]=mem;}store.vids=[e].concat(store.vids||[]);save();toast(tr('Montage créé : {N} extraits').replace('{N}',R.length),'ok');if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});},
   vstMenu(){ui.vstMenu=!ui.vstMenu;ui.confirm=null;},
+  vstOri(d){const P=VP();if(d.v==='a')delete P.vori;else P.vori=d.v;save();const r=vstRec();if(r)vstLock(r);},
   // dernière stat (chip) : annulée, vidéo à son heure (V186), arrêtée, panneau ouvert ; un point attribué est rouvert avec toutes ses stats
   vstBack(){const V=store.vst,m=store.cur,P=vstPb();if(!V||!P)return;const l=vstLastStat(m);if(!l)return;
     if(V.mode==='val'&&!V.ins){A.stUndo();}
@@ -4966,28 +4991,35 @@ const A={
   vidKeep(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r)return 1;P.undo.push(JSON.stringify(vCuts(r)));if(P.undo.length>50)P.undo.shift();vSetCut(r,P.pos,!vDropNext(r,P.pos));},
   vidUndo(){const P=VID.pb,r=vRec();if(!P||!r||!P.undo.length)return 1;r.cuts=JSON.parse(P.undo.pop());save();},
   // Export du montage (parties gardées recollées sans réencodage par le module natif), puis Galerie ou Partager
-  vidExport(){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidExp)return 1;
+  vidExport(d){if(!isPro()){ui.sheet='pro';return;}const P=VID.pb,r=vRec();if(!P||!r||ui.vidExp)return 1;
     if(!vNative()){toast('Export disponible dans l’appli installée','warn');return 1;}
-    const R=vRanges(r,P.tot);if(!R.length){toast('Rien à exporter : tout est jeté','warn');return 1;}
+    if(!(d&&d.src==='pts')&&!vRanges(r,P.tot).length){toast('Rien à exporter : tout est jeté','warn');return 1;}
     const S=VS(),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};P.play=false;
-    ui.vexp={preset:S.exp.preset,speed:S.exp.speed,exact:S.exp.exact,audio:!!r.aud&&S.exp.audio,ov:S.ov.on&&av.ok};ui.sheet='vexp';},
-  async vexpGo(){const P=VID.pb,r=vRec(),X=ui.vexp;if(!P||!r||!X||ui.vidExp)return 1;ui.sheet=null;const R=vRanges(r,P.tot),src=vidSrcSize(r),V=CAP().VideoDelay;
+    ui.vexp={preset:S.exp.preset,speed:S.exp.speed,exact:S.exp.exact,audio:!!r.aud&&S.exp.audio,ov:S.ov.on&&av.ok,src:d&&d.src==='pts'&&vmontOk(m,r)?'pts':'cut'};ui.sheet='vexp';},
+  vidMonte(d){A.vidPlay(d);if(!VID.pb)return;VID.pb.play=false;A.vidExport({src:'pts'});}, // V193 : liste des vidéos → export du match monté
+  async vexpGo(){const P=VID.pb,r=vRec(),X=ui.vexp;if(!P||!r||!X||ui.vidExp)return 1;const mM=vcMatchFor(r),pts=X.src==='pts'&&vmontOk(mM,r),R=pts?vmontRanges(mM,r):vRanges(r,P.tot),src=vidSrcSize(r),V=CAP().VideoDelay;
+    if(!R.length){toast(pts?tr('Aucun point à exporter'):'Rien à exporter : tout est jeté','warn');return 1;}ui.sheet=null;
     // bandeau : états du score sur la ligne de temps du fichier exporté, une image PNG par état (video-export.js)
     let overlay=null;const m=X.ov?vcMatchFor(r):null;
-    if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,X.speed);
+    if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,pts?1:X.speed);
       if(sp.length){const im=ovImages(sp,Object.assign({size:vxSize(X.preset,src)||src,team:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||'Nous',opp:m.opp||tr('Adversaire')},oo));overlay={images:im.images,spans:im.spans.map(s=>Object.assign({},s,im.pos[s.key]))};}}
-    const plan=vxPlan(R,P,{preset:X.preset,speed:X.speed,audio:X.audio&&!!r.aud,exact:X.exact,overlay,src,size:r.size,fps:r.fps,r});
+    const plan=vxPlan(R,P,{preset:X.preset,speed:pts?1:X.speed,audio:X.audio&&!!r.aud,exact:pts||X.exact,overlay,src,size:r.size,fps:r.fps,r});if(pts)plan.name=plan.name.replace(/\.mp4$/,'_monte.mp4');
     try{const inf=await V.info();if(inf&&inf.free!=null&&inf.free<plan.est.size*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
     const useT=!!V.transcode&&(plan.reencode||plan.speed!==1||plan.audio);ui.vidExp={p:0};P.play=false;render();
     const l=await V.addListener('export',e=>{if(ui.vidExp)ui.vidExp.p=e.p||0;});
     try{const o=useT?await V.transcode({pieces:plan.pieces,name:plan.name,width:plan.size?plan.size.w:0,height:plan.size?plan.size.h:0,bitrate:plan.kbps?plan.kbps*1000:0,speed:plan.speed,exact:plan.exact,audio:plan.audio,overlay})
         :await V.exportCut({pieces:plan.pieces,name:plan.name});
-      ui.vidOut={path:o.path,size:o.size,name:plan.name};ui.sheet='vidOut';}
+      ui.vidOut={path:o.path,size:o.size,name:plan.name};
+      // V193 : match monté : sauvegarde du match jointe, avec la table de temps de la vidéo montée (m.vref) pour la caler chez le destinataire
+      if(pts){const c=lean(mM);c.vref={name:plan.name,dur:R.reduce((a,[x,y])=>a+y-x,0),tmap:vxTmap(r,R),off:vcOffset(mM,r).off};ui.vidOut.vbcs={name:`match_${slug(mM.opp||'match')}_${mM.date||today()}_monte.vbcs`,data:JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),arch:[c]})};}
+      ui.sheet='vidOut';}
     catch(e){toast(String((e&&e.message)||'Export impossible'),'warn');}
     finally{try{l.remove();}catch(e){}ui.vidExp=null;render();}return 1;},
   async vidGal(){const o=ui.vidOut;if(!o)return 1;try{await CAP().VideoDelay.saveToGallery({path:o.path,name:o.name});toast('Vidéo enregistrée dans la galerie','ok');ui.sheet=null;}
     catch(e){toast(e&&e.code==='UNSUPPORTED'?'Galerie indisponible sur cet appareil : utilisez « Partager »':e&&e.code==='DENIED'?'Accès aux photos refusé : autorisez-le dans les réglages':'Enregistrement impossible','warn');}render();return 1;},
-  async vidShareOut(){const o=ui.vidOut;if(!o)return 1;try{await CAP().Share.share({title:o.name,files:[o.path],dialogTitle:'Partager'});}catch(e){}return 1;},
+  async vidShareOut(){const o=ui.vidOut;if(!o)return 1;const P=CAP(),files=[o.path];
+    if(o.vbcs){try{const w=await P.Filesystem.writeFile({path:o.vbcs.name,data:await b64Of(o.vbcs.data),directory:'CACHE'});files.push(w.uri);}catch(e){toast(tr('Fichier des stats impossible à préparer'),'warn');return 1;}}
+    try{await P.Share.share({title:o.name,files,dialogTitle:'Partager'});}catch(e){}return 1;},
   vidPP(){const B=VID.pb;if(!B)return 1;if(vstOn())return A.vstTap();if(!B.play&&B.pos>=B.tot)B.pos=0;B.play=!B.play;B.at=Date.now();return 1;},
   vidPR(d){if(VID.pb)VID.pb.r=+d.v;},
   vidPbX(){const cr=VID.pb&&vRec();if(cr&&cr.tmp){ui.sheet='clipKeep';return;} // V188 : clip pas encore gardé → « Garder ce clip ? »
@@ -5006,7 +5038,7 @@ const A={
   pdf(d){if(!shareOk(d.id)){ui.sheet='pro';return;}const m=d.id==='season'?(statArch().length?seasonMatch():null):d.id?store.arch.find(a=>a.id===d.id):store.cur;if(m)exportPDF(m);return 1;},
   seasonJson(){if(!shareOk('season')){ui.sheet='pro';return;}saveFile(`saison_${today()}.vbcs`,JSON.stringify({app:APPID,v:1,type:'saison',team:(activeTeam()||{}).name,season:(seasonObj()||{}).name,exported:new Date().toISOString(),arch:teamArch()}));return 1;},
   mergeYes(){if(!isPro()){ui.sheet='pro';toast('La fusion des saisies fait partie de VolleyCoach Pro','warn');return;}ui.sheet='merge2';},
-  mergeNo(){const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const c=JSON.parse(JSON.stringify(q.imp));c.id='m'+Date.now().toString(36);store.arch.push(c);store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));save();toast('Match importé en doublon dans l’archive','ok');},
+  mergeNo(){const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const c=JSON.parse(JSON.stringify(q.imp));c.id='m'+Date.now().toString(36);store.arch.push(c);vrefSync();store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));save();toast('Match importé en doublon dans l’archive','ok');},
   mergeGo(d){if(!isPro()){ui.sheet='pro';toast('La fusion des saisies fait partie de VolleyCoach Pro','warn');return;}const q=ui.mergeQ;ui.mergeQ=null;ui.sheet=null;if(!q)return;const loc=q.where==='cur'?store.cur:store.arch.find(a=>a.id===q.id);if(!loc)return;
     const {m,rep}=mergeMatches(loc,q.imp,d.v);if(q.where==='cur'){m.pend=store.cur.pend||[];store.cur=m;}else{const k=store.arch.findIndex(a=>a.id===q.id);store.arch[k]=m;}save();
     ui.alert=['Fusion terminée.',mergeReport(rep,d.v)];ui.alertFixes=[];ui.alertMode=null;ui.alertClose='Fermer';},
@@ -5154,7 +5186,7 @@ const A={
       if(store.cur.id===o.id||store.arch.some(a=>a.id===o.id))o.id=o.id+'-'+Date.now().toString(36)+n;
       o.teamId=t.id;o.team=t.name;o.seasonId=sid;o.f4=fc4(P.f4);delete o.order;store.arch.push(o);n++;});
     store.arch.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-    ui.imp=null;ui.sheet=null;save();
+    ui.imp=null;ui.sheet=null;vrefSync();save();
     toast(tr(n>1?'{N} matchs importés':'1 match importé').replace('{N}',n)+' · '+t.name+(added?' · '+tr(added>1?'{N} joueurs ajoutés':'1 joueur ajouté').replace('{N}',added):''),'ok');if(full)toast("Effectif complet : certains joueurs n'ont pas été ajoutés",'warn');},
   teamGender(d){const t=activeTeam();if(t&&!t.locked){t.gender=d.v;save();}},
   gFilt(d){store.prefs.gFilt=d.v||'';ui.tsOpen='team';save();},
@@ -5231,7 +5263,10 @@ function reSign(x,sg){const y=x.slice();y[1]=sg;return y;} // note inversée : m
 function addStat(x){const m=store.cur,V=store.vst;
   // validation sur un film (V185) : la stat s'intercale avant celle proposée, datée de l'image ; la lecture reprend
   if(vstOn()&&V&&V.mode==='val'&&!V.ins&&V.i>=0){const ev=m.ev[V.i];x=tStamp(x);x[6]=1;(ev.st||(ev.st=[])).splice(V.j||0,0,x);V.j=(V.j||0)+1;ev.ed=1;vstValSync(m);CAL_CACHE={k:null,v:null};save();vstResume();render();return;}
-  (m.pend||(m.pend=[])).push(tStamp(x));if(vstOn()){if(m.pend.length===1)vstRally();else vstResume();}save();render();}
+  (m.pend||(m.pend=[])).push(tStamp(x));if(m.free)freeSetSrv(m);if(vstOn()){if(m.pend.length===1)vstRally();else vstResume();}save();render();}
+// V193 : match sans composition : le set est lancé « nous au service » faute de mieux ; la première stat du premier échange du set dit qui sert
+// (service = nous, réception = l'adversaire), sinon le set suivant proposerait le même serveur
+function freeSetSrv(m){const x=(m.pend||[])[0];if(!x||(x[0]!=='srv'&&x[0]!=='rec'))return;let k=m.ev.length-1;while(k>=0&&m.ev[k].t!=='set'){if(m.ev[k].t==='pt')return;k--;}if(k<0)return;const s=x[0]==='srv'?'G':'A';if(m.ev[k].s!==s)m.ev[k].s=s;}
 // Premier serveur par défaut sans rotation : le joueur au poste 1 (4x4, 3x3), le joueur de gauche en 2x2
 function sz4Def(G){const S=(G||FMT4[(F4&&F4.n)||4]).SRV;return S.length>2&&S.includes(1)?1:S[0];}
 function initDraft(m,S){
@@ -5460,6 +5495,7 @@ function importData(d){
         ui.importQ.push({name:t.name||'Équipe importée',R,match:best.id,k:best.k});}
       else{const nt=newTeamFrom(t.name,R);if(t.gender)nt.gender=t.gender;if(fc4(t.f4))nt.f4=fc4(t.f4);if(Array.isArray(t.seasons)&&t.seasons.length){nt.seasons=t.seasons.map(x=>({id:x.id,name:x.name,closed:!!x.closed}));nt.curSeason=nt.seasons.some(x=>x.id===t.curSeason)?t.curSeason:nt.seasons[nt.seasons.length-1].id;}rn=(rn<0?0:rn)+1;}});
     inc.forEach(t=>{const x=store.teams.find(y=>y.name===t.name);if(!x||!Array.isArray(t.seasons))return;ensureSeasons(x);t.seasons.forEach(so=>{if(so&&so.id&&!x.seasons.some(y=>y.id===so.id))x.seasons.push({id:so.id,name:so.name,closed:true});});});
+    vrefSync();
     store.arch.forEach(a=>{if(!a.teamId||!store.teams.some(t=>t.id===a.teamId)){const t=store.teams.find(t=>t.name===a.team);a.teamId=t?t.id:store.teamId;}});
     if(ui.importQ.length)ui.sheet='teamImport';
     save();
