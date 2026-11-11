@@ -131,7 +131,7 @@ const VX_SETTINGS={
   auto:{before:{def:1.5,min:0,max:10,step:.5},after:{def:1,min:0,max:10,step:.5},minDead:{def:4,min:2,max:15,step:1},minRally:{def:2,min:1,max:6,step:.5}},
   clip:{before:{def:1.5,min:0,max:15,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s avant / après
   ov:{on:{def:true},corner:{def:'tl',opts:['tl','tr','bl','br']},scale:{def:'m',opts:['s','m','l']},names:{def:'full',opts:['full','short','none']},rot:{def:true},srv:{def:true},server:{def:true},subs:{def:true},subDur:{def:8,min:3,max:20,step:1},opacity:{def:.78,min:.4,max:1,step:.02}},
-  exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false},ptB:{def:2,min:0,max:10,step:.5},ptA:{def:2,min:0,max:10,step:.5}}, // V193 : match monté, gardé avant le début / après la fin de chaque point (s)
+  exp:{preset:{def:'orig',opts:Object.keys(VX_PRESETS)},speed:{def:1,opts:VX_SPEEDS},audio:{def:false},exact:{def:false},ptB:{def:2,min:0,max:10,step:.5},ptA:{def:2,min:0,max:10,step:.5},trB:{def:3,min:0,max:10,step:.5},trA:{def:2,min:0,max:10,step:.5}}, // V193 : match monté, gardé avant le début / après la fin de chaque point (s)
   // saisie sur un film (V184) : gardé avant la première action (service / réception) et après le point (s) ; vitesses pendant l'échange et après le point
   pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s après le point
   // V185 : react = temps de réaction (s de temps réel entre l'action vue et le tap, retiré de l'heure de la stat selon la vitesse de lecture)
@@ -187,7 +187,9 @@ function vstAnchor(ev){if(!ev)return null;const st=(ev.st||[]).map(x=>x[5]).filt
 // V189 : « Début du point » (entraînement) : ev.t0 = heure du début, prise comme première action (marge du service)
 function vstFirst(ev){if(!ev)return null;let b=Number.isFinite(ev.t0)?{t:ev.t0,kind:'start'}:null;(ev.st||[]).forEach(x=>{if(Number.isFinite(x[5])&&(!b||x[5]<b.t))b={t:x[5],kind:x[0]};});return b||(Number.isFinite(ev.at)?{t:ev.at,kind:null}:null);}
 // Plages gardées (positions ms) d'après les points : o = {off, srv, rec, after, noStat} (ms ; noStat = avance quand le point n'a aucune action)
-function vstRanges(m,r,o){o=Object.assign({off:(r&&r.off)||0,srv:1500,rec:2500,after:1500,noStat:6000},o||{});if(!r||!_VC.vcPosOf)return [];const tot=_VC.vcTot?_VC.vcTot(r):Infinity,out=[];
+function vstRanges(m,r,o){o=Object.assign({off:(r&&r.off)||0,srv:1500,rec:2500,after:1500,noStat:6000,trB:3000,trA:2000},o||{});if(!r||!_VC.vcPosOf)return [];const tot=_VC.vcTot?_VC.vcTot(r):Infinity,out=[];
+  // V200 : entraînement (m.free) : une plage par action (trB avant, trA après), sans notion de point
+  if(m&&m.free){((m.ev)||[]).forEach(ev=>{if(ev.t!=='pt')return;(ev.st||[]).forEach(x=>{if(!Number.isFinite(x[5]))return;const p=_VC.vcPosOf(r,x[5]+o.off),a=Math.max(0,p-o.trB),b=Math.min(tot,p+o.trA);if(Number.isFinite(a)&&Number.isFinite(b)&&b-a>=200)out.push([Math.round(a),Math.round(b)]);});});return out.sort((p,q)=>p[0]-q[0]);}
   ((m&&m.ev)||[]).forEach(ev=>{if(ev.t!=='pt'||!Number.isFinite(ev.at))return;const f=vstFirst(ev),before=f.kind==null?o.noStat:f.kind==='srv'||f.kind==='start'?o.srv:o.rec;
     const a=Math.max(0,_VC.vcPosOf(r,f.t+o.off)-before),b=Math.min(tot,_VC.vcPosOf(r,ev.at+o.off)+o.after);if(Number.isFinite(a)&&Number.isFinite(b)&&b-a>=200)out.push([Math.round(a),Math.round(b)]);});
   return out.sort((p,q)=>p[0]-q[0]);}
