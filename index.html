@@ -234,7 +234,7 @@ label.f select:disabled{opacity:.7}
 .tok .rl{position:absolute;bottom:-6px;right:-6px;background:var(--surface);color:var(--ink);border:2px solid var(--rc);border-radius:8px;font-size:13px;line-height:1;padding:3px 5px;font-weight:700}
 .tok .nm{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 8px;font-weight:600;font-size:clamp(11px,2.5cqw,17px);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .tok .sub{font-size:11px;color:var(--libInk);background:var(--libBg);border-radius:6px;padding:1px 6px;white-space:nowrap}
-.pi{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;flex:none;overflow:visible}
+.pi{pointer-events:none;display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;flex:none;overflow:visible}
 .tok .ballb{position:absolute;top:-8px;left:-8px;width:28px;height:28px}
 .tok .zn{position:absolute;top:-8px;left:-8px;background:var(--ink);color:var(--bg);border-radius:6px;font-size:12px;padding:2px 5px;font-weight:700}
 .tok.flash .disc{animation:flash 1.2s ease-out 2}
@@ -896,7 +896,7 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstprop .lab{font:700 11px Barlow,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#CFE0FF}.vstprop b{font:700 22px 'Barlow Condensed',sans-serif;line-height:1.1}.vstprop b.g{color:#9ad7a8}.vstprop b.a{color:#ff9aa5}.vstprop small{font-size:12px;opacity:.75}
 .vstprop .row{display:flex;gap:6px;flex-wrap:wrap}.vstprop .btn{min-height:40px;background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.4);font-size:14px;padding:0 10px}.vstprop .btn.ok{background:#23924A;border-color:#23924A}.vstprop .btn.no{background:#D7263D;border-color:#D7263D}.vstprop .btn.primary{background:#F2BE22;color:#14243D;border-color:#F2BE22}
 .vstmenu{position:absolute;right:calc(8px + env(safe-area-inset-right,0px));top:calc(52px + env(safe-area-inset-top,0px));z-index:6;background:rgba(10,16,26,.94);border-radius:14px;padding:6px;display:grid;gap:4px;min-width:min(80vw,300px);max-height:calc(100% - 60px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto}@media (orientation:landscape) and (max-height:500px){.vstmenu{grid-template-columns:1fr 1fr;min-width:min(64vw,440px)}.vstmenu .vstmo{grid-column:1/-1}.vstmenu .vstmi{min-height:40px;padding:8px 10px}} /* V195 : téléphone en paysage (iPhone) : menu sur deux colonnes, jamais sous la barre d’accueil */
-.vstmo{display:flex;flex-direction:column;gap:6px;color:#fff;font:600 13px Barlow,sans-serif;padding:4px 2px}.vstmo .seg{width:100%;max-width:none;background:transparent;border-color:rgba(255,255,255,.4)}.vstmo .seg button{flex:1;color:#fff;background:transparent;min-height:40px;font:700 15px 'Barlow Condensed',sans-serif}.vstmo .seg button.on{background:#F2BE22;color:#14243D}.vstmi{background:rgba(255,255,255,.08);color:#fff;border:0;border-radius:10px;padding:10px 12px;font:600 15px Barlow,sans-serif;text-align:left;min-height:44px}.vstmi:disabled{opacity:.4}.vstmi.danger{background:#D7263D}.panel .vfin{width:100%}.vfin2{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 24px;margin-top:10px}.vfin2 .linkbtn{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-weight:700;min-height:40px}.vfin2 .linkbtn.mute{color:var(--muted)}.vstmi small.n{display:inline;margin-left:6px;font-size:inherit;opacity:.65}@media (orientation:landscape) and (max-height:500px){.vstage.vst .vstmenu,.vstage.pb .vstmenu{grid-template-columns:repeat(3,minmax(0,1fr))}.vstage.vst .vstmenu .vstmo{grid-column:span 2;flex-direction:row;align-items:center}.vstage.vst .vstmenu .vstmo>span{flex:none}.vstage.vst .vstmenu .vstmi{min-height:42px;padding:8px 12px}.vstage.vst .vstmenu .vstmi small:not(.n){display:none}.vstmg{display:none}}.vstmg{grid-column:1/-1;color:#9fb0c9;font:700 11.5px Barlow,sans-serif;letter-spacing:.07em;text-transform:uppercase;padding:6px 4px 0}.vstmi.vstmq{grid-column:1/-1;background:transparent;border:1.5px solid #e0606e;color:#ffb3bb;margin-top:6px}.vstmi.vstmq.danger{background:#D7263D;color:#fff}.btn.mon{background:#F2BE22!important;color:#14243D!important;border-color:#F2BE22!important}.vstmi small{opacity:.7}
+.vstmo{display:flex;flex-direction:column;gap:6px;color:#fff;font:600 13px Barlow,sans-serif;padding:4px 2px}.vstmo .seg{width:100%;max-width:none;background:transparent;border-color:rgba(255,255,255,.4)}.vstmo .seg button{flex:1;color:#fff;background:transparent;min-height:40px;font:700 15px 'Barlow Condensed',sans-serif}.vstmo .seg button.on{background:#F2BE22;color:#14243D}.vstmi{background:rgba(255,255,255,.08);color:#fff;border:0;border-radius:10px;padding:10px 12px;font:600 15px Barlow,sans-serif;text-align:left;min-height:44px}.vstmi:disabled{opacity:.4}.vstmi.danger{background:#D7263D}.panel .vfin{width:100%}.vfin2{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 24px;margin-top:10px}.vfin2 .linkbtn{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-weight:700;min-height:40px}.vfin2 .linkbtn.mute{color:var(--muted)}.vstmi small.n{display:inline;margin-left:6px;font-size:inherit;opacity:.65}@media (orientation:landscape) and (max-height:500px){.vstage.vst .vstmenu,.vstage.pb .vstmenu{grid-template-columns:repeat(3,minmax(0,1fr))}.vstage.vst .vstmenu .vstmo{grid-column:span 2;flex-direction:row;align-items:center}.vstage.vst .vstmenu .vstmo>span{flex:none}.vstage.vst .vstmenu .vstmi{min-height:42px;padding:8px 12px}.vstage.vst .vstmenu .vstmi small:not(.n){display:none}.vstmg{display:none}}.vstmg{grid-column:1/-1;color:#9fb0c9;font:700 11.5px Barlow,sans-serif;letter-spacing:.07em;text-transform:uppercase;padding:6px 4px 0}.vstmi.vstmq{grid-column:1/-1;background:transparent;border:1.5px solid #e0606e;color:#ffb3bb;margin-top:6px}.vstmi.vstmq.danger{background:#D7263D;color:#fff}.btn.vfsx{min-width:46px;padding:0 10px;justify-content:center}.btn.vfsx .pi{width:24px;height:24px}.btn.mon{background:#F2BE22!important;color:#14243D!important;border-color:#F2BE22!important}.vstmi small{opacity:.7}
 .vstbar .vstnav .btn{min-height:40px;padding:0 10px;font-size:14px}.vstbar .vpos{min-width:80px}.vstbar .vrow2{row-gap:6px}
 .pfexp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0}.pfexp span{font-weight:700;flex:1 1 100%}.pfexp .btn{min-height:40px}
 .subkp{margin-top:12px}.subkp p{margin:0 0 6px;font-weight:700}.subkp .seg button{flex:1;min-height:44px}.subkp small{display:block;font-weight:500;opacity:.8}
@@ -930,22 +930,22 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .ehh{display:flex;align-items:center;gap:6px 8px;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.12);flex-wrap:wrap}.ehh .edhx{margin-left:auto}.ehh b{font:700 17px 'Barlow Condensed',sans-serif}
 .ehh .seg{order:3;flex:1 1 100%;width:100%;background:transparent;border-color:rgba(255,255,255,.35);max-width:none}.ehh .seg button{flex:1;color:#fff;background:transparent;font:600 12px Barlow,sans-serif;min-height:30px;padding:0 8px;white-space:nowrap}.ehh .seg button.on{background:#e9eef7;color:#14243D}
 .edhx{min-height:30px;padding:0 10px;background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
-.ehl{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.ehl{position:relative;flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .ehs{padding:5px 10px;font:800 11px Barlow,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#9fb0c9;background:rgba(255,255,255,.04)}
 .ehp,.ehr{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;color:#fff;text-align:left;font:600 14px Barlow,sans-serif;cursor:pointer}
 .ehp{padding:8px 10px;border-top:1px solid rgba(255,255,255,.08);min-height:40px}.ehp b{min-width:44px;font:800 16px 'Barlow Condensed',sans-serif}.ehp span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ehp em{font-style:normal;color:#9fb0c9;font-size:12px}
 .ehp.cur{background:rgba(242,190,34,.14);box-shadow:inset 4px 0 0 #F2BE22}
 .ew{width:10px;height:10px;border-radius:50%;background:#7d8aa0;flex:none}.ew.g{background:#23924A}.ew.a{background:#D7263D}
-.ehr{padding:6px 10px 6px 26px;font-size:13px;min-height:36px}.ehr span:first-of-type{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ehr .tm{font:600 12px ui-monospace,Consolas,monospace;color:#c7d2e2;flex:none}.ehr.act{background:rgba(242,190,34,.26)}
+.ehr{padding:6px 10px 6px 26px;font-size:13px;min-height:36px}.ehr span:first-of-type{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ehr .tm{font:600 12px ui-monospace,Consolas,monospace;color:#c7d2e2;flex:none}.ehr.act{background:rgba(242,190,34,.26)}.ehr.now{box-shadow:inset 4px 0 0 #4FC3F7;background:rgba(79,195,247,.2);font-weight:700}.ehr.act.now{background:linear-gradient(90deg,rgba(79,195,247,.28),rgba(242,190,34,.26))}
 .est{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-style:normal;font-size:12px;font-weight:800;flex:none}.est.ok{background:#23924A;color:#fff}.est.no{border:1.5px solid #7d8aa0;color:#7d8aa0}.est.v{border:1.5px dashed #7d8aa0;color:transparent}.est.wn{background:#d98a00;color:#fff}
 .ehw{padding:4px 10px 4px 26px;font-size:12px;color:#ffcf70}.ehe{padding:16px 10px;color:#9fb0c9}
-.vstspd .spdcur{display:none}@media (max-width:599px),(max-height:599px){.vstage.ed .vstspd{top:calc(52px + env(safe-area-inset-top,0px));transform:none;flex-direction:column}.vstspd .spdcur{display:block;font-weight:800}.vstspd:not(.open) .spdo{display:none}.vstspd.open .spdcur{border-bottom:1px solid rgba(255,255,255,.3)}}
+/* V201 : vitesses repliées partout (« ×1 ▾ ») : un tap déplie sur le côté, un tap choisit, un tap à côté referme */.vstspd .spdcur{display:block;font-weight:800}.vstspd:not(.open) .spdo{display:none}.vstage .vstspd.open{flex-direction:row-reverse}.vstspd.open .spdcur{border-left:1px solid rgba(255,255,255,.3)}@media (max-width:599px),(max-height:599px){.vstage.ed .vstspd{top:calc(52px + env(safe-area-inset-top,0px));transform:none}}
 .vstage.ed.mo{right:0!important;bottom:0!important}.vstage.ed.mo~.edhist{display:none!important} /* menu ouvert : plein écran, historique masqué */
 .vstage.vst .vstmenu{min-width:min(92vw,440px);padding:8px;gap:6px}.vstage.vst .vstmi{min-height:54px;font-size:17px;padding:12px 16px}.vstmi small{display:block;font-size:12.5px;font-weight:500;margin-top:2px}.vstmi.on{background:#F2BE22;color:#14243D}.vstmi.on small{opacity:.85}
 @media (orientation:landscape) and (max-height:500px){.vstage.vst .vstmenu{min-width:min(88vw,640px)}.vstage.vst .vstmi{min-height:48px;font-size:16px}}
 /* V199 : plein écran vidéo : seul ☰ reste (et le tableau de saisie s'il est ouvert) ; vfsp = commandes réaffichées 4 s après un appui */
 .vstage.vfs{right:0!important;bottom:0!important}.vstage.vfs~.edhist{display:none!important}
-.vstage.vfs:not(.vfsp) .vsttl,.vstage.vfs:not(.vfsp) .vstmid,.vstage.vfs:not(.vfsp) .vsttr>.btn:not(.vstmb),.vstage.vfs:not(.vfsp) .vstspd,.vstage.vfs:not(.vfsp) .vbar,.vstage.vfs:not(.vfsp) .vtop>*:not([data-act=vidMenu]),.vstage.vfs:not(.vfsp) .vstptr{display:none!important}
+.vstage.vfs:not(.vfsp) .vsttl,.vstage.vfs:not(.vfsp) .vstmid,.vstage.vfs:not(.vfsp) .vsttr>.btn:not(.vstmb):not(.vfsx),.vstage.vfs:not(.vfsp) .vstspd,.vstage.vfs:not(.vfsp) .vbar,.vstage.vfs:not(.vfsp) .vtop>*:not([data-act=vidMenu]):not(.vfsx),.vstage.vfs:not(.vfsp) .vstptr{display:none!important}
 .vstage.vfs:not(.vfsp) .vstmb,.vstage.vfs:not(.vfsp) .vtop [data-act=vidMenu]{opacity:.75}
 .vxset{border:1px solid var(--line);border-radius:10px;margin:6px 0;padding:0 10px}.vxset summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;cursor:pointer;list-style:none}.vxset summary::-webkit-details-marker{display:none}.vxset summary small{color:var(--muted)}
 .vxpts{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 10px}.vxpt{min-width:52px;min-height:36px;justify-content:center;font-weight:800}.vxpt.g{color:var(--pos)}.vxpt.a{color:var(--neg)}.vxpt:not(.sel){opacity:.45}
@@ -1001,7 +1001,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V200';
+const APP_VERSION='V201';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1512,6 +1512,8 @@ function replay0(m){
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
         if(pid&&k==='srv'&&ev.w==='G'&&(ev.ace===1||(ev.ace==null&&sg>0)))inc('aceN'); // « Ace ? » : service + ou = seul noté ; sans réponse (avant la V167) : service + seul
         if(pid&&k==='rec'&&sg<0&&ev.w==='A')inc('rfN');}
+      // V201 : kill : attaque + ou renvoi, dernière stat du point gagné, confirmé par « Kill ? Oui »
+      if(ev.w==='G'&&ev.kill===1&&ev.st&&ev.st.length){const L=ev.st[ev.st.length-1];if(L[2]&&(L[0]==='att'||L[0]==='rel')){const a=S.fx[L[2]]||(S.fx[L[2]]=[{},{},{},{},{}]);a[si].killN=(a[si].killN||0)+1;}}
       // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
       if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
       if(ev.st&&ev.st.length){
@@ -1605,7 +1607,7 @@ function addSeeds(s){s.seeds=s.seeds||[];s.retired=s.retired||[];s.seedTeams=s.s
   (s.teams||[]).forEach(t=>{if(!t.gender)t.gender='F';});
   s.prefs=s.prefs||{};if(!s.prefs.trialStart){s.prefs.trialStart=today(); // essai Pro de 14 jours à la première ouverture
     if(s.prefs.easy===undefined&&typeof matchMedia==='function')s.prefs.easy=matchMedia('(max-width:599px)').matches;
-    if(s.prefs.autoMatch===undefined)s.prefs.autoMatch=true;if(s.prefs.autoSeason===undefined)s.prefs.autoSeason=true;} // sauvegardes automatiques par défaut // première installation sur téléphone : mode stats faciles
+    if(!s.prefs.l201)s.prefs.l201=Date.now(); /* V201 : date de passage à la V201 (liens vidéo ↔ match d'avant gardés) */if(s.prefs.autoMatch===undefined)s.prefs.autoMatch=true;if(s.prefs.autoSeason===undefined)s.prefs.autoSeason=true;} // sauvegardes automatiques par défaut // première installation sur téléphone : mode stats faciles
   // saisie sur un film interrompue pendant l'insertion d'un point (V184) : la fin du match mise de côté est remise en place
   if(s.vst&&s.vst.ins&&s.cur){s.cur.ev.push(...(Array.isArray(s.vst.ins.tail)?s.vst.ins.tail:[]));delete s.vst.ins;s.cur.pend=[];}
   // ancienne équipe d'exemple (V117) : remplacée par Team Earth
@@ -2338,8 +2340,11 @@ function lrnCoords(r,srv){const M=ui.lrnM,f0=F4,l0=LIBPOS;setF4(M&&M.f4?Object.a
   try{const z0=lrnZones(r),R=lrnRoles(z0,r),lib=M?M.lib:lrnLib(),{eff,pr}=effective(z0,R,lib,srv==='G'?'G':'A'),at={},to={},k={},PP=F4?POS4:POS,sv=F4?srvOf(z0,eff):eff[1];
     const RL=Object.assign({},R,pr);if(lib&&!RL[lib])RL[lib]='L';
     if(srv==='A')Object.assign(at,playCoords(z0,R,lib,'A').out);
-    else for(let z=1;z<=6;z++){const id=eff[z];if(id)at[id]=id===sv?(F4?srvXY(z0):SERVE):PP[z];}
-    const map=layoutPlay(eff,pr),d=ui.lrnDef,T=F4||!d||d==='pj'?PP:d==='b1'?BASE1:base2(ui.lrnBall??80);
+    else if(F4)for(let z=1;z<=6;z++){const id=eff[z];if(id)at[id]=id===sv?srvXY(z0):PP[z];}
+    const map=layoutPlay(eff,pr);
+    // V201 : au service, aucune règle de position : chacun est directement à son poste (R4 avant en 4, centre en 3, passe / pointe en 2, libéro et R4 arrière selon l'option tactique), le serveur derrière la ligne
+    if(srv!=='A'&&!F4)for(const q in map)if(map[q])at[map[q]]=map[q]===sv?SERVE:PP[q];
+    const d=ui.lrnDef,T=F4||!d||d==='pj'?PP:d==='b1'?BASE1:base2(ui.lrnBall??80);
     for(const q in map)if(map[q]){to[map[q]]=T[q]||PP[q];k[map[q]]=q;}
     const zs=[null];for(let z=1;z<=6;z++)zs[z]=eff[z]||null;return {zs,R:RL,at,to,k,sv:srv==='G'?sv:null};}finally{setF4(f0);LIBPOS=l0;}}
 // Réception (V177) : écarte les jetons qui se chevauchent (largeur 19 %, hauteur 25 %), sans créer de faute de position
@@ -2361,7 +2366,7 @@ function learnHTML(){const M=ui.lrnM,T=lrnTeam(),RS=lrnRoster();
   const d=ui.lrnDef,c=lrnCoords(r,srv),{zs,R:RL,at,to}=c,key=srv+r+(D?d:'');if(ui.lrnKey!==key){ui.lrnKey=key;ui.lrnPos={};}
   const P={};for(let z=1;z<=6;z++){const id=zs[z];if(id)P[id]=(ui.lrnPos||{})[id]||(D?to[id]:at[id])||at[id];}
   if(srv==='A'&&!Object.keys(ui.lrnPos||{}).length)Object.assign(P,lrnSpread(P,zs,srv));
-  const F=D||f?[]:lrnFaults(zs,P,srv),moved=Object.keys(ui.lrnPos||{}).length,bx=ui.lrnBall??80;
+  const F=srv!=='A'||f?[]:lrnFaults(zs,P,srv),moved=Object.keys(ui.lrnPos||{}).length,bx=ui.lrnBall??80;
   let t='';
   for(let z=1;z<=6;z++){const id=zs[z];if(!id)continue;const p=lrnP(id),rl=RL[id],q=P[id];
     t+=`<button class="tok ltok ${rcls(rl)}" style="left:${q[0]}%;top:${q[1]}%" data-lid="${id}" data-z="${z}" data-k="${D?c.k[id]||'':''}" aria-label="${esc(lrnName(p))}, ${esc(tr(ROLES[rl]||''))}, P${z}"><span class="disc">${esc(p?p.n:'?')}<span class="rl">${esc(RA(rl))}</span><span class="zn">P${z}</span>${id===c.sv?`<span class="ballb">${IC.ball}</span>`:''}</span><span class="nm">${esc(lrnName(p))}</span></button>`;}
@@ -2563,7 +2568,10 @@ function vTrackBg(r,tot,w0,w1){const W=(w1-w0)||1,pc=v=>(Math.max(0,Math.min(1,(
 // Vidéo assistée (V181) : enregistrement de match ↔ match saisi (recouvrement horaire à 30 min près), clips par joueur / action (video-ai.js)
 // V183 : lien par vcLinkPick (video-export.js) : choix manuel r.mid / r.noLink d'abord, sinon meilleur recouvrement avec le décalage connu ; « sure » = sans concurrent
 const vcMatches=()=>[store.cur].concat(store.arch).filter(m=>m&&Array.isArray(m.ev));
-function vcLinkInfo(r){if(!r||r.mode!=='match')return {m:null,auto:true,sure:true,candidates:[]};if(r.clip){const src=(store.vids||[]).find(x=>x.id===r.src);return src?vcLinkInfo(src):{m:null,auto:true,sure:true,candidates:[]};}const k=vcLinkPick(r,vcMatches());return r.imp&&k.auto?{m:null,auto:true,sure:false,candidates:k.candidates}:k;} /* V195 : vidéo importée : lien seulement à la main (ou match monté reçu), les candidats restent proposés */
+function vcLinkInfo(r){if(!r||r.mode!=='match')return {m:null,auto:true,sure:true,candidates:[]};if(r.clip){const src=(store.vids||[]).find(x=>x.id===r.src);return src?vcLinkInfo(src):{m:null,auto:true,sure:true,candidates:[]};}const k=vcLinkPick(r,vcMatches());
+  // V201 : plus de lien automatique : le meilleur match est seulement proposé en premier (fiche « Match filmé ») ; les vidéos d'avant la V201 gardent leur lien sûr, figé en lien choisi
+  if(k.auto&&k.sure&&k.m&&!r.imp&&r.t0<((store.prefs&&store.prefs.l201)||0)){r.mid=k.m.id;return {m:k.m,auto:false,sure:true,candidates:k.candidates};}
+  return k.auto?{m:null,auto:true,sure:false,candidates:k.candidates}:k;} /* V195 : vidéo importée : lien seulement à la main (ou match monté reçu), les candidats restent proposés */
 function vcMatchFor(r){return vcLinkInfo(r).m;}
 // V193 : match monté : chaque point de son début (« Début du point » ou première action) − ptB à sa fin + ptA, plages fusionnées ; point sans action : 6 s avant sa fin
 // V199 : match monté d'une sélection de points (ui.vexp.pick = index des points retenus dans m.ev ; null = tous)
@@ -2687,7 +2695,7 @@ function vmHTML(ML){const Q=vmQ(),pro=isPro();const F=(ML||[]).map(m=>({m,r:m&&!
   const SG=[[1,'+'],[0,'='],[-1,'−']],lab=(L,sel,all)=>sel.length?L.filter(([v])=>sel.includes(v)).map(([,l])=>tr(l)).join(', '):tr(all);
   const kinds=pro?Q.kinds:['pas'],noSync=sel.filter(x=>x.O.src!=='manual'&&x.O.src!=='auto').map(x=>matchTitle(x.m));
   return `<div class="card vmc"><b class="cond" style="font-size:20px">🎬 ${tr('Vidéo')}</b> <span class="hint">${pro?tr('{N} match(s) filmé(s)').replace('{N}',F.length):tr('Gratuit : aperçu de 3 passes du passeur')}${pro?'':` <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button>`}</span>
-    ${grp('p',tr('Joueurs'),Q.pids.length?P.filter(p=>Q.pids.includes(p.id)).map(p=>p.name).join(', '):tr('Toute l’équipe'),P.map(p=>chip(Q.pids.includes(p.id),'vmPid',`data-id="${p.id}"`,`<span class="num ${rcls(p.role)}">${p.n}</span>${esc(p.name)}`)).join(''))}
+    ${grp('p',tr('Joueurs'),Q.pids.length?P.filter(p=>Q.pids.includes(p.id)).map(p=>p.name).join(', '):tr('Toute l’équipe'),chip(P.length>0&&P.every(p=>Q.pids.includes(p.id)),'vmPid',`data-id="" data-all="${P.map(p=>p.id).join(',')}"`,tr('Toute l’équipe'))+P.map(p=>chip(Q.pids.includes(p.id),'vmPid',`data-id="${p.id}"`,`<span class="num ${rcls(p.role)}">${p.n}</span>${esc(p.name)}`)).join(''))}
     ${grp('k',tr('Actions'),lab(VC_K,kinds,'Toutes les actions'),VC_K.map(([k,l])=>chip(kinds.includes(k),'vmKind',`data-k="${k}"`,tr(l),!pro&&k!=='pas')).join(''))}
     ${grp('s',tr('Note'),lab(SG,Q.signs,'Toutes'),SG.map(([v,l])=>chip(Q.signs.includes(v),'vmSign',`data-v="${v}"`,l)).join(''))}
     ${grp('z',tr('Poste'),lab(VM_Z,Q.zones,'Tous'),VM_Z.map(([z,l])=>chip(Q.zones.includes(z),'vmZone',`data-v="${z}"`,tr(l))).join(''))}
@@ -2789,24 +2797,26 @@ function edBarHTML(m,r,P,k){const L=edMarks(m);if(!k)return {h:'',R:null};let pn
   const zone=ki?`<i class="edz" style="left:${lp!=null?pc(lp):0}%;right:${hp!=null?(100-pc(hp)):0}%"></i>`:'';
   const pk=x=>{const p=edKnown(x)?edPosOf(r,x.t):ig?P.pos:a+600; /* heures ignorées : la stat à caler est posée sur la tête de lecture */return `<button class="pk ${x.k==='at'?'end '+(x.w==='A'?'a':'g'):''} ${x.virt?'beg':''} ${x.ca?'ok':''} ${x.key===k.key?'on':''}" data-act="edGo" data-k="${x.key}" style="left:${pc(p)}%" aria-label="${esc(x.lab)}">${esc(x.c)}<span class="lt">${esc(x.k==='st'?x.lab+(x.who?' '+x.who.split(' ')[0]:''):x.lab)}</span></button>`;};
   const d=edDur(xs.filter(x=>!ig||edKnown(x)));return {h:`${zone}${xs.map(pk).join('')}<i class="edhd" id="edHd"></i><span class="edbl">${store.cur&&store.cur.free?tr('Enchaînement'):tr('Point {N}').replace('{N}',pn)}${d!=null?' · '+fmtS(d):''}</span>`,R:[a,b]};}
+// V201 : stat « en lecture » = dernier repère (heure connue) passé par la vidéo ; surlignée dans l'historique, son point déplié
+function edNowK(m,r,P){if(!m||!r||!P)return null;const L=edMarks(m),t=edImgT(r,P);let n=null;for(const x of L){if(x.virt||!edKnown(x))continue;if(x.t<=t)n=x;}return n;}
 // historique : une ligne par point (score après le point, durée, état), le point de la stat active déplié, changements et temps morts entre les points
-function edHistIn(m,r,k){const L=edMarks(m),W=edChecks(m,r),f=ui.edF||'all',T=short(m),opp=m.opp||tr('Adversaire'),byP={};
+function edHistIn(m,r,k,nk){const L=edMarks(m),W={} /* V201 : plus de contrôles « À vérifier » (inutiles : on ne note que notre côté, ballons rapides ou lents, touches quasi simultanées) */,f=ui.edF||'all',T=short(m),opp=m.opp||tr('Adversaire'),byP={};
   L.forEach(x=>{if(x.k!=='sub'&&x.k!=='to')(byP[x.pn]||(byP[x.pn]=[])).push(x);});
-  const curP=k?(k.k==='sub'||k.k==='to'?-1:k.pn):-1,st=x=>`<i class="est ${x.ca?'ok':x.virt?'v':'no'}">${x.ca?'✓':'○'}</i>`;
-  const row=x=>`<button class="ehr ${k&&x.key===k.key?'act':''}" data-act="edGo" data-k="${x.key}" data-h="1">${st(x)}<span>${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;
+  const curP=k?(k.k==='sub'||k.k==='to'?-1:k.pn):-1,nowP=nk&&nk.k!=='sub'&&nk.k!=='to'?nk.pn:-1,st=x=>`<i class="est ${x.ca?'ok':x.virt?'v':'no'}">${x.ca?'✓':'○'}</i>`;
+  const row=x=>`<button class="ehr ${k&&x.key===k.key?'act':''} ${nk&&x.key===nk.key?'now':''}" data-act="edGo" data-k="${x.key}" data-h="1"${edKnown(x)?` data-t="${x.t}"`:''}>${st(x)}<span>${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;
   let out='',set=0,g=0,a=0,sg=0,sa=0,np=0;
   m.ev.forEach((e,ei)=>{
     if(e.t==='set'){if(set){if(g>a)sg++;else if(a>g)sa++;}set++;g=a=0;if((f==='all'||curP>0)&&!m.free)out+=`<div class="ehs">${tr('Set {N}').replace('{N}',set)}${m.free?'':' · '+sg+'-'+sa}</div>`;return;}
-    if(e.t==='sub'||e.t==='to'){const x=L.find(y=>y.ei===ei);if(x&&(f==='all'||(f==='no'&&!x.ca)||(f==='w'&&x.t==null)||(k&&x.key===k.key)))out+=row(x);return;}
+    if(e.t==='sub'||e.t==='to'){const x=L.find(y=>y.ei===ei);if(x&&(f==='all'||(f==='no'&&!x.ca)||(f==='w'&&x.t==null)||(k&&x.key===k.key)||(nk&&x.key===nk.key)))out+=row(x);return;}
     if(e.t!=='pt')return;np++;if(e.w==='G')g++;else if(e.w==='A')a++;
-    const xs=byP[np]||[],ok=xs.every(x=>x.ca||x.virt),w=W[np],cur=np===curP;
+    const xs=byP[np]||[],ok=xs.every(x=>x.ca||x.virt),w=W[np],cur=np===curP||np===nowP,kt=xs.filter(x=>!x.virt&&edKnown(x)).map(x=>x.t);
     if(!cur&&((f==='no'&&ok)||(f==='w'&&!w)))return;
     const d=edDur(edIgn()?xs.filter(x=>x.ca):xs);
-    out+=`<button class="ehp ${cur?'cur':''}" data-act="edPt" data-n="${np}"><i class="ew ${e.w==='G'?'g':e.w==='A'?'a':''}"></i><b>${m.free?(()=>{const y=xs.find(x=>edKnown(x));return y?edPosLab(r,y.t):'—';})():g+'-'+a}</b><span>${m.free?tr('{N} actions').replace('{N}',(e.st||[]).length):e.w==='G'?esc(T):e.w==='A'?esc(opp):tr('Point')}</span><em>${d!=null?fmtS(d):''}</em><i class="est ${w?'wn':ok?'ok':'no'}">${w?'!':ok?'✓':'○'}</i></button>`;
+    out+=`<button class="ehp ${cur?'cur':''}" data-act="edPt" data-n="${np}"${kt.length?` data-t="${Math.min(...kt)}" data-t2="${Math.max(...kt)}"`:''}><i class="ew ${e.w==='G'?'g':e.w==='A'?'a':''}"></i><b>${m.free?(()=>{const y=xs.find(x=>edKnown(x));return y?edPosLab(r,y.t):'—';})():g+'-'+a}</b><span>${m.free?tr('{N} actions').replace('{N}',(e.st||[]).length):e.w==='G'?esc(T):e.w==='A'?esc(opp):tr('Point')}</span><em>${d!=null?fmtS(d):''}</em><i class="est ${w?'wn':ok?'ok':'no'}">${w?'!':ok?'✓':'○'}</i></button>`;
     if(cur){if(w)out+=`<div class="ehw">⚠ ${esc(w.join(' · '))}</div>`;out+=xs.map(row).join('')+`<button class="ehadd" data-act="edAdd" data-n="${np}">＋ ${tr('Ajouter ici')}</button>`;}});
   return out||`<p class="ehe">${tr('Rien à afficher avec ce filtre.')}</p>`;}
-function edHistHTML(m,r,k){const L=edMarks(m),nNo=L.filter(x=>!x.ca&&!x.virt).length,nW=Object.keys(edChecks(m,r)).length,f=ui.edF||'all',b=(v,l)=>`<button class="${f===v?'on':''}" data-act="edFilt" data-v="${v}">${l}</button>`;
-  return `<div class="edhist" id="edHist"><div class="ehh"><b>${tr('Historique')}</b><span class="ehsc" id="edSc">${edScLine(m,vstState(m))}</span><div class="seg">${b('all',tr('Tout'))}${b('no',tr('Non calés')+' '+nNo)}${b('w',tr('À vérifier')+' '+nW)}</div><button class="btn edhx" data-act="edHist" aria-label="${esc(ui.edHist?tr('Fermer'):tr('Ouvrir'))}"><span class="edxl">✕</span><span class="edxp">${ui.edHist?'▼':'▲'}</span></button></div><div class="ehl" id="edHL">${edHistIn(m,r,k)}</div></div>`;}
+function edHistHTML(m,r,k){const L=edMarks(m),nNo=L.filter(x=>!x.ca&&!x.virt).length,f=ui.edF==='w'?'all':ui.edF||'all',b=(v,l)=>`<button class="${f===v?'on':''}" data-act="edFilt" data-v="${v}">${l}</button>`;
+  return `<div class="edhist" id="edHist"><div class="ehh"><b>${tr('Historique')}</b><span class="ehsc" id="edSc">${edScLine(m,vstState(m))}</span><div class="seg">${b('all',tr('Tout'))}${b('no',tr('Non calés')+' '+nNo)}</div><button class="btn edhx" data-act="edHist" aria-label="${esc(ui.edHist?tr('Fermer'):tr('Ouvrir'))}"><span class="edxl">✕</span><span class="edxp">${ui.edHist?'▼':'▲'}</span></button></div><div class="ehl" id="edHL">${edHistIn(m,r,k,edNowK(m,r,vstPb()))}</div></div>`;}
 // score et position à l'instant de la vidéo, en une ligne (en-tête de l'historique : sur téléphone, plus de score sur l'image, demande du 11/11/2026)
 function edScLine(m,S){const V=store.vst,si=S.sets.length-1,set=S.sets[si],play=S.phase==='play',T=short(m);if(m.free)return tr('Point {N}').replace('{N}',(V&&V.i>=0?m.ev.slice(0,V.i).filter(e=>e.t==='pt').length:m.ev.filter(e=>e.t==='pt').length)+1);
   const rot=play?vstRot(S):null;return `S${si+1} · ${set?set.g:0}-${set?set.a:0}${play?' · '+(rot?'P'+rot+' ':'')+(S.serving==='G'?tr('service'):tr('réception')):''}`;}
@@ -2817,8 +2827,14 @@ function edLoop(P,r){const V=store.vst,m=store.cur;if(!r||!V)return;const t=edIm
   const k=edActive(m,r,P),kk=(k?k.key:'')+'|'+(VID.edV||0);
   const mc=document.getElementById('vstMid');if(mc&&(mc._p==null||Math.abs(mc._p-P.pos)>=50||mc._k!==kk+!!VID.edBack)){mc._p=P.pos;mc._k=kk+!!VID.edBack;const h=edCardHTML(m,r,P,k);if(mc._h!==h){mc._h=h;mc.innerHTML=h;}}
   const bw=document.getElementById('edBar');if(bw){if(bw._k!==kk){bw._k=kk;const B=edBarHTML(m,r,P,k);bw.innerHTML=B.h;bw._R=B.R;}const hd=document.getElementById('edHd');if(hd&&bw._R){const R=bw._R;hd.style.left=(Math.max(0,Math.min(1,(P.pos-R[0])/((R[1]-R[0])||1)))*100).toFixed(2)+'%';}}
-  const hl=document.getElementById('edHL');if(hl){const hk=kk+'|'+(ui.edF||'');if(hl._k!==hk){hl._k=hk;hl.innerHTML=edHistIn(m,r,k);edScroll(hl);}}
+  const hl=document.getElementById('edHL');if(hl){const nk=edNowK(m,r,P),hk=kk+'|'+(ui.edF||'')+'|'+(nk?nk.key:'');if(hl._k!==hk){const fol=P.play&&edInWin(hl,t);hl._k=hk;hl.innerHTML=edHistIn(m,r,k,nk);if(P.play){if(fol)edFollow(hl);}else edScroll(hl);}}
   if(VID.edBack&&P.play&&Math.abs(P.pos-VID.edBack.to)>10000)VID.edBack=null;}
+// V201 : en lecture, l'historique suit la vidéo seulement si l'heure de l'image était dans la partie visible de la liste (sinon le coach regarde ailleurs : on ne bouge pas)
+function edInWin(hl,t){const top=hl.scrollTop,bot=top+hl.clientHeight;let a=Infinity,b=-Infinity,nowVis=false;
+  hl.querySelectorAll('[data-t]').forEach(e=>{const y=e.offsetTop,h=e.offsetHeight;if(y+h<=top+2||y>=bot-2)return;if(e.classList.contains('now'))nowVis=true;const u=+e.dataset.t,v=e.dataset.t2!=null?+e.dataset.t2:u;if(u<a)a=u;if(v>b)b=v;});
+  return nowVis||(a<=t+1500&&t<=b+1500);}
+// la ligne de l'avant-dernière stat passée en haut : on voit l'avant-dernière, la dernière passée (surlignée) et toutes les suivantes
+function edFollow(hl){const c=hl.querySelector('.ehr.now');if(!c)return;let p=c.previousElementSibling;while(p&&!p.matches('.ehr,.ehp'))p=p.previousElementSibling;VID.edProg=Date.now();hl.scrollTop=Math.max(0,(p||c).offsetTop-4);}
 // la ligne du point en cours reste visible, sauf si le coach vient de faire défiler la liste lui-même
 function edScroll(hl){const c=hl.querySelector('.ehp.cur')||hl.querySelector('.ehr.act');if(!c||Date.now()-(VID.edUS||0)<4000)return;VID.edProg=Date.now();const top=c.offsetTop-hl.clientHeight/3;hl.scrollTop=Math.max(0,top);}
 // ouverture : vidéo là où on l'avait laissée (r.edPos), sinon 1 s avant la première stat non calée ; arrêtée
@@ -2895,7 +2911,7 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   const hd=vl?`<div class="vsthd">${vl}</div>`:'',dkOn=!vstDkShut()&&!P.play;
   return `<div class="vstage pb vst ${ui.vfull?'vfs':''} ${val?'val':''} ${ed?'ed':''} ${ed&&ui.edHist?'eho':''} ${ed&&ui.vstMenu?'mo':''} ${dkOn?'dk':''}" id="vStage"><div class="vsttap" data-act="vstTap"></div>
     ${VID.pv?`<div class="vsyncbar vpvbar"><span>▶ ${tr('Aperçu du match monté')} · <b id="vPvT">0:00</b></span><button class="btn primary" data-act="vexpPrevGo">⇩ ${tr('Exporter')}</button><button class="btn" data-act="vexpPrevX" aria-label="${esc(tr('Fin de l’aperçu'))}">✕</button></div>`:''}
-    <div class="vsttop"><div class="vsttl ${FRm?'fr':''}">${vstTlIn(m,Sx)}</div><div class="vstmid" id="vstMid">${chip}</div><div class="vsttr">${topR}${menuBtn}</div></div>
+    <div class="vsttop"><div class="vsttl ${FRm?'fr':''}">${vstTlIn(m,Sx)}</div><div class="vstmid" id="vstMid">${chip}</div><div class="vsttr">${topR}${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}${menuBtn}</div></div>
     ${spd}
     <div class="vstdock ${vstDockOff(P)?'off':''}" id="vstDock">${hd}${panel}</div>${!tab&&FRm&&!ed?`<div class="vstptr">${vstPtBtn(m)}</div>`:''}
     ${ui.vstMenu?vstMenuHTML(m,Sx,tab):''}
@@ -2907,7 +2923,7 @@ function vstMenuHTML(m,S,tab){const V=store.vst,val=V.mode==='val'&&!V.ins,T=sho
   const mat=(play&&!val&&!tab&&!m.free?it('openSub','🔁 '+tr('Changement')+` <small class="n">${F4?set.subs:set.subs+'/6'}</small>`)+it('vstTo',`⏱ TM ${esc(T)} <small class="n">${set.to.G}/2</small>`,'data-s="G"')+it('vstTo',`⏱ TM adv. <small class="n">${set.to.A}/2</small>`,'data-s="A"'):'')
     +(play&&!val&&!m.free&&!(F4&&F4.n===2)?it('tacOpen','⚙ '+tr('Options tactiques')):'');
   const edt=val?it('edHist','📋 '+(ui.edHist?tr('Masquer l’historique'):tr('Historique')),'','edhm')+(m.free?'':it('edAdd','➕ '+tr('Ajouter ici')+`<small>${tr('Changement, temps mort ou point oublié, avant le point de l’image')}</small>`)+it('edCompose','👥 '+tr('Composition du set')+`<small>${tr('Corrige le départ du set : tout le set est recalculé')}</small>`)+it('tacOpen','⚙ '+tr('Options tactiques')+`<small>${tr('À partir du point de l’image')}</small>`,V.i<0?'disabled':'')+it('edFmtOpen','🏐 '+tr('Format du match')+`<small>${fmtLab(m)}</small>`))+it('edIgn',`⏱ ${tr('Ignorer l’horodatage')}${m.ign?' ✓':''}<small>${tr('Stats notées sans la vidéo : chaque stat se cale sur l’image, dans l’ordre du match')}</small>`,`aria-pressed="${!!m.ign}"`,m.ign?'on':''):'';
-  const vid=it('vfsTog',ui.vfull?'⤡ '+tr('Quitter le plein écran'):'⛶ '+tr('Plein écran'))+(VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):'')
+  const vid=(ui.vfull?'':it('vfsTog','⛶ '+tr('Plein écran')))+(VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):'')
     +`<div class="vstmo"><span>${tr('Sens de l’écran')}</span><div class="seg">${[['a','Auto'],['l','Paysage'],['p','Portrait']].map(([v,l])=>`<button class="${(VP().vori||'a')===v?'on':''}" data-act="vstOri" data-v="${v}">${tr(l)}</button>`).join('')}</div></div>`;
   const hasPt=m.ev.some(e=>e.t==='pt'),sai=(val&&V.back?it('vstToRes','↩ '+tr('Reprendre la saisie')+`<small>${tr('Retour à la suite, à la dernière stat')}</small>`):'')+(!val&&hasPt&&!V.ins?it('vstToEd','📜 '+tr('Éditer les stats')+`<small>${tr('Historique, recalage, ajouts ; « Reprendre la saisie » ramène à la suite')}</small>`):'')
     +(val?it('vstEndGo','✓ '+tr('Terminer l’édition')):S.phase==='over'||m.free?it('vstEndGo','🏁 '+tr('Terminer la saisie')):'');
@@ -2962,10 +2978,15 @@ function vidImportAdd(o,force){const dur=Math.round(o.dur||0);if(!dur){toast(tr(
   store.vids=[e].concat(store.vids||[]);const vm=vrefFind(e,vcMatches());if(vm)vrefApply(e,vm);save();const LK=vcLinkInfo(e);
   if(vm)toast(tr('Vidéo importée et calée sur le match « {M} »').replace('{M}',matchTitle(vm)),'ok');else toast(LK.m?tr('Vidéo importée ({D})').replace('{D}',vMs(dur)):tr('Vidéo importée ({D}) : choisissez le match lié dans la liste').replace('{D}',vMs(dur)),'ok');
   if(ui.screen!=='video')A.ctab({v:'video'});render();}
-const VC_K=[['att','Attaque'],['srv','Service'],['rec','Réception'],['def','Défense'],['blk','Bloc'],['pas','Passe']];
-const vcFilter=q=>({pid:q.pid?[q.pid]:null,kinds:q.kinds.length?q.kinds:null,signs:q.signs.length?q.signs:null});
+const VC_K=[['att','Attaque'],['srv','Service'],['rec','Réception'],['def','Défense'],['blk','Bloc'],['pas','Passe'],['rel','Renvoi']]; // V201 : renvois sans attaque
+const vcFilter=q=>({pid:q.pids&&q.pids.length&&!q.all?q.pids.slice():null,kinds:q.kinds.length?q.kinds:null,signs:q.signs.length?q.signs:null});
 const vcRec=q=>(store.vids||[]).find(x=>x.id===q.rid),vcMatch=q=>q.mid===store.cur.id?store.cur:store.arch.find(x=>x.id===q.mid);
-const vTxt=(id,t)=>{const e=document.getElementById(id);if(e&&e.textContent!==t)e.textContent=t;};
+// V201 : comparé au dernier texte posé (e._t), pas au texte affiché : un émoji devenu pictogramme (icoDOM) était réécrit à chaque image, et un appui sur le bouton (lecture / pause) se perdait
+// V201 : lecture d'une saisie / édition sur film : clic très court et discret + vibration au passage de chaque stat (réglage « Clic et vibration », désactivé par défaut)
+function vstTick(P,r){const m=store.cur;if(!P||!r||!m||!VS().vst.tick)return;if(!P.play||P.drag){VID.tickK=null;return;}const nk=edNowK(m,r,P);if(!nk||nk.k!=='st'){return;}const k=nk.key;if(VID.tickK===k)return;const first=VID.tickK===null||VID.tickK===undefined;VID.tickK=k;if(first)return;if(edImgT(r,P)-nk.t>600)return; /* saut : pas de clic */tickPlay();}
+function tickPlay(){try{const C=VID.ac||(VID.ac=new (window.AudioContext||window.webkitAudioContext)());if(C.state==='suspended')C.resume();const t=C.currentTime,o=C.createOscillator(),g=C.createGain();o.type='square';o.frequency.value=2200;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.06,t+0.002);g.gain.exponentialRampToValueAtTime(0.0001,t+0.018);o.connect(g).connect(C.destination);o.start(t);o.stop(t+0.025);}catch(e){}
+  try{const H=NATIVE&&CAP().Haptics;if(H)H.impact({style:'LIGHT'});else if(navigator.vibrate)navigator.vibrate(8);}catch(e){}}
+const vTxt=(id,t)=>{const e=document.getElementById(id);if(e&&e._t!==t){e._t=t;e.textContent=t;}};
 const vidSeeking=()=>{const L=VID.layer,now=Date.now();return !!(L&&[...L.children].some(v=>v._on&&v.seeking&&!v.error&&!(v._skFrom&&now-v._skFrom>1500)));}; // V198 : jamais figé plus de 1,5 s
 function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!=='video'&&!vstOn()&&!peek)||!(VID.on||VID.pb))return;const now=Date.now();if(ui.vmenu||ui.vstMenu)menuPlace(); /* V200 : la ligne du haut peut changer de hauteur (badges remplis ici) */
   if(VID.pb){const P=VID.pb,r=vRec(),dt=now-P.at,vs=vstOn()||peek;P.at=now;
@@ -2977,7 +2998,7 @@ function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!
     if(VID.pv){const e=document.getElementById('vPvT');if(e){const R=VID.pv,done=R.reduce((s,[a,b])=>s+(P.pos>=b?b-a:P.pos>a?P.pos-a:0),0),tot=R.reduce((s,[a,b])=>s+b-a,0);vTxt('vPvT',vMs(done)+' / '+vMs(tot));}}
     if(vs){const dk=document.getElementById('vstDock'),pr=document.getElementById('vstProp'),dOff=vstDockOff(P);if(dk)dk.classList.toggle('off',dOff);
       if(P.play&&ui.vstDk)ui.vstDk=false; // V194 : la lecture ferme le tableau
-      {const sg=document.getElementById('vStage'),on=!!store.vst&&!vstDkShut()&&!P.play;if(sg&&sg.classList.contains('dk')!==on){sg.classList.toggle('dk',on);vstFit(sg);}}if(pr)pr.classList.toggle('off',!dOff||!!P.drag);vTxt('vstPP',P.play?'❚❚':'▶');store.vst.pos=P.pos;if(vstEd())edLoop(P,r);else{const mc=document.getElementById('vstMid');if(mc&&(mc._p==null||Math.abs(mc._p-P.pos)>=80||mc._n!==VID.pastK)){mc._p=P.pos;const V=store.vst,h=vstChipHTML(store.cur,r,P,V.mode==='val'&&!V.ins);mc._n=VID.pastK;if(mc._h!==h){mc._h=h;mc.innerHTML=h;}}}
+      {const sg=document.getElementById('vStage'),on=!!store.vst&&!vstDkShut()&&!P.play;if(sg&&sg.classList.contains('dk')!==on){sg.classList.toggle('dk',on);vstFit(sg);}}if(pr)pr.classList.toggle('off',!dOff||!!P.drag);vTxt('vstPP',P.play?'❚❚':'▶');store.vst.pos=P.pos;vstTick(P,vstRec());if(vstEd())edLoop(P,r);else{const mc=document.getElementById('vstMid');if(mc&&(mc._p==null||Math.abs(mc._p-P.pos)>=80||mc._n!==VID.pastK)){mc._p=P.pos;const V=store.vst,h=vstChipHTML(store.cur,r,P,V.mode==='val'&&!V.ins);mc._n=VID.pastK;if(mc._h!==h){mc._h=h;mc.innerHTML=h;}}}
       if(P._r!==P.r){P._r=P.r;document.querySelectorAll('[data-act=vstSpd],.vstspd [data-act=vidPR]').forEach(b=>b.classList.toggle('on',+b.dataset.v===P.r));vTxt('spdCur',spdF(P.r)+' ▾');}
       // V185 : orientation de l'écran calée sur celle de la vidéo dès que sa taille est connue
       if(!VID.vstLk&&r&&VID.layer&&[...VID.layer.children].some(x=>x.videoWidth)){VID.vstLk=1;vstLock(r);}}
@@ -3082,8 +3103,8 @@ function vQual(){const P=VP(),h=Math.min(VID.w||0,VID.h||0),want=+P.q,low=h&&h<w
   return (VID.fps?VID.fps+' i/s':'')+(h?' · '+h+'p':'')+(low||slow?' <small>('+tr('demandé : {Q}').replace('{Q}',(slow?'60 i/s · ':'')+(low?want+'p':''))+')</small>':'');}
 function videoHTML(){const P=VP(),pro=isPro();
   if(VID.pb){const B=VID.pb,r=vRec(),k=r?vDropNext(r,B.pos):false;
-    return `<div class="vstage pb ${ui.vfull?'vfs':''}" id="vStage">${ui.vfull?'<div class="vsttap" data-act="vfsPeek"></div>':''}${spdHTML('vidPR',B.r)}<div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}<span class="vtsp"></span><button class="btn vtb ${ui.vmenu?'mon':''}" data-act="vidMenu" aria-expanded="${!!ui.vmenu}" aria-label="Menu">☰ Menu</button></div>
-      ${ui.vmenu?`<div class="vstmenu">${r&&vcMatchFor(r)?`<button class="vstmi" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}${r&&r.mode==='match'&&!r.clip?`<button class="vstmi" data-act="vcLinkOpen" data-id="${r.id}">🔗 ${tr('Match lié')}</button>`:''}${r&&r.cuts&&r.cuts.length?'':`<button class="vstmi" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`}<button class="vstmi" data-act="vfsTog">${ui.vfull?'⤡ '+tr('Quitter le plein écran'):'⛶ '+tr('Plein écran')}</button><button class="vstmi vstmq" data-act="vidPbX">⏏ ${tr('Quitter la vidéo')}</button></div>`:''}
+    return `<div class="vstage pb ${ui.vfull?'vfs':''}" id="vStage">${ui.vfull?'<div class="vsttap" data-act="vfsPeek"></div>':''}${spdHTML('vidPR',B.r)}<div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}<span class="vtsp"></span>${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}<button class="btn vtb ${ui.vmenu?'mon':''}" data-act="vidMenu" aria-expanded="${!!ui.vmenu}" aria-label="Menu">☰ Menu</button></div>
+      ${ui.vmenu?`<div class="vstmenu">${r&&vcMatchFor(r)?`<button class="vstmi" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}${r&&r.mode==='match'&&!r.clip?`<button class="vstmi" data-act="vcLinkOpen" data-id="${r.id}">🔗 ${tr('Match lié')}</button>`:''}${r&&r.cuts&&r.cuts.length?'':`<button class="vstmi" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`}${ui.vfull?'':`<button class="vstmi" data-act="vfsTog">⛶ ${tr('Plein écran')}</button>`}<button class="vstmi vstmq" data-act="vidPbX">⏏ ${tr('Quitter la vidéo')}</button></div>`:''}
       ${VID.pv?`<div class="vsyncbar vpvbar"><span>▶ ${tr('Aperçu du match monté')} · <b id="vPvT">0:00</b></span><button class="btn primary" data-act="vexpPrevGo">⇩ ${tr('Exporter')}</button><button class="btn" data-act="vexpPrevX" aria-label="${esc(tr('Fin de l’aperçu'))}">✕</button></div>`:''}
       ${ui.vsync?`<div class="vsyncbar"><span>${tr('Placez la vidéo sur la fin d’un point (ballon au sol), puis :')}</span><button class="btn primary" data-act="vsyncPick">⏱ ${tr('Choisir ce point')}</button><button class="btn" data-act="vsyncX" aria-label="Annuler">✕</button></div>`:''}
       ${ui.vroi?`<div class="vsyncbar"><span>${tr('Tracez un rectangle sur le terrain : seule cette zone sera analysée par le montage auto (évitez tribunes et bancs).')}</span><button class="btn" data-act="vroiAll">${tr('Toute l’image')}</button><button class="btn primary" data-act="vroiX">OK</button></div><div class="vroi" id="vRoi"><i id="vRoiR" hidden></i></div>`:''}
@@ -3117,7 +3138,7 @@ function videoHTML(){const P=VP(),pro=isPro();
     const src=r.clip?(store.vids||[]).find(x=>x.id===r.src):null,sm=src&&vcMatchFor(src),npt=mm&&!r.clip?mm.ev.filter(e=>e.t==='pt').length:0;
     const bdg=r.clip?`<span class="vbdg">${tr('De : {M}').replace('{M}',sm?esc(matchTitle(sm)):src?esc(new Date(src.t0).toLocaleDateString(lang())):tr('vidéo supprimée'))}${(r.srcs||[]).length>1?' · '+tr('{N} matchs').replace('{N}',r.srcs.length):''}</span>`:npt?`<span class="vbdg ${store.vst&&store.vst.rid===r.id?'go':'ok'}">${npt>1?tr('Stats : {N} points').replace('{N}',npt):tr('Stats : 1 point')}${mm.free?' · '+tr('sans composition'):''}${store.vst&&store.vst.rid===r.id?' · '+tr('saisie en cours'):''}</span>`:r.clip||r.st==='live'?'':`<span class="vbdg go">${tr('Stats à faire')}</span>`;
     // match lié (V183) : nom du match, « à confirmer » quand plusieurs matchs se recoupent, « Aucun match » sinon ; touché, il ouvre le choix
-    const link=ask?`<button class="linkbtn vlinkb ${mm&&LK.auto&&!LK.sure?'warn':''}" data-act="vcLinkOpen" data-id="${r.id}">${mm?(LK.auto&&!LK.sure?'⚠ ':'🔗 ')+esc(matchTitle(mm))+(LK.auto?'':' ·  '+tr('choisi')):r.noLink?tr('Sans match'):tr('Aucun match lié')} ▾</button>`:'';
+    const link=ask?`<button class="linkbtn vlinkb ${(mm&&LK.auto&&!LK.sure)||(!mm&&!r.noLink&&LK.candidates&&LK.candidates.length)?'warn':''}" data-act="vcLinkOpen" data-id="${r.id}">${mm?(LK.auto&&!LK.sure?'⚠ ':'🔗 ')+esc(matchTitle(mm))+(LK.auto?'':' ·  '+tr('choisi')):r.noLink?tr('Sans match'):esc((LK.candidates&&LK.candidates.length?'⚠ '+tr('Proposé : {M}').replace('{M}',matchTitle(LK.candidates[0].m)):tr('Aucun match lié')))} ▾</button>`:'';
     // V196 : une ligne = titre (match lié ou date), état et détails, une action principale, ⋯ pour le reste
     const V=store.vst,mine=!!(V&&V.rid===r.id),state=r.clip?'':npt?(mine?tr('saisie en cours'):mm&&mm.free?tr('Stats : {N} actions').replace('{N}',freeCount(mm)):(npt>1?tr('Stats : {N} points').replace('{N}',npt):tr('Stats : 1 point'))):r.st==='live'?'':tr('Stats à faire');
     const title=r.clip?'🎞 '+esc(r.name):mm?esc(matchTitle(mm)):esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}));
@@ -3492,6 +3513,9 @@ function sheetHTML(m,S){
       ${(se.k==='rec'||se.k==='def')?`<h2>${se.k==='rec'?'Service adverse':'Attaque adverse'}</h2><div class="seg">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile'],[null,'Non noté']].map(([v,l])=>`<button class="${se.dif===v?'on':''}" data-act="seD" data-v="${v===null?'':v}">${l}</button>`).join('')}</div>`:''}
       <div class="tools" style="margin-top:14px"><button class="btn big primary" data-act="stEditOk">Valider</button>${se.mode==='edit'?`<button class="btn big ${ui.confirm==='sedel'?'danger':''}" data-act="stEditDel" aria-label="Supprimer">${ui.confirm==='sedel'?'Confirmer la suppression':'🗑'}</button>`:''}<button class="btn big" data-act="close">Annuler</button></div>
       ${se.mode==='edit'?`<p class="hint" style="margin-top:10px"><button class="linkbtn" data-act="seIns" data-v="0">Insérer une stat avant celle-ci</button> · <button class="linkbtn" data-act="seIns" data-v="1">après</button></p>`:''}`;}
+  if(ui.sheet==='killQ'){const st=m.pend||[],L=st[st.length-1];
+    return `<div class="sh"><h3>${tr('Kill ?')}</h3>${close}</div><p>${esc(tag(m,L&&L[2]))} : ${L&&L[0]==='rel'?tr('le renvoi a-t-il fait le point directement ?'):tr('l’attaque a-t-elle fait le point directement ?')}</p>
+      <div class="tools aceq"><button class="btn big primary" data-act="killAns" data-v="1">${tr('Oui')}</button><button class="btn big" data-act="killAns" data-v="0">${tr('Non')}</button></div>`;}
   if(ui.sheet==='aceQ'){const st=(m.pend||[])[0];
     return `<div class="sh"><h3>Ace ?</h3>${close}</div><p>${esc(tag(m,st&&st[2]))} : le service a-t-il fait le point directement ?</p>
       <div class="tools aceq"><button class="btn big primary" data-act="aceAns" data-v="1">Oui</button><button class="btn big" data-act="aceAns" data-v="0">Non</button></div>`;}
@@ -3659,7 +3683,7 @@ function sheetHTML(m,S){
       ${gone?'':mrow('vidPlay',r.id,'▶ '+tr('Revoir'),'',tr('Relecture, montage, export'))}${gone?'':st}
       ${!gone&&mm&&!r.clip?mrow('vcOpen',r.id,'🎞 '+tr('Clips joueurs')+(proFor(mm)?'':' 🔒'),'',tr('Extraits par joueur ou par action'),`data-rid="${r.id}" data-mid="${mm.id}"`):''}
       ${!gone&&!r.web&&npt&&!mine?(mm&&mm.free?mrow('vidMonte',r.id,'🎬 '+tr('Clip séance')+(isPro()?'':' 🔒'),'',tr('Vidéo montée action par action, avec ses stats')):mrow('vidMonte',r.id,'🎬 '+tr('Clip match')+(isPro()?'':' 🔒'),'',tr('Vidéo montée point par point, avec ses stats'))):''}
-      ${ask?mrow('vcLinkOpen',r.id,'🔗 '+tr('Match lié'),LK.auto&&mm&&!LK.sure?'warn':'',mm?(LK.auto&&!LK.sure?'⚠ '+tr('à confirmer')+' · ':'')+esc(matchTitle(mm))+(LK.auto?'':' · '+tr('choisi')):r.noLink?tr('Sans match'):tr('Aucun match lié')):''}
+      ${ask?mrow('vcLinkOpen',r.id,'🔗 '+tr('Match lié'),(LK.auto&&mm&&!LK.sure)||(!mm&&!r.noLink&&LK.candidates&&LK.candidates.length)?'warn':'',mm?(LK.auto&&!LK.sure?'⚠ '+tr('à confirmer')+' · ':'')+esc(matchTitle(mm))+(LK.auto?'':' · '+tr('choisi')):r.noLink?tr('Sans match'):esc((LK.candidates&&LK.candidates.length?'⚠ '+tr('Proposé : {M}').replace('{M}',matchTitle(LK.candidates[0].m)):tr('Aucun match lié')))):''}
       ${nat&&!r.clip?mrow('vidSend',r.id,'📤 '+(ui.vidSend&&ui.vidSend.id===r.id?tr('Préparation…'):tr('Envoyer')),'',tr('Partager le film complet'),ui.vidSend?'disabled':''):''}
       ${mrow('vidDelRec',r.id,ui.vidDelAsk===r.id?tr('Supprimer ? (définitif)'):'🗑 '+tr('Supprimer'),'danger')}</div>`;}
   if(ui.sheet==='vstNew'){const id=ui.vstNewId;
@@ -3670,7 +3694,7 @@ function sheetHTML(m,S){
     const O=vcOffset(m,r),acts=vcActions(m,vcFilter(q)),clips=vcRangesQ(m,r,q,O),dur=clips.reduce((a,[x,y])=>a+y-x,0),P=present(m).filter(p=>!isExtra(p.id));
     const chip=(on,act,d,l)=>`<button class="bchip ${on?'sel':''}" data-act="${act}" ${d}>${l}</button>`;
     return `<div class="sh"><h3>🎬 ${tr('Clips vidéo')}</h3>${close}</div><p class="hint">${esc(matchTitle(m))} · ${esc(fmtDate(m.date))}</p>
-      <h2>${tr('Joueur')}</h2><div class="bench">${chip(!q.pid,'vcPid','data-id=""',tr('Toute l’équipe'))}${P.map(p=>chip(q.pid===p.id,'vcPid',`data-id="${p.id}"`,`<span class="num ${rcls(m.roles&&m.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}`)).join('')}</div>
+      <h2>${tr('Joueur')}</h2><div class="bench">${(q.all=P.length>0&&P.every(p=>q.pids.includes(p.id)),'')}${chip(q.all,'vcPid','data-id=""',tr('Toute l’équipe'))}${P.map(p=>chip(q.pids.includes(p.id),'vcPid',`data-id="${p.id}"`,`<span class="num ${rcls(m.roles&&m.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}`)).join('')}</div>
       <h2>${tr('Actions')}</h2><div class="bench">${VC_K.map(([k,l])=>chip(q.kinds.includes(k),'vcKind',`data-k="${k}"`,tr(l))).join('')}</div>
       <div class="seg" style="margin-top:6px">${[[1,'+'],[0,'='],[-1,'−']].map(([v,l])=>`<button class="${q.signs.includes(v)?'on':''}" data-act="vcSign" data-v="${v}">${l}</button>`).join('')}</div>
       <p class="hint">${O.src==='manual'?tr('Horloges synchronisées à la main (écart {N} s).').replace('{N}',Math.round(O.off/1000)):tr('Horloges non recalées : si la vidéo et les stats viennent de deux appareils, synchronisez-les.')} <button class="linkbtn" data-act="vcSync">${tr('Synchroniser')}</button></p>
@@ -3687,9 +3711,9 @@ function sheetHTML(m,S){
     const when=new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}),row=(m,sub,on)=>`<button class="prow pclick ${on?'on':''}" data-act="vcLinkSet" data-mid="${m.id}"><span class="who"><b>${esc(matchTitle(m))}</b><small>${esc(fmtDate(m.date))}${sub?' · '+sub:''}</small></span>${on?'<span aria-hidden="true">✓</span>':''}</button>`;
     const others=vcMatches().filter(m=>!ids.has(m.id)&&!m.season).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,40);
     return `<div class="sh"><h3>🔗 ${tr('Match filmé')}</h3>${close}</div><p class="hint">${tr('Enregistrement du {D} ({T}). Le match lié sert aux clips, au bandeau du score et au saut depuis les stats.').replace('{D}',esc(when)).replace('{T}',vMs(r.dur))}</p>
-      ${C.length?`<h2>${tr('Matchs aux mêmes heures')}</h2><div style="display:flex;flex-direction:column;gap:6px">${C.map(c=>row(c.m,c.overlap>0?tr('recouvrement {N} %').replace('{N}',Math.round(c.ratio*100)):tr('à {N} min').replace('{N}',Math.round(c.gap/60e3)),cur===c.m)).join('')}</div>`:`<p class="hint warnc">${tr('Aucun match saisi aux heures de cette vidéo. Si les horloges des deux appareils diffèrent de plus de 30 min, choisissez le match ci-dessous puis synchronisez-les dans le lecteur.')}</p>`}
+      ${C.length?`<h2>${tr('Matchs aux mêmes heures')}</h2><div style="display:flex;flex-direction:column;gap:6px">${C.map((c,i)=>row(c.m,(i===0&&!cur&&!r.noLink?tr('Proposé')+' · ':'')+(c.overlap>0?tr('recouvrement {N} %').replace('{N}',Math.round(c.ratio*100)):tr('à {N} min').replace('{N}',Math.round(c.gap/60e3))),cur===c.m)).join('')}</div>`:`<p class="hint warnc">${tr('Aucun match saisi aux heures de cette vidéo. Si les horloges des deux appareils diffèrent de plus de 30 min, choisissez le match ci-dessous puis synchronisez-les dans le lecteur.')}</p>`}
       ${others.length?`<details class="tipsd"><summary><b>${tr('Autres matchs')}</b></summary><div style="display:flex;flex-direction:column;gap:6px;max-height:40vh;overflow:auto">${others.map(m=>row(m,'',cur===m)).join('')}</div></details>`:''}
-      <div class="tools" style="margin-top:10px"><button class="btn ${r.noLink?'primary':''}" data-act="vcLinkSet" data-mid="">${tr('Aucun match')}</button>${r.mid||r.noLink?`<button class="btn" data-act="vcLinkAuto">↺ ${tr('Lien automatique')}</button>`:''}</div>`;}
+      <div class="tools" style="margin-top:10px"><button class="btn ${r.noLink?'primary':''}" data-act="vcLinkSet" data-mid="">${tr('Aucun match')}</button></div>`;}
   if(ui.sheet==='vauto'&&VID.pb){const P=VID.pb,r=vRec();if(!r||!r.ral){ui.sheet=null;return '';}
     return `<div class="sh"><h3>⚙ ${tr('Marges du montage auto')}</h3>${close}</div><p class="hint">${tr('Appliqué immédiatement à cet enregistrement et retenu pour les prochains montages. « Annuler » dans le lecteur rétablit le montage précédent.')}</p>
       ${vsRange('auto','before','Gardé avant chaque échange')}${vsRange('auto','after','Gardé après chaque échange')}${vsRange('auto','minDead','Temps mort minimal')}${vsRange('auto','minRally','Échange minimal')}
@@ -4014,7 +4038,7 @@ function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),e
   return `<div class="pcats">${[
     cat('ov',tr("Vue d'ensemble"),all?{t:Math.round(all.v*100)+' %',c:sbCls(all,ta).slice(2)}:null,radarSVG(me,team)+rateBars(r,f)),
     pc?cat('pas',tr('Passe'),pt&&pt.n?{t:passPct(pt)+' %',c:'n'}:null,pc):'',
-    me.att?cat('att',tr('Attaque'),pe('att'),G([x.A&&[tr('Kill'),pc1(x.kill)],x.A&&[tr('Erreurs att.'),pc1(x.attErr)],x.A&&[tr('Efficacité att.'),x.attEff==null?'–':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],[tr('Renvois sans attaque'),r.relN||0]])+((ex||!proFor(M)||!ah)&&pz('att')?`<div class="sbars">${pz('att')}</div>`:'')+ah):'',
+    me.att?cat('att',tr('Attaque'),pe('att'),G([x.A&&[tr('Kill'),pc1(x.kill)],x.A&&[tr('Erreurs att.'),pc1(x.attErr)],x.A&&[tr('Efficacité att.'),x.attEff==null?'–':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],[tr('Kills confirmés'),r.killN||0],[tr('Renvois sans attaque'),r.relN||0]])+((ex||!proFor(M)||!ah)&&pz('att')?`<div class="sbars">${pz('att')}</div>`:'')+ah):'',
     me.rec?cat('rec',tr('Réception'),pe('rec'),G([x.Rc&&[tr('Réception +'),pc1(x.recPos)],[tr('Fautes de réception'),r.rfN||0]])+(pz('rec')?`<div class="sbars">${pz('rec')}</div>`:'')):'',
     me.srv?cat('srv',tr('Service'),pe('srv'),G([[tr('Aces'),r.aceN||0],x.Sv&&[tr('Aces / fautes'),`${x.aces} / ${x.srvErr}`]])):'',
     me.def?cat('def',tr('Défense'),pe('def'),pz('def')?`<div class="sbars">${pz('def')}</div>`:`<p class="hint">${tr('Pas de détail par poste.')}</p>`):'',
@@ -4026,7 +4050,7 @@ function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),e
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
         ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div>
-      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>`)
+      <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Kills : <b>${r.killN||0}</b> <small>(attaque + ou renvoi confirmé « Kill ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>`)
   ].join('')}</div><p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>`;}
 function sbCls(v,tv,red){if(!v||!tv||v.n<3)return 'c-y';const d=(v.v-tv.v)*(red?-1:1);return d<-0.10?'c-r':d>0.10?'c-g':'c-y';}
 // Couleur (V176) : plus de 10 points sous l'équipe = rouge, à moins de 10 points = jaune, au-dessus = vert (fautes : sens inverse) ; 3 actions minimum
@@ -4219,7 +4243,7 @@ function vidSetHTML(card,D){const S=VS();
       `<p class="hint">Dans le montage exporté d'un match, un bandeau affiche le score, les sets, la rotation et le service, mis à jour à chaque point d'après les stats saisies. Il demande un enregistrement lié à un match et des horloges synchronisées.</p>`)
     +card('Saisie sur un film',`${vsRange('pt','srv','Gardé avant le service')}${vsRange('pt','rec','Gardé avant la réception')}${vsRange('pt','after','Gardé après le point')}${vsRange('vst','react','Temps de réaction')}
       <div class="vopt"><span>Pendant l’échange</span>${vsSeg('vst','slow',[[1,'×1'],[0.5,'×0,5'],[0.25,'×0,25']])}</div>
-      <div class="vopt"><span>Après le point</span>${vsSeg('vst','after',[[1,'×1'],[2,'×2']])}</div>`,'',
+      <div class="vopt"><span>Après le point</span>${vsSeg('vst','after',[[1,'×1'],[2,'×2']])}</div>${vsSwitch('vst','tick','Clic et vibration au passage de chaque stat (lecture)')}`,'',
       `<p class="hint">Stats saisies en relisant un film de match (« Saisir les stats » dans la liste des vidéos) : un tap sur l'image arrête la vidéo et ouvre la saisie ; dès la première action de l'échange, la lecture reprend au ralenti jusqu'à l'attribution du point, puis à la vitesse d'après-point. Le montage garde chaque point de sa première action à sa fin, avec ces marges. L'heure d'une stat est celle du tap moins le temps de réaction (converti selon la vitesse de lecture) ; après une navigation image par image, elle est exacte.</p>`)
     +card('Clips par action',`${vsRange('act','recB','Réception : avant')}${vsRange('act','recA','Réception : après')}${vsRange('act','pasB','Passe : avant')}${vsRange('act','pasA','Passe : après')}${vsRange('act','attB','Attaque : avant')}${vsRange('act','attA','Attaque : après')}
       ${vsRange('act','blkB','Bloc : avant')}${vsRange('act','blkA','Bloc : après')}${vsRange('act','defB','Défense : avant')}${vsRange('act','defA','Défense : après')}${vsRange('act','srvB','Service : avant')}${vsRange('act','srvA','Service : après')}`,'',
@@ -4334,7 +4358,7 @@ function exportPlayer(M,set,pid,k){const SS=replay(M),f=fxStats(M,SS,set),r=f.ro
   y+=3;
   // chiffres clés
   const all=radEffAll(r),va=vaRole(r),h=hotEff(r),K=[['Efficacité globale',all?pc(all.v):'-'],x.A&&['Kill',pc(x.kill)],x.A&&['Erreurs att.',pc(x.attErr)],x.A&&['Efficacité att.',x.attEff==null?'-':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],
-    x.Rc&&['Réception +',pc(x.recPos)],['Aces',String(r.aceN||0)],['Fautes de réception',String(r.rfN||0)],['Renvois sans attaque',String(r.relN||0)],BLK()&&['Points de bloc',String(x.blkP||0)],['Valeur ajoutée',facTxt(va)],['Fin de set',h?pc(h.v)+' ('+h.n+')':'-']].filter(Boolean);
+    x.Rc&&['Réception +',pc(x.recPos)],['Aces',String(r.aceN||0)],['Kills',String(r.killN||0)],['Fautes de réception',String(r.rfN||0)],['Renvois sans attaque',String(r.relN||0)],BLK()&&['Points de bloc',String(x.blkP||0)],['Valeur ajoutée',facTxt(va)],['Fin de set',h?pc(h.v)+' ('+h.n+')':'-']].filter(Boolean);
   H("Vue d'ensemble");
   K.forEach((q,i)=>{const c=i%3,X=14+c*61;if(c===0)need(12);doc.setFillColor(246,248,251);doc.roundedRect(X,y-4,58,10.5,1.5,1.5,'F');T(trP(q[0]),X+3,y,7.5,false,GREY);T(q[1],X+3,y+4.8,11,true);if(c===2||i===K.length-1)y+=13;});
   y+=1;
@@ -4447,6 +4471,7 @@ const TIPS={
  calib:['Calibration sur la saison',"Les notes attendues de la valeur ajoutée ne sont plus seulement celles du niveau : elles sont mélangées aux moyennes observées dans les matchs de la saison, de plus en plus à mesure que les ballons s'accumulent. 0 devient « comme l'équipe fait d'habitude avec ce ballon »."],
  va:['Valeur ajoutée',"Le joueur améliore-t-il ou dégrade-t-il les ballons qu'il reçoit ? Chaque ballon reçu a une qualité (réception avant la passe, passe avant l'attaque) ; on compare ce que le joueur en fait à ce qu'on attend, à ce niveau de jeu, d'un ballon de cette qualité.\n\n+ : mieux que prévu. 0 : conforme au niveau. − : moins bien. Un joueur qui reçoit de bons ballons n'est donc pas avantagé.\n\nUne seule valeur ajoutée par poste : passe pour le passeur, défense et réception pour le libéro, attaque et premières touches pour les R4, attaque pour les pointus et les centres. Affichée à partir de 10 ballons. Les ballons dont la touche précédente n'est pas notée ne comptent pas : avec une saisie partielle, le passeur en a peu. Le niveau se règle dans la saison ; le détail − / = / + est dans la fiche agrandie."],
  aces:['Aces',"Services (+ ou =) qui font directement le point, confirmés par « Ace ? Oui » (seule action notée sur l'échange). Avant la V167 : service + seul noté et point gagné."],
+ kills:['Kills',"Attaques + ou renvois sans attaque qui font directement le point, confirmés par « Kill ? Oui » (dernière action notée sur l'échange, point gagné)."],
  rf:['Fautes de réception',"Réceptions ratées qui donnent directement le point à l'adversaire."],
  sheet:['Feuille de match',"Cochez les joueurs présents (14 au maximum). Les boutons à droite changent le poste pour ce match ; le changement s'applique tout de suite au terrain."],
  extra:['Hors feuille',"Jusqu'à deux noms saisis à la main, hors effectif. Ils jouent normalement mais n'ont pas de temps de jeu dans les statistiques."],
@@ -4639,7 +4664,7 @@ function statCols(m,S){
       ${ex?'<div class="hint" style="margin:6px 0">Hors feuille : pas de temps de jeu</div>':`<div class="barcell" style="margin:8px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
       ${radarSVG(radEff(r),teamR)}
       ${rateBars(r,f)}
-      <div class="relx">Aces${tipB('aces')} : <b>${r.aceN||0}</b> · Fautes de récep.${tipB('rf')} : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b><br>Renvois sans attaque${tipB('rel')} : <b>${r.relN||0}</b>${r.rlyN?` · Relais de passe${tipB('rly')} : <b>${r.rlyN}</b>`:''}</div>
+      <div class="relx">Aces${tipB('aces')} : <b>${r.aceN||0}</b> · Kills${tipB('kills')} : <b>${r.killN||0}</b> · Fautes de récep.${tipB('rf')} : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b><br>Renvois sans attaque${tipB('rel')} : <b>${r.relN||0}</b>${r.rlyN?` · Relais de passe${tipB('rly')} : <b>${r.rlyN}</b>`:''}</div>
       ${set==null&&!ex?cardProgHTML(m,S,r.id):''}
       </div>`;};
   const isLow=r=>{const pl=played(r.id),pct=tot?pl/tot*100:0;return !isExtra(r.id)&&lowSample(r,pct);};
@@ -4886,7 +4911,7 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
     const er2=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
     [['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).forEach(([l,k])=>{bar(l,me[k],teamR[k],false,v=>String(v.n));if(k==='att')attZones(r).forEach(x=>bar('  '+x.l,x,teamR.att,false,v=>String(v.n)));});
     bar('Fautes',fr2(r),fr2(Tt),true,v=>`${v.c}/${v.n}`);if(r.role!=='Pa')bar('Err. att.',er2(r),er2(Tt),true,v=>`${v.c}/${v.n}`);
-    T(`Aces : ${r.aceN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
+    T(`Aces : ${r.aceN||0}  ·  Kills : ${r.killN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
     {const sd=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',sg=v=>v==null?'-':(v>0?'+':'')+Math.round(v*100)+' %',parts=[];
       if(sd.A)parts.push(`Kill ${pc(sd.kill)}`,`Err. att. ${pc(sd.attErr)}`,`Eff. att. ${sg(sd.attEff)}`);if(sd.Rc)parts.push(`Réc. + ${pc(sd.recPos)}`);if(sd.Sv)parts.push(`Aces/fautes ${sd.aces}/${sd.srvErr}`);
       if(parts.length){T(parts.join('  ·  '),x0+W/2,by+2.5,6.8,false,[70,70,70],'center');by+=5;}
@@ -5238,10 +5263,13 @@ const A={
   fxSet(d){ui.fxSet=d.v===''?null:+d.v;},
   pt(d){const m=store.cur;if(replay(m).phase!=='play')return 1;const st=(m.pend||[]).slice();
     if(d.w==='G'&&d.ace==null&&st.length===1&&st[0][0]==='srv'&&st[0][1]>=0&&st[0][2]){ui.aceQ=true;ui.sheet='aceQ';render();return 1;}
-    m.pend=[];const w=d.w||null,ev=st.length?{t:'pt',w,st}:{t:'pt',w};if(m.ptStart!=null){ev.t0=m.ptStart;delete m.ptStart;}if(d.ace!=null)ev.ace=+d.ace;dispatch(ev);tacFlush(m);
+    // V201 : « Kill ? » : attaque + ou renvoi sans attaque, dernière stat de l'échange, point gagné
+    if(d.w==='G'&&d.kill==null&&d.ace==null&&killCand(st)){ui.sheet='killQ';render();return 1;}
+    m.pend=[];const w=d.w||null,ev=st.length?{t:'pt',w,st}:{t:'pt',w};if(m.ptStart!=null){ev.t0=m.ptStart;delete m.ptStart;}if(d.ace!=null)ev.ace=+d.ace;if(d.kill!=null)ev.kill=+d.kill;dispatch(ev);tacFlush(m);
     // saisie sur un film : vitesse d'après-point ; fin de set (V185) : vidéo arrêtée, composition du set suivant
     if(vstOn()){vstAfterPt();if(replay(m).phase==='between'){const P=vstPb();if(P)P.play=false;A.compose();render();}}return 1;},
   aceAns(d){ui.sheet=null;ui.aceQ=false;return A.pt({w:'G',ace:d.v==='1'?1:0});},
+  killAns(d){ui.sheet=null;return A.pt({w:'G',kill:d.v==='1'?1:0});},
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
@@ -5506,11 +5534,12 @@ const A={
     VID.tap2=now;VID.tap1={pos:P.pos,play:P.play,r:P.r};if(ui.vstDk&&!VID.dkFix){ui.vstDk=false;return;}
     // V198 : édition (décision Q6) : tap sur la vidéo en lecture = pause (image exacte, stat active figée) ; vidéo arrêtée = reprise
     if(vstEd()){const V=store.vst;if(P.play){P.play=false;P.fine=true;P.tapT=null;V.am=true;}else if(P.pos<P.tot){P.play=true;P.at=Date.now();V.am=false;}return;}
-    return 1;},
+    // V201 : saisie aussi : tap simple = pause (image exacte) / reprise ; double tap = tableau (à l'heure du premier tap)
+    if(VID.dkFix)return 1;if(P.play){P.play=false;P.fine=true;P.tapT=null;}else if(P.pos<P.tot)vstResume();return;},
   vstZoom0(){vzReset();ui.vstMenu=false;},
   // Section « Vidéo » des stats (V185) : critères à choix multiple, puis montage (entrée « Clips » partageant les tranches des enregistrements)
   vmGrp(d){const Q=vmQ();Q.open=Q.open===d.k?null:d.k;},
-  vmPid(d){const Q=vmQ(),i=Q.pids.indexOf(d.id);if(i<0)Q.pids.push(d.id);else Q.pids.splice(i,1);},
+  vmPid(d){const Q=vmQ();if(!d.id){const P=(d.all||'').split(',').filter(Boolean);Q.pids=P.every(id=>Q.pids.includes(id))?[]:P;return;}const i=Q.pids.indexOf(d.id);if(i<0)Q.pids.push(d.id);else Q.pids.splice(i,1);},
   vmKind(d){const Q=vmQ(),i=Q.kinds.indexOf(d.k);if(i<0)Q.kinds.push(d.k);else Q.kinds.splice(i,1);},
   vmSign(d){const Q=vmQ(),v=+d.v,i=Q.signs.indexOf(v);if(i<0)Q.signs.push(v);else Q.signs.splice(i,1);},
   vmZone(d){const Q=vmQ(),v=+d.v,i=Q.zones.indexOf(v);if(i<0)Q.zones.push(v);else Q.zones.splice(i,1);},
@@ -5611,13 +5640,13 @@ const A={
     catch(e){toast(String((e&&e.message)||tr('Export impossible')),'warn');}
     finally{try{l.remove();}catch(e){}ui.vidSend=null;render();}return 1;},
   // Clips par joueur / action : fiche de choix, puis nouvelle entrée qui partage les tranches de l'enregistrement
-  vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;if(!proFor(m)){ui.sheet='pro';return;}ui.vc={rid:d.rid,mid:d.mid,pid:d.pid||null,kinds:['att'],signs:[]};ui.sheet='vclips';},
-  vcPid(d){if(ui.vc)ui.vc.pid=d.id||null;},
+  vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;if(!proFor(m)){ui.sheet='pro';return;}ui.vc={rid:d.rid,mid:d.mid,pids:d.pid?[d.pid]:present(m).filter(p=>!isExtra(p.id)).map(p=>p.id),kinds:['att'],signs:[]};ui.sheet='vclips';},
+  vcPid(d){const q=ui.vc;if(!q)return;const m=vcMatch(q),P=m?present(m).filter(p=>!isExtra(p.id)).map(p=>p.id):[];if(!d.id){q.pids=P.every(id=>q.pids.includes(id))?[]:P.slice();return;}const i=q.pids.indexOf(d.id);if(i<0)q.pids.push(d.id);else q.pids.splice(i,1);},
   vcKind(d){const q=ui.vc;if(!q)return;const i=q.kinds.indexOf(d.k);if(i<0)q.kinds.push(d.k);else q.kinds.splice(i,1);},
   vcSign(d){const q=ui.vc;if(!q)return;const v=+d.v,i=q.signs.indexOf(v);if(i<0)q.signs.push(v);else q.signs.splice(i,1);},
   vcWhole(d){if(ui.vc)ui.vc.whole=d.v==='1';},
   vcGo(){const q=ui.vc,r=vcRec(q),m=vcMatch(q);if(!r||!m)return;const O=vcOffset(m,r),R=vcRangesQ(m,r,q,O);if(!R.length)return;const tot=vcTot(r);
-    const who=q.pid?dname(m,q.pid):tr('Équipe'),what=q.kinds.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])).join(', '):tr('Toutes les actions');
+    const who=q.all||!q.pids.length?tr('Équipe'):q.pids.map(id=>dname(m,id)).join(', '),what=q.kinds.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])).join(', '):tr('Toutes les actions');
     const e={id:'v'+Date.now().toString(36),mode:'match',clip:1,tmp:1,src:r.id,name:`${who} · ${what}`,t0:r.t0,dur:tot,size:r.size,q:r.q,fps:r.fps,segs:r.segs.map(x=>Object.assign({},x)),cuts:vcCuts(R,tot)};
     if(r.dir)e.dir=r.dir;if(r.ia!=null)e.ia=r.ia;if(r.web){e.web=1;VID.mem[e.id]=VID.mem[r.id];}
     store.vids=[e].concat(store.vids||[]);save();ui.sheet=null;ui.vc=null;if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});},
@@ -5927,6 +5956,8 @@ function reSign(x,sg){const y=x.slice();y[1]=sg;return y;} // note inversée : m
 const FREE_GAP=8000;
 function freeFlush(m){const st=m.pend||[];if(!st.length)return;const L=st[st.length-1],at=Number.isFinite(L[5])?L[5]+1000:nowT();m.pend=[];delete m.ptStart;m.ev.push({t:'pt',w:null,st,at});m.redo=[];}
 function freeCount(m){return m.ev.reduce((a,e)=>a+(e.t==='pt'?(e.st||[]).length:0),0)+(m.pend||[]).length;}
+// V201 : candidate au kill : dernière stat = attaque + ou renvoi sans attaque (non raté), avec un joueur
+function killCand(st){const L=st&&st[st.length-1];return !!(L&&L[2]&&((L[0]==='att'&&L[1]>0)||(L[0]==='rel'&&!(L[1]<0))));}
 function addStat(x){const m=store.cur,V=store.vst;
   // validation sur un film (V185) : la stat s'intercale avant celle proposée, datée de l'image ; la lecture reprend
   // V198 : édition : stat ajoutée à sa place dans le point (d'après l'heure de l'image), calée si l'image est exacte ; la vidéo reste arrêtée
@@ -5957,6 +5988,9 @@ function shift6(zones,d){const n=zones.slice();for(let z=1;z<=6;z++)n[d>0?z%6+1:
 const DBL={subO:'now',subI:'now',pickZone:'delay',pickP:'delay'};
 let lastTap=null;
 function runAct(fn,ds){const r=fn(ds);if(r!=='keep')ui.confirm=null;if(r!==1)render();}
+// V201 : un tap à côté d'un menu ouvert le referme (et ne fait rien d'autre) : Coaching, menus ☰ des vidéos, vitesses
+const MENUS=[['lrnMenu','.lmenu','.lmenu,.lmbtn'],['vstMenu','.vstmenu','.vstmenu,.vstmb'],['vmenu','.vstmenu','.vstmenu,.vtb'],['spdOpen','.vstspd.open','.vstspd']];
+document.addEventListener('click',e=>{for(const [k,open,sel] of MENUS){if(!ui[k]||e.target.closest(sel)||e.target.closest('#sheet,.sheet,#toasts'))continue;if(!document.querySelector(open)){ui[k]=false;continue;}ui[k]=false;e.stopPropagation();e.preventDefault();render();return;}},true);
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   const fn=A[b.dataset.act];if(!fn)return;

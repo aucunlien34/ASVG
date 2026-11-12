@@ -135,7 +135,7 @@ const VX_SETTINGS={
   // saisie sur un film (V184) : gardé avant la première action (service / réception) et après le point (s) ; vitesses pendant l'échange et après le point
   pt:{srv:{def:1.5,min:0,max:10,step:.5},rec:{def:2.5,min:0,max:10,step:.5},after:{def:1.5,min:0,max:10,step:.5}}, // V186 : 1,5 s après le point
   // V185 : react = temps de réaction (s de temps réel entre l'action vue et le tap, retiré de l'heure de la stat selon la vitesse de lecture)
-  vst:{slow:{def:.5,opts:[1,.5,.25]},after:{def:1,opts:[1,2]},react:{def:.6,min:0,max:1.5,step:.1}},
+  vst:{slow:{def:.5,opts:[1,.5,.25]},after:{def:1,opts:[1,2]},react:{def:.6,min:0,max:1.5,step:.1},tick:{def:false}} /* V201 : clic + vibration au passage d'une stat */,
   // V185 : clips par type d'action (section Vidéo des stats, Clips) : gardé avant / après l'action (s) ; V186 : 1,5 s partout par défaut (clip de 3 s centré)
   act:Object.fromEntries(['rec','pas','att','blk','def','srv'].flatMap(k=>[[k+'B',{def:1.5,min:0,max:10,step:.5}],[k+'A',{def:1.5,min:0,max:10,step:.5}]]))};
 function vxSettings(P){P=P||{};const out={};Object.keys(VX_SETTINGS).forEach(g=>{const G=VX_SETTINGS[g],src=P[g]||{},o=out[g]={};Object.keys(G).forEach(k=>{const d=G[k],v=src[k];
