@@ -1004,7 +1004,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V203';
+const APP_VERSION='V205';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1309,8 +1309,9 @@ function vaDetailHTML(r){const {rows,grouped}=vaDetailRows(r);if(!rows.length)re
 function vaAll(o){const a=vaOf(o,'ip'),b=vaOf(o,'ia'),f=vaOf(o,'ft');if(!a&&!b&&!f)return null;const wa=a?a.n:0,wb=b?b.n:0,wf=f?f.n*FT_W:0;return {v:Math.round(((a?a.v*wa:0)+(b?b.v*wb:0)+(f?f.v*wf:0))/(wa+wb+wf)),n:wa+wb+(f?f.n:0)};}
 const facTxt=f=>f&&f.n>=VA_MIN&&!f.cov?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+' pts':'–';
 // Renvoi sans attaque : compté comme une attaque −, sauf si la passe qui le précède est −
-function relNorm(st){let pq=null;return st.map(x=>{const k=x[0];if(k==='pas'){pq=x[1];return x;}
-  if(k==='att'){pq=null;return x;}if(k==='rel'){const r=pq===-1?x:['att',-1,x[2],1];pq=null;return r;}if(k==='rec'||k==='def')pq=null;return x;});}
+// V204 : renvoi direct gagnant (« Kill ? Oui », kl = son index) = attaque + (valeur ajoutée, attaque, kill %)
+function relNorm(st,kl){let pq=null;return st.map((x,j)=>{const k=x[0];if(k==='pas'){pq=x[1];return x;}
+  if(k==='att'){pq=null;return x;}if(k==='rel'){const r=j===kl?['att',1,x[2],1]:pq===-1?x:['att',-1,x[2],1];pq=null;return r;}if(k==='rec'||k==='def')pq=null;return x;});}
 // ---- Traduction de l'interface (dictionnaire + motifs) ----
 const LANGS=[['fr','Français'],['en','English'],['es','Español'],['it','Italiano'],['de','Deutsch'],['pl','Polski'],['pt','Português'],['tr','Türkçe'],['nl','Nederlands'],['sr','Srpski'],['sl','Slovenščina'],['cs','Čeština'],['bg','Български'],['uk','Українська'],['ru','Русский'],['ar','العربية'],['ja','日本語'],['zh','中文'],['ko','한국어'],['th','ไทย'],['vi','Tiếng Việt'],['id','Bahasa Indonesia'],['fil','Filipino']];
 // I18N, I18P, I18W, I18PW : voir i18n.js
@@ -1432,7 +1433,7 @@ function replay0(m){
   // les stats de chaque joueur comptent, sans poste ni rotation (zones, side-out, actions déduites ignorés)
   const FR=!!m.free;
   const S={cov:{pts:0,withSt:0,pas:0,pasFt:0},covSet:[],rot:[],sets:[],phase:'setup',roles:Object.assign({},m.roles),zones:null,serving:null,lib:null,played:{},fx:{},recZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},defZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},zst:[],pst:[],psp:[],pso:[],wins:{G:0,A:0},lastWarn:null,lastSetEnd:null,lastPt:null};
-  for(let idx=0;idx<m.ev.length;idx++){const ev0=m.ev[idx],ev=(ev0.t==='pt'&&ev0.st&&ev0.st.some(x=>x[0]==='rel'))?Object.assign({},ev0,{st:relNorm(ev0.st)}):ev0; // renvoi sans attaque = attaque − (sauf sur passe −)
+  for(let idx=0;idx<m.ev.length;idx++){const ev0=m.ev[idx],ev=(ev0.t==='pt'&&ev0.st&&ev0.st.some(x=>x[0]==='rel'))?Object.assign({},ev0,{st:relNorm(ev0.st,ev0.w==='G'&&ev0.kill===1?ev0.st.length-1:-1)}):ev0; // renvoi sans attaque = attaque − (sauf sur passe −)
     S.lastWarn=null;S.lastSetEnd=null;
     const set=S.sets[S.sets.length-1];
     if(ev.t==='set'){
@@ -1516,7 +1517,8 @@ function replay0(m){
         if(pid&&k==='srv'&&ev.w==='G'&&(ev.ace===1||(ev.ace==null&&sg>0)))inc('aceN'); // « Ace ? » : service + ou = seul noté ; sans réponse (avant la V167) : service + seul
         if(pid&&k==='rec'&&sg<0&&ev.w==='A')inc('rfN');}
       // V201 : kill : attaque + ou renvoi, dernière stat du point gagné, confirmé par « Kill ? Oui »
-      if(ev.w==='G'&&ev.kill===1&&ev.st&&ev.st.length){const L=ev.st[ev.st.length-1];if(L[2]&&(L[0]==='att'||L[0]==='rel')){const a=S.fx[L[2]]||(S.fx[L[2]]=[{},{},{},{},{}]);a[si].killN=(a[si].killN||0)+1;}}
+      // V204 : le kill n'est plus déduit des attaques + : killA (kills sur attaque) sert au kill % et à l'efficacité ; point sans réponse (avant la V201) : attaque + finale d'un point gagné
+      if(ev.w==='G'&&ev.st&&ev.st.length&&(ev.kill===1||(ev.kill==null&&killCand(ev.st)&&ev.st[ev.st.length-1][0]==='att'))){const L=ev.st[ev.st.length-1];if(L[2]&&(L[0]==='att'||L[0]==='rel')){const a=S.fx[L[2]]||(S.fx[L[2]]=[{},{},{},{},{}]);a[si].killN=(a[si].killN||0)+1;if(L[0]==='att')a[si].killA=(a[si].killA||0)+1;}}
       // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
       if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
       if(ev.st&&ev.st.length){
@@ -2924,6 +2926,8 @@ function edOpenPos(r){const P=vstPb(),m=store.cur;if(!P||!r)return;VID.edU=[];VI
 const DEMO_MSG='Team Earth est une équipe d’exemple : elle ne peut pas servir à saisir un match.';
 // V185 : vidéo liée à un match → sa configuration (équipe, adversaire, format, 6 de départ) est reprise ; s'il a déjà des points, validation
 // V186 : mode 'res' = reprise d'une saisie quittée (match déjà noté) : saisie à la suite, stats de l'échange en cours rendues (m.vpend), vidéo à l'heure de la dernière stat
+// V204 : passage saisie ↔ édition : la vidéo reste à l'instant où l'on était (arrêtée)
+function vstKeepPos(pos){const P=vstPb(),V=store.vst;if(!P||pos==null)return;P.pos=Math.max(0,Math.min(P.tot,pos));P.play=false;P.fine=true;P.tapT=null;if(V){V.pos=P.pos;if(V.mode==='val'){V.ak=null;V.am=false;}}}
 function vstStart(r,mode){if(!r||r.clip)return false;VID.edTop=0;if(store.vst){toast(tr('Terminez d’abord la saisie en cours'),'warn');return false;}
   if(r.mode!=='match'){r.mode='match';delete r.noLink;} // V187 : vidéo filmée en mode Entraînement → devient une vidéo de match (lien au match, clips, montage)
   const free=mode==='free';if(free)mode='new'; // V188 : saisie sans composition
@@ -3002,9 +3006,9 @@ function vstMenuHTML(m,S,tab){const V=store.vst,val=V.mode==='val'&&!V.ins,T=sho
   const mat=(play&&!val&&!tab&&!m.free?it('openSub','🔁 '+tr('Changement')+` <small class="n">${F4?set.subs:set.subs+'/6'}</small>`)+it('vstTo',`⏱ TM ${esc(T)} <small class="n">${set.to.G}/2</small>`,'data-s="G"')+it('vstTo',`⏱ TM adv. <small class="n">${set.to.A}/2</small>`,'data-s="A"'):'')
     +(play&&!val&&!m.free&&!(F4&&F4.n===2)?it('tacOpen','⚙ '+tr('Options tactiques')):'');
   const edt=val?it('edHist','📋 '+(ui.edHist?tr('Masquer l’historique'):tr('Historique')),'','edhm')+(m.free?'':it('edAdd','➕ '+tr('Ajouter ici')+`<small>${tr('Changement, temps mort ou point oublié, avant le point de l’image')}</small>`)+it('edCompose','👥 '+tr('Composition du set')+`<small>${tr('Corrige le départ du set : tout le set est recalculé')}</small>`)+it('tacOpen','⚙ '+tr('Options tactiques')+`<small>${tr('À partir du point de l’image')}</small>`,V.i<0?'disabled':'')+it('edFmtOpen','🏐 '+tr('Format du match')+`<small>${fmtLab(m)}</small>`))+it('edIgn',`⏱ ${tr('Ignorer l’horodatage')}${m.ign?' ✓':''}<small>${tr('Stats notées sans la vidéo : chaque stat se cale sur l’image, dans l’ordre du match')}</small>`,`aria-pressed="${!!m.ign}"`,m.ign?'on':''):'';
-  const vid=(ui.vfull?'':it('vfsTog','⛶ '+tr('Plein écran')))+(VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):'')
+  const vid=it('vidShotGo','📷 '+tr('Capture d’écran')+`<small>${tr('L’image seule, avec le zoom')}</small>`)+(ui.vfull?'':it('vfsTog','⛶ '+tr('Plein écran')))+(VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):'')
     +`<div class="vstmo"><span>${tr('Sens de l’écran')}</span><div class="seg">${[['a','Auto'],['l','Paysage'],['p','Portrait']].map(([v,l])=>`<button class="${(VP().vori||'a')===v?'on':''}" data-act="vstOri" data-v="${v}">${tr(l)}</button>`).join('')}</div></div>`;
-  const hasPt=m.ev.some(e=>e.t==='pt'),sai=(val&&V.back?it('vstToRes','↩ '+tr('Reprendre la saisie')+`<small>${tr('Retour à la suite, à la dernière stat')}</small>`):'')+(!val&&hasPt&&!V.ins?it('vstToEd','📜 '+tr('Éditer les stats')+`<small>${tr('Historique, recalage, ajouts ; « Reprendre la saisie » ramène à la suite')}</small>`):'')
+  const hasPt=m.ev.some(e=>e.t==='pt'),sai=(val&&V.back?it('vstToRes','↩ '+tr('Reprendre la saisie')+`<small>${tr('Saisie à la suite des stats, la vidéo reste à cet instant')}</small>`):'')+(!val&&hasPt&&!V.ins?it('vstToEd','📜 '+tr('Éditer les stats')+`<small>${tr('Historique, recalage, ajouts ; « Reprendre la saisie » ramène à la suite')}</small>`):'')
     +(val?it('vstEndGo','✓ '+tr('Terminer l’édition')):S.phase==='over'||m.free?it('vstEndGo','🏁 '+tr('Terminer la saisie')):'');
   return `<div class="vstmenu">${g(tr('Match'),mat)}${g(tr('Édition'),edt)}${g(tr('Vidéo'),vid)}${g(tr('Saisie'),sai)}
     ${it('vstQuit',ui.confirm==='vstquit'?tr('Quitter ? Le match reste enregistré'):'⏏ '+(val?tr('Quitter l’édition'):tr('Quitter la saisie')),'',ui.confirm==='vstquit'?'danger vstmq':'vstmq')}</div>`;}
@@ -3185,7 +3189,7 @@ function vQual(){const P=VP(),h=Math.min(VID.w||0,VID.h||0),want=+P.q,low=h&&h<w
 function videoHTML(){const P=VP(),pro=isPro();
   if(VID.pb){const B=VID.pb,r=vRec(),k=r?vDropNext(r,B.pos):false;
     return `<div class="vstage pb ${ui.vfull?'vfs':''}" id="vStage">${ui.vroi?'':'<div class="vsttap" data-act="vidTapPB"></div>'}${spdHTML('vidPR',B.r)}<div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}<span class="vtsp"></span>${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}<button class="btn vtb ${ui.vmenu?'mon':''}" data-act="vidMenu" aria-expanded="${!!ui.vmenu}" aria-label="Menu">☰ Menu</button></div>
-      ${ui.vmenu?`<div class="vstmenu">${r&&vcMatchFor(r)?`<button class="vstmi" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}${r&&r.mode==='match'&&!r.clip?`<button class="vstmi" data-act="vcLinkOpen" data-id="${r.id}">🔗 ${tr('Match lié')}</button>`:''}${r&&r.cuts&&r.cuts.length?'':`<button class="vstmi" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`}${ui.vfull?'':`<button class="vstmi" data-act="vfsTog">⛶ ${tr('Plein écran')}</button>`}${VID.vz&&VID.vz.z>1?`<button class="vstmi" data-act="vstZoom0">🔍 ${tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))}</button>`:''}<button class="vstmi vstmq" data-act="vidPbX">⏏ ${tr('Quitter la vidéo')}</button></div>`:''}
+      ${ui.vmenu?`<div class="vstmenu">${r&&vcMatchFor(r)?`<button class="vstmi" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}${r&&r.mode==='match'&&!r.clip?`<button class="vstmi" data-act="vcLinkOpen" data-id="${r.id}">🔗 ${tr('Match lié')}</button>`:''}${r&&r.cuts&&r.cuts.length?'':`<button class="vstmi" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`}<button class="vstmi" data-act="vidShotGo">📷 ${tr('Capture d’écran')}</button>${ui.vfull?'':`<button class="vstmi" data-act="vfsTog">⛶ ${tr('Plein écran')}</button>`}${VID.vz&&VID.vz.z>1?`<button class="vstmi" data-act="vstZoom0">🔍 ${tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))}</button>`:''}<button class="vstmi vstmq" data-act="vidPbX">⏏ ${tr('Quitter la vidéo')}</button></div>`:''}
       ${VID.pv?`<div class="vsyncbar vpvbar"><span>▶ ${tr('Aperçu du match monté')} · <b id="vPvT">0:00</b></span><button class="btn primary" data-act="vexpPrevGo">⇩ ${tr('Exporter')}</button><button class="btn" data-act="vexpPrevX" aria-label="${esc(tr('Fin de l’aperçu'))}">✕</button></div>`:''}
       ${ui.vsync?`<div class="vsyncbar"><span>${tr('Placez la vidéo sur la fin d’un point (ballon au sol), puis :')}</span><button class="btn primary" data-act="vsyncPick">⏱ ${tr('Choisir ce point')}</button><button class="btn" data-act="vsyncX" aria-label="Annuler">✕</button></div>`:''}
       ${ui.vroi?`<div class="vsyncbar"><span>${tr('Tracez un rectangle sur le terrain : seule cette zone sera analysée par le montage auto (évitez tribunes et bancs).')}</span><button class="btn" data-act="vroiAll">${tr('Toute l’image')}</button><button class="btn primary" data-act="vroiX">OK</button></div><div class="vroi" id="vRoi"><i id="vRoiR" hidden></i></div>`:''}
@@ -3702,7 +3706,7 @@ function sheetHTML(m,S){
       <div class="card" style="margin-top:10px"><b>Nouvelle saison</b><div class="row" style="margin-top:6px"><input id="mvNew" type="text" placeholder="ex. Coupe de France 2026-2027" style="flex:1"><button class="btn" data-act="archMoveNew">Créer et déplacer</button></div></div>
       <div class="card" style="margin-top:10px"><b>Vers une autre équipe</b>${(()=>{const OT=store.teams.filter(t=>!t.locked&&t.id!==T.id&&fc4(t.f4)===f4c(a)),dt=ui.mvTeam&&ensureSeasons(store.teams.find(t=>t.id===ui.mvTeam));
         return `<div class="bench" style="margin-top:6px">${OT.map(t=>`<button class="bchip tbchip ${ui.mvTeam===t.id?'sel':''}" data-act="archMvTeam" data-id="${t.id}" style="--gc:${teamColor(t)}">${esc(t.name)}</button>`).join('')}</div>
-        ${dt?`<div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">${dt.seasons.slice().reverse().map(x=>`<button class="btn big" data-act="archMvGo" data-id="${x.id}">📁 ${esc(dt.name)} · ${esc(x.name)}${x.closed?' (clôturée)':''}</button>`).join('')}</div>`:''}
+        ${dt?`<div class="tools" style="flex-direction:column;align-items:stretch;margin-top:6px">${dt.seasons.length?'':`<p class="hint">${esc(dt.name)} : ${tr('aucune saison pour l’instant, créez-en une ci-dessous.')}</p>`}${dt.seasons.slice().reverse().map(x=>`<button class="btn big" data-act="archMvGo" data-id="${x.id}">📁 ${esc(dt.name)} · ${esc(x.name)}${x.closed?' (clôturée)':''}</button>`).join('')}<div class="row"><input id="mvTeamSeason" type="text" maxlength="40" placeholder="${esc(tr('Nouvelle saison de {N}').replace('{N}',dt.name))}" style="flex:1"><button class="btn" data-act="archMvTeamSeason">＋ ${tr('Créer et déplacer')}</button></div></div>`:''}
         <div class="row" style="margin-top:8px"><input id="mvTeamNew" type="text" maxlength="40" placeholder="Nom de la nouvelle équipe" style="flex:1"><button class="btn" data-act="archMvNewTeam">＋ Créer et déplacer</button></div>
         <p class="hint xp">Les joueurs du match sont rattachés à l'effectif de l'équipe choisie (même nom) ; les autres y sont ajoutés.</p>`;})()}</div>
       <div class="tools" style="margin-top:10px"><button class="btn" data-act="archOrg">‹ Retour</button></div>`;}
@@ -3893,7 +3897,7 @@ function sheetHTML(m,S){
       ${SS.map((so,i)=>{const open=!multi||(ui.scopeS?ui.scopeS===so.id:(sel===so.id||i===0));return `${multi?`<button class="sgrpb" data-act="scopeS" data-id="${so.id}" aria-expanded="${open}">📁 ${esc(so.name)} <small>${allM.filter(a=>seasonOf(a)===so.id).length}</small><span class="chev">${open?'▴':'▾'}</span></button>`:''}${open?`<div class="card morel" style="margin-top:${multi?0:10}px">${row('s:'+so.id,multi?tr('Toute la saison'):tr('Toute la saison')+' · '+esc(so.name),'',ui.coachView==='season'&&sel===so.id)}${ms(so)}</div>`:''}`;}).join('')||`<p class="hint" style="margin-top:10px">${tr('Aucun match avec des stats.')}</p>`}`;}
   if(ui.sheet==='archMore'){const a=store.arch.find(x=>x.id===ui.archMore);if(!a){ui.sheet=null;return '';}const s=replay(a),demo=isDemoTeam();
     return `<div class="sh"><h3>${esc(matchTitle(a))}</h3>${close}</div><p class="hint" style="margin-top:-6px">${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A}</p><div class="card morel">
-      ${mrow('cv',a.id,'📊 '+tr('Stats du match'))}${demo?'':mrow('resume',a.id,ui.confirm==='res:'+a.id?tr('Confirmer la reprise'):'▶ '+tr('Reprendre le match'),ui.confirm==='res:'+a.id?'danger':'',tr('Le match en cours est archivé'))}${mrow('share',a.id,'⤴ '+tr('Partager'))}${demo?'':mrow('del',a.id,ui.confirm==='del:'+a.id?tr('Confirmer la suppression'):'🗑 '+tr('Supprimer'),'danger')}</div>`;}
+      ${mrow('cv',a.id,'📊 '+tr('Stats du match'))}${demo?'':mrow('resume',a.id,ui.confirm==='res:'+a.id?tr('Confirmer la reprise'):'▶ '+tr('Reprendre le match'),ui.confirm==='res:'+a.id?'danger':'',tr('Le match en cours est archivé'))}${mrow('share',a.id,'⤴ '+tr('Partager'))}${demo?'':mrow('archMoveOpen',a.id,'📂 '+tr('Déplacer'),'',tr('Vers une autre saison ou une autre équipe'))}${demo?'':mrow('del',a.id,ui.confirm==='del:'+a.id?tr('Confirmer la suppression'):'🗑 '+tr('Supprimer'),'danger')}</div>`;}
   if(ui.sheet==='seasonGear'){const T=activeTeam(),so=seasonObj();if(!so){ui.sheet=null;return '';}const cur=so.id===T.curSeason,demo=isDemoTeam();
     return `<div class="sh"><h3>${esc(so.name)}</h3>${close}</div><div class="card morel">
       ${mrow('seasonRen',null,'✎ '+tr('Renommer'))}
@@ -3951,7 +3955,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP'];
+const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP','killN','killA'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);CUR_CAL=calibTot(m);CUR_COV=S&&S.cov?(set==null?S.cov:(S.covSet&&S.covSet[set])||S.cov):null;
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -4045,7 +4049,7 @@ function attHeatHTML(m,S,set,id){const a=S.fx[id];if(!a)return '';const o={};(se
   const Z=zstAgg(S,set).att,min=hmMin(m),zs=[4,3,2,1,6,5].filter(z=>o['az'+z+'P']||o['az'+z+'N']||o['az'+z+'M']);if(!zs.length)return '';
   if(!proFor(m))return `<div class="hmsec"><b class="cond" style="font-size:19px">Attaque par poste</b><button class="card lockz" data-act="pro"><span>🔒 Version pro uniquement</span></button></div>`;
   const L=zs.map(z=>{const c=scoreOf(o['az'+z+'P'],o['az'+z+'N'],o['az'+z+'M']),t=Z[z]?scoreOf(Z[z].P,Z[z].N,Z[z].M):null;
-    return {z,c,ref:t?t.v:c.v,sub:`<span class="zk">${tr('kill')} ${Math.round(c.P/c.n*100)} % · ${tr('faute')} ${Math.round(c.M/c.n*100)} %</span>`};});
+    return {z,c,ref:t?t.v:c.v,sub:`<span class="zk">${tr('att. +')} ${Math.round(c.P/c.n*100)} % · ${tr('faute')} ${Math.round(c.M/c.n*100)} %</span>`};});
   const cells=L.map(x=>hmCell(x.z,x.c,x.ref,min,x.sub)).join('');
   return `<div class="hmsec"><b class="cond" style="font-size:19px">Attaque par poste${tipB('ahm')}</b>${hmOk(L,min)?`<div class="hmgrid one"><div class="hmc"><div class="hcourt"><span class="hnet">FILET</span>${cells}</div></div></div>`:hmBars(L,min)}
     <p class="hint">${tr('Efficacité comparée à la moyenne de l\'équipe au même poste.')} ${tr('Case en pointillé : moins de {N} attaques.').replace('{N}',min)}</p></div>`;}
@@ -4723,7 +4727,7 @@ function rotHTML(m,S,set){const R=rotAgg(S,set),zs=[1,2,3,4,5,6].filter(z=>R[z]&
     <p class="hint xp">★ meilleure rotation, ▽ moins bonne.${tipB('legrot')}</p></div>`;}
 // Indicateurs standards du volley
 function stdStats(r){const A=(r.attP||0)+(r.attN||0)+(r.attM||0),Rc=(r.recP||0)+(r.recN||0)+(r.recM||0),Sv=(r.srvP||0)+(r.srvN||0)+(r.srvM||0),B=(r.blkP||0)+(r.blkN||0)+(r.blkM||0);
-  return {A,Rc,Sv,B,kill:A?(r.attP||0)/A:null,attErr:A?(r.attM||0)/A:null,attEff:A?((r.attP||0)-(r.attM||0))/A:null,recPos:Rc?(r.recP||0)/Rc:null,aces:r.aceN||0,srvErr:r.srvM||0,blkP:r.blkP||0};}
+  return {A,Rc,Sv,B,kill:A?(r.killA||0)/A:null,attErr:A?(r.attM||0)/A:null,attEff:A?((r.killA||0)-(r.attM||0))/A:null /* V204 : kills saisis (« Kill ? »), plus les attaques + */,recPos:Rc?(r.recP||0)/Rc:null,aces:r.aceN||0,srvErr:r.srvM||0,blkP:r.blkP||0};}
 function stdHTML(r){const x=stdStats(r),pc=v=>v==null?'–':Math.round(v*100)+' %',sg=v=>v==null?'–':(v>0?'+':'')+Math.round(v*100)+' %';
   const items=[];if(x.A)items.push(['Kill',pc(x.kill)],['Erreurs att.',pc(x.attErr)],['Efficacité att.',sg(x.attEff)]);if(x.Rc)items.push(['Réception +',pc(x.recPos)]);if(x.Sv)items.push(['Aces / fautes',`${x.aces} / ${x.srvErr}`]);if(BLK()&&x.B)items.push(['Points de bloc',String(x.blkP)]);
   return items.length?`<div class="stdl"><b>Indicateurs standards${tipB('std')}</b><div class="stdg">${items.map(([l,v])=>`<span><small>${l}</small><b>${v}</b></span>`).join('')}</div></div>`:'';}
@@ -4847,7 +4851,7 @@ function coachHTML(){if(!['stats','seasons','team','settings'].includes(ui.ctab)
     body=`${T.seasons.length>1?`<div class="slist">${list}</div>`:''}
     <div class="card seasonc" style="margin-top:12px;--gc:${teamColor(T)}"><div class="sh2"><span class="who"><small>Saison</small><b>${esc(so?so.name:'')}</b></span><span class="sst ${cur?'on':''}">${cur?'en cours':'clôturée'}</span><button class="btn icon" data-act="seasonGear" aria-label="Réglages de la saison">${IC.gear}</button></div>
       ${TA.length?`<button class="btn big primary" data-act="cv" data-id="season" style="margin-top:10px">📊 Stats de la saison</button>`:`<p class="hint xp" style="margin:8px 0 0">${cur?'Les matchs archivés vont dans cette saison.':'Consultation seule.'}</p>`}</div>
-    <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length>2?'<button class="btn icon" data-act="archOrg" aria-label="Réorganiser" title="Réorganiser">↕</button>':''}</div>
+    <div class="h2row"><h2>Matchs — ${esc(so?so.name:'')} (${TA.length})</h2>${TA.length?'<button class="btn icon" data-act="archOrg" aria-label="Réorganiser" title="Réorganiser">↕</button>':''}</div>
     ${TA.length?`<div class="card" style="padding:0">${arch}</div>`:'<div class="card hint">Les matchs sont archivés automatiquement quand vous commencez un nouveau match.</div>'}`;}}
   else if(ct==='team'){
     // V196 : plus de carte « Équipe actuelle » ni de filtre (bandeau + fiche des équipes) ; une ligne joueur = appui (fiche), retrait dans la fiche
@@ -4872,7 +4876,7 @@ async function nativeSave(filename,data){const P=CAP();if(!P.Filesystem||!P.Shar
   const w=await P.Filesystem.writeFile({path:filename,data:await b64Of(data),directory:'CACHE'});await P.Share.share({title:filename,files:[w.uri],dialogTitle:'Partager'});return true;}
 // Enregistrement sur l'appareil (Android) : fenêtre système « Enregistrer sous » (module natif SaveAs de l'appli),
 // l'utilisateur choisit le dossier ; renvoie false si l'enregistrement est annulé
-const MIME_OF=f=>/.pdf$/i.test(f)?'application/pdf':/.csv$/i.test(f)?'text/csv':'application/octet-stream';
+const MIME_OF=f=>/.pdf$/i.test(f)?'application/pdf':/.csv$/i.test(f)?'text/csv':/.jpe?g$/i.test(f)?'image/jpeg':/.png$/i.test(f)?'image/png':'application/octet-stream';
 async function nativeKeep(filename,data){const P=CAP();
   // contenu écrit d'abord dans le cache : seul le chemin passe au module natif (résiste à l'arrêt de l'appli par Android)
   const w=await P.Filesystem.writeFile({path:filename,data:await b64Of(data),directory:'CACHE'});
@@ -4887,6 +4891,15 @@ async function shareOut(filename,data){const blob=data instanceof Blob?data:new 
 const MOBILE_WEB=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 // Tout export (stats PDF/CSV, résumé, données .vbcs) : iOS → partage du système (qui propose aussi « Enregistrer dans Fichiers ») ;
 // Android → choix entre partage et enregistrement sur l'appareil ; navigateur mobile → partage, sinon téléchargement
+// V204 : capture de l'image vidéo affichée (menus et commandes exclus, zoom de l'écran conservé), en pleine définition de la vidéo
+function vidShotCanvas(){const L=VID.layer;if(!L||!L.isConnected)return null;const tv=L.querySelector('canvas.vtv'),v=tv||[...L.querySelectorAll('video')].find(x=>x._on&&x.videoWidth);if(!v)return null;
+  const vw=tv?tv.width:v.videoWidth,vh=tv?tv.height:v.videoHeight,LW=L.clientWidth,LH=L.clientHeight;if(!vw||!vh||!LW||!LH)return null;
+  const sc=Math.min(LW/vw,LH/vh),cw=vw*sc,ch=vh*sc,op=(getComputedStyle(v).objectPosition||'50% 50%').split(' ').map(x=>parseFloat(x)),ox=(LW-cw)*((isNaN(op[0])?50:op[0])/100),oy=(LH-ch)*((isNaN(op[1])?50:op[1])/100);
+  const Z=VID.vz&&VID.vz.z>1?VID.vz:{z:1,x:0,y:0},X=Z.x+ox*Z.z,Y=Z.y+oy*Z.z,W=cw*Z.z,H=ch*Z.z,x0=Math.max(0,X),y0=Math.max(0,Y),x1=Math.min(LW,X+W),y1=Math.min(LH,Y+H);if(x1<=x0||y1<=y0)return null;
+  const sx=(x0-X)/W*vw,sy=(y0-Y)/H*vh,sw=Math.max(1,Math.round((x1-x0)/W*vw)),sh=Math.max(1,Math.round((y1-y0)/H*vh)),c=document.createElement('canvas');c.width=sw;c.height=sh;c.getContext('2d').drawImage(v,sx,sy,(x1-x0)/W*vw,(y1-y0)/H*vh,0,0,sw,sh);return c;}
+async function vidShot(){let c=null;try{c=vidShotCanvas();}catch(e){c=null;}if(!c){toast(tr('Image indisponible : attendez que la vidéo s’affiche'),'warn');return;}
+  let blob=null;try{blob=await new Promise(res=>c.toBlob(res,'image/jpeg',.92));}catch(e){}if(!blob){toast(tr('Capture impossible sur cet appareil'),'warn');return;}
+  const P=VID.pb,d=new Date(),p2=n=>String(n).padStart(2,'0'),t=P?vMs(P.pos).replace(/:/g,'-'):'';await saveFile(`capture_${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}_${t}.jpg`,blob);}
 async function saveFile(filename,data){SHARE=false;
   if(NATIVE){if(window.Capacitor.getPlatform()==='android'){ui.exportQ={filename,data};ui.sheet='exportTo';render();return;}
     try{if(await nativeSave(filename,data))return;}catch(e){if(/cancel|abort/i.test(String(e&&e.message||e)))return;toast('Partage impossible sur cet appareil','warn');return;}}
@@ -5226,7 +5239,7 @@ const A={
   sumTog(d){const o=ui.sumOpen||(ui.sumOpen={});o[d.ei]=!o[d.ei];},
   close(){ui.sheet=null;ui.afterCode=null;ui.teamFrom=null;if(ui.edAt!=null)edAtEnd();ui.edRe=null;},
   teamNewSetup(){ui.ctab='team';ui.treeOpen=false;ui.teamEdit='new';ui.newName='';ui.newF4=0;ui.teamFrom='setup';ui.sheet='teamName';},
-  stCat(d){const m=store.cur,S=replay(m),lp=rallyCtx(S),k=d.k,sg=+d.s;if(!lp)return;
+  stCat(d){const m=store.cur,S=vstOn()&&store.vst?vstState(m):replay(m),lp=rallyCtx(S) /* V205 : en édition, état à l'instant de la vidéo (match terminé : rien ne se passait) */,k=d.k,sg=+d.s;if(!lp)return;
     if(k==='srv'){if(!lp.srv&&!m.free){toast('Le service est adverse');return;}
       // Un seul service par point : même signe = rien, signe opposé = on inverse
       const pend=m.pend||[],j=pend.findIndex(x=>x[0]==='srv');
@@ -5617,6 +5630,7 @@ const A={
     if(vstEd()){const V=store.vst;if(P.play){P.play=false;P.fine=true;P.tapT=null;V.am=true;}else if(P.pos<P.tot){P.play=true;P.at=Date.now();V.am=false;}return;}
     // V201 : saisie aussi : tap simple = pause (image exacte) / reprise ; double tap = tableau (à l'heure du premier tap)
     if(VID.dkFix)return 1;if(P.play){P.play=false;P.fine=true;P.tapT=null;}else if(P.pos<P.tot)vstResume();return;},
+  vidShotGo(){ui.vstMenu=false;ui.vmenu=false;vidShot();},
   vstZoom0(){vzReset();ui.vstMenu=false;ui.vmenu=false;},
   // Section « Vidéo » des stats (V185) : critères à choix multiple, puis montage (entrée « Clips » partageant les tranches des enregistrements)
   vmGrp(d){const Q=vmQ();Q.open=Q.open===d.k?null:d.k;},
@@ -5707,8 +5721,8 @@ const A={
   vstQuit(){if(ui.confirm!=='vstquit'){ui.confirm='vstquit';return 'keep';}vstEnd();},
   vstEndGo(){vstEnd();},
   // V200 : « Éditer les stats » depuis la saisie : la saisie est quittée (match enregistré, stats de l'échange gardées) puis rouverte en édition ; « Reprendre la saisie » fait l'inverse
-  vstToEd(){const V=store.vst,r=vstRec();if(!V||!r||V.mode==='val')return;vstEnd();const m=vcMatchFor(r),vp=m&&m.vpend?clone(m.vpend):null;if(!vstStart(r,'val'))return;store.vst.back={vp};save();toast(tr('Édition des stats : « Reprendre la saisie » dans le menu ramène à la suite'),'ok');},
-  vstToRes(){const V=store.vst,r=vstRec();if(!V||!r||!V.back)return;const vp=V.back.vp;vstEnd();const m=vcMatchFor(r);if(m&&vp)m.vpend=vp;if(!vstStart(r,'res'))return;save();toast(tr('Saisie reprise à la dernière stat'),'ok');},
+  vstToEd(){const V=store.vst,r=vstRec();if(!V||!r||V.mode==='val')return;const pos=VID.pb?VID.pb.pos:null;vstEnd();const m=vcMatchFor(r),vp=m&&m.vpend?clone(m.vpend):null;if(!vstStart(r,'val'))return;store.vst.back={vp};vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Édition des stats : « Reprendre la saisie » dans le menu ramène à la suite'),'ok');},
+  vstToRes(){const V=store.vst,r=vstRec();if(!V||!r||!V.back)return;const vp=V.back.vp,pos=VID.pb?VID.pb.pos:null;vstEnd();const m=vcMatchFor(r);if(m&&vp)m.vpend=vp;if(!vstStart(r,'res'))return;vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Saisie reprise, vidéo au même instant'),'ok');},
   vidImport(d){ui.sheet=null;render();vidImport(d&&d.src);return 1;},
   vidImpAsk(){ui.sheet='vidImp';}, // V196
   vidMore(d){ui.vidMore=d.id;ui.vidDelAsk=null;ui.sheet='vidMore';},
@@ -5887,6 +5901,8 @@ const A={
   archOrg(){ui.sheet='archOrg';},
   archMove(d){if(isDemoTeam()){toast('Équipe d’exemple : non modifiable','warn');return;}const L=teamArch();L.forEach((a,k)=>{a.order=k;});const k=L.findIndex(a=>a.id===d.id),t=k+(+d.v);if(k<0||t<0||t>=L.length)return;[L[k].order,L[t].order]=[L[t].order,L[k].order];save();},
   archMoveOpen(d){ui.moveId=d.id;ui.mvTeam=null;ui.sheet='archMove';},
+  // V204 : déplacement vers une autre équipe ET une nouvelle saison de cette équipe
+  archMvTeamSeason(){const a=store.arch.find(x=>x.id===ui.moveId),t=store.teams.find(x=>x.id===ui.mvTeam);if(!a||!t||isDemoTeam())return;const v=(($('#mvTeamSeason')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}ensureSeasons(t);const id='s'+Date.now().toString(36);t.seasons.push({id,name:v,closed:false});if(!t.curSeason)t.curSeason=id;moveToTeam(a,t,id);},
   archMvTeam(d){ui.mvTeam=ui.mvTeam===d.id?null:d.id;},
   archMvGo(d){const a=store.arch.find(x=>x.id===ui.moveId),t=store.teams.find(x=>x.id===ui.mvTeam);if(!a||!t||isDemoTeam())return;moveToTeam(a,t,d.id);},
   archMvNewTeam(){const a=store.arch.find(x=>x.id===ui.moveId);if(!a||isDemoTeam())return;const v=(($('#mvTeamNew')||{}).value||'').trim();if(!v){toast('Indiquez un nom','warn');return 'keep';}
