@@ -57,6 +57,12 @@ body.nohints .xp{display:none!important}
 .btn{min-height:48px;padding:0 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn.primary{background:var(--team);color:var(--teamInk);border-color:var(--team)}
 .btn.big{min-height:60px;font-size:20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;width:100%}
+/* V207 : composition sans adversaire : bouton rouge + sous-titre */
+.btn.oppno{background:#C21F35;border-color:#C21F35;color:#fff;flex-direction:column;gap:2px;line-height:1.1}.btn .oppw{display:none}.btn.oppno .oppw{display:block;font:500 13px Barlow,sans-serif;opacity:.95}
+/* V207 : résumé : 6 de départ de chaque set */
+.setcourt{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 10px}.setcourt svg{width:min(210px,70%);height:auto;color:var(--ink)}.setcourt small{color:var(--muted);text-align:center}.setcourt .scf{fill:var(--court);stroke:var(--courtLine);stroke-width:.6}.setcourt .scn{stroke:var(--courtLine);stroke-width:2.2}.setcourt .sca{stroke:var(--courtLine);stroke-width:.4;stroke-dasharray:2 2}.setcourt .scnum{font:700 9px Barlow,sans-serif;fill:#fff}.setcourt .scnm{font:600 6px Barlow,sans-serif;fill:currentColor}.setcourt .scsrv{fill:#F2BE22;stroke:#14243D;stroke-width:.7}.setcourt .scz{font:600 4.5px Barlow,sans-serif;fill:var(--muted)}
+/* V207 : vidéos du match */
+.vparts{padding:4px 10px}.vprow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.vprow:last-child{border-bottom:0}.vpn{font:700 20px 'Barlow Condensed',sans-serif;min-width:22px;text-align:center}.vpt{flex:1;min-width:0;display:grid}.vpt small{color:var(--muted)}.vpbt{display:flex;gap:6px}.vpbt .btn{min-height:40px;padding:0 12px}
 .btn.danger{border-color:var(--pu);color:var(--neg)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
@@ -907,6 +913,19 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
    en paysage, colonne fixe sur tablette en paysage, moitié basse en portrait) ; la vidéo se réduit pour lui laisser la place */
 .edcard{display:grid;gap:1px;text-align:center;background:rgba(10,16,26,.86);color:#fff;border:1.5px solid #F2BE22;border-radius:12px;padding:4px 12px;font:600 13px Barlow,sans-serif;max-width:100%;min-width:0;pointer-events:auto;cursor:pointer}
 .edcard b{font:700 19px 'Barlow Condensed',sans-serif;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.edcard small{font-size:12px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.edcard.ok{border-color:#3fbf6a}
+/* V207 : écran unique (Saisir / Vérifier), étape de calage, pastilles du point, frise des points, ◀ ▶ par score */
+.vstseg{pointer-events:auto;background:rgba(10,16,26,.78);border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:2px;display:flex;gap:2px}.vstseg button{min-height:34px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#cfd8e6;font:700 14px Barlow,sans-serif;cursor:pointer}.vstseg button.on{background:#F2BE22;color:#14243D}
+.vststep{pointer-events:none;align-self:center;background:rgba(10,16,26,.78);color:#F2BE22;border-radius:8px;padding:4px 8px;font:700 12px Barlow,sans-serif;white-space:nowrap}
+.edchips{pointer-events:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px;max-width:min(92vw,560px)}.edchips small{color:#cfd8e6;font:600 12px Barlow,sans-serif;background:rgba(10,16,26,.78);border-radius:6px;padding:2px 6px}
+.edch{min-height:26px;border:0;border-radius:7px;padding:0 7px;background:rgba(10,16,26,.82);color:#fff;font:700 12px Barlow,sans-serif;cursor:pointer;white-space:nowrap}.edch.ok{background:#1F7F40}.edch.cur{outline:2px solid #F2BE22;outline-offset:0}
+.edfrise{position:absolute;left:10px;right:10px;top:calc(56px + env(safe-area-inset-top,0px));z-index:6;max-height:55%;overflow:auto;background:rgba(10,16,26,.94);color:#fff;border-radius:14px;padding:8px 10px;display:grid;gap:6px}
+.edfrh{display:flex;align-items:center;gap:8px}.edfrh small{flex:1;color:#a9b5c4}.edfrh .btn{min-height:34px;background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.4)}
+.edfrs{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.edfrl{font:700 13px Barlow,sans-serif;color:#a9b5c4;margin-right:4px;white-space:nowrap}
+.edfp{min-height:30px;min-width:46px;border:0;border-radius:7px;background:rgba(255,255,255,.1);color:#fff;font:700 14px 'Barlow Condensed',sans-serif;cursor:pointer;font-variant-numeric:tabular-nums}.edfp.G{box-shadow:inset 0 -3px 0 #2FA35A}.edfp.A{box-shadow:inset 0 -3px 0 #E0475C}.edfp.cur{background:#F2BE22;color:#14243D}
+.edpt span{font:700 15px 'Barlow Condensed',sans-serif}.edpt:disabled{opacity:.4}
+.edfrb{font:700 15px 'Barlow Condensed',sans-serif}@media (min-width:600px) and (min-height:600px){.edfrb{display:none}}
+.edcw.sai{pointer-events:none}
+.edcw{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:100%}.edkq{pointer-events:auto;display:flex;align-items:center;gap:6px;background:rgba(10,16,26,.86);color:#fff;border:1.5px solid #3fbf6a;border-radius:12px;padding:3px 8px;font:600 13px Barlow,sans-serif;max-width:100%}.edkq span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.edkq button{min-height:34px;padding:2px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font:700 14px Barlow,sans-serif;cursor:pointer}.edkq button.on{background:#3fbf6a;border-color:#3fbf6a;color:#0d1a12}
 .edcard .gap{color:#F2BE22;font-weight:800}.edcard .bad{color:#ff8f99;font-weight:800}
 .edback{pointer-events:auto;background:#245bb5;color:#fff;border:0;border-radius:999px;padding:4px 12px;font:700 13px Barlow,sans-serif;margin-right:6px;min-height:34px;white-space:nowrap;align-self:center}
 .edbar{position:relative;flex:1 1 auto;min-width:0;height:44px;background:rgba(255,255,255,.16);border-radius:10px;touch-action:none}
@@ -1004,7 +1023,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V205';
+const APP_VERSION='V207';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1311,7 +1330,7 @@ const facTxt=f=>f&&f.n>=VA_MIN&&!f.cov?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+
 // Renvoi sans attaque : compté comme une attaque −, sauf si la passe qui le précède est −
 // V204 : renvoi direct gagnant (« Kill ? Oui », kl = son index) = attaque + (valeur ajoutée, attaque, kill %)
 function relNorm(st,kl){let pq=null;return st.map((x,j)=>{const k=x[0];if(k==='pas'){pq=x[1];return x;}
-  if(k==='att'){pq=null;return x;}if(k==='rel'){const r=j===kl?['att',1,x[2],1]:pq===-1?x:['att',-1,x[2],1];pq=null;return r;}if(k==='rec'||k==='def')pq=null;return x;});}
+  if(k==='att'){pq=null;return x;}if(k==='rel'){const r=j===kl?['att',1,x[2],1]:x[3]==='q'?['att',x[1]||0,x[2],1,null,null,null,null,'q']:pq===-1?x:['att',-1,x[2],1];pq=null;return r;}if(k==='rec'||k==='def')pq=null;return x;});}
 // ---- Traduction de l'interface (dictionnaire + motifs) ----
 const LANGS=[['fr','Français'],['en','English'],['es','Español'],['it','Italiano'],['de','Deutsch'],['pl','Polski'],['pt','Português'],['tr','Türkçe'],['nl','Nederlands'],['sr','Srpski'],['sl','Slovenščina'],['cs','Čeština'],['bg','Български'],['uk','Українська'],['ru','Русский'],['ar','العربية'],['ja','日本語'],['zh','中文'],['ko','한국어'],['th','ไทย'],['vi','Tiếng Việt'],['id','Bahasa Indonesia'],['fil','Filipino']];
 // I18N, I18P, I18W, I18PW : voir i18n.js
@@ -1406,7 +1425,7 @@ function i18nPatterns(L){if(L==='fr')return [];const W=Object.assign({},I18W.en,
 function lang(){try{return (store&&store.prefs&&store.prefs.lang)||'fr';}catch(e){return 'fr';}}
 const TPLC={};// Stats faciles : ce que « Annuler » retire (dernière stat de l'échange, sinon dernière stat du point précédent, sinon ce point)
 function undoLab(m,S,st,lastPt){const ev=lastPt?m.ev[m.ev.length-1]:null,x=st.length?st[st.length-1]:ev&&ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
-  if(x)return `<span class="eun">${stLab(x[0],x[1])}</span>${x[2]?`<br><span class="eun">${esc(dname(m,x[2]))}</span>`:''}`;
+  if(x)return `<span class="eun">${stLab(x[0],x[1],x[3])}</span>${x[2]?`<br><span class="eun">${esc(dname(m,x[2]))}</span>`:''}`;
   if(ev&&S.lastPt)return `<span class="eun">${tr('point {N}').replace('{N}',S.lastPt.g+'-'+S.lastPt.a)}</span>`;return 'dernière stat';}
 function tplOf(L){if(TPLC[L])return TPLC[L];const o=[],add=l=>{const D=I18N[l]||{};Object.keys(D).forEach(k=>{if(k.indexOf('{N}')<0||k==='{N}')return;o.push([new RegExp('^'+k.replace(/[.*+?^$()|[\]\\]/g,'\\$&').split('{N}').join('(.+?)')+'$'),D[k]]);});};add(L);if(L!=='en')add('en');return TPLC[L]=o;}
 function tr(t,LL){if(t==null)return t;const L=LL||lang();if(L==='fr')return t;const D=I18N[L]||{},str=String(t),k=str.trim();if(!k)return str;
@@ -1503,14 +1522,14 @@ function replay0(m){
         orph.forEach(pp=>add(pp[2]||sid0,'x',pp[1],pp[3]));
       }
       // Erreur d'attaque : attaque − ou relance sur une passe + ou = (passe non notée = neutre), hors passe
-      if(ev.st){let q=null;ev.st.forEach(([k,sg,pid])=>{if(k==='pas'){q=sg;return;}if(k==='rly'){q=-1;return;}if(k!=='att'&&k!=='rel')return;const qq=q==null?0:q;q=null;
+      if(ev.st){let q=null;ev.st.forEach(([k,sg,pid,rl])=>{if(k==='pas'){q=sg;return;}if(k==='rly'){q=rl==='q'?sg:-1;return;}if(k!=='att'&&k!=='rel')return;const qq=q==null?0:q;q=null;
         if(pid&&qq>=0&&(k==='rel'||sg<0)&&S.roles[pid]!=='Pa'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].eatN=(a[si].eatN||0)+1;}});}
       // Valeur ajoutée (ordre de saisie) : passe notée ← 1re touche (réception ou défense, non notée = « = ») ;
       // attaque notée ← passe (non notée = « = »). Écart en crans, de −2 à +2.
       if(ev.st&&ev.st.length){let ft=null,ftK=null,pq=null;const Q={'-1':'M','0':'E','1':'P'};const imp=(pid,k,inq,outq)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),q=Q[String(inq)];a[si][k+q]=(a[si][k+q]||0)+1;a[si][k+'S'+q]=(a[si][k+'S'+q]||0)+outq+1;};
         const ftA=(pid,sg,k,dif)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),kk=k==='def'?'ftd':'ftr';a[si].ftN=(a[si].ftN||0)+1;a[si].ftS=(a[si].ftS||0)+sg+1;a[si][kk+'N']=(a[si][kk+'N']||0)+1;a[si][kk+'S']=(a[si][kk+'S']||0)+sg+1;
           if(dif===-1||dif===1){const d=dif===1?'_h':'_e';a[si][kk+d+'N']=(a[si][kk+d+'N']||0)+1;a[si][kk+d+'S']=(a[si][kk+d+'S']||0)+sg+1;}};
-        ev.st.forEach(([k,sg,pid,rl,dif])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k,dif);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
+        ev.st.forEach(([k,sg,pid,rl,dif])=>{if(k==='rec'||k==='def'){ft=sg;ftK=k;pq=null;if(pid)ftA(pid,sg,k,dif);}else if(k==='pas'){S.cov.pas++;const cv=S.covSet[si];if(cv)cv.pas++;if(pid&&ft!=null){S.cov.pasFt++;if(cv)cv.pasFt++;imp(pid,'ip',ft,sg);imp(pid,ftK==='def'?'ipd':'ipr',ft,sg);}pq=sg;ft=null;}else if(k==='att'){if(pid&&pq!=null)imp(pid,'ia',pq,sg);pq=null;}else if(k==='rel'){pq=null;}else if(k==='rly'){pq=rl==='q'?sg:-1;ft=null;}});} // relais : sans valeur ajoutée pour lui ; pour l'attaquant, c'est une passe − (ballon inattendu)
       // Ace : service + ou = seul noté sur l'échange, point gagné, et « Ace ? » confirmé (ev.ace ; absent avant la V167 : service + seul).
       // Faute de réception : réception − seule notée sur l'échange et point perdu.
       if(ev.st&&ev.st.length===1){const [k,sg,pid]=ev.st[0],inc=key=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;};
@@ -1522,8 +1541,8 @@ function replay0(m){
       // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
       if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
       if(ev.st&&ev.st.length){
-        for(const [k,sg,pid,rl] of ev.st){const key=k+(sg>0?'P':sg<0?'M':'N'),who=pid||'_eq';
-          const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;if(rl)a[si].relN=(a[si].relN||0)+1;
+        for(const X of ev.st){const [k,sg,pid,rl]=X,key=k+(sg>0?'P':sg<0?'M':'N'),who=pid||'_eq';
+          const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;if(rl===1){a[si].relN=(a[si].relN||0)+1;if(X[8]==='q'){const rk='rq'+(sg>0?'P':sg<0?'M':'N');a[si][rk]=(a[si][rk]||0)+1;}}
           if(S.hotNow&&['srv','rec','def','att','blk'].includes(k)){a[si]['hot_'+key]=(a[si]['hot_'+key]||0)+1;a[si].hot_n=(a[si].hot_n||0)+1;}}
         if(ev.w==='A'&&ev.st.some(x=>x[1]<0&&x[0]!=='pas'))set.oppFault++;
       }
@@ -2297,7 +2316,7 @@ function vtMore(){document.querySelectorAll('.vtabs').forEach(v=>{const w=v.pare
   if(!l){l=document.createElement('span');l.className='vtmore l';l.textContent='‹';l.setAttribute('aria-hidden','true');W.appendChild(l);}
   const upd=()=>{r.style.display=v.scrollLeft+v.clientWidth<v.scrollWidth-4?'flex':'none';l.style.display=v.scrollLeft>4?'flex':'none';};
   if(!v._vt){v.addEventListener('scroll',upd,{passive:true});v._vt=1;const on=v.querySelector('.on');if(on){const q=on.getBoundingClientRect(),b=v.getBoundingClientRect();if(q.right>b.right-28||q.left<b.left)v.scrollLeft+=q.left-b.left-30;}}upd();});}
-function render(){
+function render(){try{const e=document.querySelector('#vStage .vstmenu');VID.vmS=e?e.scrollTop:0;}catch(_){} /* V205 : menu ☰ : défilement gardé d'un affichage à l'autre (appui sur « Quitter … » : la confirmation reste sous le doigt) */
   if(ui.screen!=='coach')ui.coach=false;if(ui.screen!=='lineup')ui.vstPeek=false;if(ui.vstMenu&&(ui.sheet||!vstOn()))ui.vstMenu=false;if(ui.vmenu&&(ui.sheet||!VID.pb||ui.vsync))ui.vmenu=false;
   // Ouverture de la fiche Pro : case de renonciation décochée, prix du store rechargé
   if(ui.sheet==='pro'&&!IAP.open){IAP.open=true;ui.waiver=false;IAP.load();IAP.sync();}else if(ui.sheet!=='pro')IAP.open=false;
@@ -2323,7 +2342,7 @@ function render(){
   sh.classList.toggle('open',!!ui.sheet);
   const al=$('#alert');al.innerHTML=ui.roleFor?roleBoxHTML(m,S):ui.alert?alertHTML(m):'';
   al.classList.toggle('open',!!(ui.alert||ui.roleFor));
-  translateDOM($('#app'));translateDOM(sh);translateDOM(al);icoDOM($('#app'));icoDOM(sh);icoDOM(al);fitButtons();vtMore();srvFrame();requestAnimationFrame(srvFrame); /* V201 : recalé une fois la mise en page posée */bindLearn();bindVideo();menuPlace();ovPreview();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
+  translateDOM($('#app'));translateDOM(sh);translateDOM(al);icoDOM($('#app'));icoDOM(sh);icoDOM(al);fitButtons();vtMore();srvFrame();requestAnimationFrame(srvFrame); /* V201 : recalé une fois la mise en page posée */bindLearn();bindVideo();menuPlace();if(VID.vmS){const e=document.querySelector('#vStage .vstmenu');if(e)e.scrollTop=VID.vmS;VID.vmS=0;}ovPreview();requestAnimationFrame(tutoPlace);document.documentElement.lang=lang();document.documentElement.dir=lang()==='ar'?'rtl':'ltr';
   ui.flashLib=false;
   if(ui.coachJump&&ui.screen==='coach'){const e=document.getElementById('rosterSec');if(e)e.scrollIntoView({block:'start'});ui.coachJump=null;}
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&Object.keys(old).length){
@@ -2477,6 +2496,8 @@ function ovPreview(){const cv=document.getElementById('ovPrev');if(!cv)return;co
 function vUse(){if(!store.vidUse||store.vidUse.d!==today())store.vidUse={d:today(),s:0};return store.vidUse;}
 function vidLeft(){return isPro()?Infinity:Math.max(0,VFREE-vUse().s);}
 const vMs=ms=>{const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+// V207 : timecode au dixième de seconde (position dans la vidéo) : 12:04,3 ; au-delà d'une heure : 1:02:04,3
+const vMsD=ms=>{const d=Math.max(0,Math.round(ms/100)),s=Math.floor(d/10),h=Math.floor(s/3600),mi=Math.floor(s/60)%60;return (h?h+':'+String(mi).padStart(2,'0'):mi)+':'+String(s%60).padStart(2,'0')+','+(d%10);};
 const vMo=b=>b>=1e9?(b/1e9).toFixed(1).replace('.',',')+' Go':Math.max(1,Math.round(b/1e6))+' Mo';
 // icône du Ralenti : flèche de demi-tour (on revient en arrière)
 const IC_BACK='<svg class="vback" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>';
@@ -2656,7 +2677,7 @@ function vcMatchFor(r){return vcLinkInfo(r).m;}
 function vmontPick(m,r,pick){if(!pick)return vmontRanges(m,r);const P=new Set(pick);return vmontRanges(Object.assign({},m,{ev:m.ev.filter((e,i)=>e.t!=='pt'||P.has(i))}),r);}
 // points du match par set (pour la sélection) : [{set, pts:[{ei, sc, w}]}]
 function vmontSets(m){const out=[];let cur=null,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){cur={set:out.length,pts:[]};out.push(cur);g=a=0;return;}if(e.t==='pt'&&cur){if(e.w==='G')g++;else if(e.w==='A')a++;cur.pts.push({ei:i,sc:g+'-'+a,w:e.w});}});return out.filter(s=>s.pts.length);}
-function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000,trB:S.trB*1000,trA:S.trA*1000}));}
+function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000,trB:S.trB*1000,trA:S.trA*1000,subs:3000,tos:2000}));} // V207 : écrans de changement (3 s) et de temps mort (2 s)
 const vmontOk=(m,r)=>!!(m&&r&&!r.clip&&m.ev.some(e=>e.t==='pt'));
 // Vidéo « match monté » reçue : calée sur le match importé qui la décrit (m.vref = {name, dur, tmap, off}), quel que soit l'ordre des deux imports
 const vrefOk=v=>!!(v&&Array.isArray(v.tmap)&&v.tmap.length&&v.tmap.every(x=>x&&Number.isFinite(x.t)&&x.d>0));
@@ -2700,7 +2721,9 @@ function vstTime(){if(!vstOn())return null;const r=vstRec(),P=vstPb();if(!r||!P|
   let t=Math.round(vcTimeAt(r,pos)-(r.off||0));const pend=(store.cur.pend||[]).filter(x=>!edIgn()||x[7]===1),L=pend.length?pend[pend.length-1][5]:null; /* V198 : heures ignorées : seules les stats calées comptent */if(Number.isFinite(L)&&t<L)t=L+1;return t;}
 function nowT(){const t=vstTime();return t!=null?t:Date.now();}
 // V194 : double tap sur l'image = arrêt (heure du premier tap retenue pour la stat à venir) et tableau de saisie (ui.vstDk) ; tap simple, tableau ouvert = le fermer
-function vstTapDo(P,t){if(t.play){P.tapT=t.pos;P.tapR=t.r;P.fine=false;P.pos=t.pos;}P.play=false;ui.vstDk=true;}
+function vstTapDo(P,t){if(t.play){P.tapT=t.pos;P.tapR=t.r;P.fine=false;P.pos=t.pos;}P.play=false;
+  if(vstEd()&&store.cur.ign&&!ui.edSai){toast(tr('Étape 1 : calez les stats existantes. Pour en ajouter, passez à « Saisir » (étape 2).'),'warn');return;} // V207 : étape 1 du calage : pas d'ajout
+  ui.vstDk=true;}
 // tableau fermé (V194) : seulement sur double tap, sauf entre deux sets / match terminé (VID.dkFix, posé par vstHTML) où il reste affiché vidéo arrêtée
 const vstDkShut=()=>!VID.dkFix&&!ui.vstDk;
 // échange entamé : stats en attente (saisie) ou stats déjà validées dans le point (validation) → ralenti ; sinon vitesse d'après-point
@@ -2713,16 +2736,16 @@ function vstRallyOpen(){const V=store.vst,m=store.cur;if(!V)return false;if((m.p
 function vstResume(){const P=vstPb();if(!P)return;P.r=vstRallyOpen()?VS().vst.slow:VS().vst.after;P.play=true;P.at=Date.now();ui.vstDk=false;}
 // dernière stat notée (chip en haut à gauche) : {lab, who, t} ; en validation, la dernière stat validée du point
 function vstLastStat(m){const V=store.vst;if(!V)return null;const T=short(m),opp=m.opp||tr('Adversaire'),who=x=>x[2]?pnum(m,x[2])+' '+dname(m,x[2]):'';
-  if(V.mode==='val'&&!V.ins){const ev=V.i>=0?m.ev[V.i]:null,j=V.j||0;if(!ev||!j||!ev.st||!ev.st[j-1])return null;const x=ev.st[j-1];return {lab:stLab(x[0],x[1]),who:who(x),t:x[5]};}
-  const pend=m.pend||[];if(pend.length){const x=pend[pend.length-1];return {lab:stLab(x[0],x[1]),who:who(x),t:x[5]};}if(m.ptStart!=null)return {lab:tr('Début du point'),who:'',t:m.ptStart,start:true};
-  const ev=m.ev[m.ev.length-1];if(m.free&&ev&&ev.t==='pt'&&(ev.st||[]).length){const x=ev.st[ev.st.length-1];return {lab:stLab(x[0],x[1]),who:who(x),t:x[5]};}if(ev&&ev.t==='pt')return {lab:!ev.w?tr('Fin du point'):tr('Point')+' '+(ev.w==='G'?T:opp),who:'',t:Number.isFinite(ev.at)?ev.at:vstAnchor(ev),pt:true};return null;}
+  if(V.mode==='val'&&!V.ins){const ev=V.i>=0?m.ev[V.i]:null,j=V.j||0;if(!ev||!j||!ev.st||!ev.st[j-1])return null;const x=ev.st[j-1];return {lab:stLab(x[0],x[1],x[3]),who:who(x),t:x[5]};}
+  const pend=m.pend||[];if(pend.length){const x=pend[pend.length-1];return {lab:stLab(x[0],x[1],x[3]),who:who(x),t:x[5]};}if(m.ptStart!=null)return {lab:tr('Début du point'),who:'',t:m.ptStart,start:true};
+  const ev=m.ev[m.ev.length-1];if(m.free&&ev&&ev.t==='pt'&&(ev.st||[]).length){const x=ev.st[ev.st.length-1];return {lab:stLab(x[0],x[1],x[3]),who:who(x),t:x[5]};}if(ev&&ev.t==='pt')return {lab:!ev.w?tr('Fin du point'):tr('Point')+' '+(ev.w==='G'?T:opp),who:'',t:Number.isFinite(ev.at)?ev.at:vstAnchor(ev),pt:true};return null;}
 // V195 : toutes les stats datées de la saisie (actions, points, début du point, changements, temps morts), triées par heure ; mémorisées
 function vstPast(m){const k=m.ev.length+'/'+(m.pend||[]).length+'/'+(m.ptStart||0);if(VID.pastM===m&&VID.pastK===k)return VID.past;
   const T=short(m),opp=m.opp||tr('Adversaire'),who=id=>id?pnum(m,id)+' '+dname(m,id):'',L=[],ok=t=>Number.isFinite(t);
-  m.ev.forEach(e=>{if(e.t==='pt'){(e.st||[]).forEach(x=>{if(ok(x[5]))L.push({lab:stLab(x[0],x[1]),who:who(x[2]),t:x[5]});});if(ok(e.at)&&!m.free)L.push({lab:!e.w?tr('Fin du point'):tr('Point')+' '+(e.w==='G'?T:opp),who:'',t:e.at});}
+  m.ev.forEach(e=>{if(e.t==='pt'){(e.st||[]).forEach(x=>{if(ok(x[5]))L.push({lab:stLab(x[0],x[1],x[3]),who:who(x[2]),t:x[5]});});if(ok(e.at)&&!m.free)L.push({lab:!e.w?tr('Fin du point'):tr('Point')+' '+(e.w==='G'?T:opp),who:'',t:e.at});}
     else if(e.t==='sub'&&ok(e.at))L.push({lab:'🔁 '+tr('Changement'),who:pnum(m,e.i)+' ⇄ '+pnum(m,e.o),t:e.at});
     else if(e.t==='to'&&ok(e.at))L.push({lab:'⏱ TM',who:e.s==='G'?T:opp,t:e.at});});
-  (m.pend||[]).forEach(x=>{if(ok(x[5]))L.push({lab:stLab(x[0],x[1]),who:who(x[2]),t:x[5]});});if(ok(m.ptStart))L.push({lab:tr('Début du point'),who:'',t:m.ptStart});
+  (m.pend||[]).forEach(x=>{if(ok(x[5]))L.push({lab:stLab(x[0],x[1],x[3]),who:who(x[2]),t:x[5]});});if(ok(m.ptStart))L.push({lab:tr('Début du point'),who:'',t:m.ptStart});
   L.sort((a,b)=>a.t-b.t);VID.pastM=m;VID.pastK=k;VID.past=L;return L;}
 // Encadré de la dernière stat : vidéo sur la dernière stat ou après = dernière stat saisie (appui = annulation) ; vidéo remontée avant = dernière stat
 // précédant la position (↩, appui = saut à cette stat, rien n'est annulé) ; validation : inchangé
@@ -2800,6 +2823,10 @@ const vstEd=()=>{const V=store.vst;return !!(V&&V.mode==='val'&&!V.ins);};
 // V198 : « Ignorer l'horodatage » (m.ign, menu) : stats notées sans la vidéo (heures absurdes, même dans le désordre) : seules les stats calées
 // ont une heure valable (bornes, barre, historique, contrôles) ; la stat à caler est la suivante dans l'ordre du match ; pas de montage recalculé
 const edIgn=()=>!!(store.cur&&store.cur.ign)&&vstEd();
+// V207 : heures des stats inutilisables (prises sans la vidéo, autre appareil…) : stats datées hors de la vidéo ou dans le désordre
+function edIgnBad(m,r){if(!m||!r)return {n:0,bad:0};const off=r.off||0,tot=vcTot(r);let n=0,bad=0,last=-Infinity;
+  m.ev.forEach(e=>{if(e.t!=='pt')return;(e.st||[]).forEach(x=>{if(!Number.isFinite(x[5]))return;n++;const p=vcPosOf(r,x[5]+off);if(p==null||p<0||p>tot||x[5]<last-1500)bad++;last=Math.max(last,x[5]);});});return {n,bad};}
+function edIgnCheck(m,r){if(!m||m.ign||m.ignAsk||m.free)return;const B=edIgnBad(m,r);if(B.n&&B.bad>=Math.max(3,B.n*.1)){ui.edIgnQ=B;ui.sheet='edIgnAsk';}}
 const edKnown=x=>x.t!=null&&(!edIgn()||x.ca);
 // point d'une stat (changement / temps mort : le point suivant)
 const edPtOf=(m,k)=>!k?-1:(k.k==='sub'||k.k==='to')?vstNextPt(m,k.ei):k.ei;
@@ -2810,11 +2837,22 @@ function edMarks(m){const key=m.ev.length+'|'+(VID.edV||0);if(ED_C&&ED_C.m===m&&
   const T=short(m),opp=m.opp||tr('Adversaire'),who=x=>x[2]?pnum(m,x[2])+' '+dname(m,x[2]):'',L=[],ok=Number.isFinite;let np=0;
   m.ev.forEach((e,ei)=>{
     if(e.t==='pt'){np++;const ca=e.ca||{};
-      if(!m.free)L.push({k:'t0',ei,key:ei+':t0',pn:np,t:ok(e.t0)?e.t0:null,virt:!ok(e.t0),ca:!!ca.t0,lab:tr('Début du point'),c:'⚑'});
-      (e.st||[]).forEach((x,j)=>L.push({k:'st',ei,j,key:ei+':s'+j,pn:np,t:ok(x[5])?x[5]:null,ca:x[7]===1,lab:stLab(x[0],x[1]),who:who(x),c:ED_LET[x[0]]||'•'}));
+      // V205 : début du point : heure notée, sinon déduit de la première stat datée (2 s avant, comme en saisie sur film) ; point sans stat : pas de début inventé
+      if(!m.free){const f0=(e.st||[]).find(x=>ok(x[5]));if(ok(e.t0)||f0)L.push({k:'t0',ei,key:ei+':t0',pn:np,t:ok(e.t0)?e.t0:f0[5]-2000,virt:!ok(e.t0),ca:!!ca.t0,lab:tr('Début du point'),c:'⚑'});}
+      (e.st||[]).forEach((x,j)=>L.push({k:'st',ei,j,key:ei+':s'+j,pn:np,t:ok(x[5])?x[5]:null,ca:x[7]===1,lab:stLab(x[0],x[1],x[3]),who:who(x),c:ED_LET[x[0]]||'•'}));
       if(!m.free)L.push({k:'at',ei,key:ei+':at',pn:np,t:ok(e.at)?e.at:null,ca:!!ca.at,w:e.w,lab:!e.w?tr('Fin du point'):tr('Point')+' '+(e.w==='G'?T:opp),c:'●'});}
     else if(e.t==='sub'||e.t==='to')L.push({k:e.t,ei,key:ei+':'+e.t,pn:np,t:ok(e.at)?e.at:null,ca:e.ca===1,lab:e.t==='sub'?'🔁 '+tr('Changement'):'⏱ '+tr('Temps mort'),who:e.t==='sub'?pnum(m,e.i)+' ⇄ '+pnum(m,e.o):(e.s==='G'?T:opp),c:e.t==='sub'?'⇄':'T'});});
   L.forEach((x,i)=>x.i=i);ED_C={m,key,L};return L;}
+// V207 : points du match pour la navigation par le score : score de l'équipe et de l'adversaire après chaque point
+function edPts(m){const L=[];let si=-1,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){si++;g=a=0;return;}if(e.t!=='pt')return;if(e.w==='G')g++;else if(e.w==='A')a++;L.push({ei:i,si:Math.max(0,si),g,a,w:e.w});});return L;}
+const edSc=p=>p?p.g+'–'+p.a:'';
+function edPtGo(m,ei){const L=edMarks(m),x=L.find(y=>y.ei===ei&&y.k!=='sub'&&y.k!=='to'&&!y.virt)||L.find(y=>y.ei===ei&&y.k!=='sub'&&y.k!=='to');return x?A.edGo({k:x.key}):1;}
+// pastilles des repères d'un point (vert = calé, cadre jaune = repère actif), un appui = aller au repère
+function edChips(m,k,sai){const L=edMarks(m);if(!k)return '';const pn=(k.k==='sub'||k.k==='to')?k.pn+1:k.pn,N=L.filter(x=>x.pn===pn&&x.k!=='sub'&&x.k!=='to');if(!N.length)return '';
+  const sg=v=>v>0?'+':v<0?'−':'=',X=x=>(m.ev[x.ei].st||[])[x.j]||[],lb=x=>x.k==='t0'?tr('Début'):x.k==='at'?tr('Fin'):(x.c+sg(X(x)[1])+' '+(X(x)[2]?pnum(m,X(x)[2]):'')).trim();
+  return `<div class="edchips">${sai?`<small>${tr('Déjà notées sur ce point')}</small>`:''}${N.map(x=>`<button class="edch ${x.ca?'ok':''} ${!sai&&x.key===k.key?'cur':''}" data-act="edGo" data-k="${x.key}">${esc(lb(x))}</button>`).join('')}</div>`;}
+function edFrHTML(m){const P=edPts(m),V=store.vst,S=[];P.forEach(p=>{(S[p.si]||(S[p.si]=[])).push(p);});
+  return `<div class="edfrise" id="edFrise"><div class="edfrh"><b>${tr('Points du match')}</b><small>${tr('Un appui place la vidéo au début du point')}</small><button class="btn" data-act="edFr" aria-label="${esc(tr('Fermer'))}">✕</button></div>${S.map((L,si)=>L?`<div class="edfrs"><span class="edfrl">${tr('Set {N}').replace('{N}',si+1)} · ${edSc(L[L.length-1])}</span>${L.map(p=>`<button class="edfp ${p.w==='G'?'G':p.w==='A'?'A':''} ${p.ei===V.i?'cur':''}" data-act="edFrGo" data-ei="${p.ei}">${edSc(p)}</button>`).join('')}</div>`:'').join('')}</div>`;}
 function edBounds(L,i){let a=null,b=null;for(let q=i-1;q>=0;q--)if(edKnown(L[q])){a=L[q];break;}for(let q=i+1;q<L.length;q++)if(edKnown(L[q])){b=L[q];break;}return {a,b};}
 // heure estimée d'un repère sans heure (début du point virtuel) : un peu avant le repère daté suivant
 function edEst(L,i){const x=L[i];if(x.t!=null)return x.t;const {a,b}=edBounds(L,i);return b?b.t-700:a?a.t+700:null;}
@@ -2846,8 +2884,8 @@ function edCalAt(k){const V=store.vst,m=store.cur,r=vstRec(),P=vstPb();if(!k||!r
   if((a&&t<a.t)||(b&&t>b.t)){const x=a&&t<a.t?a:b;toast(tr('Impossible : l’image est {W} « {L} » (l’ordre des stats ne change pas)').replace('{W}',x===a?tr('avant'):tr('après')).replace('{L}',x.lab+(x.who?' · '+x.who:'')),'warn');return false;}
   edPush(m);edSetT(m,k,t,true);VID.edN=(VID.edN||0)+1;edBump();
   const L2=edMarks(m),nx=L2.slice(k.i+1).find(x=>!x.virt&&(!m.ign||!x.ca));V.ak=nx?nx.key:k.key;V.am=true;
-  // V198 (11/11/2026) : la vidéo passe à l'heure de la stat suivante (vidéo arrêtée) ; heures ignorées : elle reste là (heure non valable)
-  if(nx&&edKnown(nx)){const p=edPosOf(r,nx.t);if(p!=null){P.pos=Math.max(0,Math.min(P.tot,p));P.play=false;P.fine=true;P.tapT=null;}}save();return true;}
+  // V205 (demande du 18/11) : la vidéo reste sur l'image calée (arrêtée) ; seule la stat active passe à la suivante
+  P.play=false;P.fine=true;P.tapT=null;save();return true;}
 // vidéo sur un repère (exactement, ou 1 s avant), arrêtée ; le repère devient actif
 function edSeek(k,before){const V=store.vst,m=store.cur,r=vstRec(),P=vstPb();if(!k||!r||!P)return;const L=edMarks(m),t=edEst(L,k.i);V.ak=k.key;V.am=true;
   if(edIgn()&&!k.ca){P.play=false;P.fine=true;P.tapT=null;return;} // heure ignorée : la vidéo ne bouge pas
@@ -2865,10 +2903,17 @@ function edChecks(m,r){const ig=edIgn(),key=(VID.edV||0)+'|'+m.ev.length+'|'+ig;
 function edDur(xs){const s=xs.find(x=>x.k==='t0'&&x.t!=null)||xs.find(x=>x.k==='st'&&x.t!=null),e=xs.find(x=>x.k==='at');return s&&e&&e.t!=null?e.t-s.t:null;}
 // encadré du haut : stat active, son point, écart avec l'image (« image −0,4 s » = la vidéo est 0,4 s avant l'heure notée), retour après un saut
 function edCardHTML(m,r,P,k){const L=edMarks(m),B=VID.edBack;const bk=''; /* V201 : plus de « Revenir à … » (l'historique suffit) */if(!k)return bk;
+  if(ui.edSai)return `<div class="edcw sai">${edChips(m,k,true)}</div>`; // V207 : Saisir (compléter) : stats déjà notées sur le point, sans carte de calage
   const pt=k.k!=='sub'&&k.k!=='to',n=pt?L.filter(x=>x.pn===k.pn&&x.k!=='sub'&&x.k!=='to'):[],ctx=pt?tr('Point {N}').replace('{N}',k.pn)+' · '+(n.indexOf(k)+1)+' / '+n.length:tr('Entre deux points');
   const t=edImgT(r,P),{a,b}=edBounds(L,k.i),out=(a&&t<a.t)||(b&&t>b.t),unk=!edKnown(k),g=unk?null:t-k.t;
   const gap=out?tr('hors limites'):unk&&edIgn()?tr('à caler sur l’image'):g==null?tr('pas encore d’heure'):Math.abs(g)<50?tr('sur l’image'):tr('image {S}').replace('{S}',(g<0?'−':'+')+fmtS(Math.abs(g)));
-  return `${bk}<button class="edcard" data-act="edGo" data-k="${k.key}"><small>${esc(ctx)}</small><b>${esc(k.lab)}${k.who?' · '+esc(k.who):''}</b><small>${!unk?edPosLab(r,k.t)+' · ':''}<span class="${out?'bad':g!=null&&Math.abs(g)>200?'gap':''}">${esc(gap)}</span></small></button>`;}
+  const q=edKA(m,k),kq=q?`<div class="edkq"><span>${q.f==='ace'?tr('Ace ?'):tr('Kill ?')} <small>${esc(pnum(m,q.who)+' '+dname(m,q.who))}</small></span><button class="${q.v===1?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="1">${tr('Oui')}</button><button class="${q.v===0?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="0">${tr('Non')}</button></div>`:'';
+  return `${bk}<div class="edcw"><button class="edcard" data-act="edGo" data-k="${k.key}"><small>${esc(ctx)}</small><b>${esc(k.lab)}${k.who?' · '+esc(k.who):''}</b><small>${!unk?edPosLab(r,k.t)+' · ':''}<span class="${out?'bad':g!=null&&Math.abs(g)>200?'gap':''}">${esc(gap)}</span></small></button>${kq}${edChips(m,k)}</div>`;}
+// V205 : édition : point gagné après un service + / = seul (ace) ou une attaque + / un renvoi en dernière action (kill) : question proposée sur la fin du point
+// V205 : relais / renvoi : note proposée s'il était coté, ou si sa cotation est activée dans les réglages
+function seQ(se){return (se.orig&&se.orig[0]===se.k&&se.orig[3]==='q')||!!store.prefs[se.k==='rel'?'relQ':'rlyQ'];}
+function edKA(m,k){if(!k||k.k!=='at')return null;const e=m.ev[k.ei];if(!e||e.t!=='pt'||e.w!=='G')return null;const st=e.st||[];
+  if(st.length===1&&st[0][0]==='srv'&&st[0][1]>=0&&st[0][2])return {f:'ace',v:e.ace,who:st[0][2]};if(killCand(st))return {f:'kill',v:e.kill,who:st[st.length-1][2]};return null;}
 // barre du point (remplace la barre de 6 s en édition) : le point de la stat active, de 2 s avant à 2 s après ; zone permise éclairée
 function edBarHTML(m,r,P,k){const L=edMarks(m);if(!k)return {h:'',R:null};let pn=k.pn;if(k.k==='sub'||k.k==='to')pn=k.pn+1; // entre deux points : le point suivant
   const ig=edIgn(),xs=L.filter(x=>x.pn===pn&&x.k!=='sub'&&x.k!=='to'&&(!ig||edKnown(x)||x.key===k.key)),ps=xs.filter(edKnown).map(x=>edPosOf(r,x.t)).filter(p=>p!=null);if(ig&&!edKnown(k))ps.push(P.pos);if(!ps.length)return {h:'',R:null};
@@ -2902,8 +2947,10 @@ function edHistHTML(m,r,k){
 function edScLine(m,S){const V=store.vst,si=S.sets.length-1,set=S.sets[si],play=S.phase==='play',T=short(m);if(m.free)return tr('Point {N}').replace('{N}',(V&&V.i>=0?m.ev.slice(0,V.i).filter(e=>e.t==='pt').length:m.ev.filter(e=>e.t==='pt').length)+1);
   const rot=play?vstRot(S):null;return `S${si+1} · ${set?set.g:0}-${set?set.a:0}${play?' · '+(rot?'P'+rot+' ':'')+(S.serving==='G'?tr('service'):tr('réception')):''}`;}
 // boucle vidéo (vidLoop) en édition : score à l'instant de la vidéo, vitesse, stat active, encadré, barre du point, historique
+function edNavLab(m){const V=store.vst,EP=edPts(m),ci=EP.findIndex(p=>p.ei===V.i),set=(id,p)=>{const b=document.getElementById(id);if(!b)return;b.disabled=ci>=0&&!p;const sp=b.querySelector('span');if(sp)sp.textContent=edSc(p);};set('edPv',ci>=0?EP[ci-1]:null);set('edNx',ci>=0?EP[ci+1]:null);const fb=document.querySelector('#vStage .edfrb');if(fb)fb.textContent=(edSc(EP[ci])||'—')+' ▾';
+  const f=document.getElementById('edFrise');if(f)f.querySelectorAll('.edfp').forEach(b=>b.classList.toggle('cur',+b.dataset.ei===V.i));}
 function edLoop(P,r){const V=store.vst,m=store.cur;if(!r||!V)return;const t=edImgT(r,P),ig=edIgn();
-  const i=ig?edPtOf(m,edActive(m,r,P)):edLocate(m,t);if(i!==V.i){V.i=i;const S=vstState(m),tl=document.querySelector('#vStage .vsttl');if(tl)tl.innerHTML=vstTlIn(m,S);const sc=document.getElementById('edSc');if(sc)sc.textContent=edScLine(m,S);}
+  const i=ig?edPtOf(m,edActive(m,r,P)):edLocate(m,t);if(i!==V.i){V.i=i;const S=vstState(m),tl=document.querySelector('#vStage .vsttl');if(tl){const st=tl.querySelector('.vststep');tl.innerHTML=vstTlIn(m,S)+(st?st.outerHTML:'');}edNavLab(m);const sc=document.getElementById('edSc');if(sc)sc.textContent=edScLine(m,S);}
   if(P.play){V.am=false;if(!P.drag&&!ig&&!VID.edSpdMan){const want=edInPt(m,t)?VS().vst.slow:VS().vst.after;if(P.r!==want)P.r=want;}}
   const k=edActive(m,r,P),kk=(k?k.key:'')+'|'+(VID.edV||0);
   const mc=document.getElementById('vstMid');if(mc&&(mc._p==null||Math.abs(mc._p-P.pos)>=50||mc._k!==kk+!!VID.edBack)){mc._p=P.pos;mc._k=kk+!!VID.edBack;const h=edCardHTML(m,r,P,k);if(mc._h!==h){mc._h=h;mc.innerHTML=h;}}
@@ -2928,7 +2975,7 @@ const DEMO_MSG='Team Earth est une équipe d’exemple : elle ne peut pas servir
 // V186 : mode 'res' = reprise d'une saisie quittée (match déjà noté) : saisie à la suite, stats de l'échange en cours rendues (m.vpend), vidéo à l'heure de la dernière stat
 // V204 : passage saisie ↔ édition : la vidéo reste à l'instant où l'on était (arrêtée)
 function vstKeepPos(pos){const P=vstPb(),V=store.vst;if(!P||pos==null)return;P.pos=Math.max(0,Math.min(P.tot,pos));P.play=false;P.fine=true;P.tapT=null;if(V){V.pos=P.pos;if(V.mode==='val'){V.ak=null;V.am=false;}}}
-function vstStart(r,mode){if(!r||r.clip)return false;VID.edTop=0;if(store.vst){toast(tr('Terminez d’abord la saisie en cours'),'warn');return false;}
+function vstStart(r,mode){if(!r||r.clip)return false;VID.edTop=0;if(store.vst){toast(tr('Terminez d’abord la saisie en cours'),'warn');return false;}const snap0=uiSnap();
   if(r.mode!=='match'){r.mode='match';delete r.noLink;} // V187 : vidéo filmée en mode Entraînement → devient une vidéo de match (lien au match, clips, montage)
   const free=mode==='free';if(free)mode='new'; // V188 : saisie sans composition
   const m0=vcMatchFor(r),pts=!!(m0&&m0.ev.some(e=>e.t==='pt')),res=mode==='res'&&!!m0;if(mode==='res')mode='new';if(mode==='val'&&!pts)return false;if(mode==='new'&&pts&&!res)mode='val';
@@ -2941,18 +2988,24 @@ function vstStart(r,mode){if(!r||r.clip)return false;VID.edTop=0;if(store.vst){t
     else{store.cur.vid=r.id;if(!res||(r.offSrc!=='manual'&&r.offSrc!=='auto')){r.off=0;r.offSrc='manual';}ui.screen=store.cur.ev.some(e=>e.t==='set')?null:'setup';}}
   else{V.hold=store.cur;V.fresh=1;V.prev={off:r.off,offSrc:r.offSrc,noLink:r.noLink};const m=newMatch(store.cur,store.roster),d=new Date(r.t0);m.date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     m.vid=r.id;store.cur=m;V.mid=m.id;r.mid=m.id;delete r.noLink;r.off=0;r.offSrc='manual';ui.screen='setup';}
+  VID.vstRet=VID.vstSw!==undefined?VID.vstSw:snap0;delete VID.vstSw; // en mémoire seulement (pas dans la sauvegarde)
   store.vst=V;ui.sheet=null;ui.coach=false;ui.toStats=false;ui.vstDk=false;ui.vstMenu=false;ui.vstPeek=false;ui.stPick=null;ui.confirm=null;VID.vz=null;VID.vstLk=0;if(free&&mode==='new'&&!store.cur.ev.some(e=>e.t==='set')){vstFreeSet(store.cur);ui.screen=null;}
-  save();if(mode==='val')edOpenPos(r); /* V198 : édition : vidéo là où on l'avait laissée, arrêtée */if(res){const P=vstPb();vstGoBefore(vstLastT(store.cur),0);if(P){P.play=false;V.pos=P.pos;}}vstLock(r);return true;}
+  save();if(mode==='val'){edOpenPos(r);edIgnCheck(store.cur,r);} /* V198 : édition : vidéo là où on l'avait laissée, arrêtée ; V207 : heures fausses → question */if(res){const P=vstPb();vstGoBefore(vstLastT(store.cur),0);if(P){P.play=false;V.pos=P.pos;}}vstLock(r);return true;}
 // V188 : match sans composition : placement fictif (jamais affiché ni compté), premier set lancé tout de suite
 function vstFreeSet(m){m.free=1;const S0=replay(m),f4=is4(m),PL=f4?FMT4[n4(f4c(m))].Z:[1,2,3,4,5,6],ids=present(m).filter(p=>!isExtra(p.id)&&(f4||S0.roles[p.id]!=='L')).map(p=>p.id),z=[null,null,null,null,null,null];
   PL.forEach((q,i)=>{z[q-1]=ids[i]||null;});dispatch({t:'set',z,s:'G',l:null});}
+// V207 : retour au module précédent : écran (ui) noté à l'ouverture d'un module plein écran (lecture d'un clip joueur, saisie / édition
+// sur vidéo) et rétabli à sa sortie (même fiche, mêmes choix, même défilement) ; le passage saisie ↔ édition garde l'écran de départ
+const UI_OUT=['tuto','alert','tip','confirm','vstMenu','vmenu','vfull','pbBack','vidImp','vidSend','vpAdd','impDup','spdOpen'];
+function uiSnap(){const o={};Object.keys(ui).forEach(k=>{if(!UI_OUT.includes(k))o[k]=ui[k];});return {o,y:window.scrollY||0};}
+function uiBack(b){if(!b||ui.tuto)return false;Object.keys(ui).forEach(k=>{if(!UI_OUT.includes(k))delete ui[k];});Object.assign(ui,b.o);setTimeout(()=>window.scrollTo(0,b.y||0),0);return true;}
 function vstEnd(){const V=store.vst;if(!V)return;const r=vstRec(),m=store.cur;ui.vfull=false;
   if(V.ins){m.ev.push(...(V.ins.tail||[]));delete V.ins;}
   if(V.mode==='new'&&m.free)freeFlush(m); /* V200 */
   if(V.mode==='new'){if((m.pend||[]).length)m.vpend=m.pend.map(x=>x.slice());else delete m.vpend;}m.pend=[]; // V186 : stats de l'échange en cours gardées pour la reprise
   if(V.hold){if(m.ev.length){if(replay(m).phase==='over')m.ended=true;archiveCur();}else if(V.fresh&&r&&r.mid===m.id){delete r.mid;const p=V.prev||{};['off','offSrc','noLink'].forEach(k=>{if(p[k]==null)delete r[k];else r[k]=p[k];});} /* V193 : saisie quittée avant le premier set : la vidéo redevient comme avant (pas de match) */store.cur=V.hold;}
   if(V.mode==='val'&&r&&VID.pb)r.edPos=VID.pb.pos; /* V198 */VID.pb=null;vidClear();VID.vz=null;VID.vstLk=0;if(VID.layer)VID.layer.style.transform='';delete store.vst;ui.vstDk=false;VID.dkFix=false;ui.vstMenu=false;ui.vstPeek=false;ui.stPick=null;ui.sheet=null;ui.confirm=null;CAL_CACHE={k:null,v:null};save();
-  ui.screen='video';ui.coach=false;vstUnlock();toast(V.mode==='val'?tr('Édition terminée : {N} recalage(s)').replace('{N}',VID.edN||0):m.ev.length?tr('Saisie terminée : le match est dans les stats'):tr('Saisie abandonnée'),'ok');}
+  ui.screen='video';ui.coach=false;vstUnlock();if(VID.vstSw===undefined&&VID.vstRet){const b=VID.vstRet;VID.vstRet=null;uiBack(b);}toast(V.mode==='val'?tr('Édition terminée : {N} recalage(s)').replace('{N}',VID.edN||0):m.ev.length?tr('Saisie terminée : le match est dans les stats'):tr('Saisie abandonnée'),'ok');}
 function vstInsDone(){const V=store.vst,m=store.cur;if(!V||!V.ins)return;const k=m.ev.length;m.ev.push(...V.ins.tail);delete V.ins;V.i=vstNextPt(m,k);V.j=0;CAL_CACHE={k:null,v:null};save();toast(tr('Point inséré'),'ok');vstCheck(m);}
 // Écran (V185) : vidéo plein écran ; en haut à gauche score, position et dernière stat (appui = annulation, retour 1 s avant) ; en haut à droite Menu
 // (tablette : changement et temps morts aussi) ; vitesses empilées à droite ; panneau de saisie (stats faciles) en surimpression quand la vidéo est
@@ -2973,7 +3026,11 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   const k=ed?edActive(m,r,P):null;
   const chip=ed?edCardHTML(m,r,P,k):vstChipHTML(m,r,P,val); // V195 : encadré en haut au centre, suivi pendant la lecture (vidLoop) ; V198 : stat active en édition
   const menuBtn=`<button class="btn vstmb ${ui.vstMenu?'mon':''}" data-act="vstMenu" aria-expanded="${!!ui.vstMenu}">☰ Menu</button>`; // V200 : le bouton ne devient plus « Fermer »
-  const topR=ed?`<button class="btn edhb" data-act="edHist" aria-pressed="${!!ui.edHist}" aria-label="${esc(tr('Historique'))}">📋<span class="edhl"> ${tr('Historique')}</span></button>`:tab&&play&&!val&&!FRm?`<button class="btn" data-act="openSub">🔁 ${tr('Changement')}</button><button class="btn" data-act="vstTo" data-s="G">TM ${esc(T)} <small>${set.to.G}/2</small></button><button class="btn" data-act="vstTo" data-s="A">TM adv. <small>${set.to.A}/2</small></button>`:'';
+  // V207 : un seul écran : Saisir / Vérifier à la même image (saisie ↔ édition) ; stats prises sans la vidéo : étape 1 Caler, étape 2 Compléter
+  if(!ed)ui.edSai=false;const hasPt=m.ev.some(e=>e.t==='pt'),sai=ed&&!!ui.edSai,ig=ed&&!!m.ign;
+  const segM=!V.ins&&hasPt?`<div class="seg vstseg"><button class="${!ed||sai?'on':''}" data-act="vstModeS">${tr('Saisir')}</button><button class="${ed&&!sai?'on':''}" data-act="vstModeV">${tr('Vérifier')}</button></div>`:'';
+  const stp=ig?(()=>{const N=edMarks(m).filter(x=>!x.virt),c=N.filter(x=>x.ca).length;return `<span class="vststep">${sai?tr('Étape 2 sur 2 · Compléter'):tr('Étape 1 sur 2 · Caler')} · ${tr('{A} / {B} calées').replace('{A}',c).replace('{B}',N.length)}</span>`;})():'';
+  const topR=stp+segM+(ed&&!sai?`<button class="btn edhb" data-act="edHist" aria-pressed="${!!ui.edHist}" aria-label="${esc(tr('Historique'))}">📋<span class="edhl"> ${tr('Historique')}</span></button>`:'')+(ed?'':tab&&play&&!val&&!FRm?`<button class="btn" data-act="openSub">🔁 ${tr('Changement')}</button><button class="btn" data-act="vstTo" data-s="G">TM ${esc(T)} <small>${set.to.G}/2</small></button><button class="btn" data-act="vstTo" data-s="A">TM adv. <small>${set.to.A}/2</small></button>`:'');
   let panel;
   if(ed)panel=play?`<p class="vstins">${tr('Stat ajoutée à l’image affichée, à sa place dans le point')}</p>${statPanel(m,Sx)}`:`<p class="hint">${tr('Pas de point en cours à cet instant de la vidéo : utilisez « Point manquant ici » dans le menu.')}</p>`;
   else if(play)panel=`${V.ins?`<p class="vstins">${tr('Point manquant : saisissez ses actions, puis attribuez-le.')} <button class="linkbtn" data-act="vstInsX">${tr('Annuler')}</button></p>`:''}${statPanel(m,Sx)}
@@ -2987,8 +3044,11 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   const pp=`<button class="btn vpp" data-act="vidPP" id="vstPP" aria-label="${esc(tr('Lecture / pause'))}">${P.play?'❚❚':'▶'}</button>`,nav30=`<button class="btn" data-act="vidPbStep" data-v="-30000">−30 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="30000">+30 s</button>`;
   // V198 : édition : ◀ ▶ = stat précédente / suivante, ✓ = caler la stat active sur l'image arrêtée, barre du point
   let nav;
-  if(ed){const B=edBarHTML(m,r,P,k),b30=v=>`<button class="btn ed30" data-act="vidPbStep" data-v="${v}">${v<0?'−30 s':'+30 s'}</button>`;nav=`<div class="vrow2 vstnav ednav"><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span><span class="edgo"><button class="btn" data-act="edUndo" ${VID.edU&&VID.edU.length?'':'disabled'} aria-label="${esc(tr('Annuler'))}">↶</button><button class="btn" data-act="edPrev" aria-label="${esc(tr('Stat précédente'))}">◀</button><button class="btn edok" data-act="edCal">✓ ${tr('Caler ici')}</button><button class="btn" data-act="edNext" aria-label="${esc(tr('Stat suivante'))}">▶</button><button class="btn" data-act="edMore" aria-label="${esc(tr('Plus'))}">⋯</button></span></div><div class="vstfr edfr">${b30(-30000)}${pp}${b30(30000)}<div class="edbar" id="edBar">${B.h}</div></div>`;} // V198 : ±30 s de part et d'autre de lecture / pause, pas de ‹ › (demande du 11/11/2026)
-  else nav=`<div class="vrow2 vstnav">${nav30}<button class="btn" data-act="vstLast" ${vstLastT(m)!=null?'':'disabled'}>↩ ${tr('Dernière action')}</button><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span>${vstPtBtn(m)}</div><div class="vstfr">${pp}${fine}</div>`;
+  const EP=ed?edPts(m):[],ci=ed?EP.findIndex(p=>p.ei===V.i):-1,pvP=ci>=0?EP[ci-1]:null,nxP=ci>=0?EP[ci+1]:null;
+  if(ed&&sai)nav=`<div class="vrow2 vstnav">${nav30.replace('<button class="btn" data-act="vidPbStep" data-v="f"',pp+'<button class="btn" data-act="vidPbStep" data-v="f"')}<span class="vpos" id="vPos">${vMsD(P.pos)} / ${vMs(P.tot)}</span></div>`;
+  else if(ed){const B=edBarHTML(m,r,P,k),b30=v=>`<button class="btn ed30" data-act="vidPbStep" data-v="${v}">${v<0?'−30 s':'+30 s'}</button>`;nav=`<div class="vrow2 vstnav ednav"><span class="vpos" id="vPos">${vMsD(P.pos)} / ${vMs(P.tot)}</span><span class="edgo"><button class="btn" data-act="edUndo" ${VID.edU&&VID.edU.length?'':'disabled'} aria-label="${esc(tr('Annuler'))}">↶</button><button class="btn edfrb" data-act="edFr" aria-label="${esc(tr('Points du match'))}">${edSc(EP[ci])||'—'} ▾</button><button class="btn edpt" id="edPv" data-act="edPtNav" data-v="-1" aria-label="${esc(tr('Point précédent'))}" ${pvP||ci<0?'':'disabled'}>◀ <span>${edSc(pvP)}</span></button><button class="btn edok" data-act="edCal">✓ ${tr('Caler ici')}</button><button class="btn edpt" id="edNx" data-act="edPtNav" data-v="1" aria-label="${esc(tr('Point suivant'))}" ${nxP||ci<0?'':'disabled'}><span>${edSc(nxP)}</span> ▶</button><button class="btn" data-act="edMore" aria-label="${esc(tr('Plus'))}">⋯</button></span></div><div class="vstfr edfr">${b30(-30000)}${pp}${b30(30000)}<div class="edbar" id="edBar">${B.h}</div></div>`;} // V198 : ±30 s de part et d'autre de lecture / pause, pas de ‹ › (demande du 11/11/2026)
+  // V207 : plus de barre de 6 s en saisie (le glisser au doigt sur l'image la remplace) ; timecode au dixième dans la rangée
+  else nav=`<div class="vrow2 vstnav">${nav30.replace('<button class="btn" data-act="vidPbStep" data-v="f"',pp+'<button class="btn" data-act="vidPbStep" data-v="f"')}<button class="btn" data-act="vstLast" ${vstLastT(m)!=null?'':'disabled'}>↩ ${tr('Dernière action')}</button><span class="vpos" id="vPos">${vMsD(P.pos)} / ${vMs(P.tot)}</span>${vstPtBtn(m)}</div>`;
   const vl=FRm&&!tab&&play&&!ed?`<b class="vstvl">${tr('Noter une action')}</b>`:'';
   // V194 : plus de « Masquer » (le tableau ne s'ouvre que sur double tap)
   const hd=vl?`<div class="vsthd">${vl}</div>`:'',dkOn=!vstDkShut()&&!P.play;
@@ -2997,15 +3057,15 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
     <div class="vsttop"><div class="vsttl ${FRm?'fr':''}">${vstTlIn(m,Sx)}</div><div class="vstmid" id="vstMid">${chip}</div><div class="vsttr">${topR}${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}${menuBtn}</div></div>
     ${spd}
     <div class="vstdock ${vstDockOff(P)?'off':''}" id="vstDock">${hd}${panel}</div>${!tab&&FRm&&!ed?`<div class="vstptr">${vstPtBtn(m)}</div>`:''}
-    ${ui.vstMenu?vstMenuHTML(m,Sx,tab):''}
-    <div class="vbar vpbbar vstbar">${nav}</div></div>${ed?edHistHTML(m,r,k):''}`;}
+    ${ui.vstMenu?vstMenuHTML(m,Sx,tab):''}${ed&&ui.edFr?edFrHTML(m):''}
+    <div class="vbar vpbbar vstbar">${nav}</div></div>${ed&&!sai?edHistHTML(m,r,k):''}`;}
 // Menu (haut droite) : changement, temps morts et options tactiques (téléphone), point précédent / manquant / en trop (validation), zoom, fin, quitter
 // V200 : menu en groupes (Match, Édition, Vidéo, Saisie), « Quitter » seul en bas (.vstmq) ; le bouton du menu garde son nom (jaune ouvert)
 function vstMenuHTML(m,S,tab){const V=store.vst,val=V.mode==='val'&&!V.ins,T=short(m),play=S.phase==='play',set=S.sets[S.sets.length-1];
   const it=(act,lab,extra,cls)=>`<button class="vstmi ${cls||''}" data-act="${act}" ${extra||''}>${lab}</button>`,g=(t,h)=>h.trim()?`<div class="vstmg">${t}</div>${h}`:'';
   const mat=(play&&!val&&!tab&&!m.free?it('openSub','🔁 '+tr('Changement')+` <small class="n">${F4?set.subs:set.subs+'/6'}</small>`)+it('vstTo',`⏱ TM ${esc(T)} <small class="n">${set.to.G}/2</small>`,'data-s="G"')+it('vstTo',`⏱ TM adv. <small class="n">${set.to.A}/2</small>`,'data-s="A"'):'')
     +(play&&!val&&!m.free&&!(F4&&F4.n===2)?it('tacOpen','⚙ '+tr('Options tactiques')):'');
-  const edt=val?it('edHist','📋 '+(ui.edHist?tr('Masquer l’historique'):tr('Historique')),'','edhm')+(m.free?'':it('edAdd','➕ '+tr('Ajouter ici')+`<small>${tr('Changement, temps mort ou point oublié, avant le point de l’image')}</small>`)+it('edCompose','👥 '+tr('Composition du set')+`<small>${tr('Corrige le départ du set : tout le set est recalculé')}</small>`)+it('tacOpen','⚙ '+tr('Options tactiques')+`<small>${tr('À partir du point de l’image')}</small>`,V.i<0?'disabled':'')+it('edFmtOpen','🏐 '+tr('Format du match')+`<small>${fmtLab(m)}</small>`))+it('edIgn',`⏱ ${tr('Ignorer l’horodatage')}${m.ign?' ✓':''}<small>${tr('Stats notées sans la vidéo : chaque stat se cale sur l’image, dans l’ordre du match')}</small>`,`aria-pressed="${!!m.ign}"`,m.ign?'on':''):'';
+  const edt=val?it('edHist','📋 '+(ui.edHist?tr('Masquer l’historique'):tr('Historique')),'','edhm')+(m.free?'':it('edAdd','➕ '+tr('Ajouter ici')+`<small>${tr('Changement, temps mort ou point oublié, avant le point de l’image')}</small>`)+it('edCompose','👥 '+tr('Composition du set')+`<small>${tr('Corrige le départ du set : tout le set est recalculé')}</small>`)+it('tacOpen','⚙ '+tr('Options tactiques')+`<small>${tr('À partir du point de l’image')}</small>`,V.i<0?'disabled':'')+it('edFmtOpen','🏐 '+tr('Format du match')+`<small>${fmtLab(m)}</small>`))+it('edIgnOpen',`⏱ ${tr('Heures des stats')}<small>${m.ign?tr('Calées une par une, dans l’ordre du match'):tr('Heures notées gardées')}</small>`):'';
   const vid=it('vidShotGo','📷 '+tr('Capture d’écran')+`<small>${tr('L’image seule, avec le zoom')}</small>`)+(ui.vfull?'':it('vfsTog','⛶ '+tr('Plein écran')))+(VID.vz&&VID.vz.z>1?it('vstZoom0','🔍 '+tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))):'')
     +`<div class="vstmo"><span>${tr('Sens de l’écran')}</span><div class="seg">${[['a','Auto'],['l','Paysage'],['p','Portrait']].map(([v,l])=>`<button class="${(VP().vori||'a')===v?'on':''}" data-act="vstOri" data-v="${v}">${tr(l)}</button>`).join('')}</div></div>`;
   const hasPt=m.ev.some(e=>e.t==='pt'),sai=(val&&V.back?it('vstToRes','↩ '+tr('Reprendre la saisie')+`<small>${tr('Saisie à la suite des stats, la vidéo reste à cet instant')}</small>`):'')+(!val&&hasPt&&!V.ins?it('vstToEd','📜 '+tr('Éditer les stats')+`<small>${tr('Historique, recalage, ajouts ; « Reprendre la saisie » ramène à la suite')}</small>`):'')
@@ -3017,7 +3077,7 @@ function vstMenuHTML(m,S,tab){const V=store.vst,val=V.mode==='val'&&!V.ins,T=sho
 function vstPropHTML(m,S){const V=store.vst,i=V.i,ev=i>=0?m.ev[i]:null,T=short(m),opp=m.opp||tr('Adversaire'),P=vstPb(),off=P&&!vstDockOff(P)?'off':''; // masquée quand le panneau de saisie est ouvert
   if(!ev)return `<div class="vstprop ${off}" id="vstProp"><span class="lab">${tr('Tous les points sont validés.')}</span><div class="row"><button class="btn primary" data-act="vstEndGo">🏁 ${tr('Terminer la validation')}</button><button class="btn" data-act="vstPrev" ${vstPrevPt(m,m.ev.length)>=0?'':'disabled'}>↑ ${tr('Point précédent')}</button></div></div>`;
   const st=ev.st||[],j=V.j||0,n=m.ev.filter(e=>e.t==='pt').length,k=m.ev.slice(0,i+1).filter(e=>e.t==='pt').length,ctx=tr('point {A} / {B}').replace('{A}',k).replace('{B}',n);
-  if(j<st.length){const x=st[j];return `<div class="vstprop ${off}" id="vstProp"><span class="lab">${tr('Stat saisie en direct')} · ${ctx} · ${j+1}/${st.length}</span><b>${esc(stLab(x[0],x[1]))}${x[2]?' · '+esc(pnum(m,x[2])+' '+dname(m,x[2])):''}</b>
+  if(j<st.length){const x=st[j];return `<div class="vstprop ${off}" id="vstProp"><span class="lab">${tr('Stat saisie en direct')} · ${ctx} · ${j+1}/${st.length}</span><b>${esc(stLab(x[0],x[1],x[3]))}${x[2]?' · '+esc(pnum(m,x[2])+' '+dname(m,x[2])):''}</b>
     <div class="row"><button class="btn ok" data-act="vstOk">✓ ${tr('Valider')}</button><button class="btn no" data-act="vstDel">✕ ${tr('Supprimer')}</button><button class="btn" data-act="stEdit" data-ei="${i}" data-si="${j}">✎ ${tr('Modifier')}</button></div><small>${tr('Tap sur l’image : stat à intercaler avant')}</small></div>`;}
   return `<div class="vstprop ${off}" id="vstProp"><span class="lab">${tr('Fin du point')} · ${ctx}</span><b class="${ev.w==='G'?'g':'a'}">${tr('Point')} ${esc(ev.w==='G'?T:opp)}</b>
     <div class="row"><button class="btn ok" data-act="vstOk">✓ ${tr('Valider')}</button><button class="btn" data-act="vstWin">↔ ${tr('Point pour')} ${esc(ev.w==='G'?opp:T)}</button><button class="btn no" data-act="vstDrop">${ui.confirm==='vstdrop'?tr('Supprimer ce point ?'):'🗑 '+tr('Point en trop')}</button></div></div>`;}
@@ -3025,7 +3085,7 @@ function vstPropHTML(m,S){const V=store.vst,i=V.i,ev=i>=0?m.ev[i]:null,T=short(m
 function vstPeekHTML(){const r=vstRec(),P=r&&vstPb();if(!r||!P){ui.vstPeek=false;return lineupHTML(store.cur,replay(store.cur));}
   return `<div class="vstage pb vst peek" id="vStage"><div class="vsttap" data-act="vidPP"></div><div class="vsttop"><div class="vsttl"><span class="vbadge">${tr('Repérez les joueurs sur l’image, puis revenez à la composition')}</span></div><div class="vsttr"><button class="btn vstmb" data-act="vstPeekX">↩ ${tr('Composition')}</button></div></div>
     ${spdHTML('vidPR',P.r)}
-    <div class="vbar vpbbar vstbar"><div class="vrow2 vstnav"><button class="btn" data-act="vidPbStep" data-v="-30000">−30 s</button><button class="btn" data-act="vidPbStep" data-v="-5000">−5 s</button><button class="btn vpp" data-act="vidPP" id="vstPP">${P.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="5000">+5 s</button><button class="btn" data-act="vidPbStep" data-v="30000">+30 s</button><span class="vpos" id="vPos">${vMs(P.pos)} / ${vMs(P.tot)}</span></div>
+    <div class="vbar vpbbar vstbar"><div class="vrow2 vstnav"><button class="btn" data-act="vidPbStep" data-v="-30000">−30 s</button><button class="btn" data-act="vidPbStep" data-v="-5000">−5 s</button><button class="btn vpp" data-act="vidPP" id="vstPP">${P.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="5000">+5 s</button><button class="btn" data-act="vidPbStep" data-v="30000">+30 s</button><span class="vpos" id="vPos">${vMsD(P.pos)} / ${vMs(P.tot)}</span></div>
       <div class="vtrack" id="vTrack" style="background:${vTrackBg(r,P.tot,0,P.tot)}"><i class="vhead" id="vHead"></i></div></div></div>`;}
 // Vidéo venue d'un autre appareil (V184) : module natif importVideo (copie dans le dossier vidéo, métadonnées), sinon champ fichier (navigateur)
 // V192 : progression affichée pendant la récupération et la copie (événement natif « import ») ; un seul import à la fois
@@ -3054,7 +3114,28 @@ async function vidImport(src){const V=CAP().VideoDelay;if(V&&V.importVideo){if(u
   $('#vidImpFile').click();}
 // o = {path | url, name, size, dur, fps, aud, t (date de création, ms)} ; date de l'enregistrement : nom VolleyCoach_…, sinon métadonnées, sinon maintenant
 function vidDupOf(o){const dur=Math.round(o.dur||0),t0=vxImportT0(o.name);return (store.vids||[]).find(r=>!r.clip&&r.st!=='live'&&Math.abs((r.dur||0)-dur)<2000&&((o.name&&r.name===o.name)||(o.size&&r.size===o.size)||(t0&&Math.abs((r.t0||0)-t0)<3000)))||null;}
+// V207 : plusieurs vidéos pour un match : chaque vidéo ajoutée = une « partie » de r.segs (x.part sur sa 1re tranche), lues bout à bout.
+// x.t0 = heure de tournage d'origine (affichée) ; x.t = heure de calage, rendue croissante dans l'ordre choisi (partie placée avant une plus
+// ancienne : décalée juste après la précédente). Les stats du match lié suivent leur vidéo (heures décalées d'autant).
+function vpParts(r){const P=[];(r.segs||[]).forEach((x,i)=>{if(!i||x.part)P.push({i0:i,n:0,d:0,t0:x.t0!=null?x.t0:x.t,name:x.nm||''});const p=P[P.length-1];p.n++;p.d+=x.d;});return P;}
+function vpFix(r,mOld){const S=r.segs||[];if(!S.length)return;const old=S.map(x=>({t:x.t,d:x.d}));let end=-Infinity,sh=0;
+  S.forEach((x,i)=>{if(x.t0==null)x.t0=x.t;if(!i||x.part){sh=Math.max(0,end+1000-x.t0);}x.t=x.t0+sh;end=x.t+x.d;});
+  r.t0=S[0].t;r.dur=S.reduce((a,x)=>a+x.d,0)-(r.ia||0);
+  const m=mOld;if(!m)return;const off=(vcOffset(m,r)||{}).off||0,mv=T=>{if(!Number.isFinite(T))return T;const v=T+off;for(let k=0;k<old.length;k++){const o=old[k];if(v>=o.t&&v<o.t+o.d)return T+S[k].t-o.t;}return T;};
+  m.ev.forEach(e=>{['at','t0'].forEach(f=>{if(Number.isFinite(e[f]))e[f]=mv(e[f]);});if(e.ca&&typeof e.ca==='object')['t0','at'].forEach(f=>{if(Number.isFinite(e.ca[f]))e.ca[f]=mv(e.ca[f]);});(e.st||[]).forEach(x=>{if(Number.isFinite(x[5]))x[5]=mv(x[5]);});});}
+// réordonne les parties (ordre = liste d'index de parties), tranches et mémoire web ensemble
+function vpOrder(r,ord){const P=vpParts(r),S=r.segs,W=r.web?VID.mem[r.id]:null,nS=[],nW=[];ord.forEach(k=>{const p=P[k];for(let j=0;j<p.n;j++){const x=S[p.i0+j];if(!j)x.part=1;nS.push(x);if(W)nW.push(W[p.i0+j]);}});
+  r.segs=nS;if(W)VID.mem[r.id]=nW;}
+function vpApply(r,ord){const m=vcLinkInfo(r).m;vpOrder(r,ord);vpFix(r,m&&m.ev.some(e=>e.t==='pt')?m:null);if(m&&m===store.cur)CAL_CACHE={k:null,v:null};ED_C=null;save();}
+const vpSorted=r=>vpParts(r).map((p,i)=>[p.t0,i]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+function vpAppend(r,o,dur){const u=o.path||o.name||'import';if(o.path&&(r.segs||[]).some(x=>x.u===o.path)){toast(tr('Cette vidéo est déjà dans le match'),'warn');return;}
+  const t0=vxImportT0(o.name)||(o.t>0?Math.round(o.t):Date.now()-dur);vpParts(r); // t0 d'origine posés avant l'ajout
+  (r.segs||[]).forEach(x=>{if(x.t0==null)x.t0=x.t;});
+  if(r.web){(VID.mem[r.id]||(VID.mem[r.id]=[])).push({url:o.url,dur,t0});}
+  r.segs.push({u,d:dur,t:t0,t0,part:1,nm:o.name||''});r.size=(r.size||0)+(o.size||0);vpApply(r,vpSorted(r));
+  toast(tr('Vidéo ajoutée au match ({N} vidéos)').replace('{N}',vpParts(r).length),'ok');if(ui.screen!=='video')A.ctab({v:'video'});ui.vpId=r.id;ui.sheet='vparts';render();}
 function vidImportAdd(o,force){const dur=Math.round(o.dur||0);if(!dur){toast(tr('Vidéo illisible'),'warn');return;}
+  {const R=ui.vpAdd&&(store.vids||[]).find(x=>x.id===ui.vpAdd);ui.vpAdd=null;if(R){vpAppend(R,o,dur);return;}}
   if(!force){const d=vidDupOf(o);if(d){ui.impDup={o,id:d.id};ui.sheet='impDup';if(ui.screen!=='video')A.ctab({v:'video'});render();return;}}
   const t0=vxImportT0(o.name)||(o.t>0?Math.round(o.t):Date.now()-dur),e={id:'v'+Date.now().toString(36),mode:'match',imp:1,name:o.name||'',t0,dur,size:o.size||0,q:'720',fps:Math.round(o.fps||30)||30,segs:[{u:o.path||o.name||'import',d:dur,t:t0}]};
   if(o.aud)e.aud=1;if(o.w>0&&o.h>0){e.w=o.w;e.h=o.h;}if(!o.path){e.web=1;VID.mem[e.id]=[{url:o.url,dur,t0}];}
@@ -3062,7 +3143,7 @@ function vidImportAdd(o,force){const dur=Math.round(o.dur||0);if(!dur){toast(tr(
   if(vm)toast(tr('Vidéo importée et calée sur le match « {M} »').replace('{M}',matchTitle(vm)),'ok');else toast(LK.m?tr('Vidéo importée ({D})').replace('{D}',vMs(dur)):tr('Vidéo importée ({D}) : choisissez le match lié dans la liste').replace('{D}',vMs(dur)),'ok');
   if(ui.screen!=='video')A.ctab({v:'video'});render();}
 const VC_K=[['att','Attaque'],['srv','Service'],['rec','Réception'],['def','Défense'],['blk','Bloc'],['pas','Passe'],['rel','Renvoi']]; // V201 : renvois sans attaque
-const vcFilter=q=>({pid:q.pids&&q.pids.length&&!q.all?q.pids.slice():null,kinds:q.kinds.length?q.kinds:null,signs:q.signs.length?q.signs:null});
+const vcFilter=q=>({pid:q.pids&&q.pids.length&&!q.all?q.pids.slice():null,kinds:q.kinds.slice(),signs:q.signs.length?q.signs:null});
 const vcRec=q=>(store.vids||[]).find(x=>x.id===q.rid),vcMatch=q=>q.mid===store.cur.id?store.cur:store.arch.find(x=>x.id===q.mid);
 // V201 : comparé au dernier texte posé (e._t), pas au texte affiché : un émoji devenu pictogramme (icoDOM) était réécrit à chaque image, et un appui sur le bouton (lecture / pause) se perdait
 // V201 : lecture d'une saisie / édition sur film : clic très court et discret + vibration au passage de chaque stat (réglage « Clic et vibration », désactivé par défaut)
@@ -3090,7 +3171,7 @@ function vidLoop(){VID.raf=0;const peek=!!(store.vst&&ui.vstPeek);if((ui.screen!
     const ab=P.pos+(P.ia||0);let i=P.off.findIndex((o,k)=>ab<o+P.segs[k].dur);if(i<0)i=P.segs.length-1;vidShow(P.segs[i],ab-P.off[i],P.r,P.segs[i+1],P.play);
     const hd=document.getElementById('vHead');if(hd){if(document.getElementById('vstFine'))hd.style.left=(P.fw?Math.max(0,Math.min(100,(P.pos-P.fw[0])/6000*100)):50).toFixed(2)+'%'; // barre de 4 s (V185) : tête au centre, sauf pendant le glisser
       else{const W=P.zw||[0,P.tot];hd.style.left=(Math.max(0,Math.min(1,(P.pos-W[0])/((W[1]-W[0])||1)))*100).toFixed(2)+'%';}}
-    vTxt('vPos',vMs(P.pos)+' / '+vMs(P.tot));vTxt('vPP',P.play?'❚❚':'▶');
+    vTxt('vPos',vMsD(P.pos)+' / '+vMs(P.tot));vTxt('vPP',P.play?'❚❚':'▶');
     if(r){const k=vDropNext(r,P.pos),kb=document.getElementById('vKeepB');if(kb){kb.classList.toggle('drop',!!k);vTxt('vKeepT',k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici'));}
       vTxt('vKeepI',tr('Gardé : {A} sur {B}').replace('{A}',vMs(vRanges(r,P.tot).reduce((a,[x,y])=>a+y-x,0))).replace('{B}',vMs(P.tot)));}
     if(ui.vfull){const sg=document.getElementById('vStage'),on=Date.now()-(VID.vfsAt||0)<4000;if(sg&&sg.classList.contains('vfsp')!==on)sg.classList.toggle('vfsp',on);}
@@ -3196,7 +3277,7 @@ function videoHTML(){const P=VP(),pro=isPro();
       <div class="vbar vpbbar"><div class="vtrack" id="vTrack" style="background:${r?vTrackBg(r,B.tot,0,B.tot):'var(--vkeep)'}"><i class="vhead" id="vHead"></i></div>
         <div class="vrow2"><button class="btn" data-act="vidPbStep" data-v="-30000">−30 s</button><button class="btn" data-act="vidPbStep" data-v="-f" aria-label="Image précédente">‹</button>
           <button class="btn vpp" data-act="vidPP" id="vPP">${B.play?'❚❚':'▶'}</button><button class="btn" data-act="vidPbStep" data-v="f" aria-label="Image suivante">›</button><button class="btn" data-act="vidPbStep" data-v="30000">+30 s</button>
-          <span class="vpos" id="vPos">${vMs(B.pos)} / ${vMs(B.tot)}</span></div>
+          <span class="vpos" id="vPos">${vMsD(B.pos)} / ${vMs(B.tot)}</span></div>
         <div class="vrow2"><button class="btn vkeepb ${k?'drop':''}" data-act="vidKeep" id="vKeepB">✂ <span id="vKeepT">${k?tr('Jeter à partir d’ici'):tr('Garder à partir d’ici')}</span>${pro?'':' 🔒'}</button>
           <button class="btn" data-act="vidUndo" ${B.undo&&B.undo.length?'':'disabled'} aria-label="${esc(tr('Annuler'))}" title="${esc(tr('Annuler'))}">↶</button></div>
           ${r&&r.cuts&&r.cuts.length?`<button class="btn primary vexpb" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`:''}</div></div>`;}
@@ -3296,7 +3377,7 @@ function setupHTML(m,S){
       ?'<button class="btn big primary" data-act="compose">Retour à la composition</button>'
       :started
       ?'<button class="btn big primary" data-act="toMatch">Retour au match</button>'
-      :`<button class="btn big primary" data-act="compose" ${nonLib<need?'disabled':''}>${'Composer le '+need+' de départ'}</button>${nonLib<need?`<p class="hint" style="text-align:center">${f4?'Il faut au moins '+need+' présences.':'Il faut au moins 6 présences hors libéro.'}</p>`:''}`}</div>`;
+      :`<button class="btn big primary ${(m.opp||'').trim()?'':'oppno'}" id="cmpGo" data-act="compose" ${nonLib<need?'disabled':''}>${'Composer le '+need+' de départ'}<small class="oppw">${tr('Adversaire non renseigné, valider ?')}</small></button>${nonLib<need?`<p class="hint" style="text-align:center">${f4?'Il faut au moins '+need+' présences.':'Il faut au moins 6 présences hors libéro.'}</p>`:''}`}</div>`;
 }
 // Temps mort : statistiques du match en cours (joueurs, zones, classements), bandeau du temps mort flottant
 function toStatsHTML(m,S){const TB=svTabs(S,[['p','Joueurs'],['z','Zones'],['o','Rotations'],['r','Classements'],['h','Résumé']]),sv=TB.some(([k])=>k===ui.statView)?ui.statView:'p';if(ui.statView!==sv)ui.statView=sv;
@@ -3367,7 +3448,7 @@ function lineup4HTML(m,S){
     <div class="sticky"><button class="btn big primary" data-act="startSet" ${complete?'':'disabled'}>${ui.edSet!=null?tr('Enregistrer la composition du set {N}').replace('{N}',n):'Commencer le set '+n}</button></div>`;
 }
 const SK={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque',blk:'Bloc',pas:'Passe',rel:'Renvoi sans attaque',relay:'Relais de passe',rly:'Relais de passe'};
-const stSym=s=>s>0?'+':s<0?'−':'=',stCls=s=>s>0?'p':s<0?'m':'n',stLab=(k,s)=>k==='rel'?'Renvoi sans attaque':(k==='relay'||k==='rly')?'Relais de passe':`${SK[k]} ${stSym(s)}`;
+const stSym=s=>s>0?'+':s<0?'−':'=',stCls=s=>s>0?'p':s<0?'m':'n',rlyT=r=>(r.rlyM||0)+(r.rlyN||0)+(r.rlyP||0),qDet=(P,N,M,a)=>P||N||M?` (+${P||0} =${N||0} ${a?'-':'−'}${M||0})`:'',relTxt=(r,a)=>(r.relN||0)+qDet(r.rqP,r.rqN,r.rqM,a),rlyTxt=(r,a)=>rlyT(r)+(r.rlyP||r.rlyM?qDet(r.rlyP,r.rlyN,r.rlyM,a):''),stLab=(k,s,q)=>k==='rel'?(q==='q'?'Renvoi direct '+stSym(s):'Renvoi sans attaque'):(k==='relay'||k==='rly')?(q==='q'?'Relais de passe '+stSym(s):'Relais de passe'):`${SK[k]} ${stSym(s)}`; /* V205 : relais / renvoi cotés (x[3] = 'q') */
 // Passe sur le terrain (rôle positionnel ; en 4-2, la passe avant)
 // 4x4 : si le passeur n'est pas désigné au bloc et fait la défense, le bloqueur du centre passe jusqu'à l'attaque ou au renvoi sans attaque
 function setterOn(S,st){if(!S.zones)return null;
@@ -3471,7 +3552,7 @@ function statPanel(m,S){
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   const easy=store.prefs.easy||vstOn(),both=store.prefs.stBoth&&!vstOn(),pk=both&&ui.stPick;
   let h=`<div class="stp ${both?'both':''} ${pk?'pk':''}"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
-    ${ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
+    ${ui.sgAsk?(()=>{const x=ui.sgAsk.x;return `<div class="stq n">${x[0]==='rly'?'Relais de passe':'Renvoi direct'} · ${esc(who(x[2]))}<br><b class="dfq">${tr('Note : −, = ou + ?')}</b></div><div class="strow sgq">${[[-1,'− '+tr('raté')],[0,'= '+tr('neutre')],[1,'+ '+tr('réussi')]].map(([v,l])=>`<button class="stb big ${stCls(v)}" data-act="sgSet" data-v="${v}">${l}</button>`).join('')}</div><div class="strow" style="margin-top:8px"><button class="stb" data-act="sgSkip">${tr('Passer')}</button><button class="stb" data-act="stCancel">${tr('Annuler')}</button></div>`;})():ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1],q.x[3])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
       <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><button class="btn big dfskip" data-act="diffSkip">Passer</button></div>`;})():ui.stPick&&!store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick)
     :(both?'<div class="bact">':'')+(easy?(()=>{const [c0,c1]=stC01(m,lp,st),cats=m.free?['srv','rec','def','pas','att'].concat(BLK()?['blk']:[]):BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       // Mode stats faciles : grille fixe 3 × 3 ; la colonne passe / service est attribuée automatiquement (nom affiché)
@@ -3488,7 +3569,7 @@ function statPanel(m,S){
       return G(cats,true,vstOn()?"auto repeat(3,minmax(0,1fr)) auto":"");})()
     :(()=>{const [c0,c1]=stC01(m,lp,st),cats=BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       return `<div class="stgrid ${BLK()?'b4':''} ${c1==='srv'?'srvfocus':''}"><span class="stl ga-lm">Fautes</span><span class="stl ga-ln">Neutre</span><span class="stl ga-lp">Positifs</span>${cats.map((k,i)=>(k==='srv'&&F4&&!F4.rot?`<button class="stc ga-c${i} srvh ehb" data-act="srv4" title="Changer le serveur">${SK[k]} ✎</button>`:`<span class="stc ga-c${i} ${k==='srv'?'srvh':''}">${SK[k]}</span>`)+btn(k,-1,i)+btn(k,0,i)+btn(k,1,i)).join('')}<button class="stb n undo1 ga-u2" data-act="stUndo" ${st.length||lastPt?'':'disabled'}><span class="lgl">↶ Annuler dernière stat</span><span class="shl">↶ Annuler</span></button><button class="stb n rel ga-r2" data-act="stCat" data-k="rel" data-s="0"><span class="lgl">Renvoi sans attaque</span><span class="shl">Renvoi sans attaque</span></button></div>`;})())+(both?'</div><div class="bpk">'+pickHTML(m,S,st,lp,sid,Object.assign({lay:'def'},ui.stPick||{k:'def',s:0,none:1}))+'</div>':'')}
-    ${st.length&&!easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
+    ${st.length&&!easy?`<div class="strow stlist">${st.map((x,i)=>`<span class="stchip ${stCls(x[1])}">${stLab(x[0],x[1],x[3])} : ${esc(who(x[2]))}<button data-act="stDel" data-i="${i}" aria-label="Retirer">×</button></span>`).join('')}</div>`:''}
   </div>`;
   if(pk)h=h.replace(new RegExp('class="([^"]*)"( data-act="stCat" data-k="'+pk.k+'" data-s="'+pk.s+'")'),'class="$1 cho"$2');
   return h;
@@ -3588,7 +3669,7 @@ function sheetHTML(m,S){
   }
   if(ui.sheet==='stEdit'&&ui.se){const se=ui.se,m2=sumMatch();if(!m2)return '';
     const KS=[['srv','Service'],['rec','Réception'],['pas','Passe'],['att','Attaque'],['def','Défense']].concat(BLK()?[['blk','Bloc']]:[]).concat([['rel','Renvoi sans attaque'],['rly','Relais de passe']]);
-    const noSg=se.k==='rel'||se.k==='rly',after=`${stLab(se.k,noSg?0:se.sg)}${se.pid?' · '+tag(m2,se.pid):''}`,before=se.orig?`${stLab(se.orig[0],se.orig[1])}${se.orig[2]?' · '+tag(m2,se.orig[2]):''}`:'—';
+    const noSg=(se.k==='rel'||se.k==='rly')&&!seQ(se),after=`${stLab(se.k,noSg?0:se.sg,noSg?null:'q')}${se.pid?' · '+tag(m2,se.pid):''}`,before=se.orig?`${stLab(se.orig[0],se.orig[1],se.orig[3])}${se.orig[2]?' · '+tag(m2,se.orig[2]):''}`:'—';
     return `<div class="sh"><h3>${se.mode==='edit'?'Modifier cette stat':'Ajouter une stat'}</h3>${close}</div>
       <p class="hint">${esc(sumCtx(m2,se.ei))}${se.mode==='add'?` · nouvelle stat en position ${se.pos+1}`:''}</p>
       <div class="secmp"><div><small>Avant</small>${esc(before)}</div><div class="after"><small>Après</small>${esc(after)}</div></div>
@@ -3769,8 +3850,29 @@ function sheetHTML(m,S){
       ${!gone&&mm&&!r.clip?mrow('vcOpen',r.id,'🎞 '+tr('Clips joueurs')+(proFor(mm)?'':' 🔒'),'',tr('Extraits par joueur ou par action'),`data-rid="${r.id}" data-mid="${mm.id}"`):''}
       ${!gone&&!r.web&&npt&&!mine?(mm&&mm.free?mrow('vidMonte',r.id,'🎬 '+tr('Clip séance')+(isPro()?'':' 🔒'),'',tr('Vidéo montée action par action, avec ses stats')):mrow('vidMonte',r.id,'🎬 '+tr('Clip match')+(isPro()?'':' 🔒'),'',tr('Vidéo montée point par point, avec ses stats'))):''}
       ${ask?mrow('vcLinkOpen',r.id,'🔗 '+tr('Match lié'),(LK.auto&&mm&&!LK.sure)||(!mm&&!r.noLink&&LK.candidates&&LK.candidates.length)?'warn':'',mm?(LK.auto&&!LK.sure?'⚠ '+tr('à confirmer')+' · ':'')+esc(matchTitle(mm))+(LK.auto?'':' · '+tr('choisi')):r.noLink?tr('Sans match'):esc((LK.candidates&&LK.candidates.length?'⚠ '+tr('Proposé : {M}').replace('{M}',matchTitle(LK.candidates[0].m)):tr('Aucun match lié')))):''}
+      ${ask&&!gone&&!r.anim?mrow('vpOpen',r.id,'🎞 '+tr('Vidéos du match'),'',(n=>n>1?tr('{N} vidéos bout à bout').replace('{N}',n):tr('Ajouter les vidéos des autres sets'))(vpParts(r).length)):''}
       ${nat&&!r.clip?mrow('vidSend',r.id,'📤 '+(ui.vidSend&&ui.vidSend.id===r.id?tr('Préparation…'):tr('Envoyer')),'',tr('Partager le film complet'),ui.vidSend?'disabled':''):''}
       ${mrow('vidDelRec',r.id,ui.vidDelAsk===r.id?tr('Supprimer ? (définitif)'):'🗑 '+tr('Supprimer'),'danger')}</div>`;}
+  // V207 : vidéos d'un même match (une par set…), lues bout à bout ; heure de tournage affichée pour pouvoir revenir à l'ordre détecté
+  if(ui.sheet==='vparts'){const r=(store.vids||[]).find(x=>x.id===ui.vpId);if(!r){ui.sheet=null;return '';}
+    const P=vpParts(r),nat=!r.web&&!!(CAP().VideoDelay||{}).importVideo,mm=vcLinkInfo(r).m,npt=mm?mm.ev.filter(e=>e.t==='pt').length:0,busy=!!(store.vst&&store.vst.rid===r.id);
+    const hh=t=>new Date(t).toLocaleString(lang(),{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const sorted=P.every((p,i)=>!i||P[i-1].t0<=p.t0);
+    const rows=P.map((p,i)=>`<div class="vprow"><b class="vpn">${i+1}</b><span class="vpt"><b>${esc(hh(p.t0))}</b><small>${vMs(p.d)}${p.name?' · '+esc(p.name):''}</small></span>
+      <span class="vpbt"><button class="btn" data-act="vpMove" data-i="${i}" data-d="-1" ${i&&!busy?'':'disabled'} aria-label="${esc(tr('Monter'))}">↑</button><button class="btn" data-act="vpMove" data-i="${i}" data-d="1" ${i<P.length-1&&!busy?'':'disabled'} aria-label="${esc(tr('Descendre'))}">↓</button>${P.length>1&&!busy?`<button class="btn ${ui.vpDelAsk===i?'danger':''}" data-act="vpDel" data-i="${i}">${ui.vpDelAsk===i?tr('Retirer ?'):'✕'}</button>`:''}</span></div>`).join('');
+    return `<div class="sh"><h3>🎞 ${tr('Vidéos du match')}</h3>${close}</div><p class="hint">${tr('Les vidéos sont lues bout à bout, dans cet ordre, pour la saisie, l’édition, les clips et le montage. Ordre proposé : heure de tournage (affichée).')}</p>
+      <div class="card vparts">${rows}</div>
+      ${sorted?'':`<button class="btn" data-act="vpSort" style="margin-top:8px">↺ ${tr('Remettre dans l’ordre des heures')}</button>`}
+      ${busy?`<p class="hint">${tr('Quittez la saisie des stats de cette vidéo pour changer l’ordre.')}</p>`:''}
+      <div class="card morel" style="margin-top:10px">${nat?mrow('vpAdd',null,'🖼 '+tr('Ajouter depuis la galerie'),'','','data-src="gallery"')+mrow('vpAdd',null,'📁 '+tr('Ajouter depuis les fichiers'),'','','data-src="files"'):mrow('vpAdd',null,'📥 '+tr('Ajouter une vidéo'))}</div>
+      <p class="hint xp">${npt?tr('Stats déjà saisies : elles suivent leur vidéo quand l’ordre change.'):tr('Une vidéo ajoutée se place selon son heure de tournage.')} ${tr('Retirer une vidéo efface sa copie dans l’appli ; l’original reste dans la galerie.')}</p>`;}
+  // V207 : remplace « Ignorer l'horodatage » : question posée quand les heures des stats ne collent pas à la vidéo (ou depuis le menu)
+  if(ui.sheet==='edIgnAsk'){const m=store.cur,Q=ui.edIgnQ||edIgnBad(m,vstRec()),on=!!(m&&m.ign);
+    return `<div class="sh"><h3>${Q.bad?tr('Les heures des stats ne correspondent pas à la vidéo'):tr('Heures des stats')}</h3>${close}</div>
+      ${Q.bad?`<p class="hint">${tr('{A} stats sur {B} tombent hors de la vidéo ou dans le désordre : elles ont sans doute été prises sur un autre appareil, ou de mémoire.').replace('{A}',Q.bad).replace('{B}',Q.n)}</p>`:''}
+      <div class="card morel">${mrow('edIgnSet',null,(on||Q.bad&&!m.ignAsk?'● ':'○ ')+tr('Caler les stats une par une'),'',tr('Recommandé si les heures sont fausses : on confirme l’image de chaque stat, dans l’ordre du match (étape 1), puis on complète (étape 2, « Saisir »).'),'data-v="1"')}
+      ${mrow('edIgnSet',null,(!on&&!(Q.bad&&!m.ignAsk)?'● ':'○ ')+tr('Garder les heures'),'',tr('Les stats sont placées à leur heure ; ✓ Caler ici corrige celles qui sont décalées.'),'data-v="0"')}</div>
+      <p class="hint xp">${tr('Modifiable à tout moment : menu ☰ › Heures des stats.')}</p>`;}
   if(ui.sheet==='vstNew'){const id=ui.vstNewId;
     return `<div class="sh"><h3>📝 ${tr('Saisir les stats')}</h3>${close}</div>
       <button class="btn big primary" data-act="vstOpen" data-id="${id}" data-mode="new">🏐 ${tr('Match (avec composition)')}</button><p class="hint">${tr('Score, rotations et positions : la composition de chaque set est demandée.')}</p>
@@ -3780,7 +3882,7 @@ function sheetHTML(m,S){
     const chip=(on,act,d,l)=>`<button class="bchip ${on?'sel':''}" data-act="${act}" ${d}>${l}</button>`;
     return `<div class="sh"><h3>🎬 ${tr('Clips vidéo')}</h3>${close}</div><p class="hint">${esc(matchTitle(m))} · ${esc(fmtDate(m.date))}</p>
       <h2>${tr('Joueur')}</h2><div class="bench">${(q.all=P.length>0&&P.every(p=>q.pids.includes(p.id)),'')}${chip(q.all,'vcPid','data-id=""',tr('Toute l’équipe'))}${P.map(p=>chip(q.pids.includes(p.id),'vcPid',`data-id="${p.id}"`,`<span class="num ${rcls(m.roles&&m.roles[p.id])}">${p.n}</span>${esc(dname(m,p.id))}`)).join('')}</div>
-      <h2>${tr('Actions')}</h2><div class="bench">${VC_K.map(([k,l])=>chip(q.kinds.includes(k),'vcKind',`data-k="${k}"`,tr(l))).join('')}</div>
+      <h2>${tr('Actions')}</h2><div class="bench">${chip(VC_K.every(([k])=>q.kinds.includes(k)),'vcKind','data-k=""',tr('Tout'))}${VC_K.map(([k,l])=>chip(q.kinds.includes(k),'vcKind',`data-k="${k}"`,tr(l))).join('')}</div>
       <div class="seg" style="margin-top:6px">${[[1,'+'],[0,'='],[-1,'−']].map(([v,l])=>`<button class="${q.signs.includes(v)?'on':''}" data-act="vcSign" data-v="${v}">${l}</button>`).join('')}</div>
       <p class="hint">${O.src==='manual'?tr('Horloges synchronisées à la main (écart {N} s).').replace('{N}',Math.round(O.off/1000)):tr('Horloges non recalées : si la vidéo et les stats viennent de deux appareils, synchronisez-les.')} <button class="linkbtn" data-act="vcSync">${tr('Synchroniser')}</button></p>
       <div class="vopt"><span>${tr('Montage')}</span><div class="seg"><button class="${q.whole?'':'on'}" data-act="vcWhole" data-v="0">${tr('Actions seules')}</button><button class="${q.whole?'on':''}" data-act="vcWhole" data-v="1">${tr('Points entiers')}</button></div></div>
@@ -3841,7 +3943,7 @@ function sheetHTML(m,S){
   if(ui.sheet==='edTo'&&ui.edAt!=null){const set=S.sets[S.sets.length-1],T=short(m),opp=m.opp||tr('Adversaire');
     return `<div class="sh"><h3>${tr('Temps mort oublié')}</h3>${close}</div>${set?`<div class="card morel">${mrow('edToGo','','⏱ '+esc(T),'',set.to.G+'/2','data-s="G"')}${mrow('edToGo','','⏱ '+esc(opp),'',set.to.A+'/2','data-s="A"')}</div>`:`<p class="hint">${tr('Pas de set à cet endroit')}</p>`}`;}
   if(ui.sheet==='edReass'&&ui.edRe){const R=ui.edRe,inn=pnum(m,R.i)+' '+dname(m,R.i),out=pnum(m,R.o)+' '+dname(m,R.o),b=(v,l)=>`<button class="${R.c===v?'on':''}" data-act="edReC" data-v="${v}">${l}</button>`;
-    const rows=R.L.slice(0,8).map(({ei,j})=>{const x=m.ev[ei].st[j],n=m.ev.slice(0,ei+1).filter(e=>e.t==='pt').length;return `<li>${tr('Point {N}').replace('{N}',n)} · ${esc(stLab(x[0],x[1]))}</li>`;}).join('');
+    const rows=R.L.slice(0,8).map(({ei,j})=>{const x=m.ev[ei].st[j],n=m.ev.slice(0,ei+1).filter(e=>e.t==='pt').length;return `<li>${tr('Point {N}').replace('{N}',n)} · ${esc(stLab(x[0],x[1],x[3]))}</li>`;}).join('');
     return `<div class="sh"><h3>${tr('Changement ajouté')}</h3>${close}</div><p>${tr('{O} a {N} stat(s) notée(s) après ce changement, alors qu’elle n’est plus sur le terrain :').replace('{O}',esc(out)).replace('{N}',R.L.length)}</p><ul class="edrel">${rows}${R.L.length>8?`<li>… ${tr('et {N} autre(s)').replace('{N}',R.L.length-8)}</li>`:''}</ul>
       <div class="seg edres">${b('aff',tr('Affecter à {P}').replace('{P}',esc(inn)))}${b('keep',tr('Garder'))}${b('del',tr('Supprimer'))}</div><button class="btn big primary" data-act="edReGo" style="width:100%;margin-top:12px">${tr('Valider')}</button>`;}
   // V198 : format du match modifié depuis l'édition (tout le match ; fins de set recalculées)
@@ -3896,7 +3998,7 @@ function sheetHTML(m,S){
     return `<div class="sh"><h3>${tr('Périmètre des stats')}</h3>${close}</div><div class="card morel">${row('cur',tr('Match en cours'),store.cur.ev.some(e=>e.t==='pt')?'':tr('aucun point joué'),!ui.coachView)}</div>
       ${SS.map((so,i)=>{const open=!multi||(ui.scopeS?ui.scopeS===so.id:(sel===so.id||i===0));return `${multi?`<button class="sgrpb" data-act="scopeS" data-id="${so.id}" aria-expanded="${open}">📁 ${esc(so.name)} <small>${allM.filter(a=>seasonOf(a)===so.id).length}</small><span class="chev">${open?'▴':'▾'}</span></button>`:''}${open?`<div class="card morel" style="margin-top:${multi?0:10}px">${row('s:'+so.id,multi?tr('Toute la saison'):tr('Toute la saison')+' · '+esc(so.name),'',ui.coachView==='season'&&sel===so.id)}${ms(so)}</div>`:''}`;}).join('')||`<p class="hint" style="margin-top:10px">${tr('Aucun match avec des stats.')}</p>`}`;}
   if(ui.sheet==='archMore'){const a=store.arch.find(x=>x.id===ui.archMore);if(!a){ui.sheet=null;return '';}const s=replay(a),demo=isDemoTeam();
-    return `<div class="sh"><h3>${esc(matchTitle(a))}</h3>${close}</div><p class="hint" style="margin-top:-6px">${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A}</p><div class="card morel">
+    return `<div class="sh"><h3>${esc(matchTitle(a))}</h3>${close}</div><p class="hint" style="margin-top:-6px">${esc(fmtDate(a.date))}${a.num?' · match '+esc(a.num):''} — ${s.wins.G}-${s.wins.A}</p>${demo?'':`<label class="f" style="margin-bottom:10px">${tr('Adversaire')}<input data-archopp="${a.id}" value="${esc(a.opp||'')}" placeholder="${esc(tr('Nom de l’équipe adverse'))}"></label>`}<div class="card morel">
       ${mrow('cv',a.id,'📊 '+tr('Stats du match'))}${demo?'':mrow('resume',a.id,ui.confirm==='res:'+a.id?tr('Confirmer la reprise'):'▶ '+tr('Reprendre le match'),ui.confirm==='res:'+a.id?'danger':'',tr('Le match en cours est archivé'))}${mrow('share',a.id,'⤴ '+tr('Partager'))}${demo?'':mrow('archMoveOpen',a.id,'📂 '+tr('Déplacer'),'',tr('Vers une autre saison ou une autre équipe'))}${demo?'':mrow('del',a.id,ui.confirm==='del:'+a.id?tr('Confirmer la suppression'):'🗑 '+tr('Supprimer'),'danger')}</div>`;}
   if(ui.sheet==='seasonGear'){const T=activeTeam(),so=seasonObj();if(!so){ui.sheet=null;return '';}const cur=so.id===T.curSeason,demo=isDemoTeam();
     return `<div class="sh"><h3>${esc(so.name)}</h3>${close}</div><div class="card morel">
@@ -3955,7 +4057,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP','killN','killA'];
+const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','rlyM','rlyP','rqM','rqN','rqP','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP','killN','killA'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);CUR_CAL=calibTot(m);CUR_COV=S&&S.cov?(set==null?S.cov:(S.covSet&&S.covSet[set])||S.cov):null;
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -4123,7 +4225,7 @@ function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),e
   return `<div class="pcats">${[
     cat('ov',tr("Vue d'ensemble"),all?{t:Math.round(all.v*100)+' %',c:sbCls(all,ta).slice(2)}:null,radarSVG(me,team)+rateBars(r,f)),
     pc?cat('pas',tr('Passe'),pt&&pt.n?{t:passPct(pt)+' %',c:'n'}:null,pc):'',
-    me.att?cat('att',tr('Attaque'),pe('att'),G([x.A&&[tr('Kill'),pc1(x.kill)],x.A&&[tr('Erreurs att.'),pc1(x.attErr)],x.A&&[tr('Efficacité att.'),x.attEff==null?'–':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],[tr('Kills confirmés'),r.killN||0],[tr('Renvois sans attaque'),r.relN||0]])+((ex||!proFor(M)||!ah)&&pz('att')?`<div class="sbars">${pz('att')}</div>`:'')+ah):'',
+    me.att?cat('att',tr('Attaque'),pe('att'),G([x.A&&[tr('Kill'),pc1(x.kill)],x.A&&[tr('Erreurs att.'),pc1(x.attErr)],x.A&&[tr('Efficacité att.'),x.attEff==null?'–':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],[tr('Kills confirmés'),r.killN||0],[tr('Renvois sans attaque'),relTxt(r)]].concat(rlyT(r)?[[tr('Relais de passe'),rlyTxt(r)]]:[]))+((ex||!proFor(M)||!ah)&&pz('att')?`<div class="sbars">${pz('att')}</div>`:'')+ah):'',
     me.rec?cat('rec',tr('Réception'),pe('rec'),G([x.Rc&&[tr('Réception +'),pc1(x.recPos)],[tr('Fautes de réception'),r.rfN||0]])+(pz('rec')?`<div class="sbars">${pz('rec')}</div>`:'')):'',
     me.srv?cat('srv',tr('Service'),pe('srv'),G([[tr('Aces'),r.aceN||0],x.Sv&&[tr('Aces / fautes'),`${x.aces} / ${x.srvErr}`]])):'',
     me.def?cat('def',tr('Défense'),pe('def'),pz('def')?`<div class="sbars">${pz('def')}</div>`:`<p class="hint">${tr('Pas de détail par poste.')}</p>`):'',
@@ -4283,7 +4385,11 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       +card('Statistiques supplémentaires',`<p class="hint xp">Notées pendant le match, en plus des actions de base.</p>${D('Statistique Bloc',`<p class="hint">Ajoute le bloc (−, =, +) à la saisie, aux fiches, à la toile et aux classements. Attention : le bloc est difficile à noter en temps réel, et la grille devient plus chargée sur un écran de téléphone. Seuls les 3 joueurs au filet sont proposés.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="blk" ${P.blk?'checked':''}> Statistique Bloc</label>
       <hr class="sep">${D('Difficulté du ballon adverse',`<p class="hint">Après avoir choisi le joueur d'une réception ou d'une défense, une question de plus : service ou attaque adverse facile, moyen ou difficile. La valeur ajoutée de la première touche en tient compte (un ballon difficile est moins pénalisant, un ballon facile moins valorisé). Un appui de plus par première touche : à réserver aux saisies à deux ou aux statisticiens entraînés. « Passer » = ballon moyen.</p>`)}
-      <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>`)
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="oppDiff" ${P.oppDiff?'checked':''}> Difficulté du ballon adverse</label>
+      <hr class="sep">${D('Cotation du relais de passe',`<p class="hint">Après avoir choisi le joueur d'un relais de passe, une question de plus : relais −, = ou +. Pour l'attaquant qui suit, le relais compte comme une passe de cette note (sans cotation : passe −). Le détail apparaît dans les fiches et les PDF.</p>`)}
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="rlyQ" ${P.rlyQ?'checked':''}> Cotation du relais de passe</label>
+      <hr class="sep">${D('Cotation du renvoi direct',`<p class="hint">Après avoir choisi le joueur d'un renvoi direct (renvoi sans attaque), une question de plus : renvoi −, = ou +. Le renvoi compte alors comme une attaque de cette note (sans cotation : attaque −, sauf sur une passe −). Le détail apparaît dans les fiches et les PDF.</p>`)}
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="relQ" ${P.relQ?'checked':''}> Cotation du renvoi direct</label>`)
       +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général ; chaque saison peut garder son propre choix (menu Saisons).${tipB('calib')}</p>`)
 )}
     ${sec('video','Vidéo',vidSetHTML(card,D))}
@@ -4344,15 +4450,15 @@ function tac4Rows(m,ev,cur){if(ev.sz&&ev.sp)cur.rows.push({k:'tac',a:tr('Au serv
   if(ev.bz)cur.rows.push({k:'tac',a:tr('Bloc')+' : '+[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>tr(l)+' '+(ev.bz[q]?dname(m,ev.bz[q]):'❌')).join(' · ')});}
 function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null,lp0=+(m.libPos||5),x0=false;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
   m.ev.forEach((ev,idx)=>{
-    if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[]};sets.push(cur);play=true;last=null;
+    if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[],z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,free:!!m.free};sets.push(cur);play=true;last=null; // V207 : 6 de départ du set (schéma du terrain)
       if(ev.lp&&ev.lp!==lp0)cur.rows.push({k:'tac',a:tr('Libéro en défense')+' : '+tr('Poste')+' '+ev.lp});if(ev.lp)lp0=ev.lp;
       if(si>0&&!!ev.x!==x0)cur.rows.push({k:'tac',a:tr('Inversion R4 <-> Pointe en P1')+' : '+tr(ev.x?'Oui':'Non')});x0=!!ev.x;
       if(ev.r4===0)cur.rows.push({k:'tac',a:tr('Sans rotation')});tac4Rows(m,ev,cur);return;}
     if(ev.t==='tac'){if(ev.lp)lp0=ev.lp;if(ev.x!=null)x0=!!ev.x;}
     if(!cur||!play)return;
     if(ev.t==='pt'){const sv=SA[idx]||'@A';if(sv!==last){if(sv==='@A')cur.rows.push({k:'srvA',a:m.opp||'Adversaire',rot:RA[idx]});else cur.rows.push({k:'srv',a:`${pnum(m,sv)} ${dname(m,sv)}`,rot:RA[idx]});}last=sv;ev.w==='G'?cur.g++:cur.a++;const st=ev.st&&ev.st.length?ev.st[ev.st.length-1]:null;
-      const all=(ev.st||[]).slice(0,-1).map((x,j)=>({lab:stLab(x[0],x[1]),who:x[2]?tag(m,x[2]):'',si:j,ed:x[6]===1}));
-      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,all,ei:idx,si:st?ev.st.length-1:-1,edL:!!(st&&st[6]===1),ed:!!(st&&st[6]===1)||all.some(x=>x.ed)||ev.ed===1,lab:st?stLab(st[0],st[1])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
+      const all=(ev.st||[]).slice(0,-1).map((x,j)=>({lab:stLab(x[0],x[1],x[3]),who:x[2]?tag(m,x[2]):'',si:j,ed:x[6]===1}));
+      cur.rows.push({k:'pt',w:ev.w,sc:`${cur.g}-${cur.a}`,all,ei:idx,si:st?ev.st.length-1:-1,edL:!!(st&&st[6]===1),ed:!!(st&&st[6]===1)||all.some(x=>x.ed)||ev.ed===1,lab:st?stLab(st[0],st[1],st[3])+(st[4]===1?(st[0]==='rec'?' (service difficile)':' (attaque difficile)'):st[4]===-1?(st[0]==='rec'?' (service facile)':' (attaque facile)'):st[4]===0?(st[0]==='rec'?' (service moyen)':' (attaque moyenne)'):''):(ev.w==='G'?('Point '+short(m)):'Point adverse'),who:st&&st[2]?tag(m,st[2]):''});
       const hi=Math.max(cur.g,cur.a);if(hi>=setTarget(m,si)&&Math.abs(cur.g-cur.a)>=2){play=false;cur.done=true;}}
     else if(ev.t==='sub')cur.rows.push({k:'sub',a:tag(m,ev.i),b:tag(m,ev.o)});
     else if(ev.t==='to')cur.rows.push({k:'to',a:ev.s==='G'?short(m):(m.opp||'Adversaire')});
@@ -4389,7 +4495,16 @@ function summaryHTML(m){const sets=summaryData(m);SUM_EDIT=!ui.toStats&&!m.seaso
       out.push(`<div class="sp ${r.w==='G'?'g':r.w==='A'?'a':''} ${open?'open':''}">${pre.length?`<div class="sp-ev">${pre.map(evL).join('')}</div>`:'<div class="sp-ev"></div>'}<div class="sp-c"><div class="sp-h sumr ${r.w==='G'?'g':'a'} ${vr?'vj':''}" data-act="sumTog" data-ei="${r.ei}">${sc(r)}<span class="sdot"></span><span class="spw">${r.w==='G'?esc(T):r.w==='A'?esc(opp):tr('Point')}</span>${d?`<em>${d}</em>`:''}<i class="chev">${open?'⌄':'›'}</i></div><div class="sp-r">${sumAct(r,open)}</div></div></div>`);pre=[];});
     if(pre.length)out.push(`<div class="sp sp-tail"><div class="sp-ev">${pre.map(evL).join('')}</div></div>`);return out.join('');};
   return sw+(vr?`<p class="hint xp">▶ ${tr('Touchez un score pour revoir le point en vidéo')}</p>`:'')+sets.map((x,i)=>set!=null&&set!==i?'':`<div class="card sumc"><div class="sumh"><b>Set ${i+1}</b><span class="sumsc ${x.g>x.a?'w':'l'}">${x.g}-${x.a}</span></div>
-    <div class="sps">${blk(x)}</div></div>`).join('');}
+    ${setCourtSVG(m,x)}<div class="sps">${blk(x)}</div></div>`).join('');}
+// V207 : 6 de départ d'un set (ou 4, 3, 2) : postes du format (zone q → z[q−1]), positions en % du demi-terrain, filet en haut
+const SET_RC={Pa:'#F2BE22',Pu:'#D7263D',R4:'#1F7F40',C:'#1F5FD0',L:'#8B3BC9'};
+function setLineup(m,x){if(!x||!x.z||x.free)return null;const f=is4(m)?FMT4[n4(f4c(m))]:null,POS=f?f.POS:{4:[17,17],3:[50,17],2:[83,17],5:[17,64],6:[50,64],1:[83,64]},Z=f?f.Z:[1,2,3,4,5,6],R=m.roles||{};
+  const pl=Z.map(q=>{const pid=x.z[q-1];if(!pid)return null;const [px,py]=POS[q];return {q,pid,x:px,y:py,n:String(pnum(m,pid)||''),nm:dname(m,pid),c:SET_RC[R[pid]]||'#5B697D'};}).filter(Boolean);
+  const srvQ=x.srv==='G'?(f?f.SRV[0]:1):null;return pl.length?{pl,srvQ,lib:x.lib}:null;}
+function setCourtSVG(m,x){const L=setLineup(m,x);if(!L)return '';const ROM=['','I','II','III','IV','V','VI'];
+  return `<div class="setcourt"><svg viewBox="0 0 100 100" role="img" aria-label="${esc(tr('6 de départ'))}"><rect x="2" y="4" width="96" height="94" rx="2" class="scf"/><line x1="0" y1="4" x2="100" y2="4" class="scn"/><line x1="2" y1="38" x2="98" y2="38" class="sca"/>
+    ${L.pl.map(p=>`<g><circle cx="${p.x}" cy="${p.y}" r="8.5" fill="${p.c}"/><text x="${p.x}" y="${p.y+3.4}" text-anchor="middle" class="scnum">${esc(p.n)}</text><text x="${p.x}" y="${p.y+16}" text-anchor="middle" class="scnm">${esc(p.nm)}</text>${p.q===L.srvQ?`<circle cx="${p.x+9}" cy="${p.y-7}" r="3" class="scsrv"/>`:''}<text x="${p.x-11}" y="${p.y-8}" class="scz">${ROM[p.q]}</text></g>`).join('')}</svg>
+    <small>${tr('6 de départ')}${L.lib?' · '+tr('Libéro')+' : '+esc(pnum(m,L.lib)+' '+dname(m,L.lib)):''}${L.srvQ?' · '+tr('au service (●)'):' · '+tr('en réception')}</small></div>`;}
 // V199 : durée d'un point (« Début du point », sinon sa première action, jusqu'à son attribution), si elle est plausible
 function sumDur(m,ei){const e=m.ev[ei];if(!e||!Number.isFinite(e.at))return '';let s=Number.isFinite(e.t0)?e.t0:null;if(s==null)(e.st||[]).forEach(x=>{if(Number.isFinite(x[5])&&(s==null||x[5]<s))s=x[5];});if(s==null)return '';const d=e.at-s;return d>0&&d<120000?fmtS(d):'';}
 // Export du résumé en PDF (3 colonnes de points par set)
@@ -4443,7 +4558,7 @@ function exportPlayer(M,set,pid,k){const SS=replay(M),f=fxStats(M,SS,set),r=f.ro
   y+=3;
   // chiffres clés
   const all=radEffAll(r),va=vaRole(r),h=hotEff(r),K=[['Efficacité globale',all?pc(all.v):'-'],x.A&&['Kill',pc(x.kill)],x.A&&['Erreurs att.',pc(x.attErr)],x.A&&['Efficacité att.',x.attEff==null?'-':(x.attEff>0?'+':'')+Math.round(x.attEff*100)+' %'],
-    x.Rc&&['Réception +',pc(x.recPos)],['Aces',String(r.aceN||0)],['Kills',String(r.killN||0)],['Fautes de réception',String(r.rfN||0)],['Renvois sans attaque',String(r.relN||0)],BLK()&&['Points de bloc',String(x.blkP||0)],['Valeur ajoutée',facTxt(va)],['Fin de set',h?pc(h.v)+' ('+h.n+')':'-']].filter(Boolean);
+    x.Rc&&['Réception +',pc(x.recPos)],['Aces',String(r.aceN||0)],['Kills',String(r.killN||0)],['Fautes de réception',String(r.rfN||0)],['Renvois sans attaque',relTxt(r)],rlyT(r)&&['Relais de passe',rlyTxt(r)],BLK()&&['Points de bloc',String(x.blkP||0)],['Valeur ajoutée',facTxt(va)],['Fin de set',h?pc(h.v)+' ('+h.n+')':'-']].filter(Boolean);
   H("Vue d'ensemble");
   K.forEach((q,i)=>{const c=i%3,X=14+c*61;if(c===0)need(12);doc.setFillColor(246,248,251);doc.roundedRect(X,y-4,58,10.5,1.5,1.5,'F');T(trP(q[0]),X+3,y,7.5,false,GREY);T(q[1],X+3,y+4.8,11,true);if(c===2||i===K.length-1)y+=13;});
   y+=1;
@@ -4472,22 +4587,30 @@ function exportSummaryPDF(m){
   T(trP(`${tr('Résumé')} · ${fmtDate(m.date)}${m.num?' · '+m.num:''}`),14,y,10,false,[90,90,90]);y+=5.5;
   T(`${tr('Sets')||'Sets'} ${S.wins.G}-${S.wins.A}  (${sets.map(x=>x.g+'-'+x.a).join(', ')})`,14,y,10.5,true);y+=8;
   const GREEN=[26,110,56],RED=[168,29,48],GREY=[120,120,120],CW=61,RH=4.4,X0=14;
+  // V207 : une page par set : bandeau du set, schéma du terrain avec le 6 de départ, puis les points (3 colonnes, suite sur la page suivante si besoin)
+  const court=(x,y0)=>{const L=setLineup(m,x);if(!L)return y0;const W=62,H=58,cx0=14,ROM=['','I','II','III','IV','V','VI'];doc.setFillColor(243,222,198);doc.setDrawColor(20,36,61);doc.setLineWidth(0.4);doc.rect(cx0,y0,W,H,'FD');doc.setLineWidth(1.2);doc.line(cx0-2,y0,cx0+W+2,y0);doc.setLineWidth(0.25);doc.setLineDashPattern([1,1],0);doc.line(cx0,y0+H*.33,cx0+W,y0+H*.33);doc.setLineDashPattern([],0);
+    const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+    L.pl.forEach(p=>{const px=cx0+p.x/100*W,py=y0+p.y/100*H;doc.setFillColor(...hex(p.c));doc.circle(px,py,4.2,'F');T(p.n,px,py+1.3,9,true,[255,255,255],'center');T(pdfSafe(p.nm).slice(0,14)+(p.q===L.srvQ?' (S)':''),px,py+7.6,6.8,false,[20,36,61],'center');T(ROM[p.q],px-6.2,py-4,5.5,false,GREY);});
+    let ty=y0+5;const info=(a,b)=>{T(a,cx0+W+8,ty,8.5,true,[20,36,61]);T(b,cx0+W+40,ty,8.5,false,[30,30,30]);ty+=5.5;};
+    info(trP('6 de départ'),'');info(trP('Service'),L.srvQ?pdfSafe(short(m)):pdfSafe(m.opp||tr('Adversaire')));if(L.lib)info(trP('Libéro'),pdfSafe(pnum(m,L.lib)+' '+dname(m,L.lib)));
+    const subs=x.rows.filter(r=>r.k==='sub'),tos=x.rows.filter(r=>r.k==='to');info(trP('Changements'),String(subs.length));subs.slice(0,6).forEach(r=>{T(pdfSafe(r.a)+' <> '+pdfSafe(r.b),cx0+W+40,ty,7.5,false,GREY);ty+=4.2;});
+    info(trP('Temps morts'),tos.length?tos.map(r=>pdfSafe(r.a)).join(', '):'0');return y0+H+9;};
   sets.forEach((x,i)=>{
-    if(y+6+Math.ceil(x.rows.length/3)*RH>288){doc.addPage();y=16;} // le set entier sur la même page
+    if(i>0){doc.addPage();y=16;}
     doc.setFillColor(20,36,61);doc.roundedRect(14,y-4.5,182,7,1.5,1.5,'F');T(trP(`Set ${i+1}`),17,y,10,true,[255,255,255]);T(`${x.g}-${x.a}`,193,y,10,true,[255,255,255],'right');y+=6;
-    const rows=x.rows,perCol=Math.ceil(rows.length/3);let col=0,k=0,yy=y,ymax=y;
-    const startY=y;
-    rows.forEach((r,idx)=>{const c=Math.floor(idx/Math.max(1,perCol));const cx=X0+c*CW,cy=startY+(idx-c*perCol)*RH;
-      if(cy>285)return;
+    y=court(x,y);
+    const rows=x.rows;let ymax=y,startY=y,cap=Math.max(3,Math.floor((285-startY)/RH)*3),off0=0;
+    while(rows.length-off0>cap){const ch=rows.slice(off0,off0+cap);off0+=cap;const pc=Math.ceil(ch.length/3);ch.forEach((r,j)=>{const c=Math.floor(j/pc);sumRowPdf(r,X0+c*CW,startY+(j-c*pc)*RH);});doc.addPage();startY=16;ymax=16;cap=Math.floor((285-startY)/RH)*3;}
+    const rest=rows.slice(off0),perCol=Math.ceil(rest.length/3);
+    rest.forEach((r,idx)=>{const c=Math.floor(idx/Math.max(1,perCol));const cx=X0+c*CW,cy=startY+(idx-c*perCol)*RH;sumRowPdf(r,cx,cy);ymax=Math.max(ymax,cy);});
+    doc.setDrawColor(225,230,238);doc.setLineWidth(0.2);[1,2].forEach(c=>doc.line(X0+c*CW-3,startY-3,X0+c*CW-3,ymax+1));
+    y=ymax+9;});
+  function sumRowPdf(r,cx,cy){
       if(r.k==='pt'){T(r.sc,cx,cy,8.2,true,r.w==='G'?GREEN:RED);doc.setFillColor(...(r.w==='G'?GREEN:RED));doc.circle(cx+10.5,cy-1,0.9,'F');
         let t=trP(r.lab)+(r.who?' · '+pdfSafe(r.who):'')+(r.ed?' *':'');while(doc.getTextWidth(t)>CW-15&&t.length>4)t=t.slice(0,-2);T(t,cx+13,cy,7.6,false,[30,30,30]);}
       else{const t=r.k==='sub'?`${trP('Changement')} : ${pdfSafe(r.a)} <> ${pdfSafe(r.b)}`:r.k==='to'?`${trP('Temps mort')} ${pdfSafe(r.a)}`:r.k==='srv'?`${trP('Au service')} : ${pdfSafe(r.a)}`:r.k==='srvA'?`${trP('Service')} ${pdfSafe(r.a)}`:r.k==='tac'?pdfSafe(r.a):`${trP('Libéro')} : ${pdfSafe(r.a)}`;
         let tx=cx+4;if((r.k==='srv'||r.k==='srvA')&&r.rot){doc.setDrawColor(20,36,61);doc.setFillColor(242,190,34);doc.roundedRect(cx+3.5,cy-2.7,7,3.6,0.8,0.8,'FD');doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.setTextColor(20,36,61);doc.text('P'+r.rot,cx+7,cy,{align:'center'});tx=cx+12;}
-        doc.setFont('helvetica',r.k==='srv'||r.k==='srvA'?'bolditalic':'italic');doc.setFontSize(7);doc.setTextColor(...(r.k==='srvA'?[168,29,48]:GREY));let tt=t;while(doc.getTextWidth(tt)>CW-(tx-cx)&&tt.length>4)tt=tt.slice(0,-2);doc.text(tt,tx,cy);}
-      ymax=Math.max(ymax,cy);});
-    // séparateurs de colonnes
-    doc.setDrawColor(225,230,238);doc.setLineWidth(0.2);[1,2].forEach(c=>doc.line(X0+c*CW-3,startY-3,X0+c*CW-3,ymax+1));
-    y=ymax+9;});
+        doc.setFont('helvetica',r.k==='srv'||r.k==='srvA'?'bolditalic':'italic');doc.setFontSize(7);doc.setTextColor(...(r.k==='srvA'?[168,29,48]:GREY));let tt=t;while(doc.getTextWidth(tt)>CW-(tx-cx)&&tt.length>4)tt=tt.slice(0,-2);doc.text(tt,tx,cy);}}
   doc.setTextColor(0);
   if(sets.some(x=>x.rows.some(r=>r.ed)))T('* '+trP('stat modifiée après le match'),14,291,7,false,[90,90,90]);
   saveFile(`resume_${slug(m.opp||'match')}_${m.date||today()}.pdf`,doc.output('blob'));}
@@ -4749,7 +4872,7 @@ function statCols(m,S){
       ${ex?'<div class="hint" style="margin:6px 0">Hors feuille : pas de temps de jeu</div>':`<div class="barcell" style="margin:8px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
       ${radarSVG(radEff(r),teamR)}
       ${rateBars(r,f)}
-      <div class="relx">Aces${tipB('aces')} : <b>${r.aceN||0}</b> · Kills${tipB('kills')} : <b>${r.killN||0}</b> · Fautes de récep.${tipB('rf')} : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b><br>Renvois sans attaque${tipB('rel')} : <b>${r.relN||0}</b>${r.rlyN?` · Relais de passe${tipB('rly')} : <b>${r.rlyN}</b>`:''}</div>
+      <div class="relx">Aces${tipB('aces')} : <b>${r.aceN||0}</b> · Kills${tipB('kills')} : <b>${r.killN||0}</b> · Fautes de récep.${tipB('rf')} : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b><br>Renvois sans attaque${tipB('rel')} : <b>${relTxt(r)}</b>${rlyT(r)?` · Relais de passe${tipB('rly')} : <b>${rlyTxt(r)}</b>`:''}</div>
       ${set==null&&!ex?cardProgHTML(m,S,r.id):''}
       </div>`;};
   const isLow=r=>{const pl=played(r.id),pct=tot?pl/tot*100:0;return !isExtra(r.id)&&lowSample(r,pct);};
@@ -4785,7 +4908,7 @@ function statCols(m,S){
       ${Object.entries(passAgg(S,set)).filter(([sid])=>!FREE||FREE.has(sid)).map(([sid,P])=>vl('p','@pass:'+sid,`<span class="num r-Pa">${pnum(m,sid)}</span><span class="vlt">${tr('Fiche de poste')} · ${tr('Passe')} <small>${esc(dname(m,sid))}</small></span>`,passCard(m,sid,P,pspAgg(S,set,sid),impAgg(S,set,sid,'ip'),false,S,set))).join('')}
       ${FREE?'<p class="hint freeh">Version gratuite : stats du passeur, d’un R4 et d’un central (les plus utilisés à leur poste).</p>':''}${sortSel}${pList}</div>`;}
   return svw+seg+`<div class="card" style="margin-bottom:12px"><b>Équipe${set==null?'':S.season?' — '+esc(S.sets[set].label)+' ('+fmtDate(S.sets[set].date)+')':' — set '+(set+1)}</b>${covBadge(CUR_COV)}
-      <div class="hint" style="margin-top:4px">${tot} points disputés · services ${f.tot.srvM+f.tot.srvN+f.tot.srvP} (${f.tot.srvN} neutres) · réceptions ${f.tot.recM+f.tot.recN+f.tot.recP} (${f.tot.recN} neutres) · fautes ${f.tot.M} · positifs ${f.tot.P}${f.tot.relN?` · renvois sans attaque ${f.tot.relN}`:''}${teamTot(f).rlyN?` · relais de passe ${teamTot(f).rlyN}`:''} · aces ${f.tot.aceN||0} · fautes de réception ${f.tot.rfN||0}${f.eq.M||f.eq.P?` (dont non attribuées : ${f.eq.M} fautes, ${f.eq.P} positifs)`:''} · points adverses sur une faute de notre équipe : ${f.oppF} sur ${f.opp}${f.opp?` (${Math.round(f.oppF/f.opp*100)} %)`:''}</div></div>
+      <div class="hint" style="margin-top:4px">${tot} points disputés · services ${f.tot.srvM+f.tot.srvN+f.tot.srvP} (${f.tot.srvN} neutres) · réceptions ${f.tot.recM+f.tot.recN+f.tot.recP} (${f.tot.recN} neutres) · fautes ${f.tot.M} · positifs ${f.tot.P}${f.tot.relN?` · renvois sans attaque ${relTxt(f.tot)}`:''}${rlyT(teamTot(f))?` · relais de passe ${rlyTxt(teamTot(f))}`:''} · aces ${f.tot.aceN||0} · fautes de réception ${f.tot.rfN||0}${f.eq.M||f.eq.P?` (dont non attribuées : ${f.eq.M} fautes, ${f.eq.P} positifs)`:''} · points adverses sur une faute de notre équipe : ${f.oppF} sur ${f.opp}${f.opp?` (${Math.round(f.oppF/f.opp*100)} %)`:''}</div></div>
     ${Object.entries(passAgg(S,set)).filter(([sid])=>!FREE||FREE.has(sid)).map(([sid,P])=>passCard(m,sid,P,pspAgg(S,set,sid),impAgg(S,set,sid,'ip'),false,S,set)).join('')}
     <div class="radleg"><svg viewBox="0 0 30 10" width="30" height="10"><line x1="1" y1="5" x2="29" y2="5" stroke="var(--ink)" stroke-width="2.4"/></svg> joueur
       <svg viewBox="0 0 30 10" width="30" height="10"><line x1="1" y1="5" x2="29" y2="5" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/></svg> moyenne de l'équipe
@@ -5005,7 +5128,7 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
     const er2=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
     [['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).forEach(([l,k])=>{bar(l,me[k],teamR[k],false,v=>String(v.n));if(k==='att')attZones(r).forEach(x=>bar('  '+x.l,x,teamR.att,false,v=>String(v.n)));});
     bar('Fautes',fr2(r),fr2(Tt),true,v=>`${v.c}/${v.n}`);if(r.role!=='Pa')bar('Err. att.',er2(r),er2(Tt),true,v=>`${v.c}/${v.n}`);
-    T(`Aces : ${r.aceN||0}  ·  Kills : ${r.killN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${r.relN||0}${r.rlyN?'  ·  Relais : '+r.rlyN:''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
+    T(`Aces : ${r.aceN||0}  ·  Kills : ${r.killN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${relTxt(r,1)}${rlyT(r)?'  ·  Relais : '+rlyTxt(r,1):''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
     {const sd=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',sg=v=>v==null?'-':(v>0?'+':'')+Math.round(v*100)+' %',parts=[];
       if(sd.A)parts.push(`Kill ${pc(sd.kill)}`,`Err. att. ${pc(sd.attErr)}`,`Eff. att. ${sg(sd.attEff)}`);if(sd.Rc)parts.push(`Réc. + ${pc(sd.recPos)}`);if(sd.Sv)parts.push(`Aces/fautes ${sd.aces}/${sd.srvErr}`);
       if(parts.length){T(parts.join('  ·  '),x0+W/2,by+2.5,6.8,false,[70,70,70],'center');by+=5;}
@@ -5253,10 +5376,13 @@ const A={
       const sp=m.free?null:setterOn(S,m.pend||[]);if(!m.free&&(sp||!F4||F4.n!==2)){addStat(['pas',sg,sp||'']);return 1;}} // 2x2 sans touche avant la passe : choix du joueur
     ui.stPick=(ui.stPick&&ui.stPick.k===k&&ui.stPick.s===sg)?null:{k,s:sg};},
   stP(d){if(!ui.stPick)return;const x=ui.stPick.k==='relay'?['rly',0,d.id||'']:[ui.stPick.k,ui.stPick.s,d.id||''];const k=ui.stPick.k;ui.stPick=null;
+    if((k==='relay'&&store.prefs.rlyQ)||(k==='rel'&&store.prefs.relQ)){ui.sgAsk={x};render();return 1;} // V205 : relais / renvoi cotés
     if(store.prefs.oppDiff&&(k==='rec'||k==='def')&&d.id){ui.diffAsk={k,x};render();return 1;}addStat(x);return 1;},
   diffSet(d){const q=ui.diffAsk;ui.diffAsk=null;if(!q)return;const x=q.x.slice();while(x.length<4)x.push(null);x[4]=+d.v;addStat(x);return 1;},
   diffSkip(){const q=ui.diffAsk;ui.diffAsk=null;if(q)addStat(q.x);return 1;},
-  stCancel(){ui.stPick=null;},
+  stCancel(){ui.stPick=null;ui.sgAsk=null;},
+  sgSet(d){const q=ui.sgAsk;ui.sgAsk=null;if(!q)return;const x=q.x.slice();x[1]=+d.v;x[3]='q';addStat(x);return 1;},
+  sgSkip(){const q=ui.sgAsk;ui.sgAsk=null;if(q)addStat(q.x);return 1;},
   // 2x2 : le ballon a franchi le filet, les deux joueurs peuvent de nouveau toucher (partage 50/50)
   fr2(){const m=store.cur,st=m.pend||[];if(!st.length)return;m.fr2=st[st.length-1][5];save();},
   roleClose(){ui.roleFor=null;},
@@ -5399,7 +5525,7 @@ const A={
     // horodatage : conservé en modification ; intercalé entre les voisines en ajout (ordre gardé par la fusion de deux saisies)
     const p=ev.st[se.pos-1],n=ev.st[se.pos],pt=p&&p[5],nt=n&&n[5];
     const t=se.mode==='edit'?(se.orig[5]!=null?se.orig[5]:null):pt!=null&&nt!=null?(pt+nt)/2:pt!=null?pt+1:nt!=null?nt-1:(ev.at||Date.now());
-    const x=[se.k,(se.k==='rel'||se.k==='rly')?0:se.sg,se.pid||'',se.mode==='edit'?(se.orig[3]||null):null,se.dif==null?null:se.dif,t,1];
+    const rq=se.k==='rel'||se.k==='rly',x=[se.k,rq&&!seQ(se)?0:se.sg,se.pid||'',rq?(seQ(se)?'q':null):se.mode==='edit'&&se.orig[3]!=='q'?(se.orig[3]||null):null,se.dif==null?null:se.dif,t,1];
     if(se.mode==='edit')ev.st[se.si]=x;else ev.st.splice(se.pos,0,x);
     CAL_CACHE={k:null,v:null};save();ui.sheet=null;ui.se=null;toast(se.mode==='edit'?'Stat modifiée':'Stat ajoutée','ok');},
   stEditDel(){if(ui.confirm!=='sedel'){ui.confirm='sedel';return 'keep';}const m=sumMatch(),se=ui.se;if(!m||!se||se.mode!=='edit')return;const ev=m.ev[se.ei];
@@ -5556,7 +5682,7 @@ const A={
   csub(d){ui.csub=d.v;ui.coachView=null;ui.fxSet=null;ui.confirm=null;window.scrollTo(0,0);},
   // Onglets : Terrain ramène au match ; les quatre autres ouvrent l'espace entraîneur (code demandé s'il est activé)
   ctab(d){ui.confirm=null;window.scrollTo(0,0);
-    if(ui.screen==='video'&&d.v!=='video'){if(VID.on)vidStop();VID.pb=null;ui.vsBack=null;ui.vroi=null;vidClear();}
+    if(ui.screen==='video'&&d.v!=='video'){if(VID.on)vidStop();VID.pb=null;ui.vsBack=null;ui.pbBack=null;ui.vroi=null;vidClear();}
     if(d.v==='learn'||d.v==='video'){if(ui.tuto&&!(()=>{const st=tFlat()[ui.tuto.i].st;return st.act&&st.sel===TAB(d.v);})())return 1;/* tutoriel : seulement l'onglet attendu par l'étape */if(d.v==='video'&&ui.lrnM)lrnOff();if(ui.screen!=='learn'&&ui.screen!=='video')ui.lrnBack=ui.screen==='lineup'?'lineup':null;ui.screen=d.v;ui.sheet=null;return;} // sans code entraîneur
     if(ui.screen==='learn'||ui.screen==='video'){ui.screen=ui.lrnBack||null;ui.lrnBack=null;if(d.v==='terrain')return;}
     if(d.v==='terrain'){if(ui.coach&&ui.screen==='coach')A.relock();else if(ui.toStats)A.toBack();else ui.screen=null;return;} // depuis la feuille ou la composition : retour au match (le brouillon de composition est gardé)
@@ -5647,12 +5773,15 @@ const A={
     if(web){e.web=1;VID.mem[e.id]=mem;}store.vids=[e].concat(store.vids||[]);save();toast(tr('Montage créé : {N} extraits').replace('{N}',R.length),'ok');if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});},
   // V198 : ouvrir le menu met la vidéo en pause ; elle ne repart pas à la fermeture
   vstMenu(){ui.vstMenu=!ui.vstMenu;ui.confirm=null;const P=VID.pb;if(ui.vstMenu&&P&&P.play){P.play=false;if(vstEd()){P.fine=true;P.tapT=null;store.vst.am=true;}else{P.tapT=P.pos;P.tapR=P.r;P.fine=false;}}},
+  edIgnOpen(){if(!vstEd())return 1;ui.vstMenu=false;ui.edIgnQ=null;ui.sheet='edIgnAsk';},
+  edIgnSet(d){const m=store.cur,V=store.vst;ui.sheet=null;ui.edIgnQ=null;if(!vstEd()||!m)return;m.ignAsk=1;const v=d.v==='1';if(!!m.ign===v){save();return;}if(v)m.ign=1;else delete m.ign;if(!v)ui.edSai=false;edBump();V.ak=null;V.am=false;save();
+    toast(v?tr('Étape 1 : calez chaque stat sur l’image, dans l’ordre du match'):tr('Heures des stats de nouveau prises en compte'),'ok');},
   edIgn(){const m=store.cur,V=store.vst;if(!vstEd())return 1;if(m.ign)delete m.ign;else m.ign=1;edBump();V.ak=null;V.am=false;ui.vstMenu=false;save();
     toast(m.ign?tr('Horodatage ignoré : calez chaque stat sur l’image, dans l’ordre du match'):tr('Horodatage de nouveau pris en compte'),'ok');},
   vstOri(d){const P=VP();if(d.v==='a')delete P.vori;else P.vori=d.v;save();const r=vstRec();if(r)vstLock(r);},
   // dernière stat (chip) : annulée, vidéo à son heure (V186), arrêtée, panneau ouvert ; un point attribué est rouvert avec toutes ses stats
   // V195 : appui sur le score = tableau de saisie (comme le double tap) ; appui sur une stat plus ancienne = saut à cette stat
-  vstScoreTap(){const P=vstPb();if(!P)return 1;ui.vstMenu=false;if(ui.vstDk&&!VID.dkFix){ui.vstDk=false;return;}vstTapDo(P,{pos:P.pos,play:P.play,r:P.r});},
+  vstScoreTap(){const P=vstPb();if(!P)return 1;ui.vstMenu=false;if(vstEd()&&!ui.edSai&&!store.cur.free){ui.edFr=!ui.edFr;return;} /* V207 : Vérifier : le score ouvre la frise des points */if(ui.vstDk&&!VID.dkFix){ui.vstDk=false;return;}vstTapDo(P,{pos:P.pos,play:P.play,r:P.r});},
   vstGoStat(d){const P=vstPb();if(!P||!Number.isFinite(+d.t))return 1;vstGoBefore(+d.t,0);P.play=false;return 1;},
   vstBack(){const V=store.vst,m=store.cur,P=vstPb();if(!V||!P)return;const l=vstLastStat(m);if(!l)return;
     if(V.mode==='val'&&!V.ins){A.stUndo();}
@@ -5673,12 +5802,21 @@ const A={
   edBack(){const B=VID.edBack,P=vstPb(),V=store.vst;if(!B||!P)return 1;VID.edBack=null;P.pos=B.pos;P.play=false;P.fine=true;P.tapT=null;V.ak=B.ak;V.am=true;},
   // ◀ ▶ : stat précédente / suivante (calées comprises : on peut toujours y revenir, décision Q2), vidéo 1 s avant
   edPrev(){return A.edStep({v:-1});},edNext(){return A.edStep({v:1});},
+  // V207 : point précédent / suivant, frise des points, Saisir / Vérifier
+  edPtNav(d){if(!vstEd())return 1;const m=store.cur,V=store.vst,EP=edPts(m);if(!EP.length)return 1;let ci=EP.findIndex(p=>p.ei===V.i);if(ci<0)ci=+d.v>0?(V.i<0?EP.length:-1):EP.length;const p=EP[ci+(+d.v)];if(!p)return 1;return edPtGo(m,p.ei);},
+  edFr(){if(!vstEd())return 1;ui.edFr=!ui.edFr;ui.vstMenu=false;},
+  edFrGo(d){ui.edFr=false;return edPtGo(store.cur,+d.ei);},
+  vstModeV(){const V=store.vst;if(!V)return 1;ui.vstMenu=false;ui.edFr=false;if(vstEd()){if(!ui.edSai)return 1;ui.edSai=false;return;}return A.vstToEd();},
+  vstModeS(){const V=store.vst;if(!V)return 1;ui.vstMenu=false;ui.edFr=false;if(!vstEd())return 1;const m=store.cur;if(ui.edSai)return 1;
+    if(m.free||replay(m).phase==='over'||m.ign){ui.edSai=true;ui.edHist=false;toast(tr('Saisir : tap pour arrêter la vidéo, double tap pour noter une stat à l’image, à sa place dans le point'),'ok');return;}
+    return A.vstToRes();},
   // V198 (11/11/2026) : vidéo exactement sur la stat (plus 1 s avant : avec des actions à moins de 1,5 s, l'image tombait sur la précédente) ; débuts de point non renseignés sautés
   edStep(d){if(!vstEd())return 1;const m=store.cur,r=vstRec(),P=vstPb(),L=edMarks(m),N=L.filter(x=>!x.virt);if(!P||!N.length)return 1;const k=edActive(m,r,P),dv=+d.v;let x;
     if(!k)x=N[0];else if(!k.virt){const j=N.indexOf(k);x=N[Math.max(0,Math.min(N.length-1,j+dv))];}else x=dv>0?(N.find(y=>y.i>k.i)||N[N.length-1]):([...N].reverse().find(y=>y.i<k.i)||N[0]);edSeek(x,false);ui.vstDk=false;},
   // ✓ : vidéo en lecture = pause seulement (jamais de calage en lecture, décision Q6) ; arrêtée = la stat active prend l'heure de l'image
   edCal(){if(!vstEd())return 1;const V=store.vst,m=store.cur,r=vstRec(),P=vstPb();if(!r||!P)return 1;if(P.play){P.play=false;P.fine=true;P.tapT=null;V.am=true;return;}
     const k=edActive(m,r,P);if(!k)return 1;edCalAt(k);ui.vstDk=false;},
+  edKA(d){if(!vstEd())return 1;const m=store.cur,e=m.ev[+d.ei];if(!e||e.t!=='pt'||(d.f!=='ace'&&d.f!=='kill'))return 1;const v=+d.v;if(e[d.f]===v)return 1;edPush(m);e[d.f]=v;e.ed=1;edBump();save();toast(d.f==='ace'?(v?tr('Ace noté'):tr('Pas d’ace')):(v?tr('Kill noté'):tr('Pas de kill')),'ok');},
   edUndo(){const U=VID.edU,m=store.cur;if(!U||!U.length||!vstOn())return 1;const o=JSON.parse(U.pop());if(Array.isArray(o))m.ev=o;else{m.ev=o.ev;if(o.format)m.format=o.format;else delete m.format;}m.redo=[];edBump();VID.edN=Math.max(0,(VID.edN||0)-1);save();toast(tr('Annulé'),'ok');},
   edHist(){ui.edHist=!ui.edHist;ui.vstMenu=false;},
   edMore(){if(!vstEd())return 1;const m=store.cur,r=vstRec(),P=vstPb();if(P&&P.play){P.play=false;P.fine=true;P.tapT=null;}const k=edActive(m,r,P);if(!k)return 1;store.vst.ak=k.key;store.vst.am=true;ui.confirm=null;ui.sheet='edMore';},
@@ -5721,9 +5859,19 @@ const A={
   vstQuit(){if(ui.confirm!=='vstquit'){ui.confirm='vstquit';return 'keep';}vstEnd();},
   vstEndGo(){vstEnd();},
   // V200 : « Éditer les stats » depuis la saisie : la saisie est quittée (match enregistré, stats de l'échange gardées) puis rouverte en édition ; « Reprendre la saisie » fait l'inverse
-  vstToEd(){const V=store.vst,r=vstRec();if(!V||!r||V.mode==='val')return;const pos=VID.pb?VID.pb.pos:null;vstEnd();const m=vcMatchFor(r),vp=m&&m.vpend?clone(m.vpend):null;if(!vstStart(r,'val'))return;store.vst.back={vp};vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Édition des stats : « Reprendre la saisie » dans le menu ramène à la suite'),'ok');},
-  vstToRes(){const V=store.vst,r=vstRec();if(!V||!r||!V.back)return;const vp=V.back.vp,pos=VID.pb?VID.pb.pos:null;vstEnd();const m=vcMatchFor(r);if(m&&vp)m.vpend=vp;if(!vstStart(r,'res'))return;vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Saisie reprise, vidéo au même instant'),'ok');},
-  vidImport(d){ui.sheet=null;render();vidImport(d&&d.src);return 1;},
+  vstToEd(){const V=store.vst,r=vstRec();if(!V||!r||V.mode==='val')return;const pos=VID.pb?VID.pb.pos:null;VID.vstSw=VID.vstRet||null;vstEnd();const m=vcMatchFor(r),vp=m&&m.vpend?clone(m.vpend):null;if(!vstStart(r,'val'))return;store.vst.back={vp};vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Édition des stats : « Reprendre la saisie » dans le menu ramène à la suite'),'ok');},
+  vstToRes(){const V=store.vst,r=vstRec();if(!V||!r)return;const vp=V.back?V.back.vp:null,pos=VID.pb?VID.pb.pos:null;VID.vstSw=VID.vstRet||null;vstEnd();const m=vcMatchFor(r);if(m&&vp)m.vpend=vp;if(!vstStart(r,'res'))return;vstKeepPos(pos); /* V204 : même instant de la vidéo */save();toast(tr('Saisie reprise, vidéo au même instant'),'ok');},
+  vidImport(d){ui.sheet=null;ui.vpAdd=null;render();vidImport(d&&d.src);return 1;},
+  // V207 : vidéos du match (plusieurs parties)
+  vpOpen(d){ui.vpId=d.id;ui.vpDelAsk=null;ui.sheet='vparts';},
+  vpAdd(d){const id=ui.vpId;ui.sheet=null;ui.vpAdd=id;render();Promise.resolve(vidImport(d&&d.src)).finally(()=>{if(CAP().VideoDelay&&CAP().VideoDelay.importVideo)ui.vpAdd=null;});return 1;},
+  vpMove(d){const r=(store.vids||[]).find(x=>x.id===ui.vpId);if(!r)return;const n=vpParts(r).length,i=+d.i,j=i+(+d.d);if(j<0||j>=n)return;const ord=[...Array(n).keys()];[ord[i],ord[j]]=[ord[j],ord[i]];ui.vpDelAsk=null;vpApply(r,ord);},
+  vpSort(){const r=(store.vids||[]).find(x=>x.id===ui.vpId);if(!r)return;ui.vpDelAsk=null;vpApply(r,vpSorted(r));toast(tr('Vidéos remises dans l’ordre des heures de tournage'),'ok');},
+  vpDel(d){const r=(store.vids||[]).find(x=>x.id===ui.vpId);if(!r)return;const i=+d.i,P=vpParts(r);if(P.length<2||!P[i])return;if(ui.vpDelAsk!==i){ui.vpDelAsk=i;return;}ui.vpDelAsk=null;
+    const p=P[i],gone=r.segs.slice(p.i0,p.i0+p.n),dir=r.dir||'';const used=new Set();(store.vids||[]).forEach(x=>{if(x!==r)vSegsOf(x).forEach(y=>used.add(y.u));});
+    r.segs.splice(p.i0,p.n);if(r.web&&VID.mem[r.id])VID.mem[r.id].splice(p.i0,p.n);if(r.segs[0])r.segs[0].part=1;
+    if(!r.web)vidDrop(gone.map(x=>({path:dir+x.u})).filter(x=>!used.has(x.path)));
+    vpApply(r,[...Array(vpParts(r).length).keys()]);toast(tr('Vidéo retirée du match'),'ok');},
   vidImpAsk(){ui.sheet='vidImp';}, // V196
   vidMore(d){ui.vidMore=d.id;ui.vidDelAsk=null;ui.sheet='vidMore';},
   vidMenu(){ui.vmenu=!ui.vmenu;},
@@ -5736,14 +5884,14 @@ const A={
   // Clips par joueur / action : fiche de choix, puis nouvelle entrée qui partage les tranches de l'enregistrement
   vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;if(!proFor(m)){ui.sheet='pro';return;}ui.vc={rid:d.rid,mid:d.mid,pids:d.pid?[d.pid]:present(m).filter(p=>!isExtra(p.id)).map(p=>p.id),kinds:['att'],signs:[]};ui.sheet='vclips';},
   vcPid(d){const q=ui.vc;if(!q)return;const m=vcMatch(q),P=m?present(m).filter(p=>!isExtra(p.id)).map(p=>p.id):[];if(!d.id){q.pids=P.every(id=>q.pids.includes(id))?[]:P.slice();return;}const i=q.pids.indexOf(d.id);if(i<0)q.pids.push(d.id);else q.pids.splice(i,1);},
-  vcKind(d){const q=ui.vc;if(!q)return;const i=q.kinds.indexOf(d.k);if(i<0)q.kinds.push(d.k);else q.kinds.splice(i,1);},
+  vcKind(d){const q=ui.vc;if(!q)return;if(!d.k){const K=VC_K.map(x=>x[0]);q.kinds=K.every(k=>q.kinds.includes(k))?[]:K;return;} /* V207 : Tout */const i=q.kinds.indexOf(d.k);if(i<0)q.kinds.push(d.k);else q.kinds.splice(i,1);},
   vcSign(d){const q=ui.vc;if(!q)return;const v=+d.v,i=q.signs.indexOf(v);if(i<0)q.signs.push(v);else q.signs.splice(i,1);},
   vcWhole(d){if(ui.vc)ui.vc.whole=d.v==='1';},
   vcGo(){const q=ui.vc,r=vcRec(q),m=vcMatch(q);if(!r||!m)return;const O=vcOffset(m,r),R=vcRangesQ(m,r,q,O);if(!R.length)return;const tot=vcTot(r);
-    const who=q.all||!q.pids.length?tr('Équipe'):q.pids.map(id=>dname(m,id)).join(', '),what=q.kinds.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])).join(', '):tr('Toutes les actions');
+    const who=q.all||!q.pids.length?tr('Équipe'):q.pids.map(id=>dname(m,id)).join(', '),what=q.kinds.length&&q.kinds.length<VC_K.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])).join(', '):tr('Toutes les actions');
     const e={id:'v'+Date.now().toString(36),mode:'match',clip:1,tmp:1,src:r.id,name:`${who} · ${what}`,t0:r.t0,dur:tot,size:r.size,q:r.q,fps:r.fps,segs:r.segs.map(x=>Object.assign({},x)),cuts:vcCuts(R,tot)};
     if(r.dir)e.dir=r.dir;if(r.ia!=null)e.ia=r.ia;if(r.web){e.web=1;VID.mem[e.id]=VID.mem[r.id];}
-    store.vids=[e].concat(store.vids||[]);save();ui.sheet=null;ui.vc=null;if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});},
+    const bk=uiSnap();store.vids=[e].concat(store.vids||[]);save();ui.sheet=null;ui.vc=null;if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});ui.pbBack=bk;},
   // Synchronisation des horloges : depuis la fiche des clips (retour à la fiche ensuite) ou depuis le lecteur
   vcSync(){const q=ui.vc;if(!q)return;ui.sheet=null;ui.vsync={rid:q.rid,mid:q.mid,back:true};if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:q.rid});if(VID.pb)VID.pb.play=false;},
   vsyncStart(){ui.vmenu=false;const r=vRec(),m=r&&vcMatchFor(r);if(!m)return 1;ui.vsync={rid:r.id,mid:m.id};VID.pb.play=false;},
@@ -5777,7 +5925,7 @@ const A={
     if(!R.length){toast(pts?tr('Aucun point à exporter'):'Rien à exporter : tout est jeté','warn');return 1;}ui.sheet=null;
     // bandeau : états du score sur la ligne de temps du fichier exporté, une image PNG par état (video-export.js)
     let overlay=null;const m=X.ov?vcMatchFor(r):null;
-    if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,pts?1:X.speed);
+    if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,big:pts,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,pts?1:X.speed);
       if(sp.length){const im=ovImages(sp,Object.assign({size:vxSize(X.preset,src)||src,team:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||'Nous',opp:m.opp||tr('Adversaire')},oo));overlay={images:im.images,spans:im.spans.map(s=>Object.assign({},s,im.pos[s.key]))};}}
     const plan=vxPlan(R,P,{preset:X.preset,speed:pts?1:X.speed,audio:X.audio&&!!r.aud,exact:pts||X.exact,overlay,src,size:r.size,fps:r.fps,r});if(pts)plan.name=plan.name.replace(/\.mp4$/,'_monte.mp4');
     try{const inf=await V.info();if(inf&&inf.free!=null&&inf.free<plan.est.size*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
@@ -5809,6 +5957,7 @@ const A={
   vfsPeek(){VID.vfsAt=Date.now();const s=document.getElementById('vStage');if(s)s.classList.add('vfsp');return 1;},
   vidPbX(){ui.vfull=false;VID.pv=null;const cr=VID.pb&&vRec();if(cr&&cr.tmp){ui.sheet='clipKeep';return;} // V188 : clip pas encore gardé → « Garder ce clip ? »
     VID.pb=null;ui.vsync=null;ui.vroi=null;vidClear();
+    if(ui.pbBack){const b=ui.pbBack;ui.pbBack=null;ui.vsBack=null;uiBack(b);return;} // V207 : retour à la fiche des clips joueur (sélection gardée)
     // venu des stats (saut vers la vidéo) : retour au résumé
     const b=ui.vsBack;if(b){ui.vsBack=null;tCoachOpen(b.ctab||'stats');ui.coachView=b.coachView;ui.fxSet=b.fxSet;ui.statView=b.statView;ui.lrnBack=null;setTimeout(()=>window.scrollTo(0,b.scroll||0),0);}},
   vlib(d){ui.vlib=d.v;},
@@ -6106,8 +6255,9 @@ document.addEventListener('input',e=>{
   const t=e.target,m=store.cur;if(!t.dataset)return;
   // curseurs des réglages vidéo (V183) : valeur affichée, aperçu du bandeau et montage du lecteur mis à jour sans rendu
   if(t.dataset.vs&&t.type==='range'){vsSet(t.dataset.vs,+t.value);const [g,k]=t.dataset.vs.split('.'),b=document.getElementById('vs-'+g+'-'+k);if(b)b.textContent=vsFmt(g,k,VS()[g][k]);ovPreview();if(ui.sheet==='vauto')vautoApply();return;}
+  if(t.dataset.archopp!==undefined){const a=store.arch.find(x=>x.id===t.dataset.archopp);if(a){a.opp=t.value;save();}return;} // V207 : nom de l'adversaire modifiable dans Saisons
   if(t.dataset.x!==undefined){m.extras[+t.dataset.x][t.dataset.f]=t.value;save();}
-  else if(t.dataset.f){m[t.dataset.f]=t.value;save();}
+  else if(t.dataset.f){m[t.dataset.f]=t.value;save();if(t.dataset.f==='opp'){const g=document.getElementById('cmpGo');if(g)g.classList.toggle('oppno',!t.value.trim());}} // V207 : bouton rouge tant que l'adversaire est vide
 });
 // Zoom bloqué : pincement à deux doigts (Safari ignore user-scalable=no) et zoom au clavier / à la molette
 ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
@@ -6136,6 +6286,7 @@ document.addEventListener('change',e=>{
   if(t.dataset&&t.dataset.pfsort!==undefined){store.prefs.pfSort=t.value;save();render();return;} // V196
   if(t.dataset&&t.dataset.scope2!==undefined){ui.fxSet=null;ui.coachView=t.value;if(ui.statView==='g'&&t.value!=='season')ui.statView='p';render();return;}
   if(t.dataset&&t.dataset.archseason!==undefined){const a=store.arch.find(x=>x.id===t.dataset.archseason);if(a){a.seasonId=t.value;delete a.order;save();toast('Match déplacé','ok');}render();return;}
+  if(t.dataset&&t.dataset.archopp!==undefined){render();return;}
   if(t.dataset&&t.dataset.matchsel!==undefined){ui.coachView=t.value;ui.fxSet=null;render();return;}
   if(t.dataset&&(t.dataset.x!==undefined||t.dataset.f))render();
 });

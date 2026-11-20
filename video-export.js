@@ -65,7 +65,11 @@ function ovStates(m,r,o){o=Object.assign({lag:2000,tm:30000,sub:8000},o||{});con
       push(at,Object.assign({set:cur.set,sets:S2,pts:P,rot:end?null:rotNow(idx),srv:end?null:serving,tm:false,end,sub:null},end?{sp:null,spn:null}:who(idx)));}
     else if(ev.t==='sub'&&cur&&!cur.end){const k=zones?zones.indexOf(ev.o):-1;if(k>0)zones[k]=ev.i; // le remplaçant prend la place (et le service éventuel) du sortant
       const base=Object.assign({},cur,{rot:rotNow(idx)},who(idx),{sub:null});
-      if(o.sub>0){push(at,Object.assign({},base,{sub:{o:ev.o,on:nameOf(ev.o),i:ev.i,in:nameOf(ev.i)}}));push(posOf(ev.at+off-o.lag+o.sub),base);}
+      const SB={o:ev.o,on:nameOf(ev.o),i:ev.i,in:nameOf(ev.i)};
+      // V207 : o.big : grandes étiquettes (sortant en rouge, entrant en vert) qui glissent depuis les bords au début de l'écran de changement (3 s centrées sur l'heure)
+      if(o.big){const c0=posOf(ev.at+off)-1500,end=o.sub>0?Math.max(posOf(ev.at+off-o.lag+o.sub),c0+3000):c0+3000;push(at,Object.assign({},base,{sub:o.sub>0?SB:null}));
+        for(let k=1;k<=5;k++)push(c0+(k-1)*90,Object.assign({},base,{sub:SB,ph:k/5,big:o.sub>0?1:2}));push(end,base);}
+      else if(o.sub>0){push(at,Object.assign({},base,{sub:SB}));push(posOf(ev.at+off-o.lag+o.sub),base);}
       else if(base.sp!==cur.sp)push(at,base);}
     else if(ev.t==='to'&&cur&&!cur.end){const back=Object.assign({},cur,{sub:null});push(at,Object.assign({},cur,{tm:true,sub:null}));
       // le bandeau « Temps mort » disparaît après o.tm ms si rien ne se passe avant
@@ -73,7 +77,14 @@ function ovStates(m,r,o){o=Object.assign({lag:2000,tm:30000,sub:8000},o||{});con
   });
   return out.filter(s=>s.to>s.from);}
 // Clé d'un état : même clé = même image du bandeau
-function ovKey(s){return `${s.set}|${s.sets.G}-${s.sets.A}|${s.pts.G}-${s.pts.A}|${s.rot||''}|${s.srv||''}|${s.tm?1:0}|${s.end?1:0}|${s.sp||''}|${s.sub?s.sub.i+'>'+s.sub.o:''}`;}
+function ovKey(s){return `${s.set}|${s.sets.G}-${s.sets.A}|${s.pts.G}-${s.pts.A}|${s.rot||''}|${s.srv||''}|${s.tm?1:0}|${s.end?1:0}|${s.sp||''}|${s.sub?s.sub.i+'>'+s.sub.o:''}${s.ph?'|ph'+s.ph+'|'+(s.big||''):''}`;}
+// V207 : écran de changement : deux grandes étiquettes en bas, au centre (« ↓ 9 INÈS » rouge, « ↑ 12 MANON » vert), glissées depuis les bords
+// (ph = avancement 0 → 1), sur une image de la taille de la vidéo. size = {w, h}.
+function ovSubBig(ctx,s,size,o){o=o||{};if(!s||!s.sub)return;const f=o.font||'Barlow Condensed, Arial Narrow, sans-serif',ph=Math.max(0,Math.min(1,s.ph||1)),e=1-Math.pow(1-ph,3),H=Math.round(size.h*.085),fs=Math.round(H*.62),pad=Math.round(H*.4),gap=Math.round(H*.5),R=Math.round(H*.22);
+  const up=v=>String(v||'').toUpperCase(),L=[{t:'↓ '+up(s.sub.on),c:'#C21F35'},{t:'↑ '+up(s.sub.in),c:'#1F7F40'}];ctx.save();ctx.font=`700 ${fs}px ${f}`;ctx.textBaseline='middle';
+  const W=L.map(x=>Math.round(ctx.measureText(x.t).width+2*pad)),tot=W[0]+gap+W[1],y=Math.round(size.h*.80-H/2),x0=Math.round((size.w-tot)/2),dx=Math.round((1-e)*size.w*.35);ctx.globalAlpha=Math.max(.15,e);
+  L.forEach((x,i)=>{const X=i?x0+W[0]+gap+dx:x0-dx,w=W[i];ctx.fillStyle=x.c;ctx.beginPath();ctx.moveTo(X+R,y);ctx.arcTo(X+w,y,X+w,y+H,R);ctx.arcTo(X+w,y+H,X,y+H,R);ctx.arcTo(X,y+H,X,y,R);ctx.arcTo(X,y,X+w,y,R);ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.fillText(x.t,X+pad,y+H/2);});
+  ctx.restore();}
 // États → intervalles sur la ligne de temps du fichier exporté (plages gardées R mises bout à bout, vitesse appliquée) :
 // [{from, to, key, st}] en ms du fichier, états voisins identiques fusionnés. Les instants sans état (avant le premier set) n'ont pas de bandeau.
 function ovOnOutput(states,R,speed){const sp=speed||1,out=[];let o=0;R.forEach(([a,b])=>{states.forEach(s=>{const f=Math.max(s.from,a),t=Math.min(s.to,b);if(t<=f)return;
@@ -114,7 +125,13 @@ function ovPlace(dim,size,corner){const m=Math.round(size.h*OV_MARGIN),c=corner|
 // (position par image : les coins droits et bas dépendent de la largeur du bandeau). Navigateur seulement (canvas).
 // Un bandeau plus large que l'image (vidéo portrait, noms longs) est redessiné plus petit pour tenir entre les marges.
 function ovImages(spans,o){o=o||{};const size=o.size||{w:1280,h:720},H=Math.round(size.h*(OV_SIZE[o.scale]||OV_SIZE.m)),images={},dims={},pos={},maxW=size.w-2*Math.round(size.h*OV_MARGIN);
-  spans.forEach(sp=>{if(images[sp.key])return;const cv=document.createElement('canvas');cv.width=Math.max(size.w,Math.round(size.h*2));cv.height=H;const ctx=cv.getContext('2d');
+  spans.forEach(sp=>{if(images[sp.key])return;
+    // V207 : écran de changement : image de la taille de la vidéo (bandeau dans son coin + grandes étiquettes), posée en 0,0
+    if(sp.st.ph&&sp.st.sub){const cv=document.createElement('canvas');cv.width=size.w;cv.height=size.h;const ctx=cv.getContext('2d'),tmp=document.createElement('canvas');tmp.width=Math.max(size.w,Math.round(size.h*2));tmp.height=H;
+      const op={x:0,y:0,h:H,team:o.team,opp:o.opp,names:o.names,rot:o.rot,srv:o.srv,server:o.server,subs:o.subs,opacity:o.opacity},st0=sp.st.big===2?Object.assign({},sp.st,{sub:null}):sp.st;let d=ovDraw(tmp.getContext('2d'),st0,op);
+      if(d.w>maxW){tmp.getContext('2d').clearRect(0,0,tmp.width,tmp.height);op.h=Math.max(12,Math.floor(H*maxW/d.w));d=ovDraw(tmp.getContext('2d'),st0,op);}
+      const p=ovPlace(d,size,o.corner);ctx.drawImage(tmp,0,0,d.w,d.h,p.x,p.y,d.w,d.h);ovSubBig(ctx,sp.st,size);images[sp.key]=cv.toDataURL('image/png');dims[sp.key]={w:size.w,h:size.h};pos[sp.key]={x:0,y:0};return;}
+    const cv=document.createElement('canvas');cv.width=Math.max(size.w,Math.round(size.h*2));cv.height=H;const ctx=cv.getContext('2d');
     const op={x:0,y:0,h:H,team:o.team,opp:o.opp,names:o.names,rot:o.rot,srv:o.srv,server:o.server,subs:o.subs,opacity:o.opacity};let d=ovDraw(ctx,sp.st,op);
     if(d.w>maxW){ctx.clearRect(0,0,cv.width,cv.height);op.h=Math.max(12,Math.floor(H*maxW/d.w));d=ovDraw(ctx,sp.st,op);}
     const c2=document.createElement('canvas');c2.width=d.w;c2.height=d.h;c2.getContext('2d').drawImage(cv,0,0,d.w,d.h,0,0,d.w,d.h);images[sp.key]=c2.toDataURL('image/png');dims[sp.key]=d;pos[sp.key]=ovPlace(d,size,o.corner);});
@@ -192,6 +209,9 @@ function vstRanges(m,r,o){o=Object.assign({off:(r&&r.off)||0,srv:1500,rec:2500,a
   if(m&&m.free){((m.ev)||[]).forEach(ev=>{if(ev.t!=='pt')return;(ev.st||[]).forEach(x=>{if(!Number.isFinite(x[5]))return;const p=_VC.vcPosOf(r,x[5]+o.off),a=Math.max(0,p-o.trB),b=Math.min(tot,p+o.trA);if(Number.isFinite(a)&&Number.isFinite(b)&&b-a>=200)out.push([Math.round(a),Math.round(b)]);});});return out.sort((p,q)=>p[0]-q[0]);}
   ((m&&m.ev)||[]).forEach(ev=>{if(ev.t!=='pt'||!Number.isFinite(ev.at))return;const f=vstFirst(ev),before=f.kind==null?o.noStat:f.kind==='srv'||f.kind==='start'?o.srv:o.rec;
     const a=Math.max(0,_VC.vcPosOf(r,f.t+o.off)-before),b=Math.min(tot,_VC.vcPosOf(r,ev.at+o.off)+o.after);if(Number.isFinite(a)&&Number.isFinite(b)&&b-a>=200)out.push([Math.round(a),Math.round(b)]);});
+  // V207 : match monté : écrans de changement (o.subs ms, centrés sur l'heure du changement) et de temps mort (o.tos ms)
+  if(o.subs>0||o.tos>0)((m&&m.ev)||[]).forEach(ev=>{const d=ev.t==='sub'?o.subs:ev.t==='to'?o.tos:0;if(!(d>0)||!Number.isFinite(ev.at))return;const c=_VC.vcPosOf(r,ev.at+o.off);if(!Number.isFinite(c))return;
+    const a=Math.max(0,c-d/2),b=Math.min(tot,c+d/2);if(b-a>=200)out.push([Math.round(a),Math.round(b)]);});
   return out.sort((p,q)=>p[0]-q[0]);}
 // Recalage : décale de delta ms l'heure des évènements à partir de l'index i (points, actions, changements, temps morts…) → nombre d'évènements touchés
 function vstShift(m,i,delta){let n=0;((m&&m.ev)||[]).forEach((e,k)=>{if(k<i||!delta)return;if(Number.isFinite(e.at)){e.at+=delta;n++;}if(Number.isFinite(e.t0))e.t0+=delta;(e.st||[]).forEach(x=>{if(Number.isFinite(x[5]))x[5]+=delta;});});return n;}
@@ -216,6 +236,6 @@ function vmRanges(m,r,acts,o){o=o||{};if(!r||!_VC.vcPosOf)return [];const tot=_V
     const p=_VC.vcPosOf(r,a.t+off);if(p==null)return;const x=Math.max(0,p-bf),y=Math.min(tot,p+af);if(y-x>=200)out.push([Math.round(x),Math.round(y)]);});
   out.sort((p,q)=>p[0]-q[0]);const M=[];out.forEach(c=>{const z=M[M.length-1];if(z&&c[0]<=z[1])z[1]=Math.max(z[1],c[1]);else M.push(c.slice());});return M;}
 
-if(typeof module!=='undefined')module.exports={VX_PRESETS,VX_SPEEDS,VX_AUDIO_KBPS,VX_SETTINGS,OV_SIZE,OV_MARGIN,vxPieces,vxSize,vxMerge,vxTmap,vxEstimate,vxSpeedLab,vxName,vxPlan,vxSettings,vxAutoOpts,vxOvOpts,dtAdjust,
+if(typeof module!=='undefined')module.exports={ovSubBig,VX_PRESETS,VX_SPEEDS,VX_AUDIO_KBPS,VX_SETTINGS,OV_SIZE,OV_MARGIN,vxPieces,vxSize,vxMerge,vxTmap,vxEstimate,vxSpeedLab,vxName,vxPlan,vxSettings,vxAutoOpts,vxOvOpts,dtAdjust,
   ovStates,ovKey,ovOnOutput,ovAbbr,ovDraw,ovPlace,ovImages,ovAvailable,mgSpan:_mgSpan,vcLinkCandidates,vcLinkPick,vcRecsFor,vsJump,vsPointTime,
   vstAnchor,vstFirst,vstRanges,vstShift,vstNextPt,vstPrevPt,vxSendName,vxImportT0,vmRanges};
