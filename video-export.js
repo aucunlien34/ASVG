@@ -54,7 +54,10 @@ function ovStates(m,r,o){o=Object.assign({lag:2000,tm:30000,sub:8000},o||{});con
   const who=idx=>{const sp=srvNow(idx);return {sp,spn:nameOf(sp)};};
   // nouvel état à l'heure at : l'état en cours s'arrête là, un état programmé plus tard (fin de « Temps mort » ou de « Changement ») est annulé
   const push=(from,st)=>{while(out.length&&out[out.length-1].from>=from)out.pop();if(out.length){const L=out[out.length-1];L.to=Math.min(L.to,from);}cur=Object.assign({},st,{from,to:Infinity});out.push(cur);};
-  EV.forEach((ev,idx)=>{if(ev.at==null)return;const at=posOf(ev.at+off-o.lag);
+  // V209 : un point change le score à son heure (pas d’avance), jamais avant la dernière stat de l’échange + 1 s
+  const ptT=ev=>{let t=ev.at;(Array.isArray(ev.st)?ev.st:[]).forEach(x=>{if(Array.isArray(x)&&Number.isFinite(x[5]))t=Math.max(t,x[5]+1000);});return t;};
+  let fl=-Infinity; // jamais avant le dernier point ou début de set affiché (sinon il serait retiré)
+  EV.forEach((ev,idx)=>{if(ev.at==null)return;const at=Math.max(fl,posOf((ev.t==="pt"?ptT(ev):ev.at-o.lag)+off));if(ev.t==="pt"||ev.t==="set")fl=at;
     if(ev.t==='set'){if(cur&&!cur.end&&cur.set!=null)return;si++;zones=[null].concat(ev.z||[]);serving=ev.s||'G';
       push(at,Object.assign({set:si+1,sets:{G:sets.G,A:sets.A},pts:{G:0,A:0},rot:rotNow(idx),srv:serving,tm:false,end:false,sub:null},who(idx)));}
     else if(ev.t==='role'){roles=Object.assign({},roles);roles[ev.p]=ev.r;}
@@ -67,11 +70,11 @@ function ovStates(m,r,o){o=Object.assign({lag:2000,tm:30000,sub:8000},o||{});con
       const base=Object.assign({},cur,{rot:rotNow(idx)},who(idx),{sub:null});
       const SB={o:ev.o,on:nameOf(ev.o),i:ev.i,in:nameOf(ev.i)};
       // V207 : o.big : grandes étiquettes (sortant en rouge, entrant en vert) qui glissent depuis les bords au début de l'écran de changement (3 s centrées sur l'heure)
-      if(o.big){const c0=posOf(ev.at+off)-1500,end=o.sub>0?Math.max(posOf(ev.at+off-o.lag+o.sub),c0+3000):c0+3000;push(at,Object.assign({},base,{sub:o.sub>0?SB:null}));
+      if(o.big){const c0=Math.max(posOf(ev.at+off)-1500,fl),end=o.sub>0?Math.max(posOf(ev.at+off-o.lag+o.sub),c0+3000):c0+3000;push(at,Object.assign({},base,{sub:o.sub>0?SB:null}));
         for(let k=1;k<=5;k++)push(c0+(k-1)*90,Object.assign({},base,{sub:SB,ph:k/5,big:o.sub>0?1:2}));push(end,base);}
       else if(o.sub>0){push(at,Object.assign({},base,{sub:SB}));push(posOf(ev.at+off-o.lag+o.sub),base);}
       else if(base.sp!==cur.sp)push(at,base);}
-    else if(ev.t==='to'&&cur&&!cur.end){const base=Object.assign({},cur,{sub:null,tmB:null}),c0=posOf(ev.at+off)-1500;
+    else if(ev.t==='to'&&cur&&!cur.end){const base=Object.assign({},cur,{sub:null,tmB:null}),c0=Math.max(posOf(ev.at+off)-1500,fl);
       // V209 : tous les exports : « Temps mort : équipe » en grand en bas au centre, 3 s centrées sur l'heure (vert pour nous, rouge pour l'adversaire), bandeau normal
       for(let k=1;k<=5;k++)push(c0+(k-1)*90,Object.assign({},base,{tmB:{s:ev.s==='A'?'A':'G'},ph:k/5,big:2}));push(c0+3000,base);}
     else if(ev.t==='to'&&cur&&!cur.end){const back=Object.assign({},cur,{sub:null});push(at,Object.assign({},cur,{tm:true,sub:null}));
