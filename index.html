@@ -969,6 +969,14 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .est{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-style:normal;font-size:12px;font-weight:800;flex:none}.est.ok{background:#23924A;color:#fff}.est.no{border:1.5px solid #7d8aa0;color:#7d8aa0}.est.v{border:1.5px dashed #7d8aa0;color:transparent}.est.wn{background:#d98a00;color:#fff}
 .ehw{padding:4px 10px 4px 26px;font-size:12px;color:#ffcf70}.ehe{padding:16px 10px;color:#9fb0c9}
 /* V201 : vitesses repliées partout (« ×1 ▾ ») : un tap déplie sur le côté, un tap choisit, un tap à côté referme */.vstspd .spdcur{display:block;font-weight:800}.vstspd:not(.open) .spdo{display:none}.vstage .vstspd.open{flex-direction:row-reverse}.vstspd.open .spdcur{border-left:1px solid rgba(255,255,255,.3)}@media (max-width:599px),(max-height:599px){.vstage.ed .vstspd{top:calc(52px + env(safe-area-inset-top,0px));transform:none}}
+/* V210 : historique replié le long du bord droit (paysage) : colonne étroite, abréviations, sans timecode ; bouton « Replier › » / « ‹ » à côté du titre */
+.edhist .sh{display:none}.ehh .ehnar{min-height:30px;padding:0 10px;font:700 13px Barlow,sans-serif;background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+@media (orientation:portrait){.ehh .ehnar{display:none}}
+@media (orientation:landscape){.vstage.ed.eho.nar{right:calc(92px + env(safe-area-inset-right,0px))}.vstage.ed.nar~.edhist.nar{width:calc(92px + env(safe-area-inset-right,0px))}
+  .edhist.nar .ehh{padding:6px 4px;justify-content:center}.edhist.nar .ehh b,.edhist.nar .ehsc,.edhist.nar .edhx,.edhist.nar .seg{display:none}.edhist.nar .ehnar{flex:1;font-size:22px;line-height:1;padding:0}
+  .edhist.nar .lg,.edhist.nar .tm,.edhist.nar .ehp span,.edhist.nar .ehp em,.edhist.nar .ehadd,.edhist.nar .ehw{display:none}.edhist.nar .sh{display:inline;font:700 14px 'Barlow Condensed',sans-serif;white-space:nowrap}
+  .edhist.nar .ehr{padding:6px 6px 6px 10px;min-height:34px}.edhist.nar .ehp{padding:6px;gap:4px;min-height:34px}.edhist.nar .ehp b{min-width:0;font-size:15px}.edhist.nar .ehs{font-size:11px;padding:4px 6px}}
+@media (orientation:landscape) and (min-width:900px) and (min-height:600px){.vstage.ed.nar{right:calc(92px + env(safe-area-inset-right,0px))}}
 .vstage.ed.mo{right:0!important;bottom:0!important}.vstage.ed.mo~.edhist{display:none!important} /* menu ouvert : plein écran, historique masqué */
 .vstage.vst .vstmenu{min-width:min(92vw,440px);padding:8px;gap:6px}.vstage.vst .vstmi{min-height:54px;font-size:17px;padding:12px 16px}.vstmi small{display:block;font-size:12.5px;font-weight:500;margin-top:2px}.vstmi.on{background:#F2BE22;color:#14243D}.vstmi.on small{opacity:.85}
 @media (orientation:landscape) and (max-height:500px){.vstage.vst .vstmenu{min-width:min(88vw,640px)}.vstage.vst .vstmi{min-height:48px;font-size:16px}}
@@ -1033,7 +1041,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V210';
+const APP_VERSION='V211';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -2697,7 +2705,10 @@ function vcLinkInfo(r){if(!r||r.mode!=='match')return {m:null,auto:true,sure:tru
 function vcMatchFor(r){return vcLinkInfo(r).m;}
 // V193 : match monté : chaque point de son début (« Début du point » ou première action) − ptB à sa fin + ptA, plages fusionnées ; point sans action : 6 s avant sa fin
 // V199 : match monté d'une sélection de points (ui.vexp.pick = index des points retenus dans m.ev ; null = tous)
-function vmontPick(m,r,pick){if(!pick)return vmontRanges(m,r);const P=new Set(pick);return vmontRanges(Object.assign({},m,{ev:m.ev.filter((e,i)=>e.t!=='pt'||P.has(i))}),r);}
+// V210 : changements et temps morts gardés seulement s'ils touchent un point retenu (point juste avant ou juste après, dans le même set)
+function vmontPick(m,r,pick){if(!pick)return vmontRanges(m,r);const P=new Set(pick),E=m.ev;
+  const near=i=>{for(let k=i-1;k>=0;k--){if(E[k].t==='set')break;if(E[k].t==='pt'){if(P.has(k))return true;break;}}for(let k=i+1;k<E.length;k++){if(E[k].t==='set')break;if(E[k].t==='pt')return P.has(k);}return false;};
+  return vmontRanges(Object.assign({},m,{ev:E.filter((e,i)=>e.t==='pt'?P.has(i):e.t==='sub'||e.t==='to'?near(i):true)}),r);}
 // points du match par set (pour la sélection) : [{set, pts:[{ei, sc, w}]}]
 function vmontSets(m){const out=[];let cur=null,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){cur={set:out.length,pts:[]};out.push(cur);g=a=0;return;}if(e.t==='pt'&&cur){if(e.w==='G')g++;else if(e.w==='A')a++;cur.pts.push({ei:i,sc:g+'-'+a,w:e.w});}});return out.filter(s=>s.pts.length);}
 function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000,trB:S.trB*1000,trA:S.trA*1000,subs:3000,tos:3000}));} // V207 : écrans de changement (3 s) et de temps mort (3 s, V209)
@@ -2864,9 +2875,10 @@ function edMarks(m){const key=m.ev.length+'|'+(VID.edV||0);if(ED_C&&ED_C.m===m&&
     if(e.t==='pt'){np++;const ca=e.ca||{};
       // V205 : début du point : heure notée, sinon déduit de la première stat datée (2 s avant, comme en saisie sur film) ; point sans stat : pas de début inventé
       if(!m.free){const f0=(e.st||[]).find(x=>ok(x[5]));if(ok(e.t0)||f0)L.push({k:'t0',ei,key:ei+':t0',pn:np,t:ok(e.t0)?e.t0:f0[5]-2000,virt:!ok(e.t0),ca:!!ca.t0,lab:tr('Début du point'),c:'⚑'});}
-      (e.st||[]).forEach((x,j)=>L.push({k:'st',ei,j,key:ei+':s'+j,pn:np,t:ok(x[5])?x[5]:null,ca:x[7]===1,lab:stLab(x[0],x[1],x[3]),who:who(x),c:ED_LET[x[0]]||'•'}));
-      if(!m.free)L.push({k:'at',ei,key:ei+':at',pn:np,t:ok(e.at)?e.at:null,ca:!!ca.at,w:e.w,lab:!e.w?tr('Fin du point'):tr('Point')+' '+(e.w==='G'?T:opp),c:'●'});}
-    else if(e.t==='sub'||e.t==='to')L.push({k:e.t,ei,key:ei+':'+e.t,pn:np,t:ok(e.at)?e.at:null,ca:e.ca===1,lab:e.t==='sub'?'🔁 '+tr('Changement'):'⏱ '+tr('Temps mort'),who:e.t==='sub'?pnum(m,e.i)+' ⇄ '+pnum(m,e.o):(e.s==='G'?T:opp),c:e.t==='sub'?'⇄':'T'});});
+      // V210 : sh = libellé abrégé de l'historique replié (lettre de l'action, note, numéro du joueur)
+      (e.st||[]).forEach((x,j)=>L.push({k:'st',ei,j,key:ei+':s'+j,pn:np,t:ok(x[5])?x[5]:null,ca:x[7]===1,lab:stLab(x[0],x[1],x[3]),who:who(x),c:ED_LET[x[0]]||'•',sh:(ED_LET[x[0]]||'•')+(x[1]===1?'+':x[1]===-1?'−':x[1]===0?'=':'')+(x[2]?' '+pnum(m,x[2]):'')}));
+      if(!m.free)L.push({k:'at',ei,key:ei+':at',pn:np,t:ok(e.at)?e.at:null,ca:!!ca.at,w:e.w,lab:!e.w?tr('Fin du point'):tr('Point')+' '+(e.w==='G'?T:opp),c:'●',sh:'● '+(e.w==='G'?tr('Pt'):e.w==='A'?tr('Adv'):tr('Fin'))});}
+    else if(e.t==='sub'||e.t==='to')L.push({k:e.t,ei,key:ei+':'+e.t,pn:np,t:ok(e.at)?e.at:null,ca:e.ca===1,lab:e.t==='sub'?'🔁 '+tr('Changement'):'⏱ '+tr('Temps mort'),who:e.t==='sub'?pnum(m,e.i)+' ⇄ '+pnum(m,e.o):(e.s==='G'?T:opp),c:e.t==='sub'?'⇄':'T',sh:e.t==='sub'?pnum(m,e.i)+'⇄'+pnum(m,e.o):tr('TM')});});
   L.forEach((x,i)=>x.i=i);ED_C={m,key,L};return L;}
 // V207 : points du match pour la navigation par le score : score de l'équipe et de l'adversaire après chaque point
 function edPts(m){const L=[];let si=-1,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){si++;g=a=0;return;}if(e.t!=='pt')return;if(e.w==='G')g++;else if(e.w==='A')a++;L.push({ei:i,si:Math.max(0,si),g,a,w:e.w});});return L;}
@@ -2933,7 +2945,7 @@ function edCardHTML(m,r,P,k){const L=edMarks(m),B=VID.edBack;const bk=''; /* V20
   const t=edImgT(r,P),{a,b}=edBounds(L,k.i),out=(a&&t<a.t)||(b&&t>b.t),unk=!edKnown(k),g=unk?null:t-k.t;
   const gap=out?tr('hors limites'):unk&&edIgn()?tr('à caler sur l’image'):g==null?tr('pas encore d’heure'):Math.abs(g)<50?tr('sur l’image'):tr('image {S}').replace('{S}',(g<0?'−':'+')+fmtS(Math.abs(g)));
   const q=edKA(m,k),kq=q?`<div class="edkq"><span>${q.f==='ace'?tr('Ace ?'):tr('Kill ?')} <small>${esc(pnum(m,q.who)+' '+dname(m,q.who))}</small></span><button class="${q.v===1?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="1">${tr('Oui')}</button><button class="${q.v===0?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="0">${tr('Non')}</button></div>`:'';
-  return `${bk}<div class="edcw"><button class="edcard" data-act="edGo" data-k="${k.key}"><small>${esc(ctx)}</small><b>${esc(k.lab)}${k.who?' · '+esc(k.who):''}</b><small>${!unk?edPosLab(r,k.t)+' · ':''}<span class="${out?'bad':g!=null&&Math.abs(g)>200?'gap':''}">${esc(gap)}</span></small></button>${kq}${edChips(m,k)}</div>`;}
+  return `${bk}<div class="edcw"><button class="edcard" data-act="edGo" data-k="${k.key}"><small>${esc(ctx)}</small><b>${esc(k.lab)}${k.who?' · '+esc(k.who):''}</b><small>${!unk?edPosLab(r,k.t)+' · ':''}<span class="${out?'bad':g!=null&&Math.abs(g)>200?'gap':''}">${esc(gap)}</span></small></button>${kq}</div>`;} // V210 : plus de pastilles des stats du point sous la carte (doublon de la barre du point et de l'historique)
 // V205 : édition : point gagné après un service + / = seul (ace) ou une attaque + / un renvoi en dernière action (kill) : question proposée sur la fin du point
 // V205 : relais / renvoi : note proposée s'il était coté, ou si sa cotation est activée dans les réglages
 function seQ(se){return (se.orig&&se.orig[0]===se.k&&se.orig[3]==='q')||!!store.prefs[se.k==='rel'?'relQ':'rlyQ'];}
@@ -2953,7 +2965,7 @@ function edNowK(m,r,P){if(!m||!r||!P)return null;const L=edMarks(m),t=edImgT(r,P
 function edHistIn(m,r,k,nk){const L=edMarks(m),W={} /* V201 : plus de contrôles « À vérifier » (inutiles : on ne note que notre côté, ballons rapides ou lents, touches quasi simultanées) */,f='all',T=short(m),opp=m.opp||tr('Adversaire'),byP={};
   L.forEach(x=>{if(x.k!=='sub'&&x.k!=='to')(byP[x.pn]||(byP[x.pn]=[])).push(x);});
   const curP=k?(k.k==='sub'||k.k==='to'?-1:k.pn):-1,nowP=nk&&nk.k!=='sub'&&nk.k!=='to'?nk.pn:-1;
-  const row=x=>`<button class="ehr ${k&&x.key===k.key?'act':''} ${nk&&x.key===nk.key?'now':''}" data-act="edGo" data-k="${x.key}" data-h="1"${edKnown(x)?` data-t="${x.t}"`:''}><span>${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;
+  const row=x=>`<button class="ehr ${k&&x.key===k.key?'act':''} ${nk&&x.key===nk.key?'now':''}" data-act="edGo" data-k="${x.key}" data-h="1"${edKnown(x)?` data-t="${x.t}"`:''}><span class="lg">${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span><span class="sh">${esc(x.sh||x.c||'')}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;
   let out='',set=0,g=0,a=0,sg=0,sa=0,np=0;
   m.ev.forEach((e,ei)=>{
     if(e.t==='set'){if(set){if(g>a)sg++;else if(a>g)sa++;}set++;g=a=0;if((f==='all'||curP>0)&&!m.free)out+=`<div class="ehs">${tr('Set {N}').replace('{N}',set)}${m.free?'':' · '+sg+'-'+sa}</div>`;return;}
@@ -2967,7 +2979,8 @@ function edHistIn(m,r,k,nk){const L=edMarks(m),W={} /* V201 : plus de contrôles
   return out||`<p class="ehe">${tr('Rien à afficher avec ce filtre.')}</p>`;}
 /* V201 : plus de notion « non calée » à l'écran (filtre Tout / Non calés et pastilles retirés) : l'historique prend la place */
 function edHistHTML(m,r,k){
-  return `<div class="edhist" id="edHist"><div class="ehh"><b>${tr('Historique')}</b><span class="ehsc" id="edSc">${edScLine(m,vstState(m))}</span><button class="btn edhx" data-act="edHist" aria-label="${esc(ui.edHist?tr('Fermer'):tr('Ouvrir'))}"><span class="edxl">✕</span><span class="edxp">${ui.edHist?'▼':'▲'}</span></button></div><div class="ehl" id="edHL">${edHistIn(m,r,k,edNowK(m,r,vstPb()))}</div></div>`;}
+  const nar=!!store.prefs.edNar;
+  return `<div class="edhist ${nar?'nar':''}" id="edHist"><div class="ehh"><b>${tr('Historique')}</b><button class="btn ehnar" data-act="edNar" aria-label="${esc(nar?tr('Déplier l’historique'):tr('Replier l’historique'))}">${nar?'‹':tr('Replier')+' ›'}</button><span class="ehsc" id="edSc">${edScLine(m,vstState(m))}</span><button class="btn edhx" data-act="edHist" aria-label="${esc(ui.edHist?tr('Fermer'):tr('Ouvrir'))}"><span class="edxl">✕</span><span class="edxp">${ui.edHist?'▼':'▲'}</span></button></div><div class="ehl" id="edHL">${edHistIn(m,r,k,edNowK(m,r,vstPb()))}</div></div>`;}
 // score et position à l'instant de la vidéo, en une ligne (en-tête de l'historique : sur téléphone, plus de score sur l'image, demande du 11/11/2026)
 function edScLine(m,S){const V=store.vst,si=S.sets.length-1,set=S.sets[si],play=S.phase==='play',T=short(m);if(m.free)return tr('Point {N}').replace('{N}',(V&&V.i>=0?m.ev.slice(0,V.i).filter(e=>e.t==='pt').length:m.ev.filter(e=>e.t==='pt').length)+1);
   const rot=play?vstRot(S):null;return `S${si+1} · ${set?set.g:0}-${set?set.a:0}${play?' · '+(rot?'P'+rot+' ':'')+(S.serving==='G'?tr('service'):tr('réception')):''}`;}
@@ -3077,7 +3090,7 @@ function vstHTML(m,S){const V=store.vst,r=vstRec(),P=r&&vstPb();if(!r||!P){setTi
   const vl=FRm&&!tab&&play&&!ed?`<b class="vstvl">${tr('Noter une action')}</b>`:'';
   // V194 : plus de « Masquer » (le tableau ne s'ouvre que sur double tap)
   const hd=vl?`<div class="vsthd">${vl}</div>`:'',dkOn=!vstDkShut()&&!P.play;
-  return `<div class="vstage pb vst ${ui.vfull?'vfs':''} ${val?'val':''} ${ed?'ed':''} ${ed&&ui.edHist?'eho':''} ${ed&&ui.vstMenu?'mo':''} ${dkOn?'dk':''}" id="vStage"><div class="vsttap" data-act="vstTap"></div>
+  return `<div class="vstage pb vst ${ui.vfull?'vfs':''} ${val?'val':''} ${ed?'ed':''} ${ed&&ui.edHist?'eho':''} ${ed&&store.prefs.edNar?'nar':''} ${ed&&ui.vstMenu?'mo':''} ${dkOn?'dk':''}" id="vStage"><div class="vsttap" data-act="vstTap"></div>
     ${VID.pv?`<div class="vsyncbar vpvbar"><span>▶ ${tr('Aperçu du match monté')} · <b id="vPvT">0:00</b></span><button class="btn primary" data-act="vexpPrevGo">⇩ ${tr('Exporter')}</button><button class="btn" data-act="vexpPrevX" aria-label="${esc(tr('Fin de l’aperçu'))}">✕</button></div>`:''}
     <div class="vsttop"><div class="vsttl ${FRm?'fr':''}">${vstTlIn(m,Sx)}</div><div class="vstmid" id="vstMid">${chip}</div><div class="vsttr">${topR}${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}${menuBtn}</div></div>
     ${spd}
@@ -3312,12 +3325,13 @@ function vintroHTML(I){const n=I.who.length,only=n>8&&I.who.every(p=>p.n!=null&&
 // recouvre une plage d'image « de remplissage » prise juste avant la plage gardée qu'il précède (pos = position dans l'enregistrement, -Infinity = début)
 function vxCardList(m,r,X,pts){if(r.intro&&!pts)return X.intro?[{pos:-Infinity,dur:VI_MS,key:'intro',draw:sz=>vintroImg(r.intro,sz)}]:[];
   if(!m||!X.cards)return [];const C=[{pos:-Infinity,dur:VI_MS,key:'mcard',draw:sz=>vmatchImg(m,sz)}];if(m.free||!ovAvailable(m,r,vcOffset(m,r)).ok)return C;
-  const off=vcOffset(m,r).off,sets=[];let pt=true;
-  (m.ev||[]).forEach(ev=>{if(ev.t==='pt'){pt=true;return;}if(ev.t!=='set')return;const x={z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,at:ev.at};if(!pt&&sets.length)sets[sets.length-1]=x;else sets.push(x);pt=false;});
-  sets.forEach((x,k)=>{if(!Number.isFinite(x.at)||!setLineup(m,x))return;const p=vcPosOf(r,x.at+off);if(p==null)return;C.push({pos:p,dur:is4(m)?4000:6000,key:'set'+k,draw:sz=>vsetImg(m,x,k,sz)});});
+  const off=vcOffset(m,r).off,sets=[],SA=replay(m).srvAt||{};let pt=true;
+  (m.ev||[]).forEach((ev,i)=>{if(ev.t==='pt'){pt=true;if(sets.length&&Number.isFinite(ev.at))sets[sets.length-1].pts.push(ev.at);return;}if(ev.t!=='set')return;const x=Object.assign({z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,at:ev.at,pts:[]},setSrvOf(m,i,SA));if(!pt&&sets.length)sets[sets.length-1]=x;else sets.push(x);pt=false;});
+  // V210 : un écran de set seulement si au moins un point du set est dans le montage (périmètre « set 3 » : rien sur les autres sets)
+  sets.forEach((x,k)=>{if(!Number.isFinite(x.at)||!setLineup(m,x))return;const p=vcPosOf(r,x.at+off);if(p==null)return;C.push({pos:p,dur:is4(m)?4000:6000,key:'set'+k,need:x.pts.map(t=>vcPosOf(r,t+off)).filter(q=>q!=null),draw:sz=>vsetImg(m,x,k,sz)});});
   return C;}
 // → {R (plages avec les remplissages), wins [{from, to, key, card}] (ms du fichier exporté), tmap (table de temps du fichier, remplissages hors de toute stat)}
-function vxCardsApply(r,R,cards,tot,sp){sp=sp||1;const at={};cards.forEach(c=>{const i=c.pos===-Infinity?0:R.findIndex(([a,b])=>b>c.pos);if(i<0||!R.length)return;(at[i]=at[i]||[]).push(c);});
+function vxCardsApply(r,R,cards,tot,sp){sp=sp||1;const at={};cards.forEach(c=>{if(c.need&&!c.need.some(q=>R.some(([a,b])=>q>=a&&q<=b)))return;const i=c.pos===-Infinity?0:R.findIndex(([a,b])=>b>c.pos);if(i<0||!R.length)return;(at[i]=at[i]||[]).push(c);});
   const out=[],wins=[],tmap=[];let o=0;
   R.forEach(([a,b],i)=>{(at[i]||[]).forEach(c=>{const L=Math.min(tot,Math.round(c.dur*sp)),f=a>=L?a-L:0,g=Math.min(tot,f+L);out.push([f,g]);wins.push({from:Math.round(o),to:Math.round(o+(g-f)/sp),key:c.key,card:c});o+=(g-f)/sp;
       const t=vcTimeAt(r,a);tmap.push({t:Math.round((t==null?0:t)-(g-f)),d:Math.round(g-f)});});
@@ -3343,7 +3357,7 @@ function vmatchImg(m,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,mw=W
 function vsetImg(m,x,k,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,L=setLineup(m,x),{T}=vcTeams(m),up=s=>String(s||'').toUpperCase(),port=H>W,f4=is4(m);
   const ft=Math.round(u*(port?7.5:5.2)),fs=Math.round(u*(port?4.6:3.2));let y=H*(port?.2:.06);
   c.font=`700 ${ft}px ${VCF}`;c.fillStyle='#F2BE22';c.fillText(up(tr('Set {N}').replace('{N}',k+1))+'  ·  '+up(T),W/2,y+ft/2);y+=ft*1.25;
-  const info=[L.srvQ?tr('Au service'):tr('En réception')].concat(L.lib?[tr('Libéro')+' : '+pnum(m,L.lib)+' '+dname(m,L.lib)]:[]).join('  ·  ');
+  const s1=!L.srvQ&&L.pl.find(p=>p.q===L.sq),info=[L.srvQ?tr('Au service'):tr('En réception')].concat(s1?[tr('1er serveur')+' : '+s1.n+' '+s1.nm]:[]).concat(L.lib?[tr('Libéro')+' : '+pnum(m,L.lib)+' '+dname(m,L.lib)]:[]).join('  ·  ');
   c.font=`600 ${fs}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(up(info),W/2,y+fs/2);y+=fs*2.2;
   const ch=Math.min(H-y-H*(port?.12:.05),W*.9),cw=ch,cx=(W-cw)/2,cy=y;
   // terrain : surface, filet en haut, ligne des 3 m (6x6)
@@ -3354,7 +3368,7 @@ function vsetImg(m,x,k,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,L=
   L.pl.forEach(p=>{const px=cx+cw*p.x/100,py=cy+ch*(f4?p.y:(p.y<40?14.5:64))/100;
     c.fillStyle=p.c;c.beginPath();c.arc(px,py,R,0,Math.PI*2);c.fill();c.fillStyle=p.c==='#F2BE22'?'#101828':'#fff';c.font=`700 ${fn}px ${VCF}`;c.fillText(p.n,px,py+fn*.04);
     c.fillStyle='#fff';c.font=`700 ${vcFit(c,up(p.nm),fm,700,cw/3.3)}px ${VCF}`;c.fillText(up(p.nm),px,py+R+fm*.85);
-    if(p.q===L.srvQ){c.fillStyle='#F2BE22';c.beginPath();c.arc(px+R*.95,py-R*.8,R*.3,0,Math.PI*2);c.fill();}});
+    if(p.q===L.sq){c.fillStyle='#F2BE22';c.beginPath();c.arc(px+R*.95,py-R*.8,R*.3,0,Math.PI*2);c.fill();}});
   return cv.toDataURL('image/png');}
 function vintroImg(I,size){const W=size.w,H=size.h,cv=document.createElement('canvas');cv.width=W;cv.height=H;const c=cv.getContext('2d'),f='Barlow Condensed, Arial Narrow, sans-serif',u=Math.min(W,H*16/9)/100,maxW=W*.86;
   c.fillStyle='#101828';c.fillRect(0,0,W,H);c.textAlign='center';c.textBaseline='middle';
@@ -4581,7 +4595,7 @@ function tac4Rows(m,ev,cur){if(ev.sz&&ev.sp)cur.rows.push({k:'tac',a:tr('Au serv
   if(ev.bz)cur.rows.push({k:'tac',a:tr('Bloc')+' : '+[['g','Gauche'],['c','Centre'],['d','Droite']].map(([q,l])=>tr(l)+' '+(ev.bz[q]?dname(m,ev.bz[q]):'❌')).join(' · ')});}
 function summaryData(m){const sets=[];let cur=null,play=false,si=-1,last=null,lp0=+(m.libPos||5),x0=false;const RS=replay(m),SA=RS.srvAt||{},RA=RS.rotAt||{};
   m.ev.forEach((ev,idx)=>{
-    if(ev.t==='set'){if(play)return;si++;cur={g:0,a:0,rows:[],z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,free:!!m.free};sets.push(cur);play=true;last=null; // V207 : 6 de départ du set (schéma du terrain)
+    if(ev.t==='set'){if(play)return;si++;cur=Object.assign({g:0,a:0,rows:[],z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,free:!!m.free},setSrvOf(m,idx,SA));sets.push(cur);play=true;last=null; // V207 : 6 de départ du set (schéma du terrain)
       if(ev.lp&&ev.lp!==lp0)cur.rows.push({k:'tac',a:tr('Libéro en défense')+' : '+tr('Poste')+' '+ev.lp});if(ev.lp)lp0=ev.lp;
       if(si>0&&!!ev.x!==x0)cur.rows.push({k:'tac',a:tr('Inversion R4 <-> Pointe en P1')+' : '+tr(ev.x?'Oui':'Non')});x0=!!ev.x;
       if(ev.r4===0)cur.rows.push({k:'tac',a:tr('Sans rotation')});tac4Rows(m,ev,cur);return;}
@@ -4631,11 +4645,13 @@ function summaryHTML(m){const sets=summaryData(m);SUM_EDIT=!ui.toStats&&!m.seaso
 const SET_RC={Pa:'#F2BE22',Pu:'#D7263D',R4:'#1F7F40',C:'#1F5FD0',L:'#8B3BC9'};
 function setLineup(m,x){if(!x||!x.z||x.free)return null;const f=is4(m)?FMT4[n4(f4c(m))]:null,POS=f?f.POS:{4:[17,17],3:[50,17],2:[83,17],5:[17,64],6:[50,64],1:[83,64]},Z=f?f.Z:[1,2,3,4,5,6],R=m.roles||{};
   const pl=Z.map(q=>{const pid=x.z[q-1];if(!pid)return null;const [px,py]=POS[q];return {q,pid,x:px,y:py,n:String(pnum(m,pid)||''),nm:dname(m,pid),c:SET_RC[R[pid]]||'#5B697D'};}).filter(Boolean);
-  const srvQ=x.srv==='G'?(f?f.SRV[0]:1):null;return pl.length?{pl,srvQ,lib:x.lib}:null;}
+  const srvQ=x.srv==='G'?(f?f.SRV[0]:1):null,sp=x.sp&&pl.find(p=>p.pid===x.sp);return pl.length?{pl,srvQ,sq:sp?sp.q:srvQ,lib:x.lib}:null;}
+// V210 : service du set d'après la relecture (srvAt de replay) : équipe au service sur le premier point, notre premier serveur (même si l'adversaire sert d'abord)
+function setSrvOf(m,ei,SA){const E=m.ev||[];let srv=null,sp=null;for(let i=ei+1;i<E.length;i++){const e=E[i];if(e.t==='set')break;if(e.t!=='pt')continue;if(srv==null)srv=SA[i]?'G':'A';if(SA[i]){sp=SA[i];break;}}return srv?{srv,sp}:{};}
 function setCourtSVG(m,x){const L=setLineup(m,x);if(!L)return '';const ROM=['','I','II','III','IV','V','VI'];
   return `<div class="setcourt"><svg viewBox="0 0 100 100" role="img" aria-label="${esc(tr('6 de départ'))}"><rect x="2" y="4" width="96" height="94" rx="2" class="scf"/><line x1="0" y1="4" x2="100" y2="4" class="scn"/><line x1="2" y1="38" x2="98" y2="38" class="sca"/>
-    ${L.pl.map(p=>`<g><circle cx="${p.x}" cy="${p.y}" r="8.5" fill="${p.c}"/><text x="${p.x}" y="${p.y+3.4}" text-anchor="middle" class="scnum">${esc(p.n)}</text><text x="${p.x}" y="${p.y+16}" text-anchor="middle" class="scnm">${esc(p.nm)}</text>${p.q===L.srvQ?`<circle cx="${p.x+9}" cy="${p.y-7}" r="3" class="scsrv"/>`:''}<text x="${p.x-11}" y="${p.y-8}" class="scz">${ROM[p.q]}</text></g>`).join('')}</svg>
-    <small>${tr('6 de départ')}${L.lib?' · '+tr('Libéro')+' : '+esc(pnum(m,L.lib)+' '+dname(m,L.lib)):''}${L.srvQ?' · '+tr('au service (●)'):' · '+tr('en réception')}</small></div>`;}
+    ${L.pl.map(p=>`<g><circle cx="${p.x}" cy="${p.y}" r="8.5" fill="${p.c}"/><text x="${p.x}" y="${p.y+3.4}" text-anchor="middle" class="scnum">${esc(p.n)}</text><text x="${p.x}" y="${p.y+16}" text-anchor="middle" class="scnm">${esc(p.nm)}</text>${p.q===L.sq?`<circle cx="${p.x+9}" cy="${p.y-7}" r="3" class="scsrv"/>`:''}<text x="${p.x-11}" y="${p.y-8}" class="scz">${ROM[p.q]}</text></g>`).join('')}</svg>
+    <small>${tr('6 de départ')}${L.lib?' · '+tr('Libéro')+' : '+esc(pnum(m,L.lib)+' '+dname(m,L.lib)):''}${L.srvQ?' · '+tr('au service (●)'):' · '+tr('en réception')+(L.sq?' · '+tr('1er serveur (●)'):'')}</small></div>`;}
 // V199 : durée d'un point (« Début du point », sinon sa première action, jusqu'à son attribution), si elle est plausible
 function sumDur(m,ei){const e=m.ev[ei];if(!e||!Number.isFinite(e.at))return '';let s=Number.isFinite(e.t0)?e.t0:null;if(s==null)(e.st||[]).forEach(x=>{if(Number.isFinite(x[5])&&(s==null||x[5]<s))s=x[5];});if(s==null)return '';const d=e.at-s;return d>0&&d<120000?fmtS(d):'';}
 // Export du résumé en PDF (3 colonnes de points par set)
@@ -4721,7 +4737,7 @@ function exportSummaryPDF(m){
   // V207 : une page par set : bandeau du set, schéma du terrain avec le 6 de départ, puis les points (3 colonnes, suite sur la page suivante si besoin)
   const court=(x,y0)=>{const L=setLineup(m,x);if(!L)return y0;const W=62,H=58,cx0=14,ROM=['','I','II','III','IV','V','VI'];doc.setFillColor(243,222,198);doc.setDrawColor(20,36,61);doc.setLineWidth(0.4);doc.rect(cx0,y0,W,H,'FD');doc.setLineWidth(1.2);doc.line(cx0-2,y0,cx0+W+2,y0);doc.setLineWidth(0.25);doc.setLineDashPattern([1,1],0);doc.line(cx0,y0+H*.33,cx0+W,y0+H*.33);doc.setLineDashPattern([],0);
     const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-    L.pl.forEach(p=>{const px=cx0+p.x/100*W,py=y0+p.y/100*H;doc.setFillColor(...hex(p.c));doc.circle(px,py,4.2,'F');T(p.n,px,py+1.3,9,true,[255,255,255],'center');T(pdfSafe(p.nm).slice(0,14)+(p.q===L.srvQ?' (S)':''),px,py+7.6,6.8,false,[20,36,61],'center');T(ROM[p.q],px-6.2,py-4,5.5,false,GREY);});
+    L.pl.forEach(p=>{const px=cx0+p.x/100*W,py=y0+p.y/100*H;doc.setFillColor(...hex(p.c));doc.circle(px,py,4.2,'F');T(p.n,px,py+1.3,9,true,[255,255,255],'center');T(pdfSafe(p.nm).slice(0,14)+(p.q===L.sq?' (S)':''),px,py+7.6,6.8,false,[20,36,61],'center');T(ROM[p.q],px-6.2,py-4,5.5,false,GREY);});
     let ty=y0+5;const info=(a,b)=>{T(a,cx0+W+8,ty,8.5,true,[20,36,61]);T(b,cx0+W+40,ty,8.5,false,[30,30,30]);ty+=5.5;};
     info(trP('6 de départ'),'');info(trP('Service'),L.srvQ?pdfSafe(short(m)):pdfSafe(m.opp||tr('Adversaire')));if(L.lib)info(trP('Libéro'),pdfSafe(pnum(m,L.lib)+' '+dname(m,L.lib)));
     const subs=x.rows.filter(r=>r.k==='sub'),tos=x.rows.filter(r=>r.k==='to');info(trP('Changements'),String(subs.length));subs.slice(0,6).forEach(r=>{T(pdfSafe(r.a)+' <> '+pdfSafe(r.b),cx0+W+40,ty,7.5,false,GREY);ty+=4.2;});
@@ -5843,6 +5859,7 @@ const A={
     const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};
     // V209 : clip joueur : écran d'introduction 4 s (appui = passer), lecture ensuite
     if(r.intro){const P=VID.pb;P.play=false;P.intro=1;setTimeout(()=>{if(VID.pb===P&&P.intro)A.vintroX();},VI_MS);}},
+  edNar(){store.prefs.edNar=!store.prefs.edNar;save();}, // V210 : historique replié en colonne étroite (abréviations, sans timecode)
   vintroX(){const P=VID.pb;if(!P||!P.intro)return;delete P.intro;P.play=true;render();},
   // Montage automatique : échanges détectés par l'activité de l'image (video-ai.js), temps morts jetés, ancien montage dans « Annuler »
   // V183 : marges et seuils des Réglages (vxAutoOpts), zone d'analyse r.roi ; courbe calculée par le module natif (VideoDelay.activity,
