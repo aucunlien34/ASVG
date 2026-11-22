@@ -71,20 +71,30 @@ function ovStates(m,r,o){o=Object.assign({lag:2000,tm:30000,sub:8000},o||{});con
         for(let k=1;k<=5;k++)push(c0+(k-1)*90,Object.assign({},base,{sub:SB,ph:k/5,big:o.sub>0?1:2}));push(end,base);}
       else if(o.sub>0){push(at,Object.assign({},base,{sub:SB}));push(posOf(ev.at+off-o.lag+o.sub),base);}
       else if(base.sp!==cur.sp)push(at,base);}
+    else if(ev.t==='to'&&cur&&!cur.end){const base=Object.assign({},cur,{sub:null,tmB:null}),c0=posOf(ev.at+off)-1500;
+      // V209 : tous les exports : « Temps mort : équipe » en grand en bas au centre, 3 s centrées sur l'heure (vert pour nous, rouge pour l'adversaire), bandeau normal
+      for(let k=1;k<=5;k++)push(c0+(k-1)*90,Object.assign({},base,{tmB:{s:ev.s==='A'?'A':'G'},ph:k/5,big:2}));push(c0+3000,base);}
     else if(ev.t==='to'&&cur&&!cur.end){const back=Object.assign({},cur,{sub:null});push(at,Object.assign({},cur,{tm:true,sub:null}));
       // le bandeau « Temps mort » disparaît après o.tm ms si rien ne se passe avant
       push(posOf(ev.at+off-o.lag+o.tm),back);}
   });
   return out.filter(s=>s.to>s.from);}
 // Clé d'un état : même clé = même image du bandeau
-function ovKey(s){return `${s.set}|${s.sets.G}-${s.sets.A}|${s.pts.G}-${s.pts.A}|${s.rot||''}|${s.srv||''}|${s.tm?1:0}|${s.end?1:0}|${s.sp||''}|${s.sub?s.sub.i+'>'+s.sub.o:''}${s.ph?'|ph'+s.ph+'|'+(s.big||''):''}`;}
+function ovKey(s){return `${s.set}|${s.sets.G}-${s.sets.A}|${s.pts.G}-${s.pts.A}|${s.rot||''}|${s.srv||''}|${s.tm?1:0}|${s.end?1:0}|${s.sp||''}|${s.sub?s.sub.i+'>'+s.sub.o:''}${s.tmB?'|to'+s.tmB.s:''}${s.ph?'|ph'+s.ph+'|'+(s.big||''):''}`;}
 // V207 : écran de changement : deux grandes étiquettes en bas, au centre (« ↓ 9 INÈS » rouge, « ↑ 12 MANON » vert), glissées depuis les bords
 // (ph = avancement 0 → 1), sur une image de la taille de la vidéo. size = {w, h}.
-function ovSubBig(ctx,s,size,o){o=o||{};if(!s||!s.sub)return;const f=o.font||'Barlow Condensed, Arial Narrow, sans-serif',ph=Math.max(0,Math.min(1,s.ph||1)),e=1-Math.pow(1-ph,3),H=Math.round(size.h*.085),fs=Math.round(H*.62),pad=Math.round(H*.4),gap=Math.round(H*.5),R=Math.round(H*.22);
+function ovSubBig(ctx,s,size,o){o=o||{};if(s&&s.tmB&&!s.sub)return ovToBig(ctx,s,size,o);if(!s||!s.sub)return;const f=o.font||'Barlow Condensed, Arial Narrow, sans-serif',ph=Math.max(0,Math.min(1,s.ph||1)),e=1-Math.pow(1-ph,3),H=Math.round(size.h*.085),fs=Math.round(H*.62),pad=Math.round(H*.4),gap=Math.round(H*.5),R=Math.round(H*.22);
   const up=v=>String(v||'').toUpperCase(),L=[{t:'↓ '+up(s.sub.on),c:'#C21F35'},{t:'↑ '+up(s.sub.in),c:'#1F7F40'}];ctx.save();ctx.font=`700 ${fs}px ${f}`;ctx.textBaseline='middle';
   const W=L.map(x=>Math.round(ctx.measureText(x.t).width+2*pad)),tot=W[0]+gap+W[1],y=Math.round(size.h*.80-H/2),x0=Math.round((size.w-tot)/2),dx=Math.round((1-e)*size.w*.35);ctx.globalAlpha=Math.max(.15,e);
   L.forEach((x,i)=>{const X=i?x0+W[0]+gap+dx:x0-dx,w=W[i];ctx.fillStyle=x.c;ctx.beginPath();ctx.moveTo(X+R,y);ctx.arcTo(X+w,y,X+w,y+H,R);ctx.arcTo(X+w,y+H,X,y+H,R);ctx.arcTo(X,y+H,X,y,R);ctx.arcTo(X,y,X+w,y,R);ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.fillText(x.t,X+pad,y+H/2);});
   ctx.restore();}
+// V209 : écran de temps mort : une étiquette « TEMPS MORT : ÉQUIPE » en bas au centre (fond vert = nous, rouge = adversaire), qui monte en fondu (ph 0 → 1)
+function ovToBig(ctx,s,size,o){const f=o.font||'Barlow Condensed, Arial Narrow, sans-serif',ph=Math.max(0,Math.min(1,s.ph||1)),e=1-Math.pow(1-ph,3),H=Math.round(size.h*.085),pad=Math.round(H*.4),R=Math.round(H*.22);
+  const us=s.tmB.s!=='A',nm=String((us?o.team:o.opp)||(us?'Nous':'Adversaire')).toUpperCase(),t='TEMPS MORT : '+nm;let fs=Math.round(H*.62);ctx.save();ctx.textBaseline='middle';
+  for(;;){ctx.font=`700 ${fs}px ${f}`;if(ctx.measureText(t).width+2*pad<=size.w*.9||fs<=10)break;fs--;}
+  const w=Math.round(ctx.measureText(t).width+2*pad),x=Math.round((size.w-w)/2),y=Math.round(size.h*.80-H/2+(1-e)*H*.6);ctx.globalAlpha=Math.max(.15,e);
+  ctx.fillStyle=us?'#1F7F40':'#C21F35';ctx.beginPath();ctx.moveTo(x+R,y);ctx.arcTo(x+w,y,x+w,y+H,R);ctx.arcTo(x+w,y+H,x,y+H,R);ctx.arcTo(x,y+H,x,y,R);ctx.arcTo(x,y,x+w,y,R);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#fff';ctx.fillText(t,x+pad,y+H/2);ctx.restore();}
 // États → intervalles sur la ligne de temps du fichier exporté (plages gardées R mises bout à bout, vitesse appliquée) :
 // [{from, to, key, st}] en ms du fichier, états voisins identiques fusionnés. Les instants sans état (avant le premier set) n'ont pas de bandeau.
 function ovOnOutput(states,R,speed){const sp=speed||1,out=[];let o=0;R.forEach(([a,b])=>{states.forEach(s=>{const f=Math.max(s.from,a),t=Math.min(s.to,b);if(t<=f)return;
@@ -127,10 +137,10 @@ function ovPlace(dim,size,corner){const m=Math.round(size.h*OV_MARGIN),c=corner|
 function ovImages(spans,o){o=o||{};const size=o.size||{w:1280,h:720},H=Math.round(size.h*(OV_SIZE[o.scale]||OV_SIZE.m)),images={},dims={},pos={},maxW=size.w-2*Math.round(size.h*OV_MARGIN);
   spans.forEach(sp=>{if(images[sp.key])return;
     // V207 : écran de changement : image de la taille de la vidéo (bandeau dans son coin + grandes étiquettes), posée en 0,0
-    if(sp.st.ph&&sp.st.sub){const cv=document.createElement('canvas');cv.width=size.w;cv.height=size.h;const ctx=cv.getContext('2d'),tmp=document.createElement('canvas');tmp.width=Math.max(size.w,Math.round(size.h*2));tmp.height=H;
+    if(sp.st.ph&&(sp.st.sub||sp.st.tmB)){const cv=document.createElement('canvas');cv.width=size.w;cv.height=size.h;const ctx=cv.getContext('2d'),tmp=document.createElement('canvas');tmp.width=Math.max(size.w,Math.round(size.h*2));tmp.height=H;
       const op={x:0,y:0,h:H,team:o.team,opp:o.opp,names:o.names,rot:o.rot,srv:o.srv,server:o.server,subs:o.subs,opacity:o.opacity},st0=sp.st.big===2?Object.assign({},sp.st,{sub:null}):sp.st;let d=ovDraw(tmp.getContext('2d'),st0,op);
       if(d.w>maxW){tmp.getContext('2d').clearRect(0,0,tmp.width,tmp.height);op.h=Math.max(12,Math.floor(H*maxW/d.w));d=ovDraw(tmp.getContext('2d'),st0,op);}
-      const p=ovPlace(d,size,o.corner);ctx.drawImage(tmp,0,0,d.w,d.h,p.x,p.y,d.w,d.h);ovSubBig(ctx,sp.st,size);images[sp.key]=cv.toDataURL('image/png');dims[sp.key]={w:size.w,h:size.h};pos[sp.key]={x:0,y:0};return;}
+      const p=ovPlace(d,size,o.corner);ctx.drawImage(tmp,0,0,d.w,d.h,p.x,p.y,d.w,d.h);ovSubBig(ctx,sp.st,size,{team:o.team,opp:o.opp});images[sp.key]=cv.toDataURL('image/png');dims[sp.key]={w:size.w,h:size.h};pos[sp.key]={x:0,y:0};return;}
     const cv=document.createElement('canvas');cv.width=Math.max(size.w,Math.round(size.h*2));cv.height=H;const ctx=cv.getContext('2d');
     const op={x:0,y:0,h:H,team:o.team,opp:o.opp,names:o.names,rot:o.rot,srv:o.srv,server:o.server,subs:o.subs,opacity:o.opacity};let d=ovDraw(ctx,sp.st,op);
     if(d.w>maxW){ctx.clearRect(0,0,cv.width,cv.height);op.h=Math.max(12,Math.floor(H*maxW/d.w));d=ovDraw(ctx,sp.st,op);}

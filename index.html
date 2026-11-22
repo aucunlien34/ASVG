@@ -634,6 +634,7 @@ body.easy.phstats .dock .stp .pchips,body.easy.phstats .dock .stp .chips{display
 .diffr{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin:10px 0}.dfcol{display:flex;flex-direction:column;gap:10px}
 .diffr .dfb{min-height:84px;font-size:28px;font-family:'Barlow Condensed',sans-serif;font-weight:700;border:0;color:#fff}
 .diffr .d-1{background:#23924A}.diffr .d0{background:#7C8A9E}.diffr .d1{background:#D7263D}
+.diffr .dfcol .dfskip{flex:2}.diffr .dfcol .dfx{flex:1;font-size:18px}
 .diffr .dfskip{height:auto;min-height:0;font-size:24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--muted);border:2px dashed var(--line)}
 .dfq{display:block;margin-top:6px;font-size:19px;color:var(--ink)}
 /* mode stats faciles : les trois boutons se partagent la hauteur restante de l'écran */
@@ -858,6 +859,11 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vlibt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0}.vlibt button small{opacity:.75;margin-left:4px}.vbdg{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;margin-top:3px;background:var(--surface2);color:var(--muted)}.vbdg.ok{background:var(--okBg);color:var(--ok)}.vbdg.go{background:var(--warnBg);color:var(--warn)}
 /* V191 : écran Vidéo : options en volets dépliants */
 .vintro{margin:0 0 12px;font-size:17px;line-height:1.4;font-weight:500}
+.vicard{position:absolute;inset:0;z-index:6;background:#101828;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;cursor:pointer}
+.vicard small{color:#F2BE22;font-size:clamp(15px,2.6vmin,24px);font-weight:600;letter-spacing:.04em}.vicard b{font-size:clamp(26px,6vmin,56px);line-height:1.1;max-width:90%}.vicard>span{color:#cfd6e0;font-size:clamp(17px,3vmin,30px);font-weight:600;max-width:90%}
+.vicard b{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px}.vicard .vip{display:inline-flex;align-items:center;gap:.3em}.vicard .vip i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;min-width:1.5em;height:1.5em;border-radius:50%;font-size:.72em;padding:0 .15em}
+.vicard{overflow:hidden}.vicard.many b{font-size:clamp(22px,5vmin,40px)}.vicard.only .vip i{font-size:1em;min-width:1.4em;height:1.4em}
+.vicard em{position:absolute;bottom:14px;font-style:normal;font-size:13px;color:#9aa4b2;text-transform:none;font-family:Barlow,sans-serif}
 .vacc{border:1px solid var(--line);border-radius:12px;overflow:hidden}.vacc+.vacc{margin-top:8px}
 .vah{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;min-height:48px;background:var(--surface2);border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
 .vah b{font-size:17px}.vah span{margin-left:auto;font-weight:600;color:var(--muted)}.vah i{font-style:normal;color:var(--muted);transition:transform .15s}.vacc.open .vah i{transform:rotate(180deg)}
@@ -1027,7 +1033,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V208';
+const APP_VERSION='V209';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1048,7 +1054,11 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const title=s=>String(s||'').toLowerCase().replace(/(^|[\s\-'])(\p{L})/gu,(a,b,c)=>b+c.toUpperCase());
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
-const fmtDate=s=>{if(!s)return '';const [y,m,d]=s.split('-');return d&&m&&y?`${d}/${m}/${y}`:s;};
+// V209 : dates selon l'usage de la langue de l'appli, précisé par la région de l'appareil si elle est de la même langue (en-US : MM/JJ/AAAA, en-GB : JJ/MM/AAAA…), chiffres latins
+function dateLoc(){const l=lang();let n='';try{n=navigator.language||'';}catch(e){}return (n.toLowerCase().split('-')[0]===l?n:l)+'-u-nu-latn';}
+const _DF={};
+const fmtDate=s=>{if(!s)return '';const [y,m,d]=String(s).split('-');if(!(d&&m&&y))return s;const L=dateLoc();
+  try{const f=_DF[L]||(_DF[L]=new Intl.DateTimeFormat(L,{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'UTC'}));return f.format(new Date(Date.UTC(+y,+m-1,+d))).replace(/[‎‏]/g,'');}catch(e){return `${d}/${m}/${y}`;}};
 const rcls=r=>ROLES[r]?'r-'+r:'r-none';
 
 /* ============ MODÈLE ============ */
@@ -1591,7 +1601,7 @@ function seasonNew(t){const ns={id:'s'+Date.now().toString(36)+Math.random().toS
 const GCOL={M:'#2E68BA',F:'#D9468F',X:'#E0B00F'},GLAB={M:'Masculin',F:'Féminin',X:'Mixte'};
 // Liste des équipes maison (le <select> natif ne se colore pas) : bandeau de la couleur du genre ; filtre par genre dans l'onglet Équipe seulement
 // Heure d'un match : celle du premier service (horodatage du premier set), la feuille de match n'ayant qu'une date
-function matchTime(a){const e=(a.ev||[]).find(x=>x.t==='set');if(!e||!e.at)return '';try{return new Date(e.at).toLocaleTimeString(lang()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit'});}catch(x){return '';}}
+function matchTime(a){const e=(a.ev||[]).find(x=>x.t==='set');if(!e||!e.at)return '';try{return new Date(e.at).toLocaleTimeString(dateLoc()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit'});}catch(x){return '';}}
 function teamPickHTML(where,filt){const AT=activeTeam(),gf=filt?(store.prefs.gFilt||''):'',TL=store.teams.filter(t=>!gf||(t.gender||'F')===gf),open=ui.tsOpen===where;
   return `<span class="tslab">Équipe actuelle</span><button class="tselb" data-act="tsOpen" data-v="${where}" aria-haspopup="listbox" aria-expanded="${open}" style="--gc:${teamColor(AT)}"><i class="gband"></i><b>${esc(AT.name)}</b><small>${GLAB[AT.gender||'F']}</small><span class="chev">${open?'▴':'▾'}</span></button>
     ${open?`<div class="tslist" role="listbox" aria-label="Équipes">${teamGroups(TL).map(([lab,L])=>(lab?`<div class="tsgrp" role="presentation">${lab}</div>`:'')+L.map(t=>`<button role="option" aria-selected="${t.id===store.teamId}" class="tsopt ${t.id===store.teamId?'on':''}" data-act="tsPick" data-id="${t.id}" style="--gc:${teamColor(t)}"><i class="gband"></i><b>${esc(t.name)}</b><small>${GLAB[t.gender||'F']}${t.f4?' · '+fLab(t.f4):''}</small></button>`).join('')).join('')||'<p class="hint">Aucune équipe de ce genre.</p>'}<button class="tsopt tsnew" data-act="tsPick" data-id="__new">＋ Nouvelle équipe…</button></div>`:''}`;}
@@ -2270,7 +2280,7 @@ const LEGAL={
  cgu:["Conditions générales d'utilisation",`<p><b>Objet</b> : VolleyCoach est une application de banc de touche pour le volley-ball (feuille de match, rotations, score, statistiques). En l'utilisant, vous acceptez ces conditions.</p>
 <p><b>Compte et données</b> : aucun compte n'est nécessaire. Vos données restent sur votre appareil ; vous êtes responsable de leur sauvegarde (Réglages › Exporter toutes les données). L'éditeur ne peut pas les restaurer.</p>
 <p><b>Usage</b> : l'application est destinée à un usage sportif. Vous vous engagez à saisir uniquement les données des joueurs pour lesquels vous y êtes autorisé (club, équipe) et à respecter le RGPD vis-à-vis d'eux.</p>
-<p><b>Version gratuite et Pro</b> : la version gratuite est décrite dans Réglages › Abonnement. Les fonctions Pro sont accessibles gratuitement jusqu'au 31 août 2027, puis pendant 14 jours pour les nouveaux utilisateurs, puis avec un pass (voir les CGV).</p>
+<p><b>Version gratuite et Pro</b> : la version gratuite est décrite dans Réglages › VolleyCoach Pro. Les fonctions Pro sont accessibles gratuitement jusqu'au 31 août 2027, puis pendant 14 jours pour les nouveaux utilisateurs, puis avec un pass (voir les CGV).</p>
 <p><b>Disponibilité</b> : l'application fonctionne hors connexion ; les mises à jour passent par les stores. L'éditeur peut faire évoluer l'application sans préavis, sans supprimer les données stockées sur votre appareil.</p>
 <p><b>Responsabilité</b> : les statistiques sont fournies à titre indicatif, à partir de vos saisies. L'éditeur ne peut être tenu responsable d'une perte de données liée à l'appareil, au navigateur ou à l'absence de sauvegarde.</p>
 <p><b>Droit applicable</b> : droit français. Éditeur : VolleyCoach (voir les mentions légales).</p>`],
@@ -2690,7 +2700,7 @@ function vcMatchFor(r){return vcLinkInfo(r).m;}
 function vmontPick(m,r,pick){if(!pick)return vmontRanges(m,r);const P=new Set(pick);return vmontRanges(Object.assign({},m,{ev:m.ev.filter((e,i)=>e.t!=='pt'||P.has(i))}),r);}
 // points du match par set (pour la sélection) : [{set, pts:[{ei, sc, w}]}]
 function vmontSets(m){const out=[];let cur=null,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){cur={set:out.length,pts:[]};out.push(cur);g=a=0;return;}if(e.t==='pt'&&cur){if(e.w==='G')g++;else if(e.w==='A')a++;cur.pts.push({ei:i,sc:g+'-'+a,w:e.w});}});return out.filter(s=>s.pts.length);}
-function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000,trB:S.trB*1000,trA:S.trA*1000,subs:3000,tos:2000}));} // V207 : écrans de changement (3 s) et de temps mort (2 s)
+function vmontRanges(m,r){if(!m||!r)return [];const S=VS().exp,b=S.ptB*1000;return vxMerge(vstRanges(m,r,{off:vcOffset(m,r).off,srv:b,rec:b,after:S.ptA*1000,noStat:6000,trB:S.trB*1000,trA:S.trA*1000,subs:3000,tos:3000}));} // V207 : écrans de changement (3 s) et de temps mort (3 s, V209)
 const vmontOk=(m,r)=>!!(m&&r&&!r.clip&&m.ev.some(e=>e.t==='pt'));
 // Vidéo « match monté » reçue : calée sur le match importé qui la décrit (m.vref = {name, dur, tmap, off}), quel que soit l'ordre des deux imports
 const vrefOk=v=>!!(v&&Array.isArray(v.tmap)&&v.tmap.length&&v.tmap.every(x=>x&&Number.isFinite(x.t)&&x.d>0));
@@ -2794,7 +2804,9 @@ function vstDockOff(P){const V=store.vst;if(!V||vstDkShut()||(P&&P.drag))return 
 // « action isolée » (marges par type d'action, Réglages › Vidéo) ou « point entier » (marges de la saisie sur un film). Gratuit : 3 passes du passeur.
 // V186 : « Actions seules » (1,5 s avant / après chaque stat, réglable par type d'action) ou « Points entiers » (du service − 1,5 s au point + 1,5 s)
 function vmHint(w){return (w?tr('Tout le point de chaque stat retenue, du service (− {A} s) au point (+ {B} s).').replace('{A}',String(VS().pt.srv).replace('.',',')).replace('{B}',String(VS().pt.after).replace('.',',')):tr('Chaque stat retenue, de quelques secondes avant à quelques secondes après (1,5 s par défaut, Réglages › Vidéo › Clips par action).'))+' '+tr('Les extraits qui se suivent sont réunis.');}
-function vcRangesQ(m,r,q,O){const acts=vcActions(m,vcFilter(q));return acts.length?vmRanges(m,r,acts,{off:O.off,act:VS().act,pt:VS().pt,whole:!!q.whole}):[];}
+// V209 : version gratuite : clips joueur limités aux 5 premières actions retenues
+const VC_FREE=5;
+function vcRangesQ(m,r,q,O){let acts=vcActions(m,vcFilter(q));if(!proFor(m))acts=acts.slice(0,VC_FREE);return acts.length?vmRanges(m,r,acts,{off:O.off,act:VS().act,pt:VS().pt,whole:!!q.whole}):[];}
 const VM_Z=[[4,'Poste 4'],[3,'Centre'],[2,'Poste 2'],[1,'Pointe'],[6,'Poste 6'],[5,'Poste 5']];
 function vmQ(){return ui.vm||(ui.vm={pids:[],kinds:[],signs:[],zones:[],prev:[],whole:false,open:null});}
 function vmSelect(F,Q){const pro=isPro();let left=pro?Infinity:3;return F.map(({m,r})=>{const S=replay(m),O=vcOffset(m,r),kinds=pro?(Q.kinds.length?Q.kinds:null):['pas'];
@@ -3289,13 +3301,91 @@ function bindVideo(){const st=document.getElementById('vStage');document.body.cl
       lp=setTimeout(()=>{lp=null;if(P.tot<=ZW)return;const f=(x0-rect.left)/rect.width;let a=Math.max(0,Math.min(P.tot-ZW,P.pos-f*ZW));P.zw=[a,a+ZW];setBg();try{navigator.vibrate&&navigator.vibrate(15);}catch(_){}},400);});
     tk.addEventListener('pointermove',e=>{if(!P.drag||!rect)return;if(lp&&Math.abs(e.clientX-x0)>6){clearTimeout(lp);lp=null;}P.pos=posAt(e.clientX);});
     const up=()=>{if(lp){clearTimeout(lp);lp=null;}P.drag=false;if(P.zw){P.zw=null;setBg();}};tk.addEventListener('pointerup',up);tk.addEventListener('pointercancel',up);}}
+// V209 : écran d'introduction d'un clip joueur (r.intro = {mt: match, d: date, who: [joueurs], what: [actions] | null}) : lecteur et export
+const VI_MS=4000;
+// pastille du numéro à la couleur du poste (fond, texte)
+const VI_RC={Pa:['#F2BE22','#101828'],Pu:['#D7263D','#fff'],R4:['#1F7F40','#fff'],C:['#1F5FD0','#fff'],L:['#8B3BC9','#fff']};
+const viRC=r=>VI_RC[r]||['#7C8A9E','#fff'];
+function vintroHTML(I){const n=I.who.length,only=n>8&&I.who.every(p=>p.n!=null&&p.n!=='');return `<div class="vicard ${n>3?'many':''} ${only?'only':''}" data-act="vintroX"><small>${esc(I.mt)} · ${esc(I.d)}</small><b>${I.who.map(p=>`<span class="vip">${p.n!=null&&p.n!==''?`<i style="background:${viRC(p.r)[0]};color:${viRC(p.r)[1]}">${esc(p.n)}</i>`:''}${only?'':esc(p.nm)}</span>`).join('')}</b>${I.what?`<span>${I.what.map(esc).join(' · ')}</span>`:''}<em>${tr('Toucher pour passer')}</em></div>`;}
+// Plage d'image sous l'écran d'introduction (cachée par l'image) : juste avant la première action, sinon le début de la vidéo ; durée VI_MS à la vitesse d'export
+// V209 : écrans plein cadre insérés dans un export (introduction du clip, début du match, composition de chaque set) : chaque écran
+// recouvre une plage d'image « de remplissage » prise juste avant la plage gardée qu'il précède (pos = position dans l'enregistrement, -Infinity = début)
+function vxCardList(m,r,X,pts){if(r.intro&&!pts)return X.intro?[{pos:-Infinity,dur:VI_MS,key:'intro',draw:sz=>vintroImg(r.intro,sz)}]:[];
+  if(!m||!X.cards)return [];const C=[{pos:-Infinity,dur:VI_MS,key:'mcard',draw:sz=>vmatchImg(m,sz)}];if(m.free||!ovAvailable(m,r,vcOffset(m,r)).ok)return C;
+  const off=vcOffset(m,r).off,sets=[];let pt=true;
+  (m.ev||[]).forEach(ev=>{if(ev.t==='pt'){pt=true;return;}if(ev.t!=='set')return;const x={z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,at:ev.at};if(!pt&&sets.length)sets[sets.length-1]=x;else sets.push(x);pt=false;});
+  sets.forEach((x,k)=>{if(!Number.isFinite(x.at)||!setLineup(m,x))return;const p=vcPosOf(r,x.at+off);if(p==null)return;C.push({pos:p,dur:is4(m)?4000:6000,key:'set'+k,draw:sz=>vsetImg(m,x,k,sz)});});
+  return C;}
+// → {R (plages avec les remplissages), wins [{from, to, key, card}] (ms du fichier exporté), tmap (table de temps du fichier, remplissages hors de toute stat)}
+function vxCardsApply(r,R,cards,tot,sp){sp=sp||1;const at={};cards.forEach(c=>{const i=c.pos===-Infinity?0:R.findIndex(([a,b])=>b>c.pos);if(i<0||!R.length)return;(at[i]=at[i]||[]).push(c);});
+  const out=[],wins=[],tmap=[];let o=0;
+  R.forEach(([a,b],i)=>{(at[i]||[]).forEach(c=>{const L=Math.min(tot,Math.round(c.dur*sp)),f=a>=L?a-L:0,g=Math.min(tot,f+L);out.push([f,g]);wins.push({from:Math.round(o),to:Math.round(o+(g-f)/sp),key:c.key,card:c});o+=(g-f)/sp;
+      const t=vcTimeAt(r,a);tmap.push({t:Math.round((t==null?0:t)-(g-f)),d:Math.round(g-f)});});
+    out.push([a,b]);const t=vcTimeAt(r,a);tmap.push({t:Math.round(t==null?0:t),d:Math.round(b-a)});o+=(b-a)/sp;});
+  return {R:out,wins,tmap};}
+// bandeau du score : retiré pendant les écrans plein cadre
+function ovCut(spans,wins){let S=spans.slice();wins.forEach(w=>{const N=[];S.forEach(s=>{if(s.to<=w.from||s.from>=w.to){N.push(s);return;}if(s.from<w.from)N.push(Object.assign({},s,{to:w.from}));if(s.to>w.to)N.push(Object.assign({},s,{from:w.to}));});S=N;});return S;}
+function vcvCanvas(size){const cv=document.createElement('canvas');cv.width=size.w;cv.height=size.h;const c=cv.getContext('2d');c.fillStyle='#101828';c.fillRect(0,0,size.w,size.h);c.textAlign='center';c.textBaseline='middle';return {cv,c,u:Math.min(size.w,size.h*16/9)/100};}
+const VCF='Barlow Condensed, Arial Narrow, sans-serif';
+function vcFit(c,t,px,wt,maxW){let fs=px;for(;;){c.font=`${wt} ${fs}px ${VCF}`;if(c.measureText(t).width<=maxW||fs<=8)return fs;fs--;}}
+function vcTeams(m){return {T:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||tr('Nous'),O:m.opp||tr('Adversaire')};}
+// début du match : équipes et date
+function vmatchImg(m,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,mw=W*.86,{T,O}=vcTeams(m),up=s=>String(s).toUpperCase();
+  const f1=Math.min(vcFit(c,up(T),Math.round(u*8),700,mw),vcFit(c,up(O),Math.round(u*8),700,mw)),fv=Math.round(f1*.5),fd=Math.round(u*3.8);
+  const tot=f1*2+fv*1.6+fd*2.4;let y=(H-tot)/2;
+  c.font=`700 ${f1}px ${VCF}`;c.fillStyle='#fff';c.fillText(up(T),W/2,y+f1/2);y+=f1+fv*.3;
+  c.font=`600 ${fv}px ${VCF}`;c.fillStyle='#F2BE22';c.fillText(tr('contre').toUpperCase(),W/2,y+fv/2);y+=fv*1.3;
+  c.font=`700 ${f1}px ${VCF}`;c.fillStyle='#fff';c.fillText(up(O),W/2,y+f1/2);y+=f1+fd*.9;
+  c.fillStyle='#F2BE22';c.fillRect(W/2-u*6,y,u*12,u*.5);y+=fd*.9;
+  c.font=`600 ${fd}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(fmtDate(m.date),W/2,y+fd/2);
+  return cv.toDataURL('image/png');}
+// composition d'un set : terrain filet en haut, joueurs à leur place réglementaire (pastille = couleur du poste), serveur, libéro
+function vsetImg(m,x,k,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,L=setLineup(m,x),{T}=vcTeams(m),up=s=>String(s||'').toUpperCase(),port=H>W,f4=is4(m);
+  const ft=Math.round(u*(port?7.5:5.2)),fs=Math.round(u*(port?4.6:3.2));let y=H*(port?.2:.06);
+  c.font=`700 ${ft}px ${VCF}`;c.fillStyle='#F2BE22';c.fillText(up(tr('Set {N}').replace('{N}',k+1))+'  ·  '+up(T),W/2,y+ft/2);y+=ft*1.25;
+  const info=[L.srvQ?tr('Au service'):tr('En réception')].concat(L.lib?[tr('Libéro')+' : '+pnum(m,L.lib)+' '+dname(m,L.lib)]:[]).join('  ·  ');
+  c.font=`600 ${fs}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(up(info),W/2,y+fs/2);y+=fs*2.2;
+  const ch=Math.min(H-y-H*(port?.12:.05),W*.9),cw=ch,cx=(W-cw)/2,cy=y;
+  // terrain : surface, filet en haut, ligne des 3 m (6x6)
+  c.fillStyle='#1d2a40';c.fillRect(cx,cy,cw,ch);c.strokeStyle='#cfd6e0';c.lineWidth=Math.max(2,u*.3);c.strokeRect(cx,cy,cw,ch);
+  c.fillStyle='#F2BE22';c.fillRect(cx-u*1.5,cy-u*.6,cw+u*3,u*1.2);
+  if(!f4){c.setLineDash([u*1.2,u*.9]);c.beginPath();c.moveTo(cx,cy+ch/3);c.lineTo(cx+cw,cy+ch/3);c.stroke();c.setLineDash([]);}
+  const R=cw*.085,fn=Math.round(R*1.05),fm=Math.round(R*.62);
+  L.pl.forEach(p=>{const px=cx+cw*p.x/100,py=cy+ch*(f4?p.y:(p.y<40?14.5:64))/100;
+    c.fillStyle=p.c;c.beginPath();c.arc(px,py,R,0,Math.PI*2);c.fill();c.fillStyle=p.c==='#F2BE22'?'#101828':'#fff';c.font=`700 ${fn}px ${VCF}`;c.fillText(p.n,px,py+fn*.04);
+    c.fillStyle='#fff';c.font=`700 ${vcFit(c,up(p.nm),fm,700,cw/3.3)}px ${VCF}`;c.fillText(up(p.nm),px,py+R+fm*.85);
+    if(p.q===L.srvQ){c.fillStyle='#F2BE22';c.beginPath();c.arc(px+R*.95,py-R*.8,R*.3,0,Math.PI*2);c.fill();}});
+  return cv.toDataURL('image/png');}
+function vintroImg(I,size){const W=size.w,H=size.h,cv=document.createElement('canvas');cv.width=W;cv.height=H;const c=cv.getContext('2d'),f='Barlow Condensed, Arial Narrow, sans-serif',u=Math.min(W,H*16/9)/100,maxW=W*.86;
+  c.fillStyle='#101828';c.fillRect(0,0,W,H);c.textAlign='center';c.textBaseline='middle';
+  // lignes coupées à la largeur, taille réduite jusqu'à tenir en n lignes au plus
+  const wrap=(t,px,wt,n)=>{let fs=px,L;for(;;){c.font=`${wt} ${fs}px ${f}`;L=[];let cur='';t.split(' ').forEach(w=>{const x=cur?cur+' '+w:w;if(cur&&c.measureText(x).width>maxW){L.push(cur);cur=w;}else cur=x;});if(cur)L.push(cur);if(L.length<=n&&L.every(l=>c.measureText(l).width<=maxW)||fs<=px*.45)return {L,fs};fs=Math.round(fs*.9);}};
+  const up=s=>String(s||'').toUpperCase(),B=[{...wrap(up(I.mt+'  ·  '+I.d),Math.round(u*3.6),600,2),col:'#F2BE22'},{P:1},{}];
+  if(I.what)B[2]={...wrap(up(I.what.join('  ·  ')),Math.round(u*4.2),600,3),col:'#cfd6e0'};else B.pop();
+  // joueurs : pastille du numéro (couleur du poste) + nom, rangés en lignes centrées, taille réduite jusqu'à tenir en 3 lignes
+  // trop de joueurs pour tenir lisiblement (4 lignes au plus, taille ≥ 3,5 % de l'image) : numéros seuls dans leur pastille
+  const P=I.who.map(p=>Object.assign({},p,{nm:up(p.nm),hn:p.n!=null&&p.n!==''}));let pf=Math.round(u*7.5),rows,only=false;
+  for(;;){c.font=`700 ${pf}px ${f}`;const D=pf*1.12,g=pf*.3,sp=pf*.9;P.forEach(p=>{p.w=only&&p.hn?D:(p.hn?D+g:0)+c.measureText(p.nm).width;});rows=[];let cur=[],cw=0;
+    P.forEach(p=>{const nw=cw?cw+sp+p.w:p.w;if(cur.length&&nw>maxW){rows.push({it:cur,w:cw});cur=[p];cw=p.w;}else{cur.push(p);cw=nw;}});if(cur.length)rows.push({it:cur,w:cw});
+    const ok=rows.length<=(pf>u*5?3:4)&&rows.every(r=>r.w<=maxW);if(ok)break;
+    if(pf<=u*3.5){if(!only&&P.every(p=>p.hn)){only=true;pf=Math.round(u*7.5);continue;}break;}pf=Math.round(pf*.9);}
+  if(only)P.forEach(p=>{p.nm='';});
+  B[1]={L:rows,fs:Math.round(pf*1.12/1.15*1.15),P:1};
+  const gap=u*3.2,hs=B.map(b=>b.L.length*b.fs*1.15),tot=hs.reduce((a,b)=>a+b,0)+gap*(B.length-1)+u*2;let y=(H-tot)/2;
+  B.forEach((b,i)=>{if(b.P){const D=pf*1.12,g=pf*.3,sp=pf*.9;b.L.forEach(r=>{let x=W/2-r.w/2;const cy=y+b.fs*.575;r.it.forEach(p=>{
+        if(p.hn){const rc=viRC(p.r);c.fillStyle=rc[0];c.beginPath();c.arc(x+D/2,cy,D/2,0,Math.PI*2);c.fill();let nf=Math.round(pf*.62);c.font=`700 ${nf}px ${f}`;while(c.measureText(String(p.n)).width>D*.8&&nf>8){nf--;c.font=`700 ${nf}px ${f}`;}
+          c.fillStyle=rc[1];c.textAlign='center';c.fillText(String(p.n),x+D/2,cy+nf*.04);x+=D+g;}
+        if(p.nm){c.font=`700 ${pf}px ${f}`;c.fillStyle='#fff';c.textAlign='left';c.fillText(p.nm,x,cy);x+=c.measureText(p.nm).width;}else x-=g;x+=sp;});y+=b.fs*1.15;});c.textAlign='center';y+=gap;return;}
+    c.font=`${i===1?700:600} ${b.fs}px ${f}`;c.fillStyle=b.col;b.L.forEach(l=>{c.fillText(l,W/2,y+b.fs*.575);y+=b.fs*1.15;});
+    if(i===0){c.fillStyle='#F2BE22';c.fillRect(W/2-u*6,y+gap/2-u*.25,u*12,u*.5);y+=u*2;}y+=gap;});
+  return cv.toDataURL('image/png');}
 function vidInfo(){if(!vNative()||VID.on||Date.now()-(VID.infoAt||0)<20e3)return;VID.infoAt=Date.now();CAP().VideoDelay.info().then(r=>{if(r&&r.free!=null&&r.free!==VID.free){VID.free=r.free;if(ui.screen==='video')render();}}).catch(()=>{});}
 // Qualité réellement obtenue (définition = petit côté, cadence), avec ce qui était demandé si différent
 function vQual(){const P=VP(),h=Math.min(VID.w||0,VID.h||0),want=+P.q,low=h&&h<want*.9,slow=VID.fps&&VID.fps<50;
   return (VID.fps?VID.fps+' i/s':'')+(h?' · '+h+'p':'')+(low||slow?' <small>('+tr('demandé : {Q}').replace('{Q}',(slow?'60 i/s · ':'')+(low?want+'p':''))+')</small>':'');}
 function videoHTML(){const P=VP(),pro=isPro();
   if(VID.pb){const B=VID.pb,r=vRec(),k=r?vDropNext(r,B.pos):false;
-    return `<div class="vstage pb ${ui.vfull?'vfs':''}" id="vStage">${ui.vroi?'':'<div class="vsttap" data-act="vidTapPB"></div>'}${spdHTML('vidPR',B.r)}<div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}<span class="vtsp"></span>${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}<button class="btn vtb ${ui.vmenu?'mon':''}" data-act="vidMenu" aria-expanded="${!!ui.vmenu}" aria-label="Menu">☰ Menu</button></div>
+    return `<div class="vstage pb ${ui.vfull?'vfs':''}" id="vStage">${ui.vroi?'':'<div class="vsttap" data-act="vidTapPB"></div>'}${B.intro&&r&&r.intro?vintroHTML(r.intro):''}${spdHTML('vidPR',B.r)}<div class="vtop"><span class="vbadge">${r?esc(new Date(r.t0).toLocaleString(dateLoc(),{dateStyle:'short',timeStyle:'short'})):''}</span><span class="vbadge" id="vKeepI"></span><span class="vbadge vzw" id="vZoomW" hidden>±10 s</span>${ui.vidExp?`<span class="vbadge rp" id="vExpT"></span>`:''}${ui.vidAuto?`<span class="vbadge rp" id="vAutoT">${tr('Analyse… {N} %').replace('{N}',Math.round(ui.vidAuto.p*100))}</span>`:''}<span class="vtsp"></span>${ui.vfull?`<button class="btn vfsx" data-act="vfsTog" aria-label="${esc(tr('Quitter le plein écran'))}">${pic('min')}</button>`:''}<button class="btn vtb ${ui.vmenu?'mon':''}" data-act="vidMenu" aria-expanded="${!!ui.vmenu}" aria-label="Menu">☰ Menu</button></div>
       ${ui.vmenu?`<div class="vstmenu">${r&&vcMatchFor(r)?`<button class="vstmi" data-act="vsyncStart" ${ui.vsync?'disabled':''}>⏱ ${tr('Synchroniser')}</button>`:''}${r&&r.mode==='match'&&!r.clip?`<button class="vstmi" data-act="vcLinkOpen" data-id="${r.id}">🔗 ${tr('Match lié')}</button>`:''}${r&&r.cuts&&r.cuts.length?'':`<button class="vstmi" data-act="vidExport" ${ui.vidExp?'disabled':''}>⤴ ${tr('Exporter le montage')}${pro?'':' 🔒'}</button>`}<button class="vstmi" data-act="vidShotGo">📷 ${tr('Capture d’écran')}</button>${ui.vfull?'':`<button class="vstmi" data-act="vfsTog">⛶ ${tr('Plein écran')}</button>`}${VID.vz&&VID.vz.z>1?`<button class="vstmi" data-act="vstZoom0">🔍 ${tr('Zoom {N}× → 1×').replace('{N}',VID.vz.z.toFixed(1).replace('.',','))}</button>`:''}<button class="vstmi vstmq" data-act="vidPbX">⏏ ${tr('Quitter la vidéo')}</button></div>`:''}
       ${VID.pv?`<div class="vsyncbar vpvbar"><span>▶ ${tr('Aperçu du match monté')} · <b id="vPvT">0:00</b></span><button class="btn primary" data-act="vexpPrevGo">⇩ ${tr('Exporter')}</button><button class="btn" data-act="vexpPrevX" aria-label="${esc(tr('Fin de l’aperçu'))}">✕</button></div>`:''}
       ${ui.vsync?`<div class="vsyncbar"><span>${tr('Placez la vidéo sur la fin d’un point (ballon au sol), puis :')}</span><button class="btn primary" data-act="vsyncPick">⏱ ${tr('Choisir ce point')}</button><button class="btn" data-act="vsyncX" aria-label="Annuler">✕</button></div>`:''}
@@ -3328,13 +3418,13 @@ function videoHTML(){const P=VP(),pro=isPro();
   const tabs=`<div class="seg vlibt" role="tablist">${[['raw','À traiter'],['done','Avec stats'],['clips','Clips']].map(([k,l])=>`<button role="tab" class="${tab===k?'on':''}" data-act="vlib" data-v="${k}">${tr(l)}<small>${G[k].length}</small></button>`).join('')}</div>`;
   const rows=G[tab].map(r=>{const gone=r.web&&!VID.mem[r.id];const LK=vcLinkInfo(r),mm=LK.m,ask=r.mode==='match'&&!r.clip&&r.st!=='live';
     const src=r.clip?(store.vids||[]).find(x=>x.id===r.src):null,sm=src&&vcMatchFor(src),npt=mm&&!r.clip?mm.ev.filter(e=>e.t==='pt').length:0;
-    const bdg=r.clip?`<span class="vbdg">${tr('De : {M}').replace('{M}',sm?esc(matchTitle(sm)):src?esc(new Date(src.t0).toLocaleDateString(lang())):tr('vidéo supprimée'))}${(r.srcs||[]).length>1?' · '+tr('{N} matchs').replace('{N}',r.srcs.length):''}</span>`:npt?`<span class="vbdg ${store.vst&&store.vst.rid===r.id?'go':'ok'}">${npt>1?tr('Stats : {N} points').replace('{N}',npt):tr('Stats : 1 point')}${mm.free?' · '+tr('sans composition'):''}${store.vst&&store.vst.rid===r.id?' · '+tr('saisie en cours'):''}</span>`:r.clip||r.st==='live'?'':`<span class="vbdg go">${tr('Stats à faire')}</span>`;
+    const bdg=r.clip?`<span class="vbdg">${tr('De : {M}').replace('{M}',sm?esc(matchTitle(sm)):src?esc(new Date(src.t0).toLocaleDateString(dateLoc())):tr('vidéo supprimée'))}${(r.srcs||[]).length>1?' · '+tr('{N} matchs').replace('{N}',r.srcs.length):''}</span>`:npt?`<span class="vbdg ${store.vst&&store.vst.rid===r.id?'go':'ok'}">${npt>1?tr('Stats : {N} points').replace('{N}',npt):tr('Stats : 1 point')}${mm.free?' · '+tr('sans composition'):''}${store.vst&&store.vst.rid===r.id?' · '+tr('saisie en cours'):''}</span>`:r.clip||r.st==='live'?'':`<span class="vbdg go">${tr('Stats à faire')}</span>`;
     // match lié (V183) : nom du match, « à confirmer » quand plusieurs matchs se recoupent, « Aucun match » sinon ; touché, il ouvre le choix
     const link=ask?`<button class="linkbtn vlinkb ${(mm&&LK.auto&&!LK.sure)||(!mm&&!r.noLink&&LK.candidates&&LK.candidates.length)?'warn':''}" data-act="vcLinkOpen" data-id="${r.id}">${mm?(LK.auto&&!LK.sure?'⚠ ':'🔗 ')+esc(matchTitle(mm))+(LK.auto?'':' ·  '+tr('choisi')):r.noLink?tr('Sans match'):esc((LK.candidates&&LK.candidates.length?'⚠ '+tr('Proposé : {M}').replace('{M}',matchTitle(LK.candidates[0].m)):tr('Aucun match lié')))} ▾</button>`:'';
     // V196 : une ligne = titre (match lié ou date), état et détails, une action principale, ⋯ pour le reste
     const V=store.vst,mine=!!(V&&V.rid===r.id),state=r.clip?'':npt?(mine?tr('saisie en cours'):mm&&mm.free?tr('Stats : {N} actions').replace('{N}',freeCount(mm)):(npt>1?tr('Stats : {N} points').replace('{N}',npt):tr('Stats : 1 point'))):r.st==='live'?'':tr('Stats à faire');
-    const title=r.clip?'🎞 '+esc(r.name):mm?esc(matchTitle(mm)):esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}));
-    const sub=[state?`<span class="vbdg ${npt&&!mine?'ok':'go'}">${state}</span>`:'',ask&&mm&&LK.auto&&!LK.sure?`<span class="vbdg warn">⚠ ${tr('match à confirmer')}</span>`:'',vMs(r.dur),vMo(r.size),r.clip?(sm?tr('De : {M}').replace('{M}',esc(matchTitle(sm))):src?esc(new Date(src.t0).toLocaleDateString(lang())):tr('vidéo supprimée')):mm?esc(new Date(r.t0).toLocaleDateString(lang())):(r.imp?tr('Importée'):r.mode==='match'?tr('Enregistrement'):tr('Différé')),r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0))):'',r.aud?'🔊':'',r.st==='int'?tr('interrompu, récupéré'):'',gone?tr('vidéo du navigateur, perdue au rechargement'):''].filter(Boolean).join(' · ');
+    const title=r.clip?'🎞 '+esc(r.name):mm?esc(matchTitle(mm)):esc(new Date(r.t0).toLocaleString(dateLoc(),{dateStyle:'short',timeStyle:'short'}));
+    const sub=[state?`<span class="vbdg ${npt&&!mine?'ok':'go'}">${state}</span>`:'',ask&&mm&&LK.auto&&!LK.sure?`<span class="vbdg warn">⚠ ${tr('match à confirmer')}</span>`:'',vMs(r.dur),vMo(r.size),r.clip?(sm?tr('De : {M}').replace('{M}',esc(matchTitle(sm))):src?esc(new Date(src.t0).toLocaleDateString(dateLoc())):tr('vidéo supprimée')):mm?esc(new Date(r.t0).toLocaleDateString(dateLoc())):(r.imp?tr('Importée'):r.mode==='match'?tr('Enregistrement'):tr('Différé')),r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0))):'',r.aud?'🔊':'',r.st==='int'?tr('interrompu, récupéré'):'',gone?tr('vidéo du navigateur, perdue au rechargement'):''].filter(Boolean).join(' · ');
     const prim=gone?'':r.clip||r.st==='live'||(npt&&!mine)?`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`:mine?`<button class="btn primary" data-act="vstOpen" data-id="${r.id}">📝 ${tr('Stats')}</button>`:`<button class="btn" data-act="vstNewAsk" data-id="${r.id}">📝 ${tr('Stats')}</button>`;
     return `<div class="vrow lrow"><span class="who"><b>${title}</b><small>${sub}</small></span>${prim}<button class="btn icon" data-act="vidMore" data-id="${r.id}" aria-label="Plus d'actions">⋯</button></div>`;}).join('');
   return `<div class="cmain vid">${tbarHTML()}<div class="top"><h1>Vidéo</h1><div class="hrow">${ui.vidImp?`<button class="btn icon" disabled aria-label="Import en cours">⏳</button>`:`<button class="btn icon" data-act="vidImpAsk" aria-label="${esc(tr('Importer une vidéo'))}" title="${esc(tr('Importer une vidéo'))}">＋</button>`}</div></div>
@@ -3578,8 +3668,8 @@ function statPanel(m,S){
   const who=id=>id?`${pnum(m,id)} ${dname(m,id)}`:'non attribuée';
   const easy=store.prefs.easy||vstOn(),both=store.prefs.stBoth&&!vstOn(),pk=both&&ui.stPick;
   let h=`<div class="stp ${both?'both':''} ${pk?'pk':''}"><div class="sth"><b>Stats de l'échange (${S.serving==='G'?esc(T)+' au service':'en réception'})</b><small>facultatif : saisir puis valider le point</small></div>
-    ${ui.sgAsk?(()=>{const x=ui.sgAsk.x;return `<div class="stq n">${x[0]==='rly'?'Relais de passe':'Renvoi direct'} · ${esc(who(x[2]))}<br><b class="dfq">${tr('Note : −, = ou + ?')}</b></div><div class="strow sgq">${[[-1,'− '+tr('raté')],[0,'= '+tr('neutre')],[1,'+ '+tr('réussi')]].map(([v,l])=>`<button class="stb big ${stCls(v)}" data-act="sgSet" data-v="${v}">${l}</button>`).join('')}</div><div class="strow" style="margin-top:8px"><button class="stb" data-act="sgSkip">${tr('Passer')}</button><button class="stb" data-act="stCancel">${tr('Annuler')}</button></div>`;})():ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1],q.x[3])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
-      <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><button class="btn big dfskip" data-act="diffSkip">Passer</button></div>`;})():ui.stPick&&!store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick)
+    ${ui.sgAsk?(()=>{const x=ui.sgAsk.x;return `<div class="stq n">${x[0]==='rly'?'Relais de passe':'Renvoi direct'} · ${esc(who(x[2]))}<br><b class="dfq">${tr('Note : −, = ou + ?')}</b></div><div class="diffr"><div class="dfcol">${[[1,'+ '+tr('réussi'),-1],[0,'= '+tr('neutre'),0],[-1,'− '+tr('raté'),1]].map(([v,l,c])=>`<button class="btn big dfb d${c}" data-act="sgSet" data-v="${v}">${l}</button>`).join('')}</div><div class="dfcol"><button class="btn big dfskip" data-act="sgSkip">${tr('Passer')}</button><button class="btn dfskip dfx" data-act="stCancel">${tr('Annuler')}</button></div></div>`;})():ui.diffAsk?(()=>{const q=ui.diffAsk,rec=q.k==='rec';return `<div class="stq ${stCls(q.x[1])}">${stLab(q.x[0],q.x[1],q.x[3])} · ${esc(who(q.x[2]))}<br><b class="dfq">${rec?'Service adverse':'Attaque adverse'} : facile, moyen ou difficile ?</b></div>
+      <div class="diffr"><div class="dfcol">${[[-1,'Facile'],[0,'Moyen'],[1,'Difficile']].map(([v,l])=>`<button class="btn big dfb d${v}" data-act="diffSet" data-v="${v}">${l}</button>`).join('')}</div><div class="dfcol"><button class="btn big dfskip" data-act="diffSkip">${tr('Passer')}</button><button class="btn dfskip dfx" data-act="stCancel">${tr('Annuler')}</button></div></div>`;})():ui.stPick&&!store.prefs.stBoth?pickHTML(m,S,st,lp,sid,ui.stPick)
     :(both?'<div class="bact">':'')+(easy?(()=>{const [c0,c1]=stC01(m,lp,st),cats=m.free?['srv','rec','def','pas','att'].concat(BLK()?['blk']:[]):BLK()?[c0,c1,'att','blk']:[c0,c1,'att'];
       // Mode stats faciles : grille fixe 3 × 3 ; la colonne passe / service est attribuée automatiquement (nom affiché)
       const auto=k=>m.free?null:k==='srv'?lp.srv:k==='pas'?sid:null;
@@ -3785,7 +3875,7 @@ function sheetHTML(m,S){
     const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'),true,SS,set)).join(''):'';
     return `<div class="pfw ${rcls(r.role)}"><div class="sh"><h3 style="display:flex;align-items:center;gap:10px"><span class="num ${rcls(r.role)}">${r.n}</span>${esc(r.full)} <small class="hint">${esc(ROLES[r.role]||'')} · ${esc(scope)}${lic?' · Licence '+esc(lic):''}</small></h3>${nav}<button class="btn xbtn" data-act="close" aria-label="Fermer">✕</button></div>
       ${impHTML(SS,set,r)}
-      ${(()=>{const vr=!isExtra(r.id)&&vcRecFor(M);return vr?`<button class="btn" data-act="vcOpen" data-rid="${vr.id}" data-mid="${M.id}" data-pid="${r.id}" style="margin:4px 0">🎬 ${tr('Clips vidéo')}${proFor(M)?'':' 🔒'}</button>${vsActsHTML(M,r.id,vr)}`:'';})()}
+      ${(()=>{const vr=!isExtra(r.id)&&vcRecFor(M);return vr?`<button class="btn" data-act="vcOpen" data-rid="${vr.id}" data-mid="${M.id}" data-pid="${r.id}" style="margin:4px 0">🎬 ${tr('Clips vidéo')}</button>${vsActsHTML(M,r.id,vr)}`:'';})()}
       ${isExtra(r.id)?'':`<div class="pfexp"><span>${esc(tr('Exporter les stats de {N}').replace('{N}',dname(M,r.id)))}</span><button class="btn" data-act="pfExp" data-k="pdf">⇩ PDF${shareOk(M.season?'season':M===store.cur?undefined:M.id)?'':' 🔒'}</button><button class="btn" data-act="pfExp" data-k="csv">⇩ CSV${shareOk(M.season?'season':M===store.cur?undefined:M.id)?'':' 🔒'}</button></div>`}
       ${isExtra(r.id)?'':`<div class="barcell" style="margin:6px 0 2px"><span class="track"><i style="width:${pct.toFixed(1)}%"></i></span><b>${pct.toFixed(0)} %</b></div><small class="hint">${pl} / ${tot} points joués</small>`}
       ${pfCats(M,SS,set,r,f,me,team,pc,line)}</div>`;
@@ -3858,7 +3948,7 @@ function sheetHTML(m,S){
     return `<div class="sh"><h3>Exporter</h3>${close}</div><div class="seg">${mode('all','Tout')}${mode('teams','Équipes')}${mode('seasons','Saisons')}</div>${body}
       <div style="margin-top:12px"><button class="btn big primary" data-act="expGo">${IC.share} Exporter</button></div>`;}
   if(ui.sheet==='impDup'&&ui.impDup){const q=ui.impDup,d=(store.vids||[]).find(x=>x.id===q.id);if(!d){ui.sheet=null;return '';}const dm=vcMatchFor(d);
-    return `<div class="sh"><h3>⚠ ${tr('Vidéo déjà importée')}</h3></div><p>${tr('Cette vidéo semble déjà dans VolleyCoach : {V}.').replace('{V}',`<b>${esc(new Date(d.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))}${dm?' · '+esc(matchTitle(dm)):''}</b>`)}</p>
+    return `<div class="sh"><h3>⚠ ${tr('Vidéo déjà importée')}</h3></div><p>${tr('Cette vidéo semble déjà dans VolleyCoach : {V}.').replace('{V}',`<b>${esc(new Date(d.t0).toLocaleString(dateLoc(),{dateStyle:'short',timeStyle:'short'}))}${dm?' · '+esc(matchTitle(dm)):''}</b>`)}</p>
       <p class="hint">${tr('L’importer encore créerait un doublon : la même vidéo deux fois, {N} de plus sur l’appareil. Un doublon ne sert que de copie de sécurité.').replace('{N}',vMo(q.o.size||d.size||0))}</p>
       <button class="btn big primary" data-act="impDupNo">${tr('Ne pas importer')}</button><button class="btn big" data-act="impDupYes" style="margin-top:8px">${tr('Importer quand même (copie de sécurité)')}</button>`;}
   if(ui.sheet==='clipKeep'){const r=VID.pb&&vRec();if(!r){ui.sheet=null;return '';}const src=(store.vids||[]).find(x=>x.id===r.src),sm=src&&vcMatchFor(src),n=vRanges(r,r.dur).length;
@@ -3871,9 +3961,9 @@ function sheetHTML(m,S){
   if(ui.sheet==='vidMore'){const r=(store.vids||[]).find(x=>x.id===ui.vidMore);if(!r){ui.sheet=null;return '';}const gone=r.web&&!VID.mem[r.id],LK=vcLinkInfo(r),mm=LK.m,npt=mm&&!r.clip?mm.ev.filter(e=>e.t==='pt').length:0,V=store.vst,mine=!!(V&&V.rid===r.id),ask=r.mode==='match'&&!r.clip&&r.st!=='live',nat=!r.web&&!!CAP().VideoDelay;
     const st=r.clip||r.st==='live'?'':!npt?mrow('vstNewAsk',r.id,'📝 '+tr('Saisir les stats'),'',tr('Noter le match en relisant la vidéo')):mine?mrow('vstOpen',r.id,'📝 '+tr('Reprendre la saisie')):mrow('vstOpen',r.id,'📝 '+tr('Reprendre la saisie'),'','','data-mode="res"')+mrow('vstOpen',r.id,'✎ '+tr('Éditer les stats'),'',tr('Recaler, corriger, compléter'),'data-mode="val"');
     // V196 : menu ⋯ d'une vidéo : toutes les actions, libellés courts
-    return `<div class="sh"><h3>${r.clip?'🎞 '+esc(r.name):mm?esc(matchTitle(mm)):esc(new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}))}</h3>${close}</div><div class="card morel">
+    return `<div class="sh"><h3>${r.clip?'🎞 '+esc(r.name):mm?esc(matchTitle(mm)):esc(new Date(r.t0).toLocaleString(dateLoc(),{dateStyle:'short',timeStyle:'short'}))}</h3>${close}</div><div class="card morel">
       ${gone?'':mrow('vidPlay',r.id,'▶ '+tr('Revoir'),'',tr('Relecture, montage, export'))}${gone?'':st}
-      ${!gone&&mm&&!r.clip?mrow('vcOpen',r.id,'🎞 '+tr('Clips joueurs')+(proFor(mm)?'':' 🔒'),'',tr('Extraits par joueur ou par action'),`data-rid="${r.id}" data-mid="${mm.id}"`):''}
+      ${!gone&&mm&&!r.clip?mrow('vcOpen',r.id,'🎞 '+tr('Clips joueurs'),'',tr('Extraits par joueur ou par action'),`data-rid="${r.id}" data-mid="${mm.id}"`):''}
       ${!gone&&!r.web&&npt&&!mine?(mm&&mm.free?mrow('vidMonte',r.id,'🎬 '+tr('Clip séance')+(isPro()?'':' 🔒'),'',tr('Vidéo montée action par action, avec ses stats')):mrow('vidMonte',r.id,'🎬 '+tr('Clip match')+(isPro()?'':' 🔒'),'',tr('Vidéo montée point par point, avec ses stats'))):''}
       ${ask?mrow('vcLinkOpen',r.id,'🔗 '+tr('Match lié'),(LK.auto&&mm&&!LK.sure)||(!mm&&!r.noLink&&LK.candidates&&LK.candidates.length)?'warn':'',mm?(LK.auto&&!LK.sure?'⚠ '+tr('à confirmer')+' · ':'')+esc(matchTitle(mm))+(LK.auto?'':' · '+tr('choisi')):r.noLink?tr('Sans match'):esc((LK.candidates&&LK.candidates.length?'⚠ '+tr('Proposé : {M}').replace('{M}',matchTitle(LK.candidates[0].m)):tr('Aucun match lié')))):''}
       ${ask&&!gone&&!r.anim?mrow('vpOpen',r.id,'🎞 '+tr('Vidéos du match'),'',(n=>n>1?tr('{N} vidéos bout à bout').replace('{N}',n):tr('Ajouter les vidéos des autres sets'))(vpParts(r).length)):''}
@@ -3882,7 +3972,7 @@ function sheetHTML(m,S){
   // V207 : vidéos d'un même match (une par set…), lues bout à bout ; heure de tournage affichée pour pouvoir revenir à l'ordre détecté
   if(ui.sheet==='vparts'){const r=(store.vids||[]).find(x=>x.id===ui.vpId);if(!r){ui.sheet=null;return '';}
     const P=vpParts(r),nat=!r.web&&!!(CAP().VideoDelay||{}).importVideo,mm=vcLinkInfo(r).m,npt=mm?mm.ev.filter(e=>e.t==='pt').length:0,busy=!!(store.vst&&store.vst.rid===r.id);
-    const hh=t=>new Date(t).toLocaleString(lang(),{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const hh=t=>new Date(t).toLocaleString(dateLoc(),{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const sorted=P.every((p,i)=>!i||P[i-1].t0<=p.t0);
     const rows=P.map((p,i)=>`<div class="vprow"><b class="vpn">${i+1}</b><span class="vpt"><b>${esc(hh(p.t0))}</b><small>${vMs(p.d)}${p.name?' · '+esc(p.name):''}</small></span>
       <span class="vpbt"><button class="btn" data-act="vpMove" data-i="${i}" data-d="-1" ${i&&!busy?'':'disabled'} aria-label="${esc(tr('Monter'))}">↑</button><button class="btn" data-act="vpMove" data-i="${i}" data-d="1" ${i<P.length-1&&!busy?'':'disabled'} aria-label="${esc(tr('Descendre'))}">↓</button>${P.length>1&&!busy?`<button class="btn ${ui.vpDelAsk===i?'danger':''}" data-act="vpDel" data-i="${i}">${ui.vpDelAsk===i?tr('Retirer ?'):'✕'}</button>`:''}</span></div>`).join('');
@@ -3925,14 +4015,15 @@ function sheetHTML(m,S){
       <div class="vopt"><span>${tr('Montage')}</span><div class="seg"><button class="${q.whole?'':'on'}" data-act="vcWhole" data-v="0">${tr('Actions seules')}</button><button class="${q.whole?'on':''}" data-act="vcWhole" data-v="1">${tr('Points entiers')}</button></div></div>
       <p class="hint xp">${vmHint(q.whole)}</p>
       <p><b>${tr('{N} clips').replace('{N}',clips.length)} · ${vMs(dur)}</b></p>
+      ${!proFor(m)&&acts.length>VC_FREE?`<p class="hint warnc">${tr('Version gratuite : seules les {N} premières actions sont gardées ({T} retenues).').replace('{N}',VC_FREE).replace('{T}',acts.length)} <button class="linkbtn" data-act="pro">${tr('Tout voir avec Pro')}</button></p>`:''}
       <button class="btn big primary" data-act="vcGo" ${clips.length?'':'disabled'}>${tr('Créer les clips')}</button>`;}
   if(ui.sheet==='vsync'&&ui.vsync&&VID.pb){const q=ui.vsync,r=vcRec(q),m=vcMatch(q);if(!r||!m){ui.sheet=null;return '';}
     const L=[];let si=-1,g=0,a=0;m.ev.forEach((e,i)=>{if(e.t==='set'){si++;g=a=0;return;}if(e.t!=='pt')return;if(e.w==='G')g++;else a++;if(e.at!=null)L.push({i,si,g,a,at:e.at});});
     const est=vcTimeAt(r,VID.pb.pos)-(r.off||0)+2000;let near=null;L.forEach(x=>{if(!near||Math.abs(x.at-est)<Math.abs(near.at-est))near=x;});
     return `<div class="sh"><h3>⏱ ${tr('Quel point vient de se finir ?')}</h3>${close}</div><p class="hint xp">${tr('La vidéo est arrêtée sur la fin d’un point : choisissez ce point dans la liste. Les horloges de la vidéo et des stats seront recalées.')}</p>
-      <div style="display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto">${L.map(x=>`<button class="prow pclick ${x===near?'on':''}" data-act="vsyncSet" data-i="${x.i}"><span class="who"><b>Set ${x.si+1} · ${x.g}-${x.a}</b><small>${new Date(x.at).toLocaleTimeString(lang()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</small></span>${x===near?'<span aria-hidden="true">🏐</span>':''}</button>`).join('')}</div>`;}
+      <div style="display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto">${L.map(x=>`<button class="prow pclick ${x===near?'on':''}" data-act="vsyncSet" data-i="${x.i}"><span class="who"><b>Set ${x.si+1} · ${x.g}-${x.a}</b><small>${new Date(x.at).toLocaleTimeString(dateLoc()==='fr'?'fr-FR':lang(),{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</small></span>${x===near?'<span aria-hidden="true">🏐</span>':''}</button>`).join('')}</div>`;}
   if(ui.sheet==='vlink'&&ui.vlink){const r=(store.vids||[]).find(x=>x.id===ui.vlink);if(!r){ui.sheet=null;return '';}const LK=vcLinkInfo(r),C=LK.candidates,ids=new Set(C.map(c=>c.m.id)),cur=LK.m;
-    const when=new Date(r.t0).toLocaleString(lang(),{dateStyle:'short',timeStyle:'short'}),row=(m,sub,on)=>`<button class="prow pclick ${on?'on':''}" data-act="vcLinkSet" data-mid="${m.id}"><span class="who"><b>${esc(matchTitle(m))}</b><small>${esc(fmtDate(m.date))}${sub?' · '+sub:''}</small></span>${on?'<span aria-hidden="true">✓</span>':''}</button>`;
+    const when=new Date(r.t0).toLocaleString(dateLoc(),{dateStyle:'short',timeStyle:'short'}),row=(m,sub,on)=>`<button class="prow pclick ${on?'on':''}" data-act="vcLinkSet" data-mid="${m.id}"><span class="who"><b>${esc(matchTitle(m))}</b><small>${esc(fmtDate(m.date))}${sub?' · '+sub:''}</small></span>${on?'<span aria-hidden="true">✓</span>':''}</button>`;
     const others=vcMatches().filter(m=>!ids.has(m.id)&&!m.season).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,40);
     return `<div class="sh"><h3>🔗 ${tr('Match filmé')}</h3>${close}</div><p class="hint">${tr('Enregistrement du {D} ({T}). Le match lié sert aux clips, au bandeau du score et au saut depuis les stats.').replace('{D}',esc(when)).replace('{T}',vMs(r.dur))}</p>
       ${C.length?`<h2>${tr('Matchs aux mêmes heures')}</h2><div style="display:flex;flex-direction:column;gap:6px">${C.map((c,i)=>row(c.m,(i===0&&!cur&&!r.noLink?tr('Proposé')+' · ':'')+(c.overlap>0?tr('recouvrement {N} %').replace('{N}',Math.round(c.ratio*100)):tr('à {N} min').replace('{N}',Math.round(c.gap/60e3))),cur===c.m)).join('')}</div>`:`<p class="hint warnc">${tr('Aucun match saisi aux heures de cette vidéo. Si les horloges des deux appareils diffèrent de plus de 30 min, choisissez le match ci-dessous puis synchronisez-les dans le lecteur.')}</p>`}
@@ -3945,8 +4036,9 @@ function sheetHTML(m,S){
       <div class="tools"><button class="btn" data-act="vroiStart">▭ ${tr('Zone d’analyse')}${r.roi?' ✓':''}</button><button class="btn primary" data-act="close">OK</button></div>
       <p class="hint xp">${tr('Zone d’analyse : limite la détection des échanges à une partie de l’image (le terrain), pour ignorer les tribunes ; à définir avant de relancer « Montage auto ».')}</p>`;}
   if(ui.sheet==='vexp'&&ui.vexp&&VID.pb){const P=VID.pb,r=vRec(),X=ui.vexp;if(!r){ui.sheet=null;return '';}const src=vidSrcSize(r),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};
-    const pts=X.src==='pts'&&vmontOk(m,r),R=pts?vmontPick(m,r,X.pick):vRanges(r,P.tot),spd=pts?1:X.speed,exact=pts||X.exact; // V193 : match monté = vitesse normale, coupe à l'image près (stats calées)
-    const est=vxEstimate(R,{tot:P.tot,size:r.size,speed:spd,preset:X.preset,audio:X.audio&&!!r.aud,fps:r.fps}),plan=vxPlan(R,P,{preset:X.preset,speed:spd,audio:X.audio,exact,overlay:X.ov?1:null,src,size:r.size,fps:r.fps,r});
+    const pts=X.src==='pts'&&vmontOk(m,r),R0=pts?vmontPick(m,r,X.pick):vRanges(r,P.tot),spd=pts?1:X.speed,exact=pts||X.exact; // V193 : match monté = vitesse normale, coupe à l'image près (stats calées)
+    const CA=R0.length?vxCardsApply(r,R0,vxCardList(m,r,X,pts),P.tot,spd):{R:R0,wins:[]},R=CA.R,vi=CA.wins.length>0;
+    const est=vxEstimate(R,{tot:P.tot,size:r.size,speed:spd,preset:X.preset,audio:X.audio&&!!r.aud,fps:r.fps}),plan=vxPlan(R,P,{preset:X.preset,speed:spd,audio:X.audio,exact,overlay:X.ov||vi?1:null,src,size:r.size,fps:r.fps,r});
     const sw=(k,lab,dis)=>`<label class="chk sw"><input type="checkbox" role="switch" data-act="vexpSet" data-k="${k}" ${X[k]?'checked':''} ${dis?'disabled':''}> ${lab}</label>`,short=Math.min(src.w,src.h);
     const seg=(k,opts)=>`<div class="seg vsseg">${opts.map(([v,l,dis])=>`<button class="${String(X[k])===String(v)?'on':''}" data-act="vexpSet" data-k="${k}" data-v="${v}" ${dis?'disabled':''}>${l}</button>`).join('')}</div>`;
     return `<div class="sh"><h3>⇩ ${pts?(m&&m.free?tr('Exporter la séance montée'):tr('Exporter le match monté')):tr('Exporter le montage')}</h3>${close}</div>
@@ -3958,6 +4050,7 @@ function sheetHTML(m,S){
       <div class="vopt"><span>${tr('Qualité')}</span>${seg('preset',Object.keys(VX_PRESETS).map(k=>[k,k==='orig'?tr('Originale'):VX_PRESETS[k].lab,k!=='orig'&&VX_PRESETS[k].h>=short]))}</div>
       ${pts?'':`<div class="vopt"><span>${tr('Vitesse')}</span>${seg('speed',VX_SPEEDS.map(s=>[s,vxSpeedLab(s)]))}</div>
       ${sw('exact',tr('Coupe à l’image près'))}`}${r.aud?sw('audio',tr('Son')+(spd!==1?' <small class="hint">('+tr('coupé au ralenti')+')</small>':''),spd!==1):''}
+      ${r.intro&&!pts?sw('intro',tr('Écran d’introduction (match, joueurs, actions)')):m?sw('cards',!m.free&&av.ok?tr('Écrans de match (début, composition de chaque set)'):tr('Écran de début (équipes, date)')):''}
       ${m?(av.ok?sw('ov',tr('Score incrusté')):`<p class="hint">${av.why==='noOffset'?tr('Score incrusté : synchronisez d’abord les horloges de la vidéo et des stats (bouton « Synchroniser » du lecteur).'):tr('Score incrusté indisponible : ce match n’a pas d’heures notées.')}</p>`):''}
       <p class="hint">${plan.reencode||plan.speed!==1?tr('Vidéo réencodée : l’export prend plus de temps.'):tr('Copie sans réencodage : rapide, qualité d’origine ; coupe sur l’image clé précédente.')}</p>
       <p><b>≈ ${vMs(est.dur)} · ${vMo(est.size)}</b>${X.free!=null?` <small class="hint">· ${tr('place libre : {N}').replace('{N}',vMo(X.free))}</small>`:''}</p>
@@ -4403,7 +4496,7 @@ function rankHTML(m,S,set){return `<p class="hint xp">Touchez un classement pour
   <div class="rkgrid">${RKS().map(([k])=>`<div class="pclick" data-act="kfull" data-k="${k}">${rankTableHTML(m,S,set,k)}</div>`).join('')}</div>`;}
 // Paramètres : langue, code entraîneur, sauvegarde automatique
 // Réglages : sections regroupées, barre latérale rétractable (icônes seules après quelques secondes) qui suit le défilement
-const SETSEC=[['gen','⚙️','Général','Langue · Aides contextuelles'],['saisie','✍️','Saisie des statistiques','Mode stats faciles · Bloc · Difficulté · Calibrage'],['video','🎥','Vidéo','Clips · Bandeau du score · Export'],['data','💾','Données','Exporter · Importer · Stockage'],['aide','❓','Aide','Tutoriel · Conseils de saisie · Méthode de calcul'],['secu','🔒','Sécurité','Code entraîneur'],['abo','⭐','Abonnement','VolleyCoach Pro'],['legal','ℹ️','À propos','Version · Mentions légales']]; // V196 : ordre
+const SETSEC=[['gen','⚙️','Général','Langue · Aides contextuelles'],['saisie','✍️','Saisie des statistiques','Mode stats faciles · Bloc · Difficulté · Calibrage'],['video','🎥','Vidéo','Clips · Bandeau du score · Export'],['data','💾','Données','Exporter · Importer · Stockage'],['aide','❓','Aide','Tutoriel · Conseils de saisie · Méthode de calcul'],['secu','🔒','Sécurité','Code entraîneur'],['abo','⭐','VolleyCoach Pro','Abonnement · Pass · Codes'],['legal','ℹ️','À propos','Version · Mentions légales']]; // V196 : ordre
 function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id]=inner;return '';};
   // Liste des sections (page d'accueil des Réglages), puis une page par section avec retour
   const list=()=>`<div class="card setlist">${SETSEC.map(([id,ic,l,d])=>`<button class="setrow" data-act="setOpen" data-id="${id}"><span class="ic" aria-hidden="true">${ic}</span><span class="tt"><b>${l}</b><small>${d}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div>`;
@@ -4435,8 +4528,8 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <label class="f">Nouveau code (4 chiffres)<input id="cNew1" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label>
       <label class="f">Confirmer le nouveau code<input id="cNew2" inputmode="numeric" maxlength="4" type="password" autocomplete="off"></label></div>
       <div style="margin-top:10px"><button class="btn primary" data-act="codeChange">Changer le code</button></div>`:''}`,'',`<p class="hint">${P.codeOn?'Le code est demandé à chaque ouverture du Menu.':`Désactivé : le Menu s’ouvre sans code. L’activation demande le code actuel${P.code?'':' (code par défaut : '+CODE+')'}.`}</p>`))}
-    ${sec('abo','Abonnement',card('VolleyCoach Pro',`<p class="hint">${proStatus()}</p>
-      <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button>`))}
+    ${sec('abo','VolleyCoach Pro',`<div class="card dblk"><p class="hint">${proStatus()}</p>
+      <button class="btn ${isPro()&&!trialLeft()?'':'primary'}" data-act="pro">${isPro()&&!trialLeft()?'Voir mon abonnement':'Découvrir VolleyCoach Pro'}</button></div>`)}
     ${sec('data','Données',`<div class="card dblk" id="importSec"><h3 class="cond">Exporter</h3><p class="hint warnc">Tout est enregistré sur cet appareil : exportez régulièrement une copie (stats, équipes et réglages ; les vidéos n'y sont pas).</p><div class="tools"><button class="btn primary" data-act="expOpen">${IC.share} Exporter…</button></div>
       <label class="chk sw" style="margin-top:10px"><input type="checkbox" role="switch" data-pref="autoMatch" ${P.autoMatch?'checked':''}> Sauvegarde automatique du match (fichier .vbcs à la fin de chaque match)</label>
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="autoSeason" ${P.autoSeason?'checked':''}> Sauvegarde automatique de la saison</label></div>
@@ -4444,7 +4537,7 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <div class="tools"><button class="btn" data-act="import">📂 Ouvrir une sauvegarde</button></div></div>
       ${NATIVE?storeHTML():''}
       ${NATIVE?'':`<div class="card dblk">${D('Mise à jour',`<p class="hint">Version installée : ${APP_VERSION}. « Forcer la mise à jour » recharge la dernière version publiée sans passer par le cache du navigateur (vos données sont conservées). La vérification se fait à l’ouverture, au retour sur l’appli et toutes les 5 minutes.</p>`)}
-      <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(lang()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
+      <p class="hint updst">${UPD.at?`Dernière vérification : ${UPD.at.toLocaleTimeString(dateLoc()==='fr'?'fr-FR':undefined,{hour:'2-digit',minute:'2-digit'})} · ${UPD.err?`échec (${esc(UPD.err)})`:`version publiée : ${esc(UPD.found)}`}`:'Aucune vérification pour l’instant.'}</p>
       <div class="tools"><button class="btn" data-act="checkUpd">Vérifier</button><button class="btn" data-act="forceUpd">Forcer la mise à jour</button></div></div>`}`)}
     ${sec('aide','Aide',card('Couleurs des postes',legend())+card('Méthode de calcul',`<p class="hint xp">Comment sont calculées les statistiques, avec les seuils et les poids en vigueur.</p><button class="btn" data-act="methodOpen">📐 Voir la méthode de calcul</button>`)+card('Tutoriel',`<p class="hint xp">Un chapitre par sujet ; chacun se termine ici.</p>
       <div class="tchaps">${TUTO.map((c,i)=>`<button class="btn ${i?'':'primary'}" data-act="tutoStart" data-c="${i}">${i+1}. ${esc(c.t)}</button>`).join('')}</div>`)
@@ -4833,7 +4926,7 @@ const PRO_CMP=[['Saisie du match : score, rotations, positions et stats',1],['R�
   ['Stats du passeur, d’un R4 et d’un central',1],['Stats de tous les joueurs et classements complets',0],['Zones de réception et de défense, analyse des rotations',0],
   ['Stats de saison et progression',0],['Exports PDF et CSV des statistiques',0],['Partage d’un match ou d’une équipe (.vbcs)',0],['Fusion des saisies faites à deux',0],
   ['Coaching : rotations, réception, défense, temps mort',1],['Analyse du passeur par poste de réception','Poste 6'],['Attaque par poste (heatmap)',0],
-  ['Vidéo en différé et ralenti','5 min / jour'],['Enregistrement vidéo, clips et mode Match',0],['Montage d’un match et export vidéo',0]];
+  ['Vidéo en différé et ralenti','5 min / jour'],['Clips joueur','5 actions'],['Enregistrement vidéo et mode Match',0],['Montage d’un match et export vidéo',0]];
 function proCmpHTML(){const y='<span class="cy" aria-label="Oui">✓</span>',n='<span class="cn" aria-label="Non">✕</span>';
   return `<table class="pcmp"><thead><tr><th></th><th>Gratuit</th><th>Pro</th></tr></thead><tbody>${PRO_CMP.map(([t,f])=>`<tr><td>${t}</td><td>${typeof f==='string'?`<small class="cpart">${f}</small>`:f?y:n}</td><td>${y}</td></tr>`).join('')}</tbody></table><p class="hint">Pro : pass saison, pass mi-saison ou abonnement mensuel, mêmes fonctions.</p>`;}
 function proSheetHTML(close){const L=store.lic,act=L&&L.plan&&L.plan!=='free'&&(!L.until||L.until>=today()),O=passOffers(),any=O.some(o=>o.on);
@@ -5418,7 +5511,7 @@ const A={
     if(store.prefs.oppDiff&&(k==='rec'||k==='def')&&d.id){ui.diffAsk={k,x};render();return 1;}addStat(x);return 1;},
   diffSet(d){const q=ui.diffAsk;ui.diffAsk=null;if(!q)return;const x=q.x.slice();while(x.length<4)x.push(null);x[4]=+d.v;addStat(x);return 1;},
   diffSkip(){const q=ui.diffAsk;ui.diffAsk=null;if(q)addStat(q.x);return 1;},
-  stCancel(){ui.stPick=null;ui.sgAsk=null;},
+  stCancel(){ui.stPick=null;ui.sgAsk=null;ui.diffAsk=null;},
   sgSet(d){const q=ui.sgAsk;ui.sgAsk=null;if(!q)return;const x=q.x.slice();x[1]=+d.v;x[3]='q';addStat(x);return 1;},
   sgSkip(){const q=ui.sgAsk;ui.sgAsk=null;if(q)addStat(q.x);return 1;},
   // 2x2 : le ballon a franchi le filet, les deux joueurs peuvent de nouveau toucher (partage 50/50)
@@ -5747,7 +5840,10 @@ const A={
   vidQ(d){VP().q=d.v;save();},
   vidCam(d){VP().cam=d.v;save();},
   vidPlay(d){const r=(store.vids||[]).find(x=>x.id===d.id);if(!r)return;ui.sheet=null;ui.vmenu=false;VID.vz={z:1,x:0,y:0}; /* V203 : zoom remis à 1× à chaque vidéo */const segs=r.web?VID.mem[r.id]:vSegsOf(r).map(x=>({url:vUrl(x.u),path:x.u,dur:x.d,t0:x.t}));if(!segs||!segs.length){toast('Vidéo introuvable','warn');return;}
-    const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};},
+    const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};
+    // V209 : clip joueur : écran d'introduction 4 s (appui = passer), lecture ensuite
+    if(r.intro){const P=VID.pb;P.play=false;P.intro=1;setTimeout(()=>{if(VID.pb===P&&P.intro)A.vintroX();},VI_MS);}},
+  vintroX(){const P=VID.pb;if(!P||!P.intro)return;delete P.intro;P.play=true;render();},
   // Montage automatique : échanges détectés par l'activité de l'image (video-ai.js), temps morts jetés, ancien montage dans « Annuler »
   // V183 : marges et seuils des Réglages (vxAutoOpts), zone d'analyse r.roi ; courbe calculée par le module natif (VideoDelay.activity,
   // décodage matériel) quand il existe, sinon lecture accélérée dans la page (dtAnalyze)
@@ -5925,7 +6021,7 @@ const A={
     catch(e){toast(String((e&&e.message)||tr('Export impossible')),'warn');}
     finally{try{l.remove();}catch(e){}ui.vidSend=null;render();}return 1;},
   // Clips par joueur / action : fiche de choix, puis nouvelle entrée qui partage les tranches de l'enregistrement
-  vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;if(!proFor(m)){ui.sheet='pro';return;}ui.vc={rid:d.rid,mid:d.mid,pids:d.pid?[d.pid]:present(m).filter(p=>!isExtra(p.id)).map(p=>p.id),kinds:['att'],signs:[]};ui.sheet='vclips';},
+  vcOpen(d){const m=vcMatch({mid:d.mid});if(!m)return;ui.vc={rid:d.rid,mid:d.mid,pids:d.pid?[d.pid]:present(m).filter(p=>!isExtra(p.id)).map(p=>p.id),kinds:['att'],signs:[]};ui.sheet='vclips';},
   vcPid(d){const q=ui.vc;if(!q)return;const m=vcMatch(q),P=m?present(m).filter(p=>!isExtra(p.id)).map(p=>p.id):[];if(!d.id){q.pids=P.every(id=>q.pids.includes(id))?[]:P.slice();return;}const i=q.pids.indexOf(d.id);if(i<0)q.pids.push(d.id);else q.pids.splice(i,1);},
   vcKind(d){const q=ui.vc;if(!q)return;if(!d.k){const K=VC_K.map(x=>x[0]);q.kinds=K.every(k=>q.kinds.includes(k))?[]:K;return;} /* V207 : Tout */const i=q.kinds.indexOf(d.k);if(i<0)q.kinds.push(d.k);else q.kinds.splice(i,1);},
   vcSign(d){const q=ui.vc;if(!q)return;const v=+d.v,i=q.signs.indexOf(v);if(i<0)q.signs.push(v);else q.signs.splice(i,1);},
@@ -5933,6 +6029,8 @@ const A={
   vcGo(){const q=ui.vc,r=vcRec(q),m=vcMatch(q);if(!r||!m)return;const O=vcOffset(m,r),R=vcRangesQ(m,r,q,O);if(!R.length)return;const tot=vcTot(r);
     const who=q.all||!q.pids.length?tr('Équipe'):q.pids.map(id=>dname(m,id)).join(', '),what=q.kinds.length&&q.kinds.length<VC_K.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])).join(', '):tr('Toutes les actions');
     const e={id:'v'+Date.now().toString(36),mode:'match',clip:1,tmp:1,src:r.id,name:`${who} · ${what}`,t0:r.t0,dur:tot,size:r.size,q:r.q,fps:r.fps,segs:r.segs.map(x=>Object.assign({},x)),cuts:vcCuts(R,tot)};
+    // V209 : écran d'introduction (match, date, joueurs, actions retenues ; pas d'actions si toutes sont cochées)
+    e.intro={mt:matchTitle(m),d:fmtDate(m.date),who:q.all||!q.pids.length?[{nm:((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||tr('Équipe')}]:q.pids.map(id=>({n:pnum(m,id),nm:dname(m,id),r:(m.roles||{})[id]||null})),what:q.kinds.length&&q.kinds.length<VC_K.length?q.kinds.map(k=>tr(VC_K.find(x=>x[0]===k)[1])):null};
     if(r.dir)e.dir=r.dir;if(r.ia!=null)e.ia=r.ia;if(r.web){e.web=1;VID.mem[e.id]=VID.mem[r.id];}
     const bk=uiSnap();store.vids=[e].concat(store.vids||[]);save();ui.sheet=null;ui.vc=null;if(ui.screen!=='video')A.ctab({v:'video'});A.vidPlay({id:e.id});ui.pbBack=bk;},
   // Synchronisation des horloges : depuis la fiche des clips (retour à la fiche ensuite) ou depuis le lecteur
@@ -5953,7 +6051,7 @@ const A={
     if(!vNative()){toast('Export disponible dans l’appli installée','warn');return 1;}
     if(!(d&&d.src==='pts')&&!vRanges(r,P.tot).length){toast('Rien à exporter : tout est jeté','warn');return 1;}
     const S=VS(),m=vcMatchFor(r),av=m?ovAvailable(m,r,vcOffset(m,r)):{ok:false,why:'noMatch'};P.play=false;
-    ui.vexp={preset:S.exp.preset,speed:S.exp.speed,exact:S.exp.exact,audio:!!r.aud&&S.exp.audio,ov:S.ov.on&&av.ok,src:d&&d.src==='pts'&&vmontOk(m,r)?'pts':'cut',pick:null};ui.sheet='vexp';
+    ui.vexp={preset:S.exp.preset,speed:S.exp.speed,exact:S.exp.exact,audio:!!r.aud&&S.exp.audio,ov:S.ov.on&&av.ok,src:d&&d.src==='pts'&&vmontOk(m,r)?'pts':'cut',pick:null,intro:!!r.intro,cards:!r.intro};ui.sheet='vexp';
     try{CAP().VideoDelay.info().then(i=>{if(ui.vexp&&i&&i.free!=null){ui.vexp.free=i.free;if(ui.sheet==='vexp')render();}}).catch(()=>{});}catch(e){} /* V199 : place libre affichée */},
   // V199 : sélection des points du match monté (sets entiers, points), aperçu avant export (VID.pv = plages lues, le reste est sauté)
   vexpPick(d){const X=ui.vexp,r=vRec(),m=r&&vcMatchFor(r);if(!X||!m)return;X.pick=d.v==='sel'?vmontSets(m).flatMap(s=>s.pts.map(p=>p.ei)):null;},
@@ -5964,12 +6062,16 @@ const A={
   vexpPrevX(){VID.pv=null;const P=VID.pb;if(P)P.play=false;},
   vexpPrevGo(){VID.pv=null;const P=VID.pb;if(P)P.play=false;if(ui.vexp)ui.sheet='vexp';},
   vidMonte(d){A.vidPlay(d);if(!VID.pb)return;VID.pb.play=false;A.vidExport({src:'pts'});}, // V193 : liste des vidéos → export du match monté
-  async vexpGo(){const P=VID.pb,r=vRec(),X=ui.vexp;if(!P||!r||!X||ui.vidExp)return 1;VID.pv=null;const mM=vcMatchFor(r),pts=X.src==='pts'&&vmontOk(mM,r),R=pts?vmontPick(mM,r,X.pick):vRanges(r,P.tot),src=vidSrcSize(r),V=CAP().VideoDelay;
+  async vexpGo(){const P=VID.pb,r=vRec(),X=ui.vexp;if(!P||!r||!X||ui.vidExp)return 1;VID.pv=null;const mM=vcMatchFor(r),pts=X.src==='pts'&&vmontOk(mM,r),R0=pts?vmontPick(mM,r,X.pick):vRanges(r,P.tot),src=vidSrcSize(r),V=CAP().VideoDelay;
+    const CA=V.transcode&&R0.length?vxCardsApply(r,R0,vxCardList(mM,r,X,pts),P.tot,pts?1:X.speed):{R:R0,wins:[],tmap:null},R=CA.R;
     if(!R.length){toast(pts?tr('Aucun point à exporter'):'Rien à exporter : tout est jeté','warn');return 1;}ui.sheet=null;
     // bandeau : états du score sur la ligne de temps du fichier exporté, une image PNG par état (video-export.js)
     let overlay=null;const m=X.ov?vcMatchFor(r):null;
     if(m){const O=vcOffset(m,r),S=replay(m),oo=vxOvOpts(VS()),st=ovStates(m,r,Object.assign({off:O.off,rotAt:S.rotAt,srvAt:S.srvAt,big:pts,name:pid=>pnum(m,pid)+' '+dname(m,pid)},oo)),sp=ovOnOutput(st,R,pts?1:X.speed);
       if(sp.length){const im=ovImages(sp,Object.assign({size:vxSize(X.preset,src)||src,team:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||'Nous',opp:m.opp||tr('Adversaire')},oo));overlay={images:im.images,spans:im.spans.map(s=>Object.assign({},s,im.pos[s.key]))};}}
+    // V209 : écrans plein cadre (introduction du clip, début du match, compositions) ; le score incrusté s'interrompt pendant ces écrans
+    if(CA.wins.length){const sz=vxSize(X.preset,src)||src;if(!overlay)overlay={images:{},spans:[]};overlay.spans=ovCut(overlay.spans,CA.wins);
+      CA.wins.forEach(w=>{overlay.images[w.key]=w.card.draw(sz);overlay.spans.push({from:w.from,to:w.to,key:w.key,x:0,y:0});});overlay.spans.sort((a,b)=>a.from-b.from);}
     const plan=vxPlan(R,P,{preset:X.preset,speed:pts?1:X.speed,audio:X.audio&&!!r.aud,exact:pts||X.exact,overlay,src,size:r.size,fps:r.fps,r});if(pts)plan.name=plan.name.replace(/\.mp4$/,'_monte.mp4');
     await vxCleanTmp();try{const inf=await V.info();if(inf&&inf.free!=null&&inf.free<plan.est.size*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
     const useT=!!V.transcode&&(plan.reencode||plan.speed!==1||plan.audio);ui.vidExp={p:0};P.play=false;render();
@@ -5978,7 +6080,7 @@ const A={
         :await V.exportCut({pieces:plan.pieces,name:plan.name});
       ui.vidOut={path:o.path,size:o.size,name:plan.name};
       // V193 : match monté : sauvegarde du match jointe, avec la table de temps de la vidéo montée (m.vref) pour la caler chez le destinataire
-      if(pts){const c=lean(mM);c.vref={name:plan.name,dur:R.reduce((a,[x,y])=>a+y-x,0),tmap:vxTmap(r,R),off:vcOffset(mM,r).off};ui.vidOut.vbcs={name:`match_${slug(mM.opp||'match')}_${mM.date||today()}_monte.vbcs`,data:JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),arch:[c]})};
+      if(pts){const c=lean(mM);c.vref={name:plan.name,dur:R.reduce((a,[x,y])=>a+y-x,0),tmap:CA.tmap||vxTmap(r,R),off:vcOffset(mM,r).off};ui.vidOut.vbcs={name:`match_${slug(mM.opp||'match')}_${mM.date||today()}_monte.vbcs`,data:JSON.stringify({app:APPID,v:1,exported:new Date().toISOString(),arch:[c]})};
         // V199 : les stats voyagent aussi dans la vidéo (boîte en fin de fichier)
         if(V.appendData){try{const bx=vxMetaBox(ui.vidOut.vbcs.data);await V.appendData({path:o.path,data:bx});ui.vidOut.meta=true;ui.vidOut.size=(ui.vidOut.size||0)+Math.round(bx.length*3/4);}catch(e){}}}
       ui.sheet='vidOut';}
