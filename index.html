@@ -856,7 +856,7 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstmid{flex:1 1 0;min-width:0;display:flex;justify-content:center;pointer-events:none}.vstmid .vstlast{pointer-events:auto}.vstlast.old{border-color:#F2BE22}.vstscore{cursor:pointer}.vimpr{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.vimpr .btn{flex:1 1 200px}@media (orientation:portrait) and (max-width:599px){.vstmid{position:absolute;left:auto;right:0;top:auto;bottom:0;max-width:60%;justify-content:flex-end}}
 .vstlast{background:rgba(0,0,0,.62);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:5px 12px;font:600 14px Barlow,sans-serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:34px}.vstlast i{font-style:normal;color:#F2BE22;font-weight:800}
 .fld{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;margin:8px 0}.fld input{min-height:44px;border-radius:10px;border:1px solid var(--line);padding:0 12px;font:inherit;font-size:16px;font-weight:500;background:var(--surface);color:var(--ink)}
-.vlibt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0}.vlibt button small{opacity:.75;margin-left:4px}.vbdg{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;margin-top:3px;background:var(--surface2);color:var(--muted)}.vbdg.ok{background:var(--okBg);color:var(--ok)}.vbdg.go{background:var(--warnBg);color:var(--warn)}
+.vlibh{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.vlibh .btn{min-height:36px;padding:0 12px}/* V212 : import à côté des onglets */.vlibt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0}.vlibt button small{opacity:.75;margin-left:4px}.vbdg{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;margin-top:3px;background:var(--surface2);color:var(--muted)}.vbdg.ok{background:var(--okBg);color:var(--ok)}.vbdg.go{background:var(--warnBg);color:var(--warn)}
 /* V191 : écran Vidéo : options en volets dépliants */
 .vintro{margin:0 0 12px;font-size:17px;line-height:1.4;font-weight:500}
 .vicard{position:absolute;inset:0;z-index:6;background:#101828;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;cursor:pointer}
@@ -881,6 +881,8 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .vstdock .vstvol .egrid .ek{min-height:0}.vvb{flex:none;width:44px;border:0;border-radius:10px;background:#14243D;color:#fff;font-size:18px;cursor:pointer}.vvb:disabled{background:rgba(20,36,61,.12);color:rgba(20,36,61,.35);cursor:default}
 .vstvol.vin2 .vvc{animation:vvin2 .15s ease-out}.vstvol.vin1 .vvc{animation:vvin1 .15s ease-out}@keyframes vvin2{from{opacity:.4;transform:translateX(14px)}}@keyframes vvin1{from{opacity:.4;transform:translateX(-14px)}}
 .pickf{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}.pickf .bchip.pk{min-height:46px;width:auto;margin:0}.pickf.pko .bchip.pk{min-height:36px;font-size:13px;opacity:.85}.pickfh{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:8px 0 4px}
+/* V212 : téléphone : cartouche score réduite en mode Saisir (taille de la carte du mode Vérifier) */
+@media (max-height:500px),(max-width:599px){.vstscore{gap:6px;padding:3px 9px;font-size:15px;border-radius:10px}.vstscore b{font-size:21px}.vstscore i{font-size:12px}.vstscore em{max-width:8.5em}.vstscore .srv::after{font-size:11px}.vstpos{font-size:14px;padding:2px 8px}}
 .vstscore.vstfree{gap:8px}.vstscore.vstfree b{background:#F2BE22;color:#14243D;border-radius:999px;padding:2px 8px;font:700 12px Barlow,sans-serif;text-transform:uppercase;letter-spacing:.06em}
 .vstspd{position:absolute;right:calc(8px + env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:4;flex-direction:column;background:rgba(0,0,0,.6);border-color:rgba(255,255,255,.4);max-width:none}.vstspd button{color:#fff;background:transparent;min-width:54px;min-height:42px;font:700 17px 'Barlow Condensed',sans-serif}.vstspd button.on{background:#F2BE22;color:#14243D}
 .vstdock{position:absolute;left:calc(8px + env(safe-area-inset-left,0px));right:calc(72px + env(safe-area-inset-right,0px));top:calc(100px + env(safe-area-inset-top,0px));bottom:calc(126px + env(safe-area-inset-bottom,0px));z-index:3;overflow:auto;border-radius:14px;padding:8px;background:rgba(255,255,255,.7);color:var(--ink);transition:opacity .15s,visibility 0s;display:flex;flex-direction:column} /* V187 : pas de backdrop-filter au-dessus d’une vidéo (vidéo noire sur iOS) */
@@ -967,6 +969,7 @@ body.vidfull .vnav{display:none}body.vidfull #app{display:block;max-width:none;p
 .ew{width:10px;height:10px;border-radius:50%;background:#7d8aa0;flex:none}.ew.g{background:#23924A}.ew.a{background:#D7263D}
 .ehr{padding:6px 10px 6px 26px;font-size:13px;min-height:36px}.ehr span:first-of-type{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ehr .tm{font:600 12px ui-monospace,Consolas,monospace;color:#c7d2e2;flex:none}.ehr.act{background:rgba(242,190,34,.26)}.ehr.now{box-shadow:inset 4px 0 0 #4FC3F7;background:rgba(79,195,247,.2);font-weight:700}.ehr.act.now{background:linear-gradient(90deg,rgba(79,195,247,.28),rgba(242,190,34,.26))}
 .est{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-style:normal;font-size:12px;font-weight:800;flex:none}.est.ok{background:#23924A;color:#fff}.est.no{border:1.5px solid #7d8aa0;color:#7d8aa0}.est.v{border:1.5px dashed #7d8aa0;color:transparent}.est.wn{background:#d98a00;color:#fff}
+.ehs[data-act]{cursor:pointer;user-select:none}.ehs .ehsa{display:inline-block;width:1em}
 .ehw{padding:4px 10px 4px 26px;font-size:12px;color:#ffcf70}.ehe{padding:16px 10px;color:#9fb0c9}
 /* V201 : vitesses repliées partout (« ×1 ▾ ») : un tap déplie sur le côté, un tap choisit, un tap à côté referme */.vstspd .spdcur{display:block;font-weight:800}.vstspd:not(.open) .spdo{display:none}.vstage .vstspd.open{flex-direction:row-reverse}.vstspd.open .spdcur{border-left:1px solid rgba(255,255,255,.3)}@media (max-width:599px),(max-height:599px){.vstage.ed .vstspd{top:calc(52px + env(safe-area-inset-top,0px));transform:none}}
 /* V210 : historique replié le long du bord droit (paysage) : colonne étroite, abréviations, sans timecode ; bouton « Replier › » / « ‹ » à côté du titre */
@@ -1041,7 +1044,7 @@ body.lrnfull .vnav{display:none}body.lrnfull #app{display:block;max-width:none;p
 /* ============ DONNÉES ============ */
 const APPID='volleycoach',KEY=APPID+'-v1';
 const CODE='2627';
-const APP_VERSION='V211';
+const APP_VERSION='V212';
 const LOGO='';
 const ROLES={Pa:'Passe',Pu:'Pointe',R4:'R4',C:'Centre',L:'Libéro'};
 const ROLE_ORDER=['Pa','Pu','R4','C','L'];
@@ -1330,29 +1333,29 @@ function vaRole(o){const W=STAT_CFG.VA_W[o.role]||STAT_CFG.VA_W.X;let num=0,den=
 const VALAB={Pa:'passe',L:'défense',R4:'mixte',C:'attaque',Pu:'attaque'};const vaLab=o=>o.role==='C'&&BLK()?'att. + bloc':(VALAB[o.role]||'attaque');
 // Détail de la valeur ajoutée (fiche agrandie) : nombre de ballons et note moyenne selon la qualité du ballon reçu
 const VA_SPLIT=STAT_CFG.VA_SPLIT;
+// V212 : lignes groupées par geste (en-tête = geste : « Attaque », « Passe », « Réception », « Défense », « Bloc ») et libellé « Sur … » (ex. « Sur passe − ») ; x.grp = geste de la ligne
 function vaDetailRows(r){const k=r.role==='Pa'?'ip':r.role==='L'?null:'ia',rows=[];let grouped=false;const Eip=expectFor('ip'),Eia=expectFor('ia'),Eft=expectFor('ft'),E={ip:Eip,ia:Eia,ft:Eft};
   const cnt=kk=>['M','E','P'].reduce((a,q)=>a+(r[kk+q]||0),0);
   let parts=[];
-  if(k==='ip'){if(cnt('ipr')>=VA_SPLIT&&cnt('ipd')>=VA_SPLIT)parts=[['ipr','Réception'],['ipd','Défense']];else{parts=[['ip','Récep./déf.']];grouped=true;}}
-  else if(k)parts=[[k,'Passe']];
-  parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const n=r[kk+q]||0;if(!n)return;rows.push({lab:`${lab} ${{M:'−',E:'=',P:'+'}[q]}`,n,avg:(r[kk+'S'+q]||0)/n,exp:E[k][i]});}));
-  if(r.ftN&&(r.role==='L'||r.role==='R4')){rows.push({hdr:'1re touche'});
-    const dif=(kk,lab)=>{const eN=r[kk+'_eN']||0,hN=r[kk+'_hN']||0,nN=(r[kk+'N']||0)-eN-hN;if(!store.prefs.oppDiff||(eN<VA_SPLIT&&hN<VA_SPLIT))return false;
-      const push=(l,n,S,ex)=>{if(n)rows.push({lab:l,n,avg:S/n,exp:ex});};
-      push(lab+' · ballon facile',eN,r[kk+'_eS']||0,E.ft+STAT_CFG.DIFF.e);push(lab+' · ballon moyen',nN,(r[kk+'S']||0)-(r[kk+'_eS']||0)-(r[kk+'_hS']||0),E.ft);push(lab+' · ballon difficile',hN,r[kk+'_hS']||0,E.ft+STAT_CFG.DIFF.h);return true;};
-    if((r.ftrN||0)>=VA_SPLIT&&(r.ftdN||0)>=VA_SPLIT){if(!dif('ftr','Réception'))rows.push({lab:'Réception',n:r.ftrN,avg:(r.ftrS||0)/r.ftrN,exp:E.ft});if(!dif('ftd','Défense'))rows.push({lab:'Défense',n:r.ftdN,avg:(r.ftdS||0)/r.ftdN,exp:E.ft});}
-    else{rows.push({lab:'Récep./déf.',n:r.ftN,avg:(r.ftS||0)/r.ftN,exp:E.ft});grouped=true;}}
-  if(BLK()&&r.role==='C'){const M=r.blkM||0,N=r.blkN||0,P=r.blkP||0,n=M+N+P;if(n){rows.push({hdr:'Bloc'});rows.push({lab:'Bloc',n,avg:(N+2*P)/n,exp:expectFor('blk')});}}
+  if(k==='ip'){if(cnt('ipr')>=VA_SPLIT&&cnt('ipd')>=VA_SPLIT)parts=[['ipr','Sur réception'],['ipd','Sur défense']];else{parts=[['ip','Sur récep./déf.']];grouped=true;}}
+  else if(k)parts=[[k,'Sur passe']];
+  const G=k==='ip'?'Passe':'Attaque';let gh=false;
+  parts.forEach(([kk,lab])=>['M','E','P'].forEach((q,i)=>{const n=r[kk+q]||0;if(!n)return;if(!gh){rows.push({hdr:G});gh=true;}rows.push({grp:G,lab:`${lab} ${{M:'−',E:'=',P:'+'}[q]}`,n,avg:(r[kk+'S'+q]||0)/n,exp:E[k][i]});}));
+  if(r.ftN&&(r.role==='L'||r.role==='R4')){
+    const dif=(kk,grp,sur)=>{const eN=r[kk+'_eN']||0,hN=r[kk+'_hN']||0,nN=(r[kk+'N']||0)-eN-hN;if(!store.prefs.oppDiff||(eN<VA_SPLIT&&hN<VA_SPLIT))return false;
+      const push=(l,n,S,ex)=>{if(n)rows.push({grp,lab:l,n,avg:S/n,exp:ex});};
+      /* V212 : comme « Sur passe − / = / + » : − = ballon difficile, = = moyen (ou non noté), + = facile ; ordre − = + */push(sur+' −',hN,r[kk+'_hS']||0,E.ft+STAT_CFG.DIFF.h);push(sur+' =',nN,(r[kk+'S']||0)-(r[kk+'_eS']||0)-(r[kk+'_hS']||0),E.ft);push(sur+' +',eN,r[kk+'_eS']||0,E.ft+STAT_CFG.DIFF.e);return true;};
+    if((r.ftrN||0)>=VA_SPLIT&&(r.ftdN||0)>=VA_SPLIT){rows.push({hdr:'Réception'});if(!dif('ftr','Réception','Sur service'))rows.push({grp:'Réception',lab:'Sur service',n:r.ftrN,avg:(r.ftrS||0)/r.ftrN,exp:E.ft});
+      rows.push({hdr:'Défense'});if(!dif('ftd','Défense','Sur attaque'))rows.push({grp:'Défense',lab:'Sur attaque',n:r.ftdN,avg:(r.ftdS||0)/r.ftdN,exp:E.ft});}
+    else{rows.push({hdr:'Réception / défense'});rows.push({grp:'Réception / défense',lab:'Sur service ou attaque',n:r.ftN,avg:(r.ftS||0)/r.ftN,exp:E.ft});grouped=true;}}
+  if(BLK()&&r.role==='C'){const M=r.blkM||0,N=r.blkN||0,P=r.blkP||0,n=M+N+P;if(n){rows.push({hdr:'Bloc'});rows.push({grp:'Bloc',lab:'Sur attaque adverse',n,avg:(N+2*P)/n,exp:expectFor('blk')});}}
   return {rows,grouped};}
-function vaDetailHTML(r){const {rows,grouped}=vaDetailRows(r);if(!rows.length)return '';
-  const tr=x=>{if(x.hdr)return `<tr class="vah"><td colspan="5">${x.hdr}</td></tr>`;const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(g>0?'+':'')+g.toFixed(0)} pts</td></tr>`;};
-  return `<div class="vad"><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}${store.prefs.oppDiff?tipB('oppd'):''}<table class="vat"><tr><th>Ballon reçu</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +). Écart positif = le joueur fait mieux que le niveau de la saison.</p></div>`;}
+function vaDetailHTML(r){const {rows:R0,grouped}=vaDetailRows(r);if(!R0.length)return '';const h0=R0[0].hdr||'',rows=R0[0].hdr?R0.slice(1):R0;
+  const tr=x=>{if(x.hdr)return `<tr class="vah"><td colspan="5">${x.hdr}</td></tr>`;const g=(x.avg-x.exp)*50;return `<tr><td>${x.lab}</td><td>${x.n}</td><td>${(x.avg*50).toFixed(0)} %</td><td>${(x.exp*50).toFixed(0)} %</td><td class="${g>2.5?'p':g<-2.5?'m':''}">${(Math.round(g)>0?'+':'')+(Math.round(g)||0)} pts</td></tr>`;};
+  return `<div class="vad"><b>Détail de la valeur ajoutée</b>${grouped?tipB('vagrp'):''}${store.prefs.oppDiff?tipB('oppd'):''}<table class="vat"><tr><th>${esc(tr(h0))}</th><th>Ballons</th><th>Obtenu</th><th>Attendu</th><th>Écart</th></tr>${rows.map(tr).join('')}</table><p class="hint">Obtenu et attendu : note moyenne (0 % = tout −, 100 % = tout +).${rows.some(x=>/^Sur (service|attaque) [−=+]$/.test(x.lab||''))?' Service / attaque adverse : − = ballon difficile, = = moyen, + = facile.':''} Écart positif = le joueur fait mieux que le niveau de la saison.</p></div>`;}
 function vaAll(o){const a=vaOf(o,'ip'),b=vaOf(o,'ia'),f=vaOf(o,'ft');if(!a&&!b&&!f)return null;const wa=a?a.n:0,wb=b?b.n:0,wf=f?f.n*FT_W:0;return {v:Math.round(((a?a.v*wa:0)+(b?b.v*wb:0)+(f?f.v*wf:0))/(wa+wb+wf)),n:wa+wb+(f?f.n:0)};}
 const facTxt=f=>f&&f.n>=VA_MIN&&!f.cov?(f.v>0?'+':f.v<0?'−':'')+Math.abs(f.v)+' pts':'–';
-// Renvoi sans attaque : compté comme une attaque −, sauf si la passe qui le précède est −
-// V204 : renvoi direct gagnant (« Kill ? Oui », kl = son index) = attaque + (valeur ajoutée, attaque, kill %)
-function relNorm(st,kl){let pq=null;return st.map((x,j)=>{const k=x[0];if(k==='pas'){pq=x[1];return x;}
-  if(k==='att'){pq=null;return x;}if(k==='rel'){const r=j===kl?['att',1,x[2],1]:x[3]==='q'?['att',x[1]||0,x[2],1,null,null,null,null,'q']:pq===-1?x:['att',-1,x[2],1];pq=null;return r;}if(k==='rec'||k==='def')pq=null;return x;});}
+// V212 : renvoi sans attaque : jamais une attaque ; erreur d'attaque sur passe +, ou sur passe = sans kill (voir replay)
 // ---- Traduction de l'interface (dictionnaire + motifs) ----
 const LANGS=[['fr','Français'],['en','English'],['es','Español'],['it','Italiano'],['de','Deutsch'],['pl','Polski'],['pt','Português'],['tr','Türkçe'],['nl','Nederlands'],['sr','Srpski'],['sl','Slovenščina'],['cs','Čeština'],['bg','Български'],['uk','Українська'],['ru','Русский'],['ar','العربية'],['ja','日本語'],['zh','中文'],['ko','한국어'],['th','ไทย'],['vi','Tiếng Việt'],['id','Bahasa Indonesia'],['fil','Filipino']];
 // I18N, I18P, I18W, I18PW : voir i18n.js
@@ -1474,7 +1477,7 @@ function replay0(m){
   // les stats de chaque joueur comptent, sans poste ni rotation (zones, side-out, actions déduites ignorés)
   const FR=!!m.free;
   const S={cov:{pts:0,withSt:0,pas:0,pasFt:0},covSet:[],rot:[],sets:[],phase:'setup',roles:Object.assign({},m.roles),zones:null,serving:null,lib:null,played:{},fx:{},recZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},defZ:{1:{M:0,P:0},5:{M:0,P:0},6:{M:0,P:0}},zst:[],pst:[],psp:[],pso:[],wins:{G:0,A:0},lastWarn:null,lastSetEnd:null,lastPt:null};
-  for(let idx=0;idx<m.ev.length;idx++){const ev0=m.ev[idx],ev=(ev0.t==='pt'&&ev0.st&&ev0.st.some(x=>x[0]==='rel'))?Object.assign({},ev0,{st:relNorm(ev0.st,ev0.w==='G'&&ev0.kill===1?ev0.st.length-1:-1)}):ev0; // renvoi sans attaque = attaque − (sauf sur passe −)
+  for(let idx=0;idx<m.ev.length;idx++){const ev=m.ev[idx]; // V212 : un renvoi sans attaque n'est plus compté comme une attaque (avant : relNorm le changeait en attaque −, ou + si kill)
     S.lastWarn=null;S.lastSetEnd=null;
     const set=S.sets[S.sets.length-1];
     if(ev.t==='set'){
@@ -1496,7 +1499,9 @@ function replay0(m){
       if(S.libNext&&set.rallies>S.libNextAt){S.libApply=true;}
       const lp={i:idx,on:eff.slice(1).filter(Boolean),front:[eff[2],eff[3],eff[4]],srv:!FR&&S.serving==='G'?srvOf(S.zones,eff):null,w:ev.w,si};
       // complétude de la saisie, rotations (side-out / break) et « fin de set », avant d'appliquer le point
-      {const cv=S.covSet[si]||(S.covSet[si]={pts:0,withSt:0,pas:0,pasFt:0});cv.pts++;S.cov.pts++;if(ev.st&&ev.st.length){cv.withSt++;S.cov.withSt++;}
+      // V212 : point gagné sur service adverse sans aucune action = faute de service adverse : rien à saisir, le point compte comme saisi (et pas de réception)
+      const sfA=S.serving==='A'&&ev.w==='G'&&!(ev.st&&ev.st.length);
+      {const cv=S.covSet[si]||(S.covSet[si]={pts:0,withSt:0,pas:0,pasFt:0});cv.pts++;S.cov.pts++;if((ev.st&&ev.st.length)||sfA){cv.withSt++;S.cov.withSt++;}
        const rz0=F4?(F4.rot?(S.r4n%4)+1:1):setterZone(S.zones,S.roles)||1,RT=S.rot[si]||(S.rot[si]={}),R=RT[rz0]||(RT[rz0]={soP:0,soW:0,brP:0,brW:0});
        if(!FR){if(S.serving==='A'){R.soP++;if(ev.w==='G')R.soW++;}else{R.brP++;if(ev.w==='G')R.brW++;}}
        const Pm=setPts(m,si),hot=(set.g>=Pm-STAT_CFG.HOT&&set.a>=Pm-STAT_CFG.HOT)||set.g>=Pm-1||set.a>=Pm-1;S.hotNow=hot;}
@@ -1512,13 +1517,16 @@ function replay0(m){
       if(!FR&&ev.st&&ev.st.some(x=>x[2])){
         const q42=is42(S.zones,S.roles),dm=q42?null:layoutPlay(eff,pr),slot=pid=>dm?+(Object.keys(dm).find(s=>dm[s]===pid)||0):eff.indexOf(pid);
         const Zs=S.zst[si]||(S.zst[si]={att:{},rec:{},def:{}});
+        // V212 : ballon reçu de chaque action : passe avant l'attaque (non notée = « = », relais non coté = « − ») ; réception / défense : difficulté notée (−1 facile … 1 difficile)
+        const BQ=[];{let q=null;ev.st.forEach((x,j)=>{const k=x[0];if(k==='pas')q=x[1];else if(k==='rly')q=x[3]==='q'?x[1]:-1;else if(k==='att'){BQ[j]=q==null?0:q;q=null;}else if(k==='rec'||k==='def'){BQ[j]=x[4]==null?null:x[4];q=null;}else if(k==='rel')q=null;});}
         ev.st.forEach(([k,sg,pid],j)=>{if(!pid||!Zs[k])return;
           const z=k==='att'?azOf(p1Inv(S,lp.srv,ev.st.slice(0,j))?eff.indexOf(pid):slot(pid)):k==='rec'?rz(pid):slot(pid);
           const key=[1,2,3,4,5,6].includes(z)?z:'x',c=Zs[k][key]||(Zs[k][key]={M:0,P:0,N:0});c[sg>0?'P':sg<0?'M':'N']++;
           if(key!=='x'){const ZA=S.zAt||(S.zAt={});(ZA[idx]||(ZA[idx]={}))[j]=key;} // V185 : poste de chaque action (filtre « Poste » de la section Vidéo)
           // 4x4, 3x3, 2x2 (V178) : attaque aussi par place (3 = passe, 5 = R4, 6 = centre, 1 = pointe) pour le radar, le passeur et le centre comptant tous deux au poste 3
           if(F4&&k==='att'&&slot(pid)>0){const q=slot(pid),ap=Zs.ap||(Zs.ap={}),c2=ap[q]||(ap[q]={M:0,P:0,N:0});c2[sg>0?'P':sg<0?'M':'N']++;}
-          if(key!=='x'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),k2={att:'az',rec:'rz',def:'dz'}[k]+key+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}});
+          if(key!=='x'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),k2={att:'az',rec:'rz',def:'dz'}[k]+key+(sg>0?'P':sg<0?'M':'N');a[si][k2]=(a[si][k2]||0)+1;}
+          if(BQ[j]!=null){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),b=BQ[j]+1,add=kk=>{a[si][kk+'bqS']=(a[si][kk+'bqS']||0)+b;a[si][kk+'bqN']=(a[si][kk+'bqN']||0)+1;};add(k);if(key!=='x')add({att:'az',rec:'rz',def:'dz'}[k]+key);}});
       }
       // Passes : chaque passe est reliée à l'attaque du même échange (k-ième passe ↔ k-ième attaque) ;
       // attaque sans passe = passe neutre ; passe sans attaque = comptée sans poste. Note : − = 0, = = 1, + = 2.
@@ -1543,9 +1551,10 @@ function replay0(m){
           const PP=S.psp[si]||(S.psp[si]={}),o2=PP[sid]||(PP[sid]={}),c2=o2[a[2]]||(o2[a[2]]={n:0,as:0});c2.n++;c2.as+=a[1]+1;});
         orph.forEach(pp=>add(pp[2]||sid0,'x',pp[1],pp[3]));
       }
-      // Erreur d'attaque : attaque − ou relance sur une passe + ou = (passe non notée = neutre), hors passe
-      if(ev.st){let q=null;ev.st.forEach(([k,sg,pid,rl])=>{if(k==='pas'){q=sg;return;}if(k==='rly'){q=rl==='q'?sg:-1;return;}if(k!=='att'&&k!=='rel')return;const qq=q==null?0:q;q=null;
-        if(pid&&qq>=0&&(k==='rel'||sg<0)&&S.roles[pid]!=='Pa'){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].eatN=(a[si].eatN||0)+1;}});}
+      // Erreur d'attaque : attaque − sur une passe + ou = (passe non notée = neutre), hors passe ;
+      // V212 : renvoi sans attaque sur une passe + ou =, sauf s'il fait le kill (un kill n'est jamais une erreur)
+      if(ev.st){let q=null;const kl=ev.w==='G'&&ev.kill===1?ev.st.length-1:-1;ev.st.forEach(([k,sg,pid,rl],j)=>{if(k==='pas'){q=sg;return;}if(k==='rly'){q=rl==='q'?sg:-1;return;}if(k!=='att'&&k!=='rel')return;const qq=q==null?0:q;q=null;
+        if(pid&&S.roles[pid]!=='Pa'&&(k==='att'?qq>=0&&sg<0:qq>=0&&j!==kl)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].eatN=(a[si].eatN||0)+1;}});}
       // Valeur ajoutée (ordre de saisie) : passe notée ← 1re touche (réception ou défense, non notée = « = ») ;
       // attaque notée ← passe (non notée = « = »). Écart en crans, de −2 à +2.
       if(ev.st&&ev.st.length){let ft=null,ftK=null,pq=null;const Q={'-1':'M','0':'E','1':'P'};const imp=(pid,k,inq,outq)=>{const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]),q=Q[String(inq)];a[si][k+q]=(a[si][k+q]||0)+1;a[si][k+'S'+q]=(a[si][k+'S'+q]||0)+outq+1;};
@@ -1560,18 +1569,19 @@ function replay0(m){
       // V201 : kill : attaque + ou renvoi, dernière stat du point gagné, confirmé par « Kill ? Oui »
       // V204 : le kill n'est plus déduit des attaques + : killA (kills sur attaque) sert au kill % et à l'efficacité ; point sans réponse (avant la V201) : attaque + finale d'un point gagné
       if(ev.w==='G'&&ev.st&&ev.st.length&&(ev.kill===1||(ev.kill==null&&killCand(ev.st)&&ev.st[ev.st.length-1][0]==='att'))){const L=ev.st[ev.st.length-1];if(L[2]&&(L[0]==='att'||L[0]==='rel')){const a=S.fx[L[2]]||(S.fx[L[2]]=[{},{},{},{},{}]);a[si].killN=(a[si].killN||0)+1;if(L[0]==='att')a[si].killA=(a[si].killA||0)+1;}}
-      // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après
-      if(ev.w==='A'&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
+      // Faute directe : dernière action notée = service, défense ou attaque −, et point adverse aussitôt après ; V212 : « Faute directe ? Non » (ev.fd = 0) l'écarte
+      if(ev.w==='A'&&ev.fd!==0&&ev.st&&ev.st.length){const [k,sg,pid]=ev.st[ev.st.length-1];if(pid&&sg<0&&['srv','def','att','blk'].includes(k)){const a=S.fx[pid]||(S.fx[pid]=[{},{},{},{},{}]);a[si].fdN=(a[si].fdN||0)+1;a[si]['fd_'+k]=(a[si]['fd_'+k]||0)+1; /* V212 : par geste */if(S.hotNow)a[si].hot_fdN=(a[si].hot_fdN||0)+1;}}
       if(ev.st&&ev.st.length){
         for(const X of ev.st){const [k,sg,pid,rl]=X,key=k+(sg>0?'P':sg<0?'M':'N'),who=pid||'_eq';
-          const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);a[si][key]=(a[si][key]||0)+1;if(rl===1){a[si].relN=(a[si].relN||0)+1;if(X[8]==='q'){const rk='rq'+(sg>0?'P':sg<0?'M':'N');a[si][rk]=(a[si][rk]||0)+1;}}
+          const a=S.fx[who]||(S.fx[who]=[{},{},{},{},{}]);if(k==='rel'){a[si].relN=(a[si].relN||0)+1;if(rl==='q'){const rk='rq'+(sg>0?'P':sg<0?'M':'N');a[si][rk]=(a[si][rk]||0)+1;}continue;} // V212 : renvoi compté à part (nombre, et qualité s'il est coté), jamais dans les attaques
+          a[si][key]=(a[si][key]||0)+1;
           if(S.hotNow&&['srv','rec','def','att','blk'].includes(k)){a[si]['hot_'+key]=(a[si]['hot_'+key]||0)+1;a[si].hot_n=(a[si].hot_n||0)+1;}}
         if(ev.w==='A'&&ev.st.some(x=>x[1]<0&&x[0]!=='pas'))set.oppFault++;
       }
       // Service neutre : service de l'équipe sans stat Service + ou − sur ce point
       if(lp.srv&&!isExtra(lp.srv)&&!(ev.st||[]).some(x=>x[0]==='srv')){const a=S.fx[lp.srv]||(S.fx[lp.srv]=[{},{},{},{},{}]);a[si].srvN=(a[si].srvN||0)+1;}
       // Réception neutre : réception de l'équipe sans stat Réception + ou − (joueur inconnue : comptée pour l'équipe)
-      if(!FR&&!lp.srv&&!(ev.st||[]).some(x=>x[0]==='rec')){const a=S.fx._eq||(S.fx._eq=[{},{},{},{},{}]);a[si].recN=(a[si].recN||0)+1;}
+      if(!FR&&!lp.srv&&!sfA&&!(ev.st||[]).some(x=>x[0]==='rec')){const a=S.fx._eq||(S.fx._eq=[{},{},{},{},{}]);a[si].recN=(a[si].recN||0)+1;}
       if(ev.w==='G'){set.g++;if(S.serving==='A'){if(F4&&!F4.rot){if(F4.srvd)F4.sz=SRV4[(SRV4.indexOf(F4.sz)+1)%SRV4.length];F4.srvd=true;}else{rotate(S.zones);if(F4){S.r4n++;sync4(S);}}S.serving='G';}}
       else if(ev.w==='A'){set.a++;if(S.serving==='G')S.serving='A';} // V188 : w null (sans composition) = ni score ni service
       const target=setTarget(m,si),hi=Math.max(set.g,set.a),d=Math.abs(set.g-set.a);
@@ -1753,6 +1763,9 @@ function save(){try{const t=activeTeam();if(t)t.roster=store.roster;const real=(
 
 /* ============ RETOURS ============ */
 function toast(msg,kind){
+  // V212 : en saisie / vérification sur vidéo (et au passage de l'une à l'autre), plus de bandeaux d'information : ils recouvraient les boutons ;
+  // seuls restent les avertissements (action refusée : sans eux, rien n'expliquerait pourquoi rien ne se passe)
+  if(kind!=='warn'&&typeof store!=='undefined'&&store&&(store.vst||(typeof VID!=='undefined'&&VID.vstSw!==undefined)))return;
   const t=document.createElement('div');t.className='toast '+(kind||'');t.textContent=tr(msg);
   const box=$('#toasts');while(box.children.length>=3)box.firstChild.remove();box.appendChild(t);setTimeout(()=>t.remove(),kind==='warn'?5000:3500);
 }
@@ -2944,12 +2957,13 @@ function edCardHTML(m,r,P,k){const L=edMarks(m),B=VID.edBack;const bk=''; /* V20
   const pt=k.k!=='sub'&&k.k!=='to',n=pt?L.filter(x=>x.pn===k.pn&&x.k!=='sub'&&x.k!=='to'):[],ctx=pt?tr('Point {N}').replace('{N}',k.pn)+' · '+(n.indexOf(k)+1)+' / '+n.length:tr('Entre deux points');
   const t=edImgT(r,P),{a,b}=edBounds(L,k.i),out=(a&&t<a.t)||(b&&t>b.t),unk=!edKnown(k),g=unk?null:t-k.t;
   const gap=out?tr('hors limites'):unk&&edIgn()?tr('à caler sur l’image'):g==null?tr('pas encore d’heure'):Math.abs(g)<50?tr('sur l’image'):tr('image {S}').replace('{S}',(g<0?'−':'+')+fmtS(Math.abs(g)));
-  const q=edKA(m,k),kq=q?`<div class="edkq"><span>${q.f==='ace'?tr('Ace ?'):tr('Kill ?')} <small>${esc(pnum(m,q.who)+' '+dname(m,q.who))}</small></span><button class="${q.v===1?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="1">${tr('Oui')}</button><button class="${q.v===0?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="0">${tr('Non')}</button></div>`:'';
+  const q=edKA(m,k),kq=q?`<div class="edkq"><span>${q.f==='ace'?tr('Ace ?'):q.f==='fd'?tr('Faute directe ?'):tr('Kill ?')} <small>${esc(pnum(m,q.who)+' '+dname(m,q.who))}</small></span><button class="${q.v===1?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="1">${tr('Oui')}</button><button class="${q.v===0?'on':''}" data-act="edKA" data-ei="${k.ei}" data-f="${q.f}" data-v="0">${tr('Non')}</button></div>`:'';
   return `${bk}<div class="edcw"><button class="edcard" data-act="edGo" data-k="${k.key}"><small>${esc(ctx)}</small><b>${esc(k.lab)}${k.who?' · '+esc(k.who):''}</b><small>${!unk?edPosLab(r,k.t)+' · ':''}<span class="${out?'bad':g!=null&&Math.abs(g)>200?'gap':''}">${esc(gap)}</span></small></button>${kq}</div>`;} // V210 : plus de pastilles des stats du point sous la carte (doublon de la barre du point et de l'historique)
 // V205 : édition : point gagné après un service + / = seul (ace) ou une attaque + / un renvoi en dernière action (kill) : question proposée sur la fin du point
 // V205 : relais / renvoi : note proposée s'il était coté, ou si sa cotation est activée dans les réglages
 function seQ(se){return (se.orig&&se.orig[0]===se.k&&se.orig[3]==='q')||!!store.prefs[se.k==='rel'?'relQ':'rlyQ'];}
-function edKA(m,k){if(!k||k.k!=='at')return null;const e=m.ev[k.ei];if(!e||e.t!=='pt'||e.w!=='G')return null;const st=e.st||[];
+function edKA(m,k){if(!k||k.k!=='at')return null;const e=m.ev[k.ei];if(!e||e.t!=='pt')return null;const st=e.st||[];
+  if(e.w==='A')return fdCand(st)&&(store.prefs.fdQ||e.fd!=null)?{f:'fd',v:e.fd,who:st[st.length-1][2]}:null;if(e.w!=='G')return null;
   if(st.length===1&&st[0][0]==='srv'&&st[0][1]>=0&&st[0][2])return {f:'ace',v:e.ace,who:st[0][2]};if(killCand(st))return {f:'kill',v:e.kill,who:st[st.length-1][2]};return null;}
 // barre du point (remplace la barre de 6 s en édition) : le point de la stat active, de 2 s avant à 2 s après ; zone permise éclairée
 function edBarHTML(m,r,P,k){const L=edMarks(m);if(!k)return {h:'',R:null};let pn=k.pn;if(k.k==='sub'||k.k==='to')pn=k.pn+1; // entre deux points : le point suivant
@@ -2961,21 +2975,23 @@ function edBarHTML(m,r,P,k){const L=edMarks(m);if(!k)return {h:'',R:null};let pn
   const d=edDur(xs.filter(x=>!ig||edKnown(x)));return {h:`${zone}${xs.map(pk).join('')}<i class="edhd" id="edHd"></i><span class="edbl">${store.cur&&store.cur.free?tr('Enchaînement'):tr('Point {N}').replace('{N}',pn)}${d!=null?' · '+fmtS(d):''}</span>`,R:[a,b]};}
 // V201 : stat « en lecture » = dernier repère (heure connue) passé par la vidéo ; surlignée dans l'historique, son point déplié
 function edNowK(m,r,P){if(!m||!r||!P)return null;const L=edMarks(m),t=edImgT(r,P);let n=null;for(const x of L){if(x.virt||!edKnown(x))continue;if(x.t<=t)n=x;}return n;}
-// historique : une ligne par point (score après le point, durée, état), le point de la stat active déplié, changements et temps morts entre les points
+// historique : une ligne par point (V212 : score AVANT le point — le match commence à 0-0 ; la pastille dit qui l'a gagné ; durée, état) ; V212 : sets repliables (clic sur l'en-tête du set), le point de la stat active déplié, changements et temps morts entre les points
 function edHistIn(m,r,k,nk){const L=edMarks(m),W={} /* V201 : plus de contrôles « À vérifier » (inutiles : on ne note que notre côté, ballons rapides ou lents, touches quasi simultanées) */,f='all',T=short(m),opp=m.opp||tr('Adversaire'),byP={};
   L.forEach(x=>{if(x.k!=='sub'&&x.k!=='to')(byP[x.pn]||(byP[x.pn]=[])).push(x);});
   const curP=k?(k.k==='sub'||k.k==='to'?-1:k.pn):-1,nowP=nk&&nk.k!=='sub'&&nk.k!=='to'?nk.pn:-1;
-  const row=x=>`<button class="ehr ${k&&x.key===k.key?'act':''} ${nk&&x.key===nk.key?'now':''}" data-act="edGo" data-k="${x.key}" data-h="1"${edKnown(x)?` data-t="${x.t}"`:''}><span class="lg">${esc(x.lab)}${x.who?' · '+esc(x.who):''}</span><span class="sh">${esc(x.sh||x.c||'')}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;
-  let out='',set=0,g=0,a=0,sg=0,sa=0,np=0;
+  const row=(x,sc)=>{const fin=x.k==='at'&&sc; /* V212 : la ligne de fin du point porte le score après le point */return `<button class="ehr ${k&&x.key===k.key?'act':''} ${nk&&x.key===nk.key?'now':''}" data-act="edGo" data-k="${x.key}" data-h="1"${edKnown(x)?` data-t="${x.t}"`:''}><span class="lg">${fin?esc(tr('Fin du point : {S}').replace('{S}',sc)):esc(x.lab)+(x.who?' · '+esc(x.who):'')}</span><span class="sh">${esc(fin?'● '+sc:(x.sh||x.c||''))}</span><span class="tm">${edKnown(x)?edPosLab(r,x.t):'—'}</span></button>`;};
+  let out='',set=0,g=0,a=0,sg=0,sa=0,np=0,hid=false;const SC=ui.edSetC||{},fin=()=>{if(set&&!m.free&&g+a)out+=`<div class="ehs ehse">${tr('Fin du set : {S}').replace('{S}',g+'-'+a)}</div>`;}; // V212 : score final sous chaque set terminé (visible même replié)
   m.ev.forEach((e,ei)=>{
-    if(e.t==='set'){if(set){if(g>a)sg++;else if(a>g)sa++;}set++;g=a=0;if((f==='all'||curP>0)&&!m.free)out+=`<div class="ehs">${tr('Set {N}').replace('{N}',set)}${m.free?'':' · '+sg+'-'+sa}</div>`;return;}
+    if(e.t==='set'){fin();if(set){if(g>a)sg++;else if(a>g)sa++;}set++;g=a=0;hid=!m.free&&!!SC[m.id+':'+set];if((f==='all'||curP>0)&&!m.free)out+=`<div class="ehs" data-act="edSetT" data-s="${set}" role="button" aria-expanded="${hid?'false':'true'}"><span class="ehsa">${hid?'▸':'▾'}</span> ${tr('Set {N}').replace('{N}',set)}${m.free?'':' · '+sg+'-'+sa}</div>`;return;}
+    if(hid){if(e.t==='pt'){np++;if(e.w==='G')g++;else if(e.w==='A')a++;}return;} // V212 : set replié — on compte, on n'affiche pas
     if(e.t==='sub'||e.t==='to'){const x=L.find(y=>y.ei===ei);if(x&&(f==='all'||(f==='no'&&!x.ca)||(f==='w'&&x.t==null)||(k&&x.key===k.key)||(nk&&x.key===nk.key)))out+=row(x);return;}
-    if(e.t!=='pt')return;np++;if(e.w==='G')g++;else if(e.w==='A')a++;
+    if(e.t!=='pt')return;np++;const g0=g,a0=a;if(e.w==='G')g++;else if(e.w==='A')a++;
     const xs=byP[np]||[],ok=xs.every(x=>x.ca||x.virt),w=W[np],cur=np===curP||np===nowP,kt=xs.filter(x=>!x.virt&&edKnown(x)).map(x=>x.t);
     if(!cur&&((f==='no'&&ok)||(f==='w'&&!w)))return;
     const d=edDur(edIgn()?xs.filter(x=>x.ca):xs);
-    out+=`<button class="ehp ${cur?'cur':''}" data-act="edPt" data-n="${np}"${kt.length?` data-t="${Math.min(...kt)}" data-t2="${Math.max(...kt)}"`:''}><i class="ew ${e.w==='G'?'g':e.w==='A'?'a':''}"></i><b>${m.free?(()=>{const y=xs.find(x=>edKnown(x));return y?edPosLab(r,y.t):'—';})():g+'-'+a}</b><span>${m.free?tr('{N} actions').replace('{N}',(e.st||[]).length):e.w==='G'?esc(T):e.w==='A'?esc(opp):tr('Point')}</span><em>${d!=null?fmtS(d):''}</em></button>`;
-    if(cur){if(w)out+=`<div class="ehw">⚠ ${esc(w.join(' · '))}</div>`;out+=xs.map(row).join('')+`<button class="ehadd" data-act="edAdd" data-n="${np}">＋ ${tr('Ajouter ici')}</button>`;}});
+    out+=`<button class="ehp ${cur?'cur':''}" data-act="edPt" data-n="${np}"${kt.length?` data-t="${Math.min(...kt)}" data-t2="${Math.max(...kt)}"`:''}><i class="ew ${e.w==='G'?'g':e.w==='A'?'a':''}"></i><b>${m.free?(()=>{const y=xs.find(x=>edKnown(x));return y?edPosLab(r,y.t):'—';})():g0+'-'+a0}</b><span>${m.free?tr('{N} actions').replace('{N}',(e.st||[]).length):e.w==='G'?esc(T):e.w==='A'?esc(opp):tr('Point')}</span><em>${d!=null?fmtS(d):''}</em></button>`;
+    if(cur){if(w)out+=`<div class="ehw">⚠ ${esc(w.join(' · '))}</div>`;out+=xs.map(x=>row(x,m.free?'':g+'-'+a)).join('')+`<button class="ehadd" data-act="edAdd" data-n="${np}">＋ ${tr('Ajouter ici')}</button>`;}});
+  if(set&&replay(m).phase!=='play')fin(); // dernier set : seulement s'il est fini
   return out||`<p class="ehe">${tr('Rien à afficher avec ce filtre.')}</p>`;}
 /* V201 : plus de notion « non calée » à l'écran (filtre Tout / Non calés et pastilles retirés) : l'historique prend la place */
 function edHistHTML(m,r,k){
@@ -2993,7 +3009,7 @@ function edLoop(P,r){const V=store.vst,m=store.cur;if(!r||!V)return;const t=edIm
   const k=edActive(m,r,P),kk=(k?k.key:'')+'|'+(VID.edV||0);
   const mc=document.getElementById('vstMid');if(mc&&(mc._p==null||Math.abs(mc._p-P.pos)>=50||mc._k!==kk+!!VID.edBack)){mc._p=P.pos;mc._k=kk+!!VID.edBack;const h=edCardHTML(m,r,P,k);if(mc._h!==h){mc._h=h;mc.innerHTML=h;}}
   const bw=document.getElementById('edBar');if(bw){if(bw._k!==kk){bw._k=kk;const B=edBarHTML(m,r,P,k);bw.innerHTML=B.h;bw._R=B.R;}const hd=document.getElementById('edHd');if(hd&&bw._R){const R=bw._R;hd.style.left=(Math.max(0,Math.min(1,(P.pos-R[0])/((R[1]-R[0])||1)))*100).toFixed(2)+'%';}}
-  const hl=document.getElementById('edHL');if(hl){const nk=edNowK(m,r,P),hk=kk+'|'+(ui.edF||'')+'|'+(nk?nk.key:'');if(hl._k!==hk){const fol=P.play&&edInWin(hl,t);hl._k=hk;hl.innerHTML=edHistIn(m,r,k,nk);if(P.play){if(fol)edFollow(hl);}else edScroll(hl);}}
+  const hl=document.getElementById('edHL');if(hl){const nk=edNowK(m,r,P),hk=kk+'|'+(ui.edF||'')+'|'+(nk?nk.key:'')+'|'+JSON.stringify(ui.edSetC||{});if(hl._k!==hk){const fol=P.play&&edInWin(hl,t);hl._k=hk;hl.innerHTML=edHistIn(m,r,k,nk);if(P.play){if(fol)edFollow(hl);}else edScroll(hl);}}
   if(VID.edBack&&P.play&&Math.abs(P.pos-VID.edBack.to)>10000)VID.edBack=null;}
 // V201 : en lecture, l'historique suit la vidéo seulement si l'heure de l'image était dans la partie visible de la liste (sinon le coach regarde ailleurs : on ne bouge pas)
 function edInWin(hl,t){const top=hl.scrollTop,bot=top+hl.clientHeight;let a=Infinity,b=-Infinity,nowVis=false;
@@ -3325,17 +3341,39 @@ function vintroHTML(I){const n=I.who.length,only=n>8&&I.who.every(p=>p.n!=null&&
 // recouvre une plage d'image « de remplissage » prise juste avant la plage gardée qu'il précède (pos = position dans l'enregistrement, -Infinity = début)
 function vxCardList(m,r,X,pts){if(r.intro&&!pts)return X.intro?[{pos:-Infinity,dur:VI_MS,key:'intro',draw:sz=>vintroImg(r.intro,sz)}]:[];
   if(!m||!X.cards)return [];const C=[{pos:-Infinity,dur:VI_MS,key:'mcard',draw:sz=>vmatchImg(m,sz)}];if(m.free||!ovAvailable(m,r,vcOffset(m,r)).ok)return C;
-  const off=vcOffset(m,r).off,sets=[],SA=replay(m).srvAt||{};let pt=true;
-  (m.ev||[]).forEach((ev,i)=>{if(ev.t==='pt'){pt=true;if(sets.length&&Number.isFinite(ev.at))sets[sets.length-1].pts.push(ev.at);return;}if(ev.t!=='set')return;const x=Object.assign({z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,at:ev.at,pts:[]},setSrvOf(m,i,SA));if(!pt&&sets.length)sets[sets.length-1]=x;else sets.push(x);pt=false;});
+  const off=vcOffset(m,r).off,sets=[],SA=replay(m).srvAt||{},busy=[],lead=(VS().exp.ptB||0)*1000;let pt=true,pe=null;
+  // V212 : début d'un échange = première stat (service), sinon 6 s avant la fin du point ; plages de jeu (busy) jamais recouvertes par un écran
+  const s0=ev=>{let t=null;(Array.isArray(ev.st)?ev.st:[]).forEach(x=>{if(Array.isArray(x)&&Number.isFinite(x[5])&&(t==null||x[5]<t))t=x[5];});return t!=null?Math.min(t,ev.at):ev.at-6000;};
+  (m.ev||[]).forEach((ev,i)=>{if(ev.t==='pt'){pt=true;if(Number.isFinite(ev.at)){const a=vcPosOf(r,s0(ev)-2000+off),b=vcPosOf(r,ev.at+1000+off);if(a!=null&&b!=null)busy.push([a,b]);const L=sets[sets.length-1];if(L){L.pts.push(ev.at);if(L.s0==null)L.s0=s0(ev);}pe=ev.at;}return;}if(ev.t!=='set')return;const x=Object.assign({z:Array.isArray(ev.z)?ev.z.slice():null,srv:ev.s||null,lib:ev.l||null,at:ev.at,pts:[],pe},setSrvOf(m,i,SA));if(!pt&&sets.length)sets[sets.length-1]=x;else sets.push(x);pt=false;});
+  C.busy=busy;
   // V210 : un écran de set seulement si au moins un point du set est dans le montage (périmètre « set 3 » : rien sur les autres sets)
-  sets.forEach((x,k)=>{if(!Number.isFinite(x.at)||!setLineup(m,x))return;const p=vcPosOf(r,x.at+off);if(p==null)return;C.push({pos:p,dur:is4(m)?4000:6000,key:'set'+k,need:x.pts.map(t=>vcPosOf(r,t+off)).filter(q=>q!=null),draw:sz=>vsetImg(m,x,k,sz)});});
+  sets.forEach((x,k)=>{if(!Number.isFinite(x.at)||!setLineup(m,x))return;const p=vcPosOf(r,x.at+off);if(p==null)return;const i0=x.s0!=null?vcPosOf(r,x.s0-lead+off):null,l0=x.pe!=null?vcPosOf(r,x.pe+1000+off):null;
+    C.push({pos:p,dur:is4(m)?4000:6000,key:'set'+k,need:x.pts.map(t=>vcPosOf(r,t+off)).filter(q=>q!=null),ins0:i0,lb0:l0,draw:sz=>vsetImg(m,x,k,sz)});});
   return C;}
 // → {R (plages avec les remplissages), wins [{from, to, key, card}] (ms du fichier exporté), tmap (table de temps du fichier, remplissages hors de toute stat)}
-function vxCardsApply(r,R,cards,tot,sp){sp=sp||1;const at={};cards.forEach(c=>{if(c.need&&!c.need.some(q=>R.some(([a,b])=>q>=a&&q<=b)))return;const i=c.pos===-Infinity?0:R.findIndex(([a,b])=>b>c.pos);if(i<0||!R.length)return;(at[i]=at[i]||[]).push(c);});
-  const out=[],wins=[],tmap=[];let o=0;
-  R.forEach(([a,b],i)=>{(at[i]||[]).forEach(c=>{const L=Math.min(tot,Math.round(c.dur*sp)),f=a>=L?a-L:0,g=Math.min(tot,f+L);out.push([f,g]);wins.push({from:Math.round(o),to:Math.round(o+(g-f)/sp),key:c.key,card:c});o+=(g-f)/sp;
-      const t=vcTimeAt(r,a);tmap.push({t:Math.round((t==null?0:t)-(g-f)),d:Math.round(g-f)});});
-    out.push([a,b]);const t=vcTimeAt(r,a);tmap.push({t:Math.round(t==null?0:t),d:Math.round(b-a)});o+=(b-a)/sp;});
+// V212 : un écran ne recouvre jamais le jeu : il se place juste avant le service (ins), sur les images d'avant (son gardé) jusqu'à la fin
+// du point précédent (lb) ; s'il en manque, le complément vient d'un moment sans jeu de la vidéo (hors plages gardées et échanges), sinon l'écran raccourcit
+function vxCardsApply(r,R,cards,tot,sp){sp=sp||1;const G={},busy=cards.busy||[],used=[];
+  cards.forEach(c=>{if(!R.length)return;let i,ins,lb=0;
+    if(c.pos===-Infinity){i=0;ins=R[0][0];}
+    else{if(c.need&&!c.need.some(q=>R.some(([a,b])=>q>=a&&q<=b)))return;const Q=(c.need||[]).filter(q=>R.some(([a,b])=>q>=a&&q<=b)),q=Q.length?Math.min(...Q):null;
+      i=q!=null?R.findIndex(([a,b])=>q>=a&&q<=b):R.findIndex(([a,b])=>b>c.pos);if(i<0)return;const [a]=R[i];
+      ins=c.ins0!=null?Math.max(a,Math.min(c.ins0,q!=null?q:Infinity)):a;lb=Math.max(i>0?R[i-1][1]:0,c.lb0!=null&&c.lb0<=ins?c.lb0:0);}
+    lb=Math.min(Math.max(lb,i>0?R[i-1][1]:0),ins);const k=i+':'+ins;(G[k]=G[k]||{i,ins,lb,cs:[]}).cs.push(c);G[k].lb=Math.max(G[k].lb,lb);});
+  const free=(n,avoid)=>{const B=busy.concat(R,used,[avoid]).map(([a,b])=>[Math.max(0,a),Math.min(tot,b)]).filter(([a,b])=>b>a).sort((x,y)=>x[0]-y[0]),F=[];let c=0;
+    B.forEach(([a,b])=>{if(a>c)F.push([c,a]);c=Math.max(c,b);});if(c<tot)F.push([c,tot]);
+    const ok=F.filter(([a,b])=>b-a>=n);if(ok.length){const g=ok.sort((x,y)=>Math.abs(x[1]-avoid[0])-Math.abs(y[1]-avoid[0]))[0];return [g[1]-n,g[1]];}
+    const g=F.sort((x,y)=>(y[1]-y[0])-(x[1]-x[0]))[0];return g&&g[1]-g[0]>=300?g:null;};
+  const out=[],wins=[],tmap=[];let o=0;const T=(x)=>{const t=vcTimeAt(r,x);return t==null?0:t;};
+  R.forEach(([a,b],i)=>{let cur=a;Object.values(G).filter(g=>g.i===i).sort((x,y)=>x.ins-y.ins).forEach(g=>{
+      const Ls=g.cs.map(c=>Math.min(tot,Math.round(c.dur*sp))),Lt=Ls.reduce((x,y)=>x+y,0),cs=Math.max(g.lb,cur>a?cur:-Infinity,g.ins-Lt,0),have=g.ins-cs;
+      let E=null;if(have<Lt){E=free(Lt-have,[cs,g.ins]);if(E)used.push(E);}
+      const len=have+(E?E[1]-E[0]:0);if(len<1500){if(E)used.pop();return;}
+      if(cs>cur){out.push([cur,cs]);tmap.push({t:Math.round(T(cur)),d:Math.round(cs-cur)});o+=(cs-cur)/sp;}
+      if(E)out.push(E);if(have>0)out.push([cs,g.ins]);
+      const k=Math.min(1,len/Lt);g.cs.forEach((c,j)=>{const d=Ls[j]*k/sp;wins.push({from:Math.round(o),to:Math.round(o+d),key:c.key,card:c});o+=d;});
+      tmap.push({t:Math.round(T(g.ins)-len),d:Math.round(len)});cur=g.ins;});
+    if(b>cur){out.push([cur,b]);tmap.push({t:Math.round(T(cur)),d:Math.round(b-cur)});o+=(b-cur)/sp;}});
   return {R:out,wins,tmap};}
 // bandeau du score : retiré pendant les écrans plein cadre
 function ovCut(spans,wins){let S=spans.slice();wins.forEach(w=>{const N=[];S.forEach(s=>{if(s.to<=w.from||s.from>=w.to){N.push(s);return;}if(s.from<w.from)N.push(Object.assign({},s,{to:w.from}));if(s.to>w.to)N.push(Object.assign({},s,{from:w.to}));});S=N;});return S;}
@@ -3353,23 +3391,49 @@ function vmatchImg(m,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,mw=W
   c.fillStyle='#F2BE22';c.fillRect(W/2-u*6,y,u*12,u*.5);y+=fd*.9;
   c.font=`600 ${fd}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(fmtDate(m.date),W/2,y+fd/2);
   return cv.toDataURL('image/png');}
-// composition d'un set : terrain filet en haut, joueurs à leur place réglementaire (pastille = couleur du poste), serveur, libéro
-function vsetImg(m,x,k,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,L=setLineup(m,x),{T}=vcTeams(m),up=s=>String(s||'').toUpperCase(),port=H>W,f4=is4(m);
+// composition d'un set : terrain filet en haut, libéro sous le terrain ; V212 : les joueurs (calques mobiles) entrent depuis la ligne de fond
+// et rejoignent leur place en 2 s ; au service, le serveur finit derrière la ligne de fond avec le ballon ; en réception, ni ballon ni serveur.
+// → {bg: image de fond, sp: [{img, x, y, x0, y0}] (pastille + nom, position finale et de départ, coin haut gauche)}
+const VSET_MV=[400,2400];
+// V212 : positions réelles au premier échange du set, calculées comme dans Coaching (6x6) : au service, chacun à son poste de jeu (layoutPlay),
+// le libéro à la place de la centrale arrière (sauf si elle sert), le serveur derrière la ligne ; en réception, tables RECEP selon la place de la passe.
+// → [{pid, x, y (% largeur / profondeur), sv}] ; 4x4, 3x3, 2x2 : places du format
+function vsetCoords(m,x,L){if(is4(m))return L.pl.map(p=>({pid:p.pid,x:p.x,y:p.y,sv:!!L.srvQ&&p.q===L.sq}));
+  const f0=F4,l0=LIBPOS;let S0=null;try{S0=replay(m);}catch(e){}
+  try{setF4(null);LIBPOS=(S0&&S0.libPos)||m.libPos||5;const z0=[null].concat(x.z),R=Object.assign({},(S0&&S0.roles)||m.roles||{},m.roles||{}),lib=x.lib&&!x.z.includes(x.lib)?x.lib:null,srv=x.srv==='G'?'G':'A';
+    let at={},sv=null;
+    if(srv==='A'){at=playCoords(z0,R,lib,'A').out;at=lrnSpread(at,z0,'A');}
+    else{const {eff,pr}=effective(z0,R,lib,'G'),map=layoutPlay(eff,pr);sv=eff[1];for(const q in map)if(map[q])at[map[q]]=map[q]===sv?SERVE:POS[q];}
+    return Object.keys(at).filter(id=>at[id]).map(id=>({pid:id,x:at[id][0],y:at[id][1],sv:id===sv}));}
+  catch(e){return L.pl.map(p=>({pid:p.pid,x:p.x,y:p.y<40?20:68,sv:!!L.srvQ&&p.q===L.sq}));}finally{setF4(f0);LIBPOS=l0;}}
+function vsetImg(m,x,k,size){const {cv,c,u}=vcvCanvas(size),W=size.w,H=size.h,L=setLineup(m,x),{T}=vcTeams(m),up=s=>String(s||'').toUpperCase(),port=H>W,f4=is4(m),srv=!!L.srvQ;
   const ft=Math.round(u*(port?7.5:5.2)),fs=Math.round(u*(port?4.6:3.2));let y=H*(port?.2:.06);
   c.font=`700 ${ft}px ${VCF}`;c.fillStyle='#F2BE22';c.fillText(up(tr('Set {N}').replace('{N}',k+1))+'  ·  '+up(T),W/2,y+ft/2);y+=ft*1.25;
-  const s1=!L.srvQ&&L.pl.find(p=>p.q===L.sq),info=[L.srvQ?tr('Au service'):tr('En réception')].concat(s1?[tr('1er serveur')+' : '+s1.n+' '+s1.nm]:[]).concat(L.lib?[tr('Libéro')+' : '+pnum(m,L.lib)+' '+dname(m,L.lib)]:[]).join('  ·  ');
-  c.font=`600 ${fs}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(up(info),W/2,y+fs/2);y+=fs*2.2;
-  const ch=Math.min(H-y-H*(port?.12:.05),W*.9),cw=ch,cx=(W-cw)/2,cy=y;
+  const s1=!srv&&L.pl.find(p=>p.q===L.sq);if(s1){c.font=`600 ${fs}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(up(tr('1er serveur')+' : '+s1.n+' '+s1.nm),W/2,y+fs/2);}y+=fs*2.2;
+  const libH=L.lib?fs*2.6:0,kb=srv?.27:.1,ch=Math.min((H-y-libH-H*(port?.08:.035))/(1+kb),W*.9),cw=ch,cx=(W-cw)/2,cy=y;
   // terrain : surface, filet en haut, ligne des 3 m (6x6)
   c.fillStyle='#1d2a40';c.fillRect(cx,cy,cw,ch);c.strokeStyle='#cfd6e0';c.lineWidth=Math.max(2,u*.3);c.strokeRect(cx,cy,cw,ch);
   c.fillStyle='#F2BE22';c.fillRect(cx-u*1.5,cy-u*.6,cw+u*3,u*1.2);
   if(!f4){c.setLineDash([u*1.2,u*.9]);c.beginPath();c.moveTo(cx,cy+ch/3);c.lineTo(cx+cw,cy+ch/3);c.stroke();c.setLineDash([]);}
-  const R=cw*.085,fn=Math.round(R*1.05),fm=Math.round(R*.62);
-  L.pl.forEach(p=>{const px=cx+cw*p.x/100,py=cy+ch*(f4?p.y:(p.y<40?14.5:64))/100;
-    c.fillStyle=p.c;c.beginPath();c.arc(px,py,R,0,Math.PI*2);c.fill();c.fillStyle=p.c==='#F2BE22'?'#101828':'#fff';c.font=`700 ${fn}px ${VCF}`;c.fillText(p.n,px,py+fn*.04);
-    c.fillStyle='#fff';c.font=`700 ${vcFit(c,up(p.nm),fm,700,cw/3.3)}px ${VCF}`;c.fillText(up(p.nm),px,py+R+fm*.85);
-    if(p.q===L.sq){c.fillStyle='#F2BE22';c.beginPath();c.arc(px+R*.95,py-R*.8,R*.3,0,Math.PI*2);c.fill();}});
-  return cv.toDataURL('image/png');}
+  const R=cw*.085,fn=Math.round(R*1.05),fm=Math.round(R*.62),pad=Math.round(R*.55);
+  // libéro : sous le terrain, numéro dans la pastille à la couleur du libéro
+  if(L.lib){const ly=cy+ch*(1+kb)+libH*.55,lab=up(tr('Libéro'))+' : ',nm=up(dname(m,L.lib)),n=String(pnum(m,L.lib)||''),D=fs*1.5;
+    c.font=`600 ${fs}px ${VCF}`;const w1=c.measureText(lab).width;c.font=`700 ${fs}px ${VCF}`;const w2=c.measureText(nm).width,tw=w1+(n?D+fs*.4:0)+w2;let lx=W/2-tw/2;
+    c.textAlign='left';c.font=`600 ${fs}px ${VCF}`;c.fillStyle='#cfd6e0';c.fillText(lab,lx,ly);lx+=w1;
+    if(n){c.fillStyle=SET_RC.L;c.beginPath();c.arc(lx+D/2,ly,D/2,0,Math.PI*2);c.fill();c.fillStyle='#fff';c.textAlign='center';c.font=`700 ${Math.round(fs*.95)}px ${VCF}`;c.fillText(n,lx+D/2,ly+fs*.04);lx+=D+fs*.4;}
+    c.textAlign='left';c.font=`700 ${fs}px ${VCF}`;c.fillStyle='#fff';c.fillText(nm,lx,ly);c.textAlign='center';}
+  // joueurs : un calque chacun ; départ : alignés sur la ligne de fond, dans l'ordre de leur place
+  const RR=m.roles||{},PL=vsetCoords(m,x,L).map(q=>Object.assign(q,{n:String(pnum(m,q.pid)||''),nm:dname(m,q.pid),c:q.pid===L.lib?SET_RC.L:((L.pl.find(p=>p.pid===q.pid)||{}).c||SET_RC[RR[q.pid]]||'#5B697D')}));
+  const ord=PL.slice().sort((a,b)=>a.x-b.x),n=PL.length;
+  const sp=PL.map(p=>{const sv=p.sv,px=cx+cw*p.x/100,py=sv?cy+ch+R*1.3:cy+ch*p.y/100;
+    const t=document.createElement('canvas'),g=t.getContext('2d');g.font=`700 ${fm}px ${VCF}`;const nf=vcFit(g,up(p.nm),fm,700,cw/3.3),nw=(g.font=`700 ${nf}px ${VCF}`,g.measureText(up(p.nm)).width);
+    const w=Math.ceil(Math.max(R*2.7,nw+6)),h=Math.ceil(pad+R*2+fm*1.7);t.width=w;t.height=h;g.textAlign='center';g.textBaseline='middle';const ox=w/2,oy=pad+R;
+    g.fillStyle=p.c;g.beginPath();g.arc(ox,oy,R,0,Math.PI*2);g.fill();g.fillStyle=p.c==='#F2BE22'?'#101828':'#fff';g.font=`700 ${fn}px ${VCF}`;g.fillText(p.n,ox,oy+fn*.04);
+    g.fillStyle='#fff';g.font=`700 ${nf}px ${VCF}`;g.fillText(up(p.nm),ox,oy+R+fm*.85);
+    if(sv){g.fillStyle='#F2BE22';g.beginPath();g.arc(ox+R*.95,oy-R*.8,R*.3,0,Math.PI*2);g.fill();}
+    const j=ord.indexOf(p),sx=cx+cw*(j+.5)/n,sy=cy+ch-R*.2;
+    return {img:t.toDataURL('image/png'),x:Math.round(px-ox),y:Math.round(py-oy),x0:Math.round(sx-ox),y0:Math.round(sy-oy)};});
+  return {bg:cv.toDataURL('image/png'),sp};}
 function vintroImg(I,size){const W=size.w,H=size.h,cv=document.createElement('canvas');cv.width=W;cv.height=H;const c=cv.getContext('2d'),f='Barlow Condensed, Arial Narrow, sans-serif',u=Math.min(W,H*16/9)/100,maxW=W*.86;
   c.fillStyle='#101828';c.fillRect(0,0,W,H);c.textAlign='center';c.textBaseline='middle';
   // lignes coupées à la largeur, taille réduite jusqu'à tenir en n lignes au plus
@@ -3441,7 +3505,7 @@ function videoHTML(){const P=VP(),pro=isPro();
     const sub=[state?`<span class="vbdg ${npt&&!mine?'ok':'go'}">${state}</span>`:'',ask&&mm&&LK.auto&&!LK.sure?`<span class="vbdg warn">⚠ ${tr('match à confirmer')}</span>`:'',vMs(r.dur),vMo(r.size),r.clip?(sm?tr('De : {M}').replace('{M}',esc(matchTitle(sm))):src?esc(new Date(src.t0).toLocaleDateString(dateLoc())):tr('vidéo supprimée')):mm?esc(new Date(r.t0).toLocaleDateString(dateLoc())):(r.imp?tr('Importée'):r.mode==='match'?tr('Enregistrement'):tr('Différé')),r.cuts&&r.cuts.length?tr('montage : {D} gardés').replace('{D}',vMs(vRanges(r,r.dur).reduce((a,[x,y])=>a+y-x,0))):'',r.aud?'🔊':'',r.st==='int'?tr('interrompu, récupéré'):'',gone?tr('vidéo du navigateur, perdue au rechargement'):''].filter(Boolean).join(' · ');
     const prim=gone?'':r.clip||r.st==='live'||(npt&&!mine)?`<button class="btn" data-act="vidPlay" data-id="${r.id}">▶ ${tr('Revoir')}</button>`:mine?`<button class="btn primary" data-act="vstOpen" data-id="${r.id}">📝 ${tr('Stats')}</button>`:`<button class="btn" data-act="vstNewAsk" data-id="${r.id}">📝 ${tr('Stats')}</button>`;
     return `<div class="vrow lrow"><span class="who"><b>${title}</b><small>${sub}</small></span>${prim}<button class="btn icon" data-act="vidMore" data-id="${r.id}" aria-label="Plus d'actions">⋯</button></div>`;}).join('');
-  return `<div class="cmain vid">${tbarHTML()}<div class="top"><h1>Vidéo</h1><div class="hrow">${ui.vidImp?`<button class="btn icon" disabled aria-label="Import en cours">⏳</button>`:`<button class="btn icon" data-act="vidImpAsk" aria-label="${esc(tr('Importer une vidéo'))}" title="${esc(tr('Importer une vidéo'))}">＋</button>`}</div></div>
+  return `<div class="cmain vid">${tbarHTML()}<div class="top"><h1>Vidéo</h1></div>
     <div class="card"><p class="vintro">${tr('Enregistrez vos matchs ou entraînez-vous en vous regardant en différé.')}</p>
       ${(()=>{const open=ui.vidOpt==='cam',front=P.cam==='front',mlab=lang()==='fr'?'Enregistrer':tr('Enregistrer (caméra)');
         // V196 : Mode, Objectif, Son, Qualité dans un seul volet fermé par défaut ; résumé des réglages sur la ligne
@@ -3455,7 +3519,7 @@ function videoHTML(){const P=VP(),pro=isPro();
       ${VID.last&&(VID.last.h<+VID.last.q*.9||VID.last.fps<50)?`<p class="hint">${tr('Dernière session : {A} obtenus pour {B} demandés — cet appareil ne fait pas mieux avec cette caméra.').replace('{A}',VID.last.fps+' i/s · '+VID.last.h+'p').replace('{B}','60 i/s · '+VID.last.q+'p')}</p>`:''}${short?`<p class="hint vwarn">${tr('Place libre pour ≈ {N} min en {Q}p : un match de 2 h ne tiendra pas.').replace('{N}',Math.floor(VID.free/mpm)).replace('{Q}',P.q)}${P.q==='1080'&&VID.free>=VBPS[720]/8*60*120?' '+tr('Passez en 720p.'):''}</p>`:''}${VID.err?`<p class="hint vwarn">${esc(VID.err)}</p>`:''}${ui.vidLock&&left<=0?`<p class="hint vwarn">${tr('Les 5 minutes gratuites du jour sont utilisées.')}</p>`:''}
       <button class="btn big primary" data-act="vidGo" ${left<=0?'disabled':''}>🎥 ${tr('Démarrer la caméra')}</button>
       ${ui.vidImp?`<p class="hint" style="margin:8px 0 0">📥 <span id="vImpT">${vImpLab()}</span></p>`:''}</div>
-    <div class="card"><b>${tr('Vidéos')}</b>${tabs}<p class="hint xp" style="margin-top:0">${tab==='raw'?tr('Vidéos sans stats : « Stats » pour noter le match en relisant la vidéo ; ⋯ pour le reste.'):tab==='done'?tr('Vidéos avec stats : clips par joueur, clip match, reprise ou validation de la saisie (⋯).'):tr('Clips gardés, avec la vidéo d’origine.')}</p>${rows||`<p class="hint">${tab==='clips'?tr('Aucun clip gardé.'):tab==='done'?tr('Aucune vidéo statée.'):tr('Aucune vidéo sans stats.')}</p>`}</div></div>`;}
+    <div class="card"><div class="vlibh"><b>${tr('Vidéos')}</b>${ui.vidImp?`<button class="btn" disabled>⏳ ${tr('Import en cours…')}</button>`:`<button class="btn" data-act="vidImpAsk">＋ ${tr('Importer une vidéo')}</button>`}</div>${tabs}<p class="hint xp" style="margin-top:0">${tab==='raw'?tr('Vidéos sans stats : « Stats » pour noter le match en relisant la vidéo ; ⋯ pour le reste.'):tab==='done'?tr('Vidéos avec stats : clips par joueur, clip match, reprise ou validation de la saisie (⋯).'):tr('Clips gardés, avec la vidéo d’origine.')}</p>${rows||`<p class="hint">${tab==='clips'?tr('Aucun clip gardé.'):tab==='done'?tr('Aucune vidéo statée.'):tr('Aucune vidéo sans stats.')}</p>`}</div></div>`;}
 // Boutons d'un enregistrement de match (V184) : saisie des stats (nouveau match), validation (match lié avec des points), reprise, envoi
 // V187 : boutons de saisie aussi pour les vidéos filmées en mode Entraînement, et pendant une autre saisie (vstStart prévient)
 function vstBtns(r,mm,gone){if(gone||r.clip||r.st==='live')return '';const V=store.vst,pts=mm&&mm.ev.some(e=>e.t==='pt');
@@ -3812,6 +3876,12 @@ function sheetHTML(m,S){
   if(ui.sheet==='killQ'){const st=m.pend||[],L=st[st.length-1];
     return `<div class="sh"><h3>${tr('Kill ?')}</h3>${close}</div><p>${esc(tag(m,L&&L[2]))} : ${L&&L[0]==='rel'?tr('le renvoi a-t-il fait le point directement ?'):tr('l’attaque a-t-elle fait le point directement ?')}</p>
       <div class="tools aceq"><button class="btn big primary" data-act="killAns" data-v="1">${tr('Oui')}</button><button class="btn big" data-act="killAns" data-v="0">${tr('Non')}</button></div>`;}
+  if(ui.sheet==='vstQuitQ'){const val=store.vst&&store.vst.mode==='val';
+    return `<div class="sh"><h3>${val?tr('Quitter l’édition ?'):tr('Quitter la saisie ?')}</h3>${close}</div><p>${tr('Le match reste enregistré.')}</p>
+      <div class="tools aceq"><button class="btn big primary" data-act="vstQuitYes">${tr('Quitter')}</button><button class="btn big" data-act="close">${tr('Annuler')}</button></div>`;}
+  if(ui.sheet==='fdQ'){const st=m.pend||[],L=st[st.length-1],K={def:'la défense',att:'l’attaque',blk:'le bloc'};
+    return `<div class="sh"><h3>${tr('Faute directe ?')}</h3>${close}</div><p>${esc(tag(m,L&&L[2]))} : ${tr('{A} ratée a-t-elle donné le point à l’adversaire, sans action adverse ?').replace('{A}',tr(K[L&&L[0]]||'l’action'))}</p>
+      <div class="tools aceq"><button class="btn big primary" data-act="fdAns" data-v="1">${tr('Oui')}</button><button class="btn big" data-act="fdAns" data-v="0">${tr('Non')}</button></div>`;}
   if(ui.sheet==='aceQ'){const st=(m.pend||[])[0];
     return `<div class="sh"><h3>Ace ?</h3>${close}</div><p>${esc(tag(m,st&&st[2]))} : le service a-t-il fait le point directement ?</p>
       <div class="tools aceq"><button class="btn big primary" data-act="aceAns" data-v="1">Oui</button><button class="btn big" data-act="aceAns" data-v="0">Non</button></div>`;}
@@ -3883,7 +3953,7 @@ function sheetHTML(m,S){
     const team=radEff(teamTot(f)),me=radEff(r),tot=set==null?SS.sets.reduce((a,x)=>a+x.rallies,0):(SS.sets[set]?SS.sets[set].rallies:0);
     const pa=SS.played[r.id]||[],pl=set==null?pa.reduce((a,b)=>a+(b||0),0):(pa[set]||0),pct=tot?pl/tot*100:0;
     const scope=set==null?(SS.season?'Saison':'Match'):SS.season?`${SS.sets[set].label} (${fmtDate(SS.sets[set].date)})`:`Set ${set+1}`;
-    const line=(lab,k)=>{const v=me[k],tv=team[k],col=!v?'var(--muted)':(tv&&v.n>=3&&v.v-tv.v>=0.10)?'var(--r4)':(tv&&v.n>=3&&v.v-tv.v<=-0.10)?'var(--pu)':'var(--ink)';
+    const line=(lab,k)=>{const v=me[k],tv=team[k],col=!v?'var(--muted)':sigGap(v,tv)>0?'var(--r4)':sigGap(v,tv)<0?'var(--pu)':'var(--ink)';
       return `<tr><td><b>${lab}</b></td><td class="m">${r[k+'M']||0}</td><td class="n">${r[k+'N']||0}</td><td class="p">${r[k+'P']||0}</td><td>${v?v.n:0}</td><td style="font-weight:700;color:${col}">${v?Math.round(v.v*100)+' %':'–'}${v?`<small class="hint"> ${r[k+'P']||0}/${v.n}</small>`:''}</td><td class="hint">${tv?Math.round(tv.v*100)+' %':'–'}</td></tr>`;};
     const pp=pById(M,r.id),lic=pp.lic||((store.roster.find(x=>x.id===r.id)||{}).lic)||'';
     const pc=r.role==='Pa'?Object.entries(passAgg(SS,set)).filter(([sid])=>sid===r.id).map(([sid,P])=>passCard(M,sid,P,pspAgg(SS,set,sid),impAgg(SS,set,sid,'ip'),true,SS,set)).join(''):'';
@@ -4201,7 +4271,7 @@ function stats(m){
     return {id,n:p.n,name:dname(m,id),full:`${title(p.pre)} ${p.nom}`,role:S.roles[id],sets:arr,tot,pct:total?tot/total*100:0};}).sort((a,b)=>a.n-b.n);
   return {S,rows,teamSets,total,fx:fxStats(m,S,null)};
 }
-const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','rlyM','rlyP','rqM','rqN','rqP','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP','killN','killA'];
+const FXK=['ftr_eN','ftr_hN','ftd_eN','ftd_hN','ftr_eS','ftr_hS','ftd_eS','ftd_hS',"hot_srvM", "hot_srvN", "hot_srvP", "hot_recM", "hot_recN", "hot_recP", "hot_defM", "hot_defN", "hot_defP", "hot_attM", "hot_attN", "hot_attP", "hot_blkM", "hot_blkN", "hot_blkP", "hot_fdN", "hot_n",'ftrN','ftrS','ftdN','ftdS','iprM','iprE','iprP','iprSM','iprSE','iprSP','ipdM','ipdE','ipdP','ipdSM','ipdSE','ipdSP','rlyN','rlyM','rlyP','rqM','rqN','rqP','ftN','ftS','blkM','blkN','blkP',...[1,2,3,4,5,6].flatMap(z=>['M','N','P'].flatMap(q=>['az'+z+q,'rz'+z+q,'dz'+z+q])),...['att','rec','def',...[1,2,3,4,5,6].flatMap(z=>['az'+z,'rz'+z,'dz'+z])].flatMap(p=>[p+'bqS',p+'bqN']), /* V212 : ballon reçu */'srvM','srvN','srvP','recM','recN','recP','defM','defN','defP','attM','attN','attP','relN','eatN','aceN','rfN','fdN','fd_srv','fd_def','fd_att','fd_blk','ipM','ipE','ipP','ipSM','ipSE','ipSP','iaM','iaE','iaP','iaSM','iaSE','iaSP','killN','killA'];
 function fxStats(m,S,set){CUR_LEVEL=levelOf(m);CUR_CAL=calibTot(m);CUR_COV=S&&S.cov?(set==null?S.cov:(S.covSet&&S.covSet[set])||S.cov):null;
   const sets=set==null?[...Array(Math.max(5,S.sets.length)).keys()]:[set];
   const sum=id=>{const o={};FXK.forEach(k=>o[k]=0);const a=S.fx[id];if(a)sets.forEach(i=>FXK.forEach(k=>o[k]+=(a[i]&&a[i][k])||0));o.M=o.srvM+o.recM+o.defM+o.attM;o.P=o.srvP+o.recP+o.defP+o.attP;return o;};
@@ -4238,7 +4308,7 @@ function radarSVG(me,team){
   g+=`<polygon points="${poly(me)}" fill="var(--rc)" fill-opacity="0.25" stroke="var(--rc)" stroke-width="2.4" stroke-linejoin="round"/>`;
   RAX().forEach(([k,,a])=>{if(!me[k])return;const [x,y]=pt(a,me[k].v);g+=`<circle cx="${f(x)}" cy="${f(y)}" r="3.6" fill="var(--rc)" stroke="var(--surface)" stroke-width="1.2"/>`;});
   RAX().forEach(([k,lab,a])=>{const v=me[k],tv=team[k],[x,y]=pt(a,a===-90||a===90?1.22:1.14),anc=a===0?'start':a===180?'end':'middle',dy=a===-90?-17:a===90?11:-6;
-    const col=!v?'var(--muted)':(tv&&v.n>=3&&v.v-tv.v>=0.10)?'var(--r4)':(tv&&v.n>=3&&v.v-tv.v<=-0.10)?'var(--pu)':'var(--ink)';
+    const col=!v?'var(--muted)':sigGap(v,tv)>0?'var(--r4)':sigGap(v,tv)<0?'var(--pu)':'var(--ink)';
     g+=`<text x="${f(x)}" y="${f(y+dy)}" text-anchor="${anc}" font-size="11" fill="var(--muted)">${lab}</text>`;
     g+=`<text x="${f(x)}" y="${f(y+dy+14)}" text-anchor="${anc}" font-size="14" font-weight="700" fill="${col}">${v?Math.round(v.v*100)+' %':'–'}<tspan font-size="9.5" font-weight="400" fill="var(--muted)">${v?' ('+v.n+')':''}</tspan></text>`;});
   return `<svg class="radar" viewBox="0 0 270 178" role="img" aria-label="Efficacité par compétence">${g}</svg>`;
@@ -4340,23 +4410,40 @@ function passCard(m,sid,P,PP,imp,big,S,set){
 }
 // Barres de progression par compétence : vert = efficacité, rouge = taux de fautes ; trait foncé = niveau de l'équipe
 // Attaque d'un joueur détaillée par poste : postes avec au moins AZ_MIN attaques, si le joueur a attaqué de plusieurs postes
-function attZones(r){const L=PPOSTS.map(([z,l])=>{const P=r['az'+z+'P']||0,N=r['az'+z+'N']||0,M=r['az'+z+'M']||0,n=P+N+M;return {l,n,v:n?(2*P+N)/(2*n):0};}).filter(x=>x.n);
+function attZones(r){const L=PPOSTS.map(([z,l])=>{const P=r['az'+z+'P']||0,N=r['az'+z+'N']||0,M=r['az'+z+'M']||0,n=P+N+M;return {l,n,P,N,M,v:n?(2*P+N)/(2*n):0,bq:bqOf(r,'az'+z)};}).filter(x=>x.n);
   return L.length>1?L.filter(x=>x.n>=STAT_CFG.AZ_MIN):[];}
 // Fiche joueur, « Détails par poste » : réception, défense et attaque selon la place réelle (après permutation)
 const PZL={att:PPOSTS.map(x=>[x[0],x[1]]),rec:[5,6,1,4,3,2].map(z=>[z,'Poste '+z]),def:[5,6,1,4,3,2].map(z=>[z,'Poste '+z])},PZK={att:'az',rec:'rz',def:'dz'};
-function posZones(r,k){return PZL[k].map(([z,l])=>{const p=PZK[k]+z,P=r[p+'P']||0,N=r[p+'N']||0,M=r[p+'M']||0,n=P+N+M;return {l,n,v:n?(2*P+N)/(2*n):0};}).filter(x=>x.n);}
-// Fiche joueur, « Axes d'amélioration » : les 3 domaines (compétence, par poste, passe par destination) les plus en dessous de l'équipe,
-// à partir de AX_MIN actions et d'un écart d'au moins 5 points
-function axesHTML(r,f,SS,set){const T=teamTot(f),me=radEff(r),tm=radEff(T),MIN=STAT_CFG.AX_MIN,out=[];
-  const add=(l,v,tv)=>{if(v&&tv&&v.n>=MIN&&tv.v-v.v>=0.05)out.push({l,g:tv.v-v.v,v:v.v,tv:tv.v});};
+function posZones(r,k){return PZL[k].map(([z,l])=>{const p=PZK[k]+z,P=r[p+'P']||0,N=r[p+'N']||0,M=r[p+'M']||0,n=P+N+M;return {l,n,P,N,M,v:n?(2*P+N)/(2*n):0,bq:bqOf(r,p)};}).filter(x=>x.n);}
+// V212 : qualité de la passe reçue (attaque) / difficulté du ballon adverse (réception, défense), de 0 à 1 ; null sous 3 ballons notés
+function bqOf(r,p){const n=r[p+'bqN']||0;return n>=3?(r[p+'bqS']||0)/(2*n):null;}
+// Fiche joueur, « Axes d'amélioration » (V212 : plus de limite, au moins 3 quand les données le permettent), dans l'ordre :
+// 1) en dessous de l'équipe (écart ≥ 5 points), classés par écart pondéré par le volume (les domaines bien fournis d'abord) ;
+// 2) en dessous des attendus du niveau de l'équipe utilisés pour la valeur ajoutée (écart ≥ 2,5 points) ;
+// 3) si moins de 3 : les domaines les plus faibles restants (« à consolider »).
+// Un domaine où le joueur a moins de AX_MIN actions n'est jamais proposé (ex. réception d'un central qui ne réceptionne pas).
+function axesHTML(r,f,SS,set){const T=teamTot(f),me=radEff(r),tm=radEff(T),MIN=STAT_CFG.AX_MIN,cand=[];
+  const add=(l,v,tv)=>{if(v&&tv&&v.n>=MIN)cand.push({l,g:tv.v-v.v,v:v.v,tv:tv.v,n:v.n,src:'eq'});};
   const LB={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque',blk:'Bloc'};
   (BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att']).forEach(k=>add(tr(LB[k]),me[k],tm[k]));
   ['rec','def','att'].forEach(k=>{const tz=posZones(T,k);posZones(r,k).forEach(x=>{const t=tz.find(y=>y.l===x.l);add(tr(LB[k])+' · '+tr(x.l),x,t);});});
   if(r.role==='Pa'&&SS&&SS.pst){const A=passAgg(SS,set),me=A[r.id]||{},all={};Object.values(A).forEach(o=>Object.entries(o).forEach(([z,c])=>{const d=all[z]||(all[z]={n:0,s:0});d.n+=c.n;d.s+=c.s;}));
     PPOSTS.forEach(([z,l])=>{const c=me[z],t=all[z];if(c&&t&&c.n)add(tr('Passe')+' · '+tr(l),{v:c.s/(2*c.n),n:c.n},{v:t.s/(2*t.n),n:t.n});});}
-  // un seul axe par libellé de compétence globale s'il est déjà détaillé par poste
-  const L=out.sort((a,b)=>b.g-a.g).filter((x,i,a)=>!(!x.l.includes(' · ')&&a.some(y=>y!==x&&y.l.startsWith(x.l+' · ')&&a.indexOf(y)<i))).slice(0,3);
-  return `<div class="axes"><b class="cond">Axes d'amélioration${tipB('axes')}</b>${L.length?`<ul>${L.map(x=>`<li><b>${esc(x.l)}</b> <span class="neg">${Math.round(x.v*100)} %</span> <small class="hint">${tr('équipe {N}').replace('{N}',Math.round(x.tv*100)+' %')}</small></li>`).join('')}</ul>`:`<p class="hint">${tr("Aucun point faible net par rapport à l'équipe (au moins {N} actions par domaine).").replace('{N}',MIN)}</p>`}</div>`;}
+  const wt=x=>x.g*Math.min(1,Math.sqrt(x.n/12)); // volume : un écart sur 30 ballons pèse plus que sur 5
+  // 1) équipe ; un poste qui reprend toutes les actions de la compétence (même nombre) fait doublon avec elle : on garde la compétence
+  const same=(x,y)=>x.l.startsWith(y.l+' · ')&&x.n===y.n;
+  const L=cand.filter(x=>x.g>=0.05).sort((a,b)=>wt(b)-wt(a)).filter((x,i,a)=>!a.some(y=>y!==x&&same(x,y)));
+  const has=x=>L.some(y=>y.l===x.l||(/^(Réception|Défense)/.test(x.grp||'')&&y.l.split(' · ')[0]===x.grp)); // 1re touche : rien si la réception / défense est déjà un axe
+  // 2) attendus du niveau de l'équipe (ceux de la valeur ajoutée)
+  const SY={'−':'-','=':'=','+':'+'},E2=[]; // tiret simple : le « − » ne s'imprime pas dans le PDF
+  vaDetailRows(r).rows.forEach(x=>{if(x.hdr||x.n<MIN)return;const g=(x.exp-x.avg)/2;if(g<0.025)return;
+    const l=tr(x.grp||'')+' '+tr(x.lab).replace(/^Sur /,'sur ').replace('−',SY['−']); // V212 : ex. « Attaque sur passe + », « Réception sur service difficile »
+    E2.push({l,grp:x.grp,g,v:x.avg/2,tv:x.exp/2,n:x.n,src:'va'});});
+  E2.sort((a,b)=>wt(b)-wt(a)).forEach(x=>{if(!has(x))L.push(x);});
+  // 3) au moins 3 : domaines les plus faibles restants, même au niveau de l'équipe
+  if(L.length<3)cand.filter(x=>!L.includes(x)&&!L.some(y=>y.l===x.l||same(x,y)||same(y,x))).sort((a,b)=>b.g-a.g).forEach(x=>{if(L.length<3&&!L.some(y=>y.l.startsWith(x.l+' · ')||x.l.startsWith(y.l+' · ')))L.push(Object.assign({},x,{src:'co'}));});
+  const hint=x=>x.src==='va'?tr('attendu {N}').replace('{N}',Math.round(x.tv*100)+' %'):(x.src==='co'?tr('à consolider')+' · ':'')+tr('équipe {N}').replace('{N}',Math.round(x.tv*100)+' %');
+  return `<div class="axes"><b class="cond">Axes d'amélioration${tipB('axes')}</b>${L.length?`<ul>${L.map(x=>`<li><b>${esc(x.l)}</b> <span class="${x.v<x.tv?'neg':''}">${Math.round(x.v*100)} %</span> <small class="hint">${esc(hint(x))}</small></li>`).join('')}</ul>`:`<p class="hint">${tr("Pas assez d'actions pour proposer des axes (au moins {N} actions par domaine).").replace('{N}',MIN)}</p>`}</div>`;}
 // Fiche joueur agrandie en catégories (V177) : une seule ouverte à la fois (ui.pCat, Vue d'ensemble par défaut), stat globale en couleur dans la barre
 function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),ex=isExtra(r.id),pk=ui.pCat===undefined?'ov':ui.pCat,pc1=v=>v==null?'–':Math.round(v*100)+' %';
   const pe=k=>{const v=me[k];return v?{t:Math.round(v.v*100)+' %',c:sbCls(v,team[k]).slice(2)}:null;};
@@ -4380,10 +4467,13 @@ function pfCats(M,SS,set,r,f,me,team,pc,line){const T=teamTot(f),x=stdStats(r),e
     cat('det',tr('Détail − / = / +'),{t:String(tn),c:'n'},`<div style="overflow-x:auto"><table class="pftab"><tr><th>Compétence</th><th>−</th><th>=</th><th>+</th><th>Actions</th><th>Efficacité</th><th>Équipe</th></tr>
         ${line('Service','srv')}${line('Réception','rec')}${line('Défense','def')}${line('Attaque','att')}
         <tr><td><b>Renvois sans attaque</b></td><td colspan="3" class="hint">ballons renvoyés chez l'adversaire sans attaquer</td><td>${r.relN||0}</td><td></td><td></td></tr>
-        ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − ou renvoi sans attaque sur une passe + ou =</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div>
+        ${r.role==='Pa'?'':`<tr><td><b>Erreurs d'attaque</b></td><td colspan="3" class="hint">attaque − sur passe + ou = ; renvoi sur passe + ou = sans kill</td><td style="font-weight:700;color:${r.eatN?'var(--pu)':'inherit'}">${r.eatN||0}</td><td></td><td></td></tr>`}</table></div>
       <div class="relx" style="text-align:left">Aces : <b>${r.aceN||0}</b> <small>(service + ou = confirmé « Ace ? Oui »)</small><br>Kills : <b>${r.killN||0}</b> <small>(attaque + ou renvoi confirmé « Kill ? Oui »)</small><br>Fautes de réception : <b style="color:${r.rfN?'var(--pu)':'inherit'}">${r.rfN||0}</b> <small>(réception − qui fait perdre le point)</small><br>Renvois sans attaque : <b>${r.relN||0}</b></div>`)
   ].join('')}</div><p class="hint xp">Vert / rouge : 10 points au-dessus / en dessous de l'équipe (3 actions minimum).${tipB('legst')}</p>`;}
-function sbCls(v,tv,red){if(!v||!tv||v.n<3)return 'c-y';const d=(v.v-tv.v)*(red?-1:1);return d<-0.10?'c-r':d>0.10?'c-g':'c-y';}
+// V212 : écart significatif avec l'équipe : |joueur − équipe| ≥ incertitude de la mesure du joueur (écart type de ses notes − 0 / = 0,5 / + 1 ÷ √actions ; taux : √(p(1−p)/n)), au moins 5 points
+// renvoie 1 (au-dessus), −1 (en dessous), 0 (pas d'écart net, ou moins de 3 actions)
+function sigGap(v,tv){if(!v||!tv||!(v.n>=3))return 0;const d=v.v-tv.v,m=v.v,n=v.n;let va;if(v.P!=null||v.M!=null){const P=v.P||0,N=v.N||0,M=v.M||0;va=(P*(1-m)**2+N*(0.5-m)**2+M*m*m)/n;}else va=m*(1-m);const th=Math.max(0.05,Math.sqrt(va/n));return d>=th?1:d<=-th?-1:0;}
+function sbCls(v,tv,red){if(!v||!tv||v.n<3)return 'c-y';const g=sigGap(v,tv)*(red?-1:1);return g<0?'c-r':g>0?'c-g':'c-y';}
 // Couleur (V176) : plus de 10 points sous l'équipe = rouge, à moins de 10 points = jaune, au-dessus = vert (fautes : sens inverse) ; 3 actions minimum
 const sbRow=(lab,v,tv,red,cnt)=>`<div class="sbar ${sbCls(v,tv,red)}"><span class="sl">${lab}</span><span class="st">${v?`<i style="width:${(v.v*100).toFixed(1)}%"></i>`:''}${tv?`<b class="tm" style="left:${(tv.v*100).toFixed(1)}%" title="équipe ${Math.round(tv.v*100)} %"></b>`:''}</span><span class="sv">${v?Math.round(v.v*100)+' %':'–'}<small>${v?cnt(v):''}</small></span></div>`;
 function rateBars(r,f){
@@ -4533,7 +4623,9 @@ function settingsHTML(){const P=store.prefs,SEC={},sec=(id,title,inner)=>{SEC[id
       <hr class="sep">${D('Cotation du relais de passe',`<p class="hint">Après avoir choisi le joueur d'un relais de passe, une question de plus : relais −, = ou +. Pour l'attaquant qui suit, le relais compte comme une passe de cette note (sans cotation : passe −). Le détail apparaît dans les fiches et les PDF.</p>`)}
       <label class="chk sw"><input type="checkbox" role="switch" data-pref="rlyQ" ${P.rlyQ?'checked':''}> Cotation du relais de passe</label>
       <hr class="sep">${D('Cotation du renvoi direct',`<p class="hint">Après avoir choisi le joueur d'un renvoi direct (renvoi sans attaque), une question de plus : renvoi −, = ou +. Le renvoi compte alors comme une attaque de cette note (sans cotation : attaque −, sauf sur une passe −). Le détail apparaît dans les fiches et les PDF.</p>`)}
-      <label class="chk sw"><input type="checkbox" role="switch" data-pref="relQ" ${P.relQ?'checked':''}> Cotation du renvoi direct</label>`)
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="relQ" ${P.relQ?'checked':''}> Cotation du renvoi direct</label>
+      <hr class="sep">${D('Faute directe ?',`<p class="hint">Point perdu juste après une défense, une attaque ou un bloc − : une question de plus, « Faute directe ? », comme « Kill ? » sur un point gagné. Oui : l'erreur a donné le point à l'adversaire, elle compte dans les fautes directes. Non : le point revient à l'action adverse, elle n'y compte pas. Sans l'option, ces actions comptent toujours comme fautes directes. Le service − compte toujours.</p>`)}
+      <label class="chk sw"><input type="checkbox" role="switch" data-pref="fdQ" ${P.fdQ?'checked':''}> Question « Faute directe ? »</label>`)
       +card('Calibrer les attentes sur les matchs de la saison',`<label class="chk sw"><input type="checkbox" role="switch" data-pref="calib" ${P.calib?'checked':''}> Calibrer par défaut</label>`,'',`<p class="hint xp">Réglage général ; chaque saison peut garder son propre choix (menu Saisons).${tipB('calib')}</p>`)
 )}
     ${sec('video','Vidéo',vidSetHTML(card,D))}
@@ -4657,11 +4749,11 @@ function sumDur(m,ei){const e=m.ev[ei];if(!e||!Number.isFinite(e.at))return '';l
 // Export du résumé en PDF (3 colonnes de points par set)
 // Export CSV : une ligne par joueur et par set (match) ou par match (saison) ; séparateur « ; », BOM pour Excel
 function exportCSV(m){const S=replay(m),units=m.season?S.sets.map((x,i)=>({set:i,lab:`${fmtDate(x.date)} ${x.label||''}`})):S.sets.map((x,i)=>({set:i,lab:`Set ${i+1}`})).concat([{set:null,lab:'Match'}]);
-  const cols=['Période','N°','Joueur','Poste','Points joués'].concat(FXK.filter(k=>!/^hot_|S[MEP]?$|^ft[rd]?S$/.test(k))).concat(['Eff. service','Eff. réception','Eff. défense','Eff. attaque','Eff. bloc','Kill %','Erreur att. %','Efficacité att.','Réception + %','Valeur ajoutée','VA ballons','VA type','Fin de set eff.','Fin de set actions']);
+  const cols=['Période','N°','Joueur','Poste','Points joués'].concat(FXK.filter(k=>!/^hot_|S[MEP]?$|^ft[rd]?S$|bq[SN]$/.test(k))).concat(['Eff. service','Eff. réception','Eff. défense','Eff. attaque','Eff. bloc','Kill %','Erreur att. %','Efficacité att.','Réception + %','Valeur ajoutée','VA ballons','VA type','Fin de set eff.','Fin de set actions']);
   const rows=[cols];
   units.forEach(u=>{const f=fxStats(m,S,u.set);f.rows.forEach(r=>{if(isExtra(r.id))return;const e=radEff(r),sd=stdStats(r),va=vaRole(r),h=hotEff(r),pl=(S.played[r.id]||[]).reduce((a,b,i)=>a+((u.set==null||i===u.set)?(b||0):0),0);
     const pc=v=>v==null?'':Math.round(v*100);
-    rows.push([u.lab,r.n,r.full,ROLES[r.role]||r.role,pl].concat(cols.slice(5,5+FXK.filter(k=>!/^hot_|S[MEP]?$|^ft[rd]?S$/.test(k)).length).map(k=>r[k]||0)).concat([pc(e.srv&&e.srv.v),pc(e.rec&&e.rec.v),pc(e.def&&e.def.v),pc(e.att&&e.att.v),pc(e.blk&&e.blk.v),pc(sd.kill),pc(sd.attErr),pc(sd.attEff),pc(sd.recPos),va&&va.n>=VA_MIN&&!va.cov?va.v:'',va?va.n:'',vaLab(r),h?pc(h.v):'',h?h.n:'']));});});
+    rows.push([u.lab,r.n,r.full,ROLES[r.role]||r.role,pl].concat(cols.slice(5,5+FXK.filter(k=>!/^hot_|S[MEP]?$|^ft[rd]?S$|bq[SN]$/.test(k)).length).map(k=>r[k]||0)).concat([pc(e.srv&&e.srv.v),pc(e.rec&&e.rec.v),pc(e.def&&e.def.v),pc(e.att&&e.att.v),pc(e.blk&&e.blk.v),pc(sd.kill),pc(sd.attErr),pc(sd.attEff),pc(sd.recPos),va&&va.n>=VA_MIN&&!va.cov?va.v:'',va?va.n:'',vaLab(r),h?pc(h.v):'',h?h.n:'']));});});
   const csv='\ufeff'+rows.map(r=>r.map(v=>{const t=String(v==null?'':v);return /[;"\n]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t;}).join(';')).join('\r\n');
   saveFile(`stats_${slug(m.season?'saison':(m.opp||'match'))}_${m.date||today()}.csv`,new Blob([csv],{type:'text/csv;charset=utf-8'}));}
 // V194 : export des stats d'un seul joueur depuis sa fiche agrandie ; périmètre = celui de la fiche (match, set, saison ou match de la saison)
@@ -4685,7 +4777,7 @@ function exportPlayer(M,set,pid,k){const SS=replay(M),f=fxStats(M,SS,set),r=f.ro
   const PL=['ja','zh','nl','sr','bg','sl','uk','cs','th','ko','fil','id','ru','ar','vi'].includes(lang())?'en':undefined,trP=t=>pdfSafe(tr(t,PL));
   const T=(t,x,y,sz,b,c,al)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(sz);doc.setTextColor(...(c||[0,0,0]));doc.text(pdfSafe(t),x,y,{align:al||'left'});};
   const INK=[20,36,61],RED=[200,30,45],GREEN=[20,125,60],GREY=[110,110,110],RCOL={Pa:[242,190,34],Pu:[215,38,61],R4:[35,146,74],C:[31,95,208],L:[139,59,201]};
-  const TT=teamTot(f),me=radEff(r),team=radEff(TT),x=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',col=(v,tv)=>!v||!tv||v.n<3?[0,0,0]:v.v-tv.v>=0.10?GREEN:v.v-tv.v<=-0.10?RED:[0,0,0];
+  const TT=teamTot(f),me=radEff(r),team=radEff(TT),x=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',col=(v,tv)=>{const g=sigGap(v,tv);return g>0?GREEN:g<0?RED:[0,0,0];};
   let y=18;const need=h=>{if(y+h>285){doc.addPage();y=18;}};
   doc.setFillColor(...(RCOL[r.role]||INK));doc.roundedRect(14,y-6.5,11,9,1.5,1.5,'F');T(r.n,19.5,y,12,true,[255,255,255],'center');T(r.full,29,y,17,true,INK);y+=7;
   const pp=pById(M,r.id),lic=pp.lic||((store.roster.find(q=>q.id===r.id)||{}).lic)||'';
@@ -4711,7 +4803,7 @@ function exportPlayer(M,set,pid,k){const SS=replay(M),f=fxStats(M,SS,set),r=f.ro
   y+=1;
   // par poste
   const PZ=['att','rec','def'].map(k=>({k,L:posZones(r,k),tz:posZones(TT,k)})).filter(o=>o.L.length);
-  if(PZ.length){H('Par poste');PZ.forEach(o=>{need(8);T(trP(LB[o.k]),14,y,9.5,true);y+=5;o.L.forEach(z=>{need(6);const t=o.tz.find(q=>q.l===z.l);
+  if(PZ.length){y+=1;H('Par poste');PZ.forEach(o=>{need(8);T(trP(LB[o.k]),14,y,9.5,true);y+=5;o.L.forEach(z=>{need(6);const t=o.tz.find(q=>q.l===z.l);
       T(trP(z.l),20,y,9,false);doc.setFillColor(226,232,240);doc.rect(70,y-3,70,3.6,'F');const c=col(z,t);doc.setFillColor(...(c===RED?RED:c===GREEN?GREEN:[201,154,0]));doc.rect(70,y-3,70*z.v,3.6,'F');
       if(t){doc.setDrawColor(...INK);doc.setLineWidth(0.5);doc.line(70+70*t.v,y-3.8,70+70*t.v,y+1.4);}T(`${Math.round(z.v*100)} %`,146,y,9,true,c);T(`(${z.n})`,162,y,8,false,GREY);T(t?trP('équipe {N}').replace('{N}',Math.round(t.v*100)+' %'):'',196,y,8,false,GREY,'right');y+=5.5;});y+=2;});}
   // passe
@@ -4782,12 +4874,13 @@ function progSeries(m,S){const list=m.season?statArch():null,key=m.season?'s:'+l
   units.forEach((u,i)=>{const f=fxStats(u.m,u.S,u.set),PA=passAgg(u.S,u.set);
     f.rows.forEach(r=>{if(isExtra(r.id))return;const e=radEff(r),d=data[r.id]||(data[r.id]={}),put=(k,v,n)=>{(d[k]=d[k]||Array(units.length).fill(null))[i]=v;(d[k+'_n']=d[k+'_n']||Array(units.length).fill(0))[i]=n||0;};
       const P=PA[r.id]?passTot(PA[r.id]):null;if(P&&P.n>=3)put('pas',passPct(P),P.n);
-      ['att','def','rec','srv'].forEach(k=>{if(e[k]&&e[k].n>=3)put(k,Math.round(e[k].v*100),e[k].n);});});});
+      ['att','def','rec','srv'].forEach(k=>{if(e[k]&&e[k].n>=3)put(k,Math.round(e[k].v*100),e[k].n);});
+      {const g=radEffAll(r);if(g&&g.n>=3)put('all',Math.round(g.v*100),g.n);}});}); // V212 : ligne globale (toutes les actions)
   CUR_LEVEL=levelOf(m);
   PROG_CACHE={k:key,v:{data,titles:units.map(u=>u.t),per:m.season?'match':'set'}};return PROG_CACHE.v;}
 function cardProgHTML(m,S,id){if(!proFor(m))return '';if(m.season?statArch().length<2:S.sets.length<2)return '';const P=progSeries(m,S),d=P.data[id];if(!d)return '';
-  const LAB={pas:'Passe',att:'Attaque',def:'Défense',rec:'Réception',srv:'Service'};
-  const rows=['pas','att','def','rec','srv'].filter(k=>d[k]&&d[k].filter(v=>v!=null).length>=2).map(k=>{const arr=d[k],vs=arr.filter(v=>v!=null),tr=trendTxt(arr,d[k+'_n'],false);
+  const LAB={all:'Global',pas:'Passe',att:'Attaque',def:'Défense',rec:'Réception',srv:'Service'};
+  const rows=['all','pas','att','def','rec','srv'].filter(k=>d[k]&&d[k].filter(v=>v!=null).length>=2).map(k=>{const arr=d[k],vs=arr.filter(v=>v!=null),tr=trendTxt(arr,d[k+'_n'],false);
     return `<div class="prw cpr"><span class="pl">${LAB[k]}</span><span class="pst">${vs[0]} %</span>${sparkLine(arr,false,P.titles,d[k+'_n'])}<span class="pvar ${tr.cls}">${tr.txt}</span></div>`;}).join('');
   return rows?`<div class="cprog"><div class="cpt">Progression ${P.per==='set'?'par set':'par match'}</div>${rows}</div>`:'';}
 // Info-bulles des statistiques : la logique, sans le détail des calculs
@@ -4811,12 +4904,12 @@ const TIPS={
  def:['Défense',"+ : défense qui permet de contre-attaquer. = : ballon sauvé mais difficile à exploiter. − : ballon perdu."],
  att:['Attaque',"+ : attaque gagnante ou qui met l'adversaire en grande difficulté. = : attaque défendue, le jeu continue. − : attaque dehors, dans le filet ou contrée."],
  blk:['Bloc',"+ : bloc gagnant ou qui met l'adversaire en difficulté. = : bloc touché, le jeu continue. − : bloc faute (filet, out sur le bloc). Statistique optionnelle (Réglages) : difficile à noter en temps réel, elle charge la grille sur téléphone. Seuls les 3 joueurs au filet sont proposés (R4 en 4, centre en 3, passe ou pointe en 2 ; en P1, R4 et pointe sont inversées)."],
- axes:["Axes d'amélioration","Les trois domaines où le joueur est le plus en dessous de la moyenne de l'équipe : compétence, poste (réception, défense, attaque) et, pour un passeur, destination de la passe. Un domaine compte à partir de 5 actions et d'un écart de 5 points."],
+ axes:["Axes d'amélioration","D'abord les domaines où le joueur est en dessous de l'équipe (compétence, poste et, pour un passeur, destination de la passe ; écart d'au moins 5 points, les domaines avec le plus d'actions en premier). Puis ceux où il est en dessous des attendus du niveau de l'équipe, les mêmes que pour la valeur ajoutée. S'il y en a moins de 3, les domaines les plus faibles restants sont proposés « à consolider ». Un domaine n'est retenu qu'à partir de 5 actions du joueur : un joueur qui réceptionne peu n'a pas d'axe en réception."],
  az:['Attaque par poste',"Efficacité de l'attaque selon le poste d'où le joueur attaque (après permutation), comme dans le diagramme des zones. Un poste n'apparaît qu'à partir de 5 attaques, et seulement si le joueur a attaqué de plusieurs postes."],
  pas:['Passe',"Réussite de passe : qualité de la passe elle-même (− = 0, = = 1, + = 2), quel que soit le résultat de l'attaque. Ce que l'attaque a fait de la passe se lit dans le diagramme des zones."],
  fautes:['Fautes',"Part des actions ratées (−) parmi toutes les actions notées du joueur : service, réception, défense et attaque."],
- ea:["Erreurs d'attaque","Attaques ratées ou ballons renvoyés sans attaquer alors que la passe était bonne (+ ou =). Ne compte que ce qui dépend de l'attaquant : une mauvaise passe n'est pas reprochée. Différent des fautes directes, qui ne regardent que la dernière action de l'échange."],
- fd:['Fautes directes',"Fautes qui donnent immédiatement le point à l'adversaire : service, défense, attaque ou bloc ratés en dernière action de l'échange, quelle que soit la passe. Une attaque ratée sur bonne passe compte aussi dans les erreurs d'attaque."],
+ ea:["Erreurs d'attaque","Attaques ratées alors que la passe était bonne (+ ou =), et ballons renvoyés sans attaquer sur une passe + ou =, sauf s'ils font le point (un kill n'est jamais une erreur). Un renvoi n'est pas compté comme une attaque. Ne compte que ce qui dépend de l'attaquant : une mauvaise passe n'est pas reprochée. Différent des fautes directes, qui ne regardent que la dernière action de l'échange."],
+ fd:['Fautes directes',"Fautes qui donnent immédiatement le point à l'adversaire : service, défense, attaque ou bloc ratés en dernière action de l'échange, quelle que soit la passe (avec l'option « Faute directe ? », seulement ceux confirmés). Une attaque ratée sur bonne passe compte aussi dans les erreurs d'attaque."],
  vagrp:['Réception et défense regroupées',"Les réceptions et les défenses (1re touche : elles ne font pas suite à une passe ni à une réception / défense) sont détaillées séparément à partir de 5 actions chacune. En dessous, elles sont regroupées sur une ligne « Récep./déf. »."],
  oppd:['Difficulté du ballon adverse',"Option de saisie : la qualité du service ou de l'attaque adverse est notée avec la première touche. L'attente d'un ballon facile est relevée, celle d'un ballon difficile abaissée ; un ballon non noté compte comme moyen."],
  cov:['Complétude de la saisie',"Part des points où au moins une action a été notée. En dessous de 80 %, les statistiques décrivent une partie du match seulement ; en dessous de 50 %, la valeur ajoutée du passeur n'est plus affichée."],
@@ -4831,7 +4924,7 @@ const TIPS={
  sheet:['Feuille de match',"Cochez les joueurs présents (14 au maximum). Les boutons à droite changent le poste pour ce match ; le changement s'applique tout de suite au terrain."],
  extra:['Hors feuille',"Jusqu'à deux noms saisis à la main, hors effectif. Ils jouent normalement mais n'ont pas de temps de jeu dans les statistiques."],
  rly:['Relais de passe',"Passes faites par un autre joueur que le passeur, par exemple quand le passeur a joué la première touche. Elles sont comptées à part, sans valeur ajoutée. Pour l'attaquant, un relais compte comme une passe − : le ballon arrive toujours de façon inattendue."],
- rel:['Renvois sans attaque',"Ballons renvoyés chez l'adversaire sans attaquer (balle facile)."],
+ rel:['Renvois sans attaque',"Ballons renvoyés chez l'adversaire sans attaquer (balle facile). Ils ne comptent pas comme des attaques (efficacité, nombre d'attaques) ; ce sont des erreurs d'attaque sur une passe + ou =, sauf kill."],
  toile:['Toile et barres',"La toile montre le profil du joueur sur les 4 compétences : plus elle est grande, plus il est efficace. Le pointillé est la moyenne de l'équipe. Dans les barres : vert = efficacité, rouge = fautes, trait foncé = niveau de l'équipe. Un chiffre vert ou rouge est nettement au-dessus ou en dessous de l'équipe. Un joueur en gris a trop peu de ballons pour juger."],
  zones:['Zones',"Pour chaque poste du terrain : la surface bleue montre où se jouent les ballons, les points montrent l'efficacité à ce poste. Le cercle pointillé est l'efficacité moyenne : un point vert ou rouge est nettement meilleur ou moins bon que la moyenne."],
 med:['Ligne Équipe',"Médiane des joueurs classés : la moitié font mieux, l'autre moitié moins bien. Elle n'est pas pondérée par le nombre de ballons, contrairement aux toiles et aux barres des fiches, qui utilisent l'efficacité globale de l'équipe (tous les ballons mis ensemble)."],
@@ -4936,7 +5029,7 @@ function methodHTML(close){const C=STAT_CFG,E=C.EXPECT,w=o=>Object.entries(o).ma
     <p><b>Fin de set.</b> Actions jouées quand les deux équipes sont à ${C.HOT} points ou moins de la fin du set, ou sur balle de set.</p>
     <p><b>Zones et circuits favorables.</b> À partir de ${C.ZONE_MIN_M} ballons sur un match, ${C.ZONE_MIN_S} sur une saison.</p>
     <p><b>Progression.</b> Courbe brute et courbe lissée sur 3 matchs (pondérée par le nombre d'actions) ; tendance = pente de la régression pondérée, affichée si l'évolution prédite dépasse 5 points.</p>
-    <p><b>Complétude.</b> Part des points avec au moins une action notée. Vert ≥ 80 %, orange 50 à 80 %, rouge en dessous.</p></div>`;}
+    <p><b>Complétude.</b> Part des points avec au moins une action notée (un point gagné sur service adverse sans action, faute de service adverse, compte comme saisi). Vert ≥ 80 %, orange 50 à 80 %, rouge en dessous.</p></div>`;}
 // Comparatif gratuit / pass : coche = inclus, croix = non inclus
 const PRO_CMP=[['Saisie du match : score, rotations, positions et stats',1],['Résumé du match point par point (PDF compris)',1],['Sauvegarde complète des données',1],
   ['Stats du passeur, d’un R4 et d’un central',1],['Stats de tous les joueurs et classements complets',0],['Zones de réception et de défense, analyse des rotations',0],
@@ -5187,13 +5280,16 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
   const PL=['ja','zh','nl','sr','bg','sl','uk','cs','th','ko','fil','id','ru','ar','vi'].includes(lang())?'en':undefined,trP=t=>Array.isArray(t)?t.map(x=>pdfSafe(tr(x,PL))):pdfSafe(tr(t,PL));
   {const _t=doc.text.bind(doc),_s=doc.splitTextToSize.bind(doc);doc.text=(t,...a)=>_t(trP(t),...a);doc.splitTextToSize=(t,...a)=>_s(trP(t),...a);}
   let y=18;
-    doc.setFont('helvetica','bold');doc.setFontSize(17);doc.text(m.season?`${m.team||'Équipe'} – ${m.seasonName||'Saison'}`:matchTitle(m),14,y);
-  y+=7;doc.setFont('helvetica','normal');doc.setFontSize(10.5);
+  if(m.season){doc.setFont('helvetica','bold');doc.setFontSize(17);doc.text(`${m.team||'Équipe'} – ${m.seasonName||'Saison'}`,14,y);y+=7;}
+  else{ // V212 : en-tête sur une ligne « Équipe 3 - 2 Adversaire. 17/07/2026 » (place gagnée pour les fiches)
+    const t1=`${m.team||'Équipe'} ${S.wins.G} - ${S.wins.A} ${m.opp||'Adversaire'}.`,t2=`  ${fmtDate(m.date)||''}`;let fs=17;
+    const wd=()=>{doc.setFont('helvetica','bold');doc.setFontSize(fs);const a=doc.getTextWidth(trP(t1));doc.setFont('helvetica','normal');return a+doc.getTextWidth(trP(t2));};while(fs>11&&wd()>182)fs-=0.5;
+    doc.setFont('helvetica','bold');doc.setFontSize(fs);doc.text(t1,14,y);const w1=doc.getTextWidth(trP(t1));doc.setFont('helvetica','normal');doc.text(t2,14+w1,y);y+=6.5;}
+  doc.setFont('helvetica','normal');doc.setFontSize(10.5);
   if(m.season){doc.text(`Saison : ${m.n} match${m.n>1?'s':''}, du ${fmtDate(m.date)} au ${fmtDate(m.date2)}`,14,y);y+=6;doc.text(`Bilan : ${S.wins.G} victoire${S.wins.G>1?'s':''}, ${S.wins.A} défaite${S.wins.A>1?'s':''}`,14,y);y+=5;
     doc.setFontSize(8.5);doc.setTextColor(90);doc.splitTextToSize(S.sets.map(s=>s.label+' '+s.g+'-'+s.a).join(' · '),148).forEach(l=>{doc.text(l,14,y);y+=3.8;});doc.setTextColor(0);doc.setFontSize(10.5);y+=2.2;}
-  else{doc.text(`Date : ${fmtDate(m.date)||'-'}     Match n° ${m.num||'-'}`,14,y);y+=6;
-  doc.text(`Résultat : ${S.wins.G} - ${S.wins.A}   (${S.sets.map(s=>s.g+'-'+s.a).join(', ')||'aucun set'})`,14,y);y+=6;}
-  {const c=S.cov,pc=covPct(c);doc.text(`Points disputés par l'équipe : ${total}${pc!=null?`     Saisie : ${Math.round(pc*100)} % des points avec au moins une action notée`:''}`,14,y);y+=9;}
+  else y-=2; // V212 : plus de 2e ligne (sets, n° de match, points disputés, saisie) : seulement « Équipe 3 - 2 Adversaire. date »
+  if(m.season){const c=S.cov,pc=covPct(c);doc.text(`Points disputés par l'équipe : ${total}${pc!=null?`     Saisie : ${Math.round(pc*100)} % des points avec au moins une action notée`:''}`,14,y);y+=9;}
   // Efficacité par compétence (mêmes règles que les classements)
   const Z0={v:0,p:0,t:0,n:0},ind=r=>{const e=radEff(r);return [e.srv||Z0,e.rec||Z0,e.def||Z0,e.att||Z0,e.blk||Z0];},base=ind(teamTot(fx));
   const RED=[200,30,45],GREEN=[20,125,60];
@@ -5246,6 +5342,10 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
   const lowP=r=>{const tr=rowById[r.id];return !isExtra(r.id)&&lowSample(r,tr?tr.pct:0);};
   const PROG=(()=>{try{return progSeries(m,S);}catch(e){return null;}})(),hasProg=PROG&&(m.season?statArch().length>=2:S.sets.length>=2);
   CUR_LEVEL=levelOf(m);
+  const bqBar=(bx,yy,bw,v)=>{if(v==null)return;const cx=bx+bw*v;doc.setFillColor(74,85,104);doc.triangle(cx,yy+0.4,cx-1,yy+1.8,cx+1,yy+1.8,'F');}; // V212 : triangle ▲ sous la barre (qualité de la passe reçue / difficulté du ballon adverse)
+  // V212 : légende des barres : joueur, ballon reçu, moyenne de l'équipe
+  const bqLeg=(x,y,W)=>{let lx=x;const it=(draw,l)=>{draw(lx,y);T(l,lx+5,y+0.2,5.8,false,[100,100,100]);lx+=6+doc.getTextWidth(trP(l))*5.8/doc.getFontSize();};doc.setFont('helvetica','normal');
+    it((a,b)=>{doc.setFillColor(35,146,74);doc.rect(a,b-2,4,2,'F');},'Joueur');it((a,b)=>{doc.setFillColor(74,85,104);doc.triangle(a+2,b-1.9,a+0.9,b-0.2,a+3.1,b-0.2,'F');},'Qualité passe reçue / Difficulté ballon adverse');it((a,b)=>{doc.setDrawColor(20,36,61);doc.setLineWidth(0.6);doc.line(a+2,b-2.6,a+2,b+0.6);},'Moyenne équipe');};
   const playerCard=(r,x0,y0,W,H)=>{const tr=rowById[r.id]||{tot:0,pct:0},col=RCOL[r.role]||[120,120,120];
     doc.setDrawColor(215,222,232);doc.setLineWidth(0.3);doc.roundedRect(x0,y0,W,H,2.5,2.5,'S');doc.setFillColor(...col);doc.rect(x0+0.2,y0+0.2,W-0.4,2,'F');
     doc.setFillColor(...col);doc.circle(x0+8,y0+10,5,'F');T(r.n,x0+8,y0+11.8,11,true,r.role==='Pa'?[40,30,0]:[255,255,255],'center');
@@ -5253,7 +5353,7 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
     T(`${tr.tot} pts joués · ${tr.pct.toFixed(0)} %`,x0+15.5,y0+15.4,8,false,[100,100,100]);
     {const L=impLines(S,null,r);if(L.length){const x=L[0];T(`Eff. ${x.lab} ${x.eff==null?'-':x.eff+' %'} · VA ${x.vl} ${facTxt(x.f).replace('−','-')}`,x0+15.5,y0+20.2,7.6,true,x.f&&x.f.v<0?RED:x.f&&x.f.v>0?GREEN:[60,60,60]);}}
     // toile
-    const me=radEff(r),cx=x0+W/2,cy=y0+56,R=17,pt=(a,v)=>[cx+R*v*Math.cos(a*Math.PI/180),cy+R*v*Math.sin(a*Math.PI/180)];
+    const me=radEff(r),cx=x0+W/2,cy=y0+48,R=13, /* V212 : radar plus petit → place pour la progression par set */pt=(a,v)=>[cx+R*v*Math.cos(a*Math.PI/180),cy+R*v*Math.sin(a*Math.PI/180)];
     doc.setDrawColor(215,222,232);[0.25,0.5,0.75,1].forEach(l=>{doc.setLineWidth(l===1?0.35:0.18);poly(RAX().map(([,,a])=>pt(a,l)),'S');});
     RAX().forEach(([,,a])=>{const [x,yy]=pt(a,1);doc.setLineWidth(0.18);doc.line(cx,cy,x,yy);});
     doc.setDrawColor(130,140,155);doc.setLineWidth(0.4);doc.setLineDashPattern([1.2,1],0);poly(RAX().map(([k,,a])=>pt(a,teamR[k]?teamR[k].v:0)),'S');doc.setLineDashPattern([],0);
@@ -5261,51 +5361,48 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
     doc.setGState(new doc.GState({opacity:0.28}));doc.setFillColor(...col);poly(q,'F');doc.setGState(new doc.GState({opacity:1}));
     doc.setDrawColor(...col);doc.setLineWidth(0.8);poly(q,'S');
     RAX().forEach(([k,lab,a])=>{const v=me[k],tv=teamR[k],[lx,ly]=pt(a,a===-90||a===90?1.3:1.12),al=a===0?'left':a===180?'right':'center',dy=a===-90?-4.5:a===90?3.4:-1.4;
-      const c=!v?[150,150,150]:(tv&&v.n>=3&&v.v-tv.v>=0.10)?GREEN:(tv&&v.n>=3&&v.v-tv.v<=-0.10)?RED:[0,0,0];
+      const c=!v?[150,150,150]:sigGap(v,tv)>0?GREEN:sigGap(v,tv)<0?RED:[0,0,0];
       T(lab,lx,ly+dy,7.4,false,[110,110,110],al);T(v?`${Math.round(v.v*100)} %`:'-',lx,ly+dy+4,10,true,c,al);
       if(v){doc.setFont('helvetica','normal');doc.setFontSize(6.6);doc.setTextColor(120);doc.text(`${v.n} act.`,lx,ly+dy+7.2,{align:al});}});
     // barres
-    let by=y0+93;const bx=x0+24,bw=W-46;
+    let by=y0+80;const bx=x0+24,bw=W-46;
     const bar=(lab,v,tv,red,cnt)=>{T(lab,x0+4,by+2.9,7.6,true,[90,90,90]);doc.setFillColor(222,228,236);doc.roundedRect(bx,by,bw,3.6,1.5,1.5,'F');
       if(v&&v.v>0){doc.setFillColor(...(red?[215,38,61]:[35,146,74]));doc.roundedRect(bx,by,Math.max(1.5,bw*v.v),3.6,1.5,1.5,'F');}
       if(tv){doc.setDrawColor(20,36,61);doc.setLineWidth(0.8);doc.line(bx+bw*tv.v,by-1,bx+bw*tv.v,by+4.6);}
-      T(v?`${Math.round(v.v*100)} %`:'-',x0+W-10,by+3,8.4,true,[0,0,0],'right');if(v)T(cnt(v),x0+W-3,by+3,6.8,false,[120,120,120],'right');by+=6;};
+      T(v?`${Math.round(v.v*100)} %`:'-',x0+W-10,by+3,8.4,true,[0,0,0],'right');if(v)T(cnt(v),x0+W-3,by+3,6.8,false,[120,120,120],'right');by+=5.3;};
     const Tt=teamTot(fx),cats=['srv','rec','def','att'];
     const fr2=o=>{const M=cats.reduce((a,k)=>a+(o[k+'M']||0),0),n=cats.reduce((a,k)=>a+(o[k+'M']||0)+(o[k+'N']||0)+(o[k+'P']||0),0);return n?{v:M/n,n,c:M}:null;};
     const er2=o=>{const n=(o.attP||0)+(o.attN||0)+(o.attM||0)+(o.relN||0);return n?{v:(o.eatN||0)/n,n,c:o.eatN||0}:null;};
     [['Service','srv'],['Réception','rec'],['Défense','def'],['Attaque','att']].concat(BLK()?[['Bloc','blk']]:[]).forEach(([l,k])=>{bar(l,me[k],teamR[k],false,v=>String(v.n));if(k==='att')attZones(r).forEach(x=>bar('  '+x.l,x,teamR.att,false,v=>String(v.n)));});
     bar('Fautes',fr2(r),fr2(Tt),true,v=>`${v.c}/${v.n}`);if(r.role!=='Pa')bar('Err. att.',er2(r),er2(Tt),true,v=>`${v.c}/${v.n}`);
-    T(`Aces : ${r.aceN||0}  ·  Kills : ${r.killN||0}  ·  Fautes récep. : ${r.rfN||0}  ·  Renvois : ${relTxt(r,1)}${rlyT(r)?'  ·  Relais : '+rlyTxt(r,1):''}`,x0+W/2,by+4,7.8,true,[60,60,60],'center');by+=9;
-    {const sd=stdStats(r),pc=v=>v==null?'-':Math.round(v*100)+' %',sg=v=>v==null?'-':(v>0?'+':'')+Math.round(v*100)+' %',parts=[];
-      if(sd.A)parts.push(`Kill ${pc(sd.kill)}`,`Err. att. ${pc(sd.attErr)}`,`Eff. att. ${sg(sd.attEff)}`);if(sd.Rc)parts.push(`Réc. + ${pc(sd.recPos)}`);if(sd.Sv)parts.push(`Aces/fautes ${sd.aces}/${sd.srvErr}`);
-      if(parts.length){T(parts.join('  ·  '),x0+W/2,by+2.5,6.8,false,[70,70,70],'center');by+=5;}
-      const h=hotEff(r),g=radEffAll(r);if(h&&h.n>=3){const d=g?h.v-g.v:0;T(`Fin de set : ${Math.round(h.v*100)} % sur ${h.n} actions (ensemble ${g?Math.round(g.v*100)+' %':'-'}), fautes directes ${h.fd}/${h.n}`,x0+W/2,by+2.5,6.8,true,h.n>=5&&d>=0.1?GREEN:h.n>=5&&d<=-0.1?RED:[70,70,70],'center');by+=5;}}
+    by+=3; // V212 : aces, kills, fautes… : tableau « Actions » de la colonne de droite
+    {const h=hotEff(r),g=radEffAll(r);if(h&&h.n>=3){const d=g?h.v-g.v:0;T(`Fin de set : ${Math.round(h.v*100)} % sur ${h.n} actions (ensemble ${g?Math.round(g.v*100)+' %':'-'}), fautes directes ${h.fd}/${h.n}`,x0+W/2,by+2.5,6.8,true,h.n>=5&&d>=0.1?GREEN:h.n>=5&&d<=-0.1?RED:[70,70,70],'center');by+=5;}}
     by+=1;
     // valeur ajoutée : détail du calcul (ballon reçu, ballons, note obtenue, note attendue, écart)
-    {const {rows:R0,grouped}=vaDetailRows(r),rows=R0.map(x=>x.hdr?[x.hdr]:[x.lab.replace('−','-'),x.n,x.avg,x.exp]);
+    {const {rows:R1,grouped}=vaDetailRows(r),h0=(R1[0]&&R1[0].hdr)||'',R0=h0?R1.slice(1):R1,rows=R0.map(x=>x.hdr?[x.hdr]:[x.lab.replace('−','-'),x.n,x.avg,x.exp]);
       const tot=vaRole(r);
       if(rows.length){doc.setDrawColor(215,222,232);doc.setLineWidth(0.3);doc.line(x0+4,by-3,x0+W-4,by-3);
         T(`VALEUR AJOUTÉE (${vaLab(r).toUpperCase()}) : ${tot&&tot.n>=VA_MIN?facTxt(tot).replace('−','-'):'- (moins de '+VA_MIN+' ballons)'}`,x0+4,by+1.5,7.2,true,tot&&tot.n>=VA_MIN?(tot.v>0?GREEN:tot.v<0?RED:[60,60,60]):[110,110,110]);by+=5;
         const cx=[x0+4,x0+34,x0+50,x0+66,x0+W-4];
-        [['Ballon reçu','left'],['Ballons','right'],['Obtenu','right'],['Attendu','right'],['Écart','right']].forEach(([t,al],c)=>T(t,c===0?cx[0]:cx[c],by,6.4,true,[110,110,110],al));by+=3.8;
+        [[h0,'left'],['Ballons','right'],['Obtenu','right'],['Attendu','right'],['Écart','right']].forEach(([t,al],c)=>T(t,c===0?cx[0]:cx[c],by,6.4,true,[110,110,110],al));by+=3.8;
         rows.forEach(([lab,nn,avg,exp])=>{if(nn==null){T(lab,cx[0],by,6.8,true,[90,90,90]);by+=3.8;return;}const g=(avg-exp)*50;T(lab,cx[0],by,7,false,[40,40,40]);T(String(nn),cx[1],by,7,false,[40,40,40],'right');T(`${Math.round(avg*50)} %`,cx[2],by,7,false,[40,40,40],'right');T(`${Math.round(exp*50)} %`,cx[3],by,7,false,[40,40,40],'right');
-          T(`${g>0?'+':g<0?'-':''}${Math.abs(Math.round(g))} pts`,cx[4],by,7,true,g>2.5?GREEN:g<-2.5?RED:[60,60,60],'right');by+=3.8;});
-        doc.setFont('helvetica','normal');doc.setFontSize(5.8);doc.setTextColor(120);doc.splitTextToSize("Note moyenne : 0 % = tout -, 100 % = tout +. Attendu : selon la qualité du ballon reçu et le niveau de la saison."+(grouped?" Réception et défense regroupées (moins de 5 actions dans l'une d'elles).":""),W-8).forEach((l,i)=>doc.text(l,x0+4,by+0.5+i*2.6));doc.setTextColor(0);by+=grouped?10.5:8;}}
+          T(`${Math.round(g)>0?'+':Math.round(g)<0?'-':''}${Math.abs(Math.round(g))} pts`,cx[4],by,7,true,g>2.5?GREEN:g<-2.5?RED:[60,60,60],'right');by+=3.8;});
+        doc.setFont('helvetica','normal');doc.setFontSize(5.8);doc.setTextColor(120);doc.splitTextToSize("Note moyenne : 0 % = tout -, 100 % = tout +. Attendu : selon la qualité du ballon reçu et le niveau de la saison."+(R0.some(x=>/^Sur (service|attaque) [−=+]$/.test(x.lab||''))?" Service / attaque adverse : - = ballon difficile, = = moyen, + = facile.":"")+(grouped?" Réception et défense regroupées (moins de 5 actions dans l'une d'elles).":""),W-8).forEach((l,i,A)=>{doc.text(l,x0+4,by+0.5+i*2.6);if(i===A.length-1)by+=i*2.6;});doc.setTextColor(0);by+=5.4;}}
     // progression (par set pour un match, par match pour une saison)
     const d=hasProg&&PROG.data[r.id];
-    if(d){const LAB={pas:'Passe',att:'Attaque',def:'Défense',rec:'Réception',srv:'Service'};
-      const keys=['pas','att','def','rec','srv'].filter(k=>d[k]&&d[k].filter(v=>v!=null).length>=2);
+    if(d){const LAB={all:'Global',pas:'Passe',att:'Attaque',def:'Défense',rec:'Réception',srv:'Service'};
+      const keys=['all','pas','att','def','rec','srv'].filter(k=>d[k]&&d[k].filter(v=>v!=null).length>=2);
       if(keys.length){doc.setDrawColor(215,222,232);doc.setLineWidth(0.3);doc.line(x0+4,by-3,x0+W-4,by-3);
         T(`PROGRESSION ${PROG.per==='set'?'PAR SET':'PAR MATCH'}`,x0+4,by+1.5,7.2,true,[110,110,110]);by+=5;
         const rh=Math.min(30,(y0+H-4-by)/keys.length),sx=x0+30,sw=W-48;
         keys.forEach(k=>{const arr=d[k],vs=arr.filter(v=>v!=null),dl=vs[vs.length-1]-vs[0],mn=Math.min(...vs),mx=Math.max(...vs);
           let lo=Math.max(0,mn-10),hi=Math.min(100,mx+10);if(hi-lo<20){const c=(hi+lo)/2;lo=Math.max(0,c-10);hi=Math.min(100,lo+20);}
-          const top=by+4,bot=by+rh-5,Y=v=>bot-(v-lo)/(hi-lo)*(bot-top),X=i=>sx+2+i*(sw-4)/Math.max(1,arr.length-1),mid=(top+bot)/2;
-          T(LAB[k],x0+4,mid+1.2,7.8,true,[60,60,60]);T(`${vs[0]} %`,sx-2,mid+1.2,7.4,true,[110,110,110],'right');
+          const top=by+1.6,bot=by+rh-2.2,Y=v=>bot-(v-lo)/(hi-lo)*(bot-top),X=i=>sx+2+i*(sw-4)/Math.max(1,arr.length-1),mid=(top+bot)/2;
+          T(LAB[k],x0+4,mid+1.2,7.8,true,k==='all'?[0,0,0]:[60,60,60]);T(`${vs[0]} %`,sx-2,mid+1.2,7.4,true,[110,110,110],'right');
           const P=arr.map((v,i)=>v==null?null:[X(i),Y(v)]).filter(Boolean);doc.setDrawColor(46,104,186);doc.setLineWidth(0.6);for(let i=1;i<P.length;i++)doc.line(P[i-1][0],P[i-1][1],P[i][0],P[i][1]);
           const imin=arr.indexOf(mn),imax=arr.lastIndexOf(mx);
           arr.forEach((v,i)=>{if(v==null)return;const x=X(i),yy=Y(v),isMn=mx>mn&&i===imin,isMx=mx>mn&&i===imax;doc.setFillColor(...(isMx?GREEN:isMn?RED:[46,104,186]));doc.circle(x,yy,isMn||isMx?1.05:0.7,'F');
-            if(isMx)T(`${v} %`,x,yy-1.8,6.2,true,GREEN,'center');if(isMn)T(`${v} %`,x,yy+3.6,6.2,true,RED,'center');});
+            const last=i===arr.length-1,lx=last?x-1.8:x+1.8,al=last?'right':'left'; /* V212 : étiquette à côté du point : toute la hauteur pour la courbe */if(isMx)T(`${v} %`,lx,yy-0.9,6,true,GREEN,al);if(isMn)T(`${v} %`,lx,yy+2.9,6,true,RED,al);});
           T(`${dl>0?'+':dl<0?'-':''}${Math.abs(dl)} pts`,x0+W-4,mid+1.6,10,true,dl>0?GREEN:dl<0?RED:[60,60,60],'right');by+=rh;});}}
     doc.setTextColor(0);};
   // ordre : passe(s) d'abord, puis par poste comme dans l'espace entraîneur
@@ -5314,17 +5411,34 @@ function exportPDF(m,o){const PID=o&&o.pid; // V199 : o.pid = PDF d'un seul joue
   // V199 : colonne de droite de la page d'un joueur : par poste (réception, défense, attaque selon la place réelle), détail - / = / +, axes d'amélioration
   const playerSide=(r,x,y,W)=>{const LB={srv:'Service',rec:'Réception',def:'Défense',att:'Attaque',blk:'Bloc'},TT=teamTot(fx);
     const H=t=>{T(t,x,y,8.5,true,INK2);doc.setDrawColor(...INK2);doc.setLineWidth(0.4);doc.line(x,y+1.6,x+W,y+1.6);y+=6.5;};
-    const PZ=['att','rec','def'].map(k=>({k,L:posZones(r,k),tz:posZones(TT,k)})).filter(o=>o.L.length);
-    if(PZ.length){H('Par poste');PZ.forEach(o=>{T(LB[o.k],x,y,8.5,true);y+=4.6;o.L.forEach(z=>{const t=o.tz.find(q=>q.l===z.l),d=t?z.v-t.v:0,c=z.n>=3&&t?(d>=0.1?GREEN:d<=-0.1?RED:[60,60,60]):[140,140,140];
-      T(z.l,x+3,y,7.6,false,[60,60,60]);const bx=x+28,bw=W-56;doc.setFillColor(226,232,240);doc.rect(bx,y-2.8,bw,3.2,'F');doc.setFillColor(...(c===GREEN?GREEN:c===RED?[215,38,61]:[201,154,0]));doc.rect(bx,y-2.8,Math.max(0.6,bw*z.v),3.2,'F');
-      if(t){doc.setDrawColor(...INK2);doc.setLineWidth(0.5);doc.line(bx+bw*t.v,y-3.6,bx+bw*t.v,y+1);}T(`${Math.round(z.v*100)} %`,x+W-11,y,8,true,c,'right');T(`(${z.n})`,x+W,y,6.8,false,[120,120,120],'right');y+=4.6;});y+=1.6;});}
     const ks=(BLK()?['srv','rec','def','att','blk']:['srv','rec','def','att']).filter(k=>(r[k+'M']||0)+(r[k+'N']||0)+(r[k+'P']||0)>0);
-    if(ks.length){y+=2;H('Détail - / = / +');ks.forEach(k=>{const M=r[k+'M']||0,N=r[k+'N']||0,P=r[k+'P']||0,n=M+N+P,bw=W-46;let bx=x+22;T(LB[k],x,y,7.8,false,[60,60,60]);
-      [[M,[215,38,61]],[N,[184,194,207]],[P,[35,146,74]]].forEach(([v,cc])=>{if(!v)return;doc.setFillColor(...cc);doc.rect(bx,y-2.8,bw*v/n,3.2,'F');bx+=bw*v/n;});T(`${M} / ${N} / ${P}`,x+W,y,7.2,false,[80,80,80],'right');y+=5;});
-      T('fautes / neutres / positifs',x+W,y,6.2,false,[130,130,130],'right');y+=3;}
+    // V212 : camemberts (anneaux) : ratées, neutres, réussies ; total au centre — V212 : en tête de colonne, libellé parlant hors de l'appli (était « Détail - / = / + »)
+    if(ks.length){H('Qualité des actions');const n=ks.length,cw=W/n,R=Math.min(9,cw/2-2),cy=y+R;
+      ks.forEach((k,i)=>{const M=r[k+'M']||0,N=r[k+'N']||0,P=r[k+'P']||0,t=M+N+P,cx=x+cw*(i+.5);let a=-Math.PI/2;
+        [[M,[215,38,61]],[N,[184,194,207]],[P,[35,146,74]]].forEach(([v,cc])=>{if(!v)return;const b=a+v/t*Math.PI*2,st=Math.max(2,Math.ceil((b-a)/0.08));doc.setFillColor(...cc);doc.setDrawColor(...cc);doc.setLineWidth(0.25); /* contour de la couleur : pas de jointures blanches */
+          for(let j=0;j<st;j++){const u=a+(b-a)*j/st,w=a+(b-a)*(j+1)/st;doc.triangle(cx,cy,cx+R*Math.cos(u),cy+R*Math.sin(u),cx+R*Math.cos(w),cy+R*Math.sin(w),'FD');}a=b;});
+        doc.setFillColor(255,255,255);doc.circle(cx,cy,R*.45,'F');T(String(t),cx,cy+1.2,7.6,true,[0,0,0],'center');
+        T(LB[k],cx,cy+R+4,7.4,true,[40,40,40],'center');T(`${M} / ${N} / ${P}`,cx,cy+R+7.4,6.6,false,[90,90,90],'center');});
+      y=cy+R+11;const lg=[['ratées',[215,38,61]],['neutres',[184,194,207]],['réussies',[35,146,74]]];let lx=x+W/2-27;
+      lg.forEach(([l,cc])=>{doc.setFillColor(...cc);doc.rect(lx,y-2.2,2.4,2.4,'F');T(l,lx+3.4,y,6.4,false,[90,90,90]);lx+=20;});y+=6;}
+    const PZ=['att','rec','def'].map(k=>({k,L:posZones(r,k),tz:posZones(TT,k)})).filter(o=>o.L.length);
+    if(PZ.length){H('Par poste');PZ.forEach(o=>{T(LB[o.k],x,y,8.5,true);y+=4.6;o.L.forEach(z=>{const t=o.tz.find(q=>q.l===z.l),d=t?z.v-t.v:0,c=z.n>=3&&t?(sigGap(z,t)>0?GREEN:sigGap(z,t)<0?RED:[60,60,60]):[140,140,140];
+      T(z.l,x+3,y,7.6,false,[60,60,60]);const bx=x+28,bw=W-56;doc.setFillColor(226,232,240);doc.rect(bx,y-2.8,bw,3.2,'F');doc.setFillColor(...(c===GREEN?GREEN:c===RED?[215,38,61]:[201,154,0]));doc.rect(bx,y-2.8,Math.max(0.6,bw*z.v),3.2,'F');bqBar(bx,y+0.4,bw,z.bq);
+      if(t){doc.setDrawColor(...INK2);doc.setLineWidth(0.5);doc.line(bx+bw*t.v,y-2.9,bx+bw*t.v,y+0.4);} /* V212 : trait de l'équipe arrêté au-dessus des triangles */T(`${Math.round(z.v*100)} %`,x+W-11,y,8,true,c,'right');T(`(${z.n})`,x+W,y,6.8,false,[120,120,120],'right');y+=5.6;});y+=1;});
+      bqLeg(x,y-0.6,W);y+=4.4;}
+    // V212 : « Actions » : nombre et part des actions du geste (aces, kills, fautes directes…), total des fautes directes sur toutes les actions
+    if(ks.length){y+=2;H('Actions');const nn=k=>(r[k+'M']||0)+(r[k+'N']||0)+(r[k+'P']||0),pc=(a,b)=>b?Math.round(a/b*100)+' %':'-',RD=[215,38,61];
+      T('Nb',x+W-24,y,6.6,false,[120,120,120],'right');T('% actions',x+W-1,y,6.6,false,[120,120,120],'right');y+=4;
+      const head=(l,n)=>{doc.setFillColor(236,240,245);doc.rect(x,y-3.3,W,4.6,'F');T(l,x+1.5,y,7.8,true);T(String(n),x+W-24,y,7.8,true,[0,0,0],'right');T('100 %',x+W-1,y,7.8,true,[0,0,0],'right');y+=4.6;};
+      const sub=(l,v,n,c)=>{T(l,x+5,y,7.4,false,[50,50,50]);T(String(v),x+W-24,y,7.4,false,c||[50,50,50],'right');T(pc(v,n),x+W-1,y,7.4,false,c||[50,50,50],'right');y+=4;};
+      const SUB={srv:[['Aces',r.aceN||0,GREEN],['Fautes directes',r.fd_srv||0,RD]],rec:[['Fautes de réception',r.rfN||0,RD]],att:[['Kills',r.killN||0,GREEN],['Fautes directes',r.fd_att||0,RD],['Renvois sans attaque',r.relN||0]],def:[['Fautes directes',r.fd_def||0,RD]],blk:[['Points de bloc',r.blkP||0,GREEN],['Fautes directes',r.fd_blk||0,RD]]};
+      ks.forEach(k=>{const n=nn(k);head(LB[k],n);(SUB[k]||[]).forEach(([l,v,c])=>sub(l,v,n,c));});
+      const all=ks.reduce((a,k)=>a+nn(k),0);doc.setDrawColor(...INK2);doc.setLineWidth(0.4);doc.line(x,y-2.6,x+W,y-2.6);y+=1;
+      T('Total fautes directes',x+1.5,y,7.8,true);T(String(r.fdN||0),x+W-24,y,7.8,true,RD,'right');T(pc(r.fdN||0,all),x+W-1,y,7.8,true,RD,'right');y+=3.6;
+      T('% actions : part des actions du geste (total : de toutes les actions)',x,y,6.2,false,[130,130,130]);y+=5;}
     y+=3;H("Axes d'amélioration");const ax=axesHTML(r,fx,S,null),L=[...ax.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(q=>q[1].replace(/<b>([\s\S]*?)<\/b>\s*<span[^>]*>([\s\S]*?)<\/span>\s*<small[^>]*>([\s\S]*?)<\/small>/,(_,l,v,t)=>l+' : '+v+' ('+t+')').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/\s+/g,' ').trim());
     doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(40);
-    if(L.length)L.forEach(l=>{doc.splitTextToSize('• '+l,W).forEach(s=>{doc.text(s,x,y);y+=3.9;});y+=1;});else doc.splitTextToSize("Aucun point faible net par rapport à l'équipe.",W).forEach(s=>{doc.text(s,x,y);y+=3.9;});doc.setTextColor(0);};
+    if(L.length)L.forEach(l=>{if(y>284)return; /* V212 : axes sans limite, mais jamais sous le pied de page */doc.splitTextToSize('• '+l,W).forEach(s=>{doc.text(s,x,y);y+=3.9;});y+=1;});else doc.splitTextToSize("Aucun point faible net par rapport à l'équipe.",W).forEach(s=>{doc.text(s,x,y);y+=3.9;});doc.setTextColor(0);};
   // V199 (demande du 11/11/2026) : page 1 = titre du match + tableau des joueurs (avec le n° de leur page) ; puis une page par joueur
   // (fiche à gauche, détails à droite ; passeur : sa page Passe juste après) ; pages d'équipe à la fin
   if(PID){const r=cardsList.find(x=>x.id===PID);if(!r){toast(tr('Aucune stat pour ce joueur'),'warn');return;}y+=2;
@@ -5632,11 +5746,13 @@ const A={
     if(d.w==='G'&&d.ace==null&&st.length===1&&st[0][0]==='srv'&&st[0][1]>=0&&st[0][2]){ui.aceQ=true;ui.sheet='aceQ';render();return 1;}
     // V201 : « Kill ? » : attaque + ou renvoi sans attaque, dernière stat de l'échange, point gagné
     if(d.w==='G'&&d.kill==null&&d.ace==null&&killCand(st)){ui.sheet='killQ';render();return 1;}
-    m.pend=[];const w=d.w||null,ev=st.length?{t:'pt',w,st}:{t:'pt',w};if(m.ptStart!=null){ev.t0=m.ptStart;delete m.ptStart;}if(d.ace!=null)ev.ace=+d.ace;if(d.kill!=null)ev.kill=+d.kill;dispatch(ev);tacFlush(m);
+    if(d.w==='A'&&d.fd==null&&store.prefs.fdQ&&fdCand(st)){ui.sheet='fdQ';render();return 1;} // V212 : option « Faute directe ? »
+    m.pend=[];const w=d.w||null,ev=st.length?{t:'pt',w,st}:{t:'pt',w};if(m.ptStart!=null){ev.t0=m.ptStart;delete m.ptStart;}if(d.ace!=null)ev.ace=+d.ace;if(d.kill!=null)ev.kill=+d.kill;if(d.fd!=null)ev.fd=+d.fd;dispatch(ev);tacFlush(m);
     // saisie sur un film : vitesse d'après-point ; fin de set (V185) : vidéo arrêtée, composition du set suivant
     if(vstOn()){vstAfterPt();if(replay(m).phase==='between'){const P=vstPb();if(P)P.play=false;A.compose();render();}}return 1;},
   aceAns(d){ui.sheet=null;ui.aceQ=false;return A.pt({w:'G',ace:d.v==='1'?1:0});},
   killAns(d){ui.sheet=null;return A.pt({w:'G',kill:d.v==='1'?1:0});},
+  fdAns(d){ui.sheet=null;return A.pt({w:'A',fd:d.v==='1'?1:0});},
   undo(){undo();return 1;}, redo(){redo();return 1;},
   tapCourt(d){const S=replay(store.cur),e=effective(S.zones,S.roles,S.lib,S.serving);ui.sub={o:d.id===S.lib?e.libFor:d.id,i:null,fixed:true};ui.sheet='sub';},
   bench(d){const S=replay(store.cur);if(S.phase!=='play')return;const e=effective(S.zones,S.roles,S.lib,S.serving);
@@ -5859,7 +5975,9 @@ const A={
     const off=[];let a=0;segs.forEach(x=>{off.push(a);a+=x.dur;});VID.pb={id:r.id,segs,off,ia:r.ia||0,tot:r.ia!=null?r.dur:a,pos:0,play:true,r:1,at:Date.now(),undo:[]};
     // V209 : clip joueur : écran d'introduction 4 s (appui = passer), lecture ensuite
     if(r.intro){const P=VID.pb;P.play=false;P.intro=1;setTimeout(()=>{if(VID.pb===P&&P.intro)A.vintroX();},VI_MS);}},
-  edNar(){store.prefs.edNar=!store.prefs.edNar;save();}, // V210 : historique replié en colonne étroite (abréviations, sans timecode)
+  edNar(){store.prefs.edNar=!store.prefs.edNar;save();},
+  edSetT(d){const m=store.cur;if(!m)return;const C=ui.edSetC||(ui.edSetC={}),k=m.id+':'+d.s;if(C[k])delete C[k];else C[k]=1;}, // V212 : replier / déplier un set de l'historique
+  vstQuitYes(){ui.sheet=null;ui.confirm=null;vstEnd();}, // V212 : bouton retour Android → confirmation → menu // V210 : historique replié en colonne étroite (abréviations, sans timecode)
   vintroX(){const P=VID.pb;if(!P||!P.intro)return;delete P.intro;P.play=true;render();},
   // Montage automatique : échanges détectés par l'activité de l'image (video-ai.js), temps morts jetés, ancien montage dans « Annuler »
   // V183 : marges et seuils des Réglages (vxAutoOpts), zone d'analyse r.roi ; courbe calculée par le module natif (VideoDelay.activity,
@@ -5972,7 +6090,7 @@ const A={
   // ✓ : vidéo en lecture = pause seulement (jamais de calage en lecture, décision Q6) ; arrêtée = la stat active prend l'heure de l'image
   edCal(){if(!vstEd())return 1;const V=store.vst,m=store.cur,r=vstRec(),P=vstPb();if(!r||!P)return 1;if(P.play){P.play=false;P.fine=true;P.tapT=null;V.am=true;return;}
     const k=edActive(m,r,P);if(!k)return 1;edCalAt(k);ui.vstDk=false;},
-  edKA(d){if(!vstEd())return 1;const m=store.cur,e=m.ev[+d.ei];if(!e||e.t!=='pt'||(d.f!=='ace'&&d.f!=='kill'))return 1;const v=+d.v;if(e[d.f]===v)return 1;edPush(m);e[d.f]=v;e.ed=1;edBump();save();toast(d.f==='ace'?(v?tr('Ace noté'):tr('Pas d’ace')):(v?tr('Kill noté'):tr('Pas de kill')),'ok');},
+  edKA(d){if(!vstEd())return 1;const m=store.cur,e=m.ev[+d.ei];if(!e||e.t!=='pt'||!['ace','kill','fd'].includes(d.f))return 1;const v=+d.v;if(e[d.f]===v)return 1;edPush(m);e[d.f]=v;e.ed=1;edBump();save();toast(d.f==='ace'?(v?tr('Ace noté'):tr('Pas d’ace')):d.f==='fd'?(v?tr('Faute directe notée'):tr('Pas de faute directe')):(v?tr('Kill noté'):tr('Pas de kill')),'ok');},
   edUndo(){const U=VID.edU,m=store.cur;if(!U||!U.length||!vstOn())return 1;const o=JSON.parse(U.pop());if(Array.isArray(o))m.ev=o;else{m.ev=o.ev;if(o.format)m.format=o.format;else delete m.format;}m.redo=[];edBump();VID.edN=Math.max(0,(VID.edN||0)-1);save();toast(tr('Annulé'),'ok');},
   edHist(){ui.edHist=!ui.edHist;ui.vstMenu=false;},
   edMore(){if(!vstEd())return 1;const m=store.cur,r=vstRec(),P=vstPb();if(P&&P.play){P.play=false;P.fine=true;P.tapT=null;}const k=edActive(m,r,P);if(!k)return 1;store.vst.ak=k.key;store.vst.am=true;ui.confirm=null;ui.sheet='edMore';},
@@ -6088,7 +6206,9 @@ const A={
       if(sp.length){const im=ovImages(sp,Object.assign({size:vxSize(X.preset,src)||src,team:m.team||((store.teams||[]).find(t=>t.id===teamOf(m))||{}).name||'Nous',opp:m.opp||tr('Adversaire')},oo));overlay={images:im.images,spans:im.spans.map(s=>Object.assign({},s,im.pos[s.key]))};}}
     // V209 : écrans plein cadre (introduction du clip, début du match, compositions) ; le score incrusté s'interrompt pendant ces écrans
     if(CA.wins.length){const sz=vxSize(X.preset,src)||src;if(!overlay)overlay={images:{},spans:[]};overlay.spans=ovCut(overlay.spans,CA.wins);
-      CA.wins.forEach(w=>{overlay.images[w.key]=w.card.draw(sz);overlay.spans.push({from:w.from,to:w.to,key:w.key,x:0,y:0});});overlay.spans.sort((a,b)=>a.from-b.from);}
+      CA.wins.forEach(w=>{const d=w.card.draw(sz),bg=typeof d==='string'?d:d.bg;overlay.images[w.key]=bg;overlay.spans.push({from:w.from,to:w.to,key:w.key,x:0,y:0});
+      // V212 : joueurs de l'écran de set : calques qui glissent de leur départ à leur place (VSET_MV, ms après le début de l'écran)
+      if(d&&d.sp)d.sp.forEach((q,j)=>{const kk=w.key+'p'+j;overlay.images[kk]=q.img;overlay.spans.push({from:w.from,to:w.to,key:kk,x:q.x,y:q.y,mv:{x0:q.x0,y0:q.y0,t0:Math.min(w.to,w.from+VSET_MV[0]),t1:Math.min(w.to,w.from+VSET_MV[1])}});});});overlay.spans.sort((a,b)=>a.from-b.from);}
     const plan=vxPlan(R,P,{preset:X.preset,speed:pts?1:X.speed,audio:X.audio&&!!r.aud,exact:pts||X.exact,overlay,src,size:r.size,fps:r.fps,r});if(pts)plan.name=plan.name.replace(/\.mp4$/,'_monte.mp4');
     await vxCleanTmp();try{const inf=await V.info();if(inf&&inf.free!=null&&inf.free<plan.est.size*1.1+50e6){toast('Place libre insuffisante pour exporter ce montage','warn');return 1;}}catch(e){}
     const useT=!!V.transcode&&(plan.reencode||plan.speed!==1||plan.audio);ui.vidExp={p:0};P.play=false;render();
@@ -6366,6 +6486,8 @@ const FREE_GAP=8000;
 function freeFlush(m){const st=m.pend||[];if(!st.length)return;const L=st[st.length-1],at=Number.isFinite(L[5])?L[5]+1000:nowT();m.pend=[];delete m.ptStart;m.ev.push({t:'pt',w:null,st,at});m.redo=[];}
 function freeCount(m){return m.ev.reduce((a,e)=>a+(e.t==='pt'?(e.st||[]).length:0),0)+(m.pend||[]).length;}
 // V201 : candidate au kill : dernière stat = attaque + ou renvoi sans attaque (non raté), avec un joueur
+// V212 : candidate à la question « Faute directe ? » (option fdQ) : dernière stat = défense, attaque ou bloc −, avec un joueur (le service − est toujours direct)
+function fdCand(st){const L=st&&st[st.length-1];return !!(L&&L[2]&&L[1]<0&&['def','att','blk'].includes(L[0]));}
 function killCand(st){const L=st&&st[st.length-1];return !!(L&&L[2]&&((L[0]==='att'&&L[1]>0)||(L[0]==='rel'&&!(L[1]<0))));}
 function addStat(x){const m=store.cur,V=store.vst;
   // validation sur un film (V185) : la stat s'intercale avant celle proposée, datée de l'image ; la lecture reprend
@@ -6427,6 +6549,7 @@ document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.pre
 document.addEventListener('wheel',e=>{if(e.ctrlKey)e.preventDefault();},{passive:false});
 if(NATIVE&&CAP().App){CAP().App.addListener('backButton',()=>{
   if(ui.tip){ui.tip=null;}else if(ui.alert){A.alertOk&&A.alertOk();ui.alert=null;}else if(ui.sheet){ui.sheet=null;}else if(ui.tuto){A.tutoEnd();}
+  else if(store.vst){if(ui.stPick)ui.stPick=null;else if(ui.vstMenu)ui.vstMenu=false;else ui.sheet='vstQuitQ';} // V212 : stats vidéo → confirmation puis menu (avant : vidPbX, recréé aussitôt → rien)
   else if(VID.pb){A.vidPbX();}else if(VID.cut){VID.cut=null;}else if(VID.on){vidStop().then(render);return;}
   else if(ui.lrnM){lrnOff();}else if(ui.screen==='learn'&&ui.lrnFull){ui.lrnFull=false;ui.lrnMenu=false;}
   else if(ui.toStats){A.toBack();}else if(ui.coach){ui.coach=false;ui.screen=null;}else if(ui.screen){ui.screen=null;ui.draft=null;}else{CAP().App.minimizeApp&&CAP().App.minimizeApp();return;}render();});}
